@@ -1,0 +1,35 @@
+## Interface: 50400
+## Title: |cffff8000KPS Addon
+## Notes: Karnofsky Performance System
+## SavedVariables: 
+## Dependencies: 
+
+init.lua
+core\logger.lua
+core\config.lua
+core\kps.lua
+core\events.lua
+core\locale.lua
+core\utils.lua
+core\lexer.lua
+core\parser.lua
+core\rotations.lua
+modules\latency.lua
+modules\spell\spell.lua
+modules\spell\spells.lua
+modules\spell\spell_range.lua
+modules\spell\spell_state.lua
+modules\keys.lua
+modules\unit\unit.lua
+modules\unit\unit_auras.lua
+modules\unit\unit_casting.lua
+modules\unit\unit_powers.lua
+modules\player\player.lua
+modules\player\player_auras.lua
+modules\player\player_powers.lua
+modules\player\player_procs.lua
+rotations\warlock.lua
+env.lua
+rotations\warlock_destruction.lua
+gui\gui.lua
+gui\toggle.lua
