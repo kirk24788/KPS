@@ -40,6 +40,10 @@ spells.cc.add_spell(51514) #  Hex
 spells.group("flask","Greater Draenic Flasks")
 spells.flask.add_all_spells([156064,156079,156572,156576])
 
+# Draenic Potions
+spells.group("potion","Draenic Potions")
+spells.potion.add_all_spells([156426,156577,156428])
+
 # Polymorph Spells
 spells.group("poly","Polymorph Spells")
 spells.poly.add_spell(118) # Polymorph
@@ -82,6 +86,9 @@ spells.ignore.add_spell(108839, comment="Ice Floes")
 
 spells.group("battlerez","Battle Rez")
 spells.battlerez.add_all_spells([20484, 61999, 20707, 126393])
+
+spells.group("bloodlust","Bloodlust")
+spells.bloodlust.add_all_spells([2825, 32182, 80353, 90355, 146555])
 
 
 print(spells)

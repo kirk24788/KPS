@@ -20,8 +20,8 @@ kps.rotations.register("DEATHKNIGHT","BLOOD",
     {spells.deathPact, 'player.hp < 0.5'},
     {spells.outbreak, '( not player.hasTalent(7, 1) and diseaseMinRemains() < 8 ) or not diseaseTicking()'},
     {spells.deathCoil, 'player.runicPower > 90'},
-    {spells.plagueStrike, '( not player.hasTalent(7, 1) and not target.hasDebuff(spells.bloodPlague) ) or ( player.hasTalent(7, 1) and not target.hasDebuff(spells.necroticPlague) )'},
-    {spells.icyTouch, '( not player.hasTalent(7, 1) and not target.hasDebuff(spells.frostFever) ) or ( player.hasTalent(7, 1) and not target.hasDebuff(spells.necroticPlague) )'},
+    {spells.plagueStrike, '( not player.hasTalent(7, 1) and not target.hasMyDebuff(spells.bloodPlague) ) or ( player.hasTalent(7, 1) and not target.hasMyDebuff(spells.necroticPlague) )'},
+    {spells.icyTouch, '( not player.hasTalent(7, 1) and not target.hasMyDebuff(spells.frostFever) ) or ( player.hasTalent(7, 1) and not target.hasMyDebuff(spells.necroticPlague) )'},
     {spells.defile},
     {spells.plagueLeech, '( ( not player.bloodRunes and not player.unholyRunes ) or ( not player.bloodRunes and not player.frostRunes ) or ( not player.unholyRunes and not player.frostRunes ) ) and spells.outbreak.cooldown <= player.gcd'},
     {{"nested"}, 'player.hasTalent(4, 1)', {
@@ -59,4 +59,4 @@ kps.rotations.register("DEATHKNIGHT","BLOOD",
     {spells.deathCoil},
     {spells.empowerRuneWeapon, 'not player.bloodRunes and not player.unholyRunes and not player.frostRunes'},
 }
-,"SimC")
+,"Death_Knight_Blood_T17N.simc")

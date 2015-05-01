@@ -107,3 +107,10 @@ end
 function Player.gcd(self)
     return kps.gcd
 end
+function Player.bloodlust(self)
+    for _,spell in pairs(kps.spells.bloodlust) do 
+        if self.hasBuff(spell) then return true end
+    end
+    return false
+end
+

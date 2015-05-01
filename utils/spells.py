@@ -13,11 +13,14 @@ from kps import KpsError, camel_case
 
 LOG = logging.getLogger(__name__)
 
-ILLEGAL_KEY_STRINGS=[":","&#039;"]
+ILLEGAL_KEY_STRINGS=[":","&#039;","'","-"]
 def clean_key(key):
     for illegal_string in ILLEGAL_KEY_STRINGS:
         key = key.replace(illegal_string, "")
     return key
+
+def spell_key(spell_name):
+    return camel_case(clean_key(spell_name))
 
 SUPPORTED_CLASSES=[
         "deathknight",
@@ -66,7 +69,7 @@ class Spell(object):
         raise SpellError("Spell with ID %s not found!" % self.id)
 
     def __resolve_key(self):
-        return self.__key_prefix + camel_case(clean_key(self.name)) + self.__key_suffix
+        return self.__key_prefix + spell_key(self.name) + self.__key_suffix
 
     def __resolve_comment(self):
         if len(self.__key_suffix) > 0:

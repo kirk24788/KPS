@@ -10,6 +10,13 @@ kps.spells = {}
 
 
 
+-- Draenic Potions
+kps.spells.potion = {}
+kps.spells.potion.draenicIntellectPotion = kps.Spell.fromId(156426) -- Draenic Intellect Potion
+kps.spells.potion.draenicAgilityPotion = kps.Spell.fromId(156577) -- Draenic Agility Potion
+kps.spells.potion.draenicStrengthPotion = kps.Spell.fromId(156428) -- Draenic Strength Potion
+
+
 -- Spells which require a select (cast ond ground) - usually AE Spells
 kps.spells.ae = {}
 kps.spells.ae.bindingShot = kps.Spell.fromId(109248) -- Binding Shot
@@ -64,6 +71,15 @@ kps.spells.cc.hex = kps.Spell.fromId(51514) -- Hex
 kps.spells.mount = {}
 kps.spells.mount.frostwolfWarWolf = kps.Spell.fromId(164222) -- Frostwolf War Wolf
 kps.spells.mount.telaariTalbuk = kps.Spell.fromId(165803) -- Telaari Talbuk
+
+
+-- Bloodlust
+kps.spells.bloodlust = {}
+kps.spells.bloodlust.bloodlust = kps.Spell.fromId(2825) -- Bloodlust
+kps.spells.bloodlust.heroism = kps.Spell.fromId(32182) -- Heroism
+kps.spells.bloodlust.timeWarp = kps.Spell.fromId(80353) -- Time Warp
+kps.spells.bloodlust.ancientHysteria = kps.Spell.fromId(90355) -- Ancient Hysteria
+kps.spells.bloodlust.drumsOfRage = kps.Spell.fromId(146555) -- Drums of Rage
 
 
 -- Polymorph Spells

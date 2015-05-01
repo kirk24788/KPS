@@ -43,41 +43,49 @@ def _post_process(tokens):
                 raise ParserError("Couldn't postprocess token '%s'" % (token))
     return tokens
 
-def _tokenize(condition):
-    """Tokenize a SimC condition"""
-    scanner=re.Scanner([
-        (r"\d+(.\d+)?",       lambda scanner,token:(NUMBER, token)),
-        (r"[a-z][a-z_.0-9]+",      lambda scanner,token:(EXPRESSION, token)),
-        (r"(\<\=|\>\=|\=|\<|\>)",      lambda scanner,token:(COMPERATOR, token)),
-        (r"[\(\)]",        lambda scanner,token:(BRACKET, token)),
-        (r"\&",        lambda scanner,token:(BINARY_OPERATOR, "and")),
-        (r"\|",        lambda scanner,token:(BINARY_OPERATOR, "or")),
-        (r"\!",        lambda scanner,token:(UNARY_OPERATOR, "not")),
-        (r"[*+-/%]",        lambda scanner,token:(BINARY_OPERATOR, token)),
-        (r"\s+", None), # None == skip token.
-    ])
+_DIRECT_PRECONVERSIONS = [
+    ("!disease.min_ticking", "disease.ticking")
+]
+_REGEX_PRECONVERSIONS = [
+    (r'movement\.remains\>\d*\.?\d*', "movement.remains")
+]
 
-    results, remainder=scanner.scan(condition)
-    if len(remainder) > 0:
-        raise ParserError("Couldn't tokenize '%s' - error at: %s" % (condition, remainder))
-    return _post_process(results)
-
-
-_DIRECT_CONVERSIONS = [
+_EXPESSION_CONVERSIONS = [
     ("runic_power", "player.runicPower"),
     ("health.pct", "player.hp"),
     ("health.max", "player.hpMax"),
     ("target.health.pct", "target.hp"),
     ("target.time_to_die", "target.timeToDie"),
+    ("gcd", "player.gcd"),
+    ("incoming_damage_5s", "kps.incomingDamage(5)"),
+    ("movement.remains", "player.isMoving"),
+    ("active_enemies", "activeEnemies()"),
+    ("level", "player.level"),
+    ("buff.bloodlust.up", "player.bloodlust"),
+    # DK specific
     ("blood", "player.bloodRunes"),
     ("frost", "player.frostRunes"),
     ("unholy", "player.unholyRunes"),
     ("blood.death", "player.bloodDeathRunes"),
     ("frost.death", "player.frostDeathRunes"),
     ("unholy.death", "player.unholyDeathRunes"),
+    ("blood.frac", "player.bloodFraction"),
+    ("frost.frac", "player.frostFraction"),
+    ("unholy.frac", "player.unholyFraction"),
+    ("Blood", "player.bloodOrDeathRunes"),
+    ("Frost", "player.frostOrDeathRunes"),
+    ("Unholy", "player.unholyOrDeathRunes"),
     ("death", "player.deathRunes"),
-    ("gcd", "player.gcd"),
-    ("incoming_damage_5s", "kps.incomingDamage(5)"),
+]
+
+
+_IGNOREABLE_SPELLS = [
+    'auto_attack', # No need to add auto-attack
+    'potion', # don't use potions!
+    'blood_fury', # Orc Racial
+    'berserking', # Troll Racial
+    'arcane_torrent', # BloodElf Racial
+    'use_item', # Use of Items deativated
 ]
 
 _TALENTS = {
@@ -93,13 +101,40 @@ _TALENTS = {
                     "soulLink", "sacrificialPact", "darkBargain"],
 }
 
+
+def _pre_tokenize(condition):
+    for (old,new) in _DIRECT_PRECONVERSIONS:
+        condition = condition.replace(old, new)
+    for (rex,new) in _REGEX_PRECONVERSIONS:
+        condition = re.sub(rex, new, condition)
+    return condition
+
+def _tokenize(condition):
+    """Tokenize a SimC condition"""
+    scanner=re.Scanner([
+        (r"\d+(.\d+)?",       lambda scanner,token:(NUMBER, token)),
+        (r"[a-zA-Z][a-zA-Z_.0-9]+",      lambda scanner,token:(EXPRESSION, token)),
+        (r"(\<\=|\>\=|\=|\<|\>)",      lambda scanner,token:(COMPERATOR, token)),
+        (r"[\(\)]",        lambda scanner,token:(BRACKET, token)),
+        (r"\&",        lambda scanner,token:(BINARY_OPERATOR, "and")),
+        (r"\|",        lambda scanner,token:(BINARY_OPERATOR, "or")),
+        (r"\!",        lambda scanner,token:(UNARY_OPERATOR, "not")),
+        (r"[*+-/%]",        lambda scanner,token:(BINARY_OPERATOR, token)),
+        (r"\s+", None), # None == skip token.
+    ])
+
+    results, remainder=scanner.scan(condition)
+    if len(remainder) > 0:
+        raise ParserError("Couldn't tokenize '%s' - error at: %s" % (condition, remainder))
+    return _post_process(results)
+
 class Condition(object):
     def __init__(self, condition, profile):
         self.condition = condition
         self.profile = profile
         self.player_spells = profile.player_spells
         self.player_env = profile.player_env
-        self.tokens = _tokenize(condition)
+        self.tokens = _tokenize(_pre_tokenize(condition))
         self.__convert_tokens()
 
     def __str__(self):
@@ -115,7 +150,7 @@ class Condition(object):
         self.kps = " ".join(condition_parts)
 
     def __convert_condition(self, expression):
-        for sc,kps in _DIRECT_CONVERSIONS:
+        for sc,kps in _EXPESSION_CONVERSIONS:
             if expression==sc:
                 return kps
 
@@ -146,7 +181,7 @@ class Condition(object):
             talent = 1+(idx % 3 )
             return "player.hasTalent(%s, %s)" % (row, talent)
 
-        m = re.search("dot\.(.*)\.(ticking)", expression)
+        m = re.search("dot\.(.*)\.(ticking|remains)", expression)
         if m:
             dot = _convert_spell(m.group(1))
             dot_key = "kps.spells.%s.%s" % (self.player_spells.class_name, dot)
@@ -154,7 +189,9 @@ class Condition(object):
                 raise ParserError("Spell '%s' unknown (in expression: '%s')!" % (dot_key, expression))
             state = m.group(2)
             if state == "ticking":
-                return "target.hasDebuff(spells.%s)" % dot
+                return "target.hasMyDebuff(spells.%s)" % dot
+            elif state == "remains":
+                return "target.myDebuffDuration(spells.%s)" % dot
             else:
                 raise ParserError("Unknown Buff State '%s'" % state)
 
@@ -169,6 +206,18 @@ class Condition(object):
                 return "spells.%s.cooldown" % cd
             else:
                 raise ParserError("Unknown Buff State '%s'" % state)
+
+        m = re.search("(.*)\.(ready_in)", expression)
+        if m:
+            cd = _convert_spell(m.group(1))
+            cd_key = "kps.spells.%s.%s" % (self.player_spells.class_name, cd)
+            if cd not in self.player_spells.keys():
+                raise ParserError("Spell '%s' unknown (in expression: '%s')!" % (cd_key, expression))
+            state = m.group(2)
+            if state == "ready_in":
+                return "spells.%s.cooldown" % cd
+            else:
+                raise ParserError("Unknown State '%s'" % state)
 
         fn = _convert_fn(expression)
         if fn in self.player_env.keys():
@@ -205,7 +254,7 @@ class Action(object):
 
     @staticmethod
     def parse(action, profile, indent=1):
-        if action.startswith("call_action_list"):
+        if action.startswith("call_action_list") or action.startswith("run_action_list"):
             return NestedActions(action, profile, indent)
         else:
             return SpellAction(action, profile, indent)
@@ -214,12 +263,12 @@ class Action(object):
 class SpellAction(Action):
     def __init__(self, action, profile, indent):
         Action.__init__(self, action, profile, indent)
-        self.spell = self.convert_spell(action.split(",if=")[0])
+        self.spell = self.convert_spell(action.split(",")[0])
         self.spell_key = "kps.spells.%s.%s" % (profile.player_spells.class_name, self.spell)
         if self.spell not in profile.player_spells:
             raise ParserError("Spell '%s' unknown!" % self.spell)
     def __str__(self):
-        prefix = " "*self.indent*4
+        prefix = " "*(self.indent*4)
         if self.comment:
             comment = " -- " + self.comment
         else:
@@ -239,7 +288,7 @@ class NestedActions(Action):
         self.actions = []
         for a in profile.get_action_sublist(name):
             try:
-                self.actions.append(Action.parse(a, profile, self.indent))
+                self.actions.append(Action.parse(a, profile, self.indent+1))
             except ParserError,e:
                 LOG.warn("Error while converting condition '%s': %s" % (a, str(e)))
 
@@ -252,30 +301,26 @@ class NestedActions(Action):
             comment = " -- " + self.comment
         else:
             comment = ""
-        prefix = " "*self.indent*4
+        prefix = " "*(self.indent*4)
         s = """%s{{"nested"}, '%s', {%s\n""" % (prefix, condition, comment)
         for a in self.actions:
-            s = s + prefix + str(a) + "\n"
+            s = s + str(a) + "\n"
         s = s + prefix + "},"
         return s
 
 class SimCraftProfile(object):
-    __ignorable_spells = [
-        'auto_attack', # No need to add auto-attack
-        'potion', # don't use potions!
-        'blood_fury', # Orc Racial
-        'berserking', # Troll Racial
-        'arcane_torrent', # BloodElf Racial
-    ]
 
-    def __init__(self, filename, kps_class, kps_spec=None, kps_title="SimC"):
+    def __init__(self, filename, kps_class, kps_spec=None, kps_title=None):
         LOG.info("Parsing SimCraftProfile: %s", filename)
         self.filename = filename
         self.player_spells = spells.PlayerSpells(kps_class)
         self.player_env = spells.PlayerEnv(kps_class)
         self.kps_class = kps_class
         self.kps_spec = kps_spec
-        self.kps_title = kps_title
+        if kps_title:
+            self.kps_title = kps_title
+        else:
+            self.kps_title = os.path.basename(filename)
         try:
             self.actions = []
             self.nested_actions = {}
@@ -322,7 +367,7 @@ class SimCraftProfile(object):
             raise ParserError("Couldn't read simcraft profile '%s': %s" % (filename, str(e)))
 
     def __is_filtered(self, line):
-        for spell in self.__ignorable_spells:
+        for spell in _IGNOREABLE_SPELLS:
             if line.startswith(spell):
                 return True
         return False
@@ -354,13 +399,13 @@ GENERATED FROM SIMCRAFT PROFILE: %s
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='SimC 2 KPS Rotation Converter')
-    parser.add_argument('-s','--simc', help='SimC Profile', required=True)
-    parser.add_argument('-c','--kps', help='KPS Class', required=True, choices=spells.SUPPORTED_CLASSES)
-    parser.add_argument('-p','--spec', help='KPS Spec', required=True)
-    parser.add_argument('-t','--title', help='KPS Rotation Title', default="SimC")
+    parser.add_argument('-p','--simc-profile', dest="simc", help='SimC Profile', required=True)
+    parser.add_argument('-c','--kps-class', dest="kps_class", help='KPS Class', required=True, choices=spells.SUPPORTED_CLASSES)
+    parser.add_argument('-s','--kps-spec', dest="kps_spec", help='KPS Spec', required=True)
+    parser.add_argument('-t','--title', help='KPS Rotation Title', default=None)
     parser.add_argument('-o','--output', help='Output file (omit to print to stdout)', default=None)
     args = setup_logging_and_get_args(parser)
-    simc = SimCraftProfile(args.simc, args.kps, args.spec)
+    simc = SimCraftProfile(args.simc, args.kps_class, args.kps_spec, args.title)
     if args.output:
         open(args.output,"w").write(str(simc))
     else:
