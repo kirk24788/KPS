@@ -10,7 +10,7 @@ import os
 import argparse
 import spells
 from kps import setup_logging_and_get_args
-from spells import spell_key
+from spells import spell_key, Spell
 
 LOG = logging.getLogger(__name__)
 DEFAULT_CACHE_AGE_IN_SECONDS = 5 * 60 * 60
@@ -33,7 +33,23 @@ THOTTBOT_IDS = {
     "warrior": 1,
 }
 
+ADDITIONAL_SPELLS = {
+    "deathknight": [],
+    "druid": [164545,164547,171743,171744],
+    "hunter": [],
+    "mage": [],
+    "monk": [],
+    "paladin": [],
+    "priest": [],
+    "rogue": [],
+    "shaman": [],
+    "warlock": [],
+    "warrior": [],
+}
 
+SPELL_BLACKLIST = [
+    "Leather Specialization",
+]
 
 def load_html_page(class_id, cache_age):
     cache_file = "/tmp/_tb_ext_%s.cache" % class_id
@@ -62,7 +78,14 @@ def extract_json_from_html(html_data):
     json_data = html_data[start_pos:end_pos]
     return json.loads(json_data)
 
+_ALREADY_SEEN = []
 def is_filtered(spell):
+    if spell["name"] in _ALREADY_SEEN:
+        return (True, "Duplicate")
+    else:
+        _ALREADY_SEEN.append(spell["name"])
+    if spell["name"] in SPELL_BLACKLIST:
+        return (True, "Blacklisted")
     if spell["cat"]==-11:
         return (True, "Weapon Proficiencies")
     #if spell["cat"]==-12:
@@ -77,14 +100,17 @@ def is_filtered(spell):
         return (True, "Passive")
     return (False, None)
 
-def summarize(spells):
+def summarize(spells, class_name):
     s = ""
     for spell in spells:
         filtered, reason = is_filtered(spell)
         if filtered:
             s += " * FILTERED (%s): %s\n" % (reason, spell["name"][1:])
         else:
-            s += " * %s\n" % (spell["name"][1:])
+            s += " * %s (ID: %s CAT: %s)\n" % (spell["name"][1:], spell["id"], spell["cat"])
+    for spell_id in ADDITIONAL_SPELLS[class_name]:
+        spell = Spell(spell_id)
+        s += " * %s (ID: %s - from ADDITIONAL_SPELLS)\n" % (spell.name, spell.id)
     return s
 
 def generate_lua(spells, class_name):
@@ -100,6 +126,9 @@ kps.spells.%s = {}
     for spell in spells:
         if not is_filtered(spell)[0]:
             s += "kps.spells.%s.%s = kps.Spell.fromId(%s)\n" % (class_name,spell_key(spell["name"][1:]),spell["id"])
+    for spell_id in ADDITIONAL_SPELLS[class_name]:
+        spell = Spell(spell_id)
+        s += "kps.spells.%s.%s = kps.Spell.fromId(%s)\n" % (class_name, spell.key, spell.id)
     return s + "\n"
 
 if __name__ == "__main__":
@@ -111,7 +140,7 @@ if __name__ == "__main__":
     args = setup_logging_and_get_args(parser)
     spells = extract_json_from_html(load_html_page(THOTTBOT_IDS[args.class_name], args.cache_age))
 
-    outp = summarize(spells) if args.summarize else generate_lua(spells,args.class_name)
+    outp = summarize(spells, args.class_name) if args.summarize else generate_lua(spells,args.class_name)
 
     if args.output:
         open(args.output,"w").write(outp)

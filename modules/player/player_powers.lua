@@ -29,9 +29,9 @@ function Player.soulShards(self)
     return UnitPower("player", 7)
 end
 -- PowerType 8 - Eclipse Power
-function Player.eclipsePower(self)
-    return UnitPower("player", 8)
-end
+--function Player.eclipsePower(self)
+--    return UnitPower("player", 8)
+--end
 -- PowerType 9 - Holy Power
 function Player.holyPower(self)
     return UnitPower("player", 9)

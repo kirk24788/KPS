@@ -44,10 +44,11 @@ def _post_process(tokens):
     return tokens
 
 _DIRECT_PRECONVERSIONS = [
-    ("!disease.min_ticking", "disease.ticking")
+    ("!disease.min_ticking", "disease.ticking"),
 ]
+
 _REGEX_PRECONVERSIONS = [
-    (r'movement\.remains\>\d*\.?\d*', "movement.remains")
+    (r'movement\.remains\>\d*\.?\d*', "movement.remains"),
 ]
 
 _EXPESSION_CONVERSIONS = [
@@ -76,6 +77,10 @@ _EXPESSION_CONVERSIONS = [
     ("Frost", "player.frostOrDeathRunes"),
     ("Unholy", "player.unholyOrDeathRunes"),
     ("death", "player.deathRunes"),
+    # Druid specific
+    ("lunar_max","player.eclipseLunarMax"),
+    ("solar_max","player.eclipseSolarMax"),
+    ("eclipse_energy", "player.eclipsePower"),
 ]
 
 
@@ -96,8 +101,19 @@ _TALENTS = {
                     "deathPact", "deathSiphon", "conversion",
                     "gorefiendsGrasp", "remoreselessWinter", "desecratedGround",
                     "necroticPlague", "defile", "breathOfSindragosa"],
+    "druid":        ["felineSwiftness","displacerBeast","wildCharge"
+                    "yserasGift","renewal","cenarionWard"
+                    "faerieSwarm","massEntanglement","typhoon"
+                    "soulOfTheForest","incarnationChosenOfElune","forceOfNature"
+                    "incapacitatingRoar","ursolsVortex","mightyBash"
+                    "heartOfTheWild","dreamOfCenarius","naturesVigil"
+                    "euphoria","stellarFlare","balanceOfPower"],
     "warlock":      ["darkRegeneration", "soulLeech", "searingFlames",
                     "howlOfTerror", "mortalCoil", "shadowfury",
+                    "","",""
+                    "","",""
+                    "","",""
+                    "","",""
                     "soulLink", "sacrificialPact", "darkBargain"],
 }
 

@@ -4,6 +4,8 @@
 Functions which handle player runes
 ]]--
 
+local Player = kps.Player.prototype
+
 
 local runesNextUpdate = 0
 local runesReady = {}
