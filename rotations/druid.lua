@@ -133,4 +133,6 @@ kps.spells.druid.solarEmpowerment = kps.Spell.fromId(164545)
 kps.spells.druid.lunarEmpowerment = kps.Spell.fromId(164547)
 kps.spells.druid.lunarPeak = kps.Spell.fromId(171743)
 kps.spells.druid.solarPeak = kps.Spell.fromId(171744)
+kps.spells.druid.incarnation = kps.Spell.fromId(117679)
+kps.spells.druid.shadowmeld = kps.Spell.fromId(135201)
 

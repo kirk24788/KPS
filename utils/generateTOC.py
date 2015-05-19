@@ -26,3 +26,5 @@ for line in open(os.path.dirname(os.path.abspath(__file__))+"/../_test.lua").rea
         requirement = match.group(1)
         luaFile = requirement.replace(".", "\\") + ".lua"
         print luaFile
+    elif line.startswith("--LIB:"):
+        print line[6:]

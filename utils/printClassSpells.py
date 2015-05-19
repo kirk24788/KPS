@@ -35,7 +35,7 @@ THOTTBOT_IDS = {
 
 ADDITIONAL_SPELLS = {
     "deathknight": [],
-    "druid": [164545,164547,171743,171744],
+    "druid": [164545,164547,171743,171744,117679,135201],
     "hunter": [],
     "mage": [],
     "monk": [],

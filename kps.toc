@@ -4,6 +4,9 @@
 ## SavedVariables: 
 ## Dependencies: 
 
+libs\LibStub-1.0\LibStub.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+libs\LibRangeCheck-2.0\LibRangeCheck-2.0.lua
 init.lua
 core\logger.lua
 core\config.lua
@@ -18,6 +21,7 @@ modules\spell\spell.lua
 modules\spell\spells.lua
 modules\spell\spell_range.lua
 modules\spell\spell_state.lua
+modules\spell\spell_ticktime.lua
 modules\incoming_damage.lua
 modules\keys.lua
 modules\latency.lua
@@ -26,6 +30,7 @@ modules\unit\unit.lua
 modules\unit\unit_auras.lua
 modules\unit\unit_casting.lua
 modules\unit\unit_powers.lua
+modules\unit\unit_range.lua
 modules\unit\unit_state.lua
 modules\player\player.lua
 modules\player\player_auras.lua
@@ -48,6 +53,8 @@ env.lua
 rotations\deathknight_blood.lua
 rotations\deathknight_frost.lua
 rotations\deathknight_unholy.lua
+rotations\druid_balance.lua
+rotations\druid_feral.lua
 rotations\warlock_destruction.lua
 gui\gui.lua
 gui\toggle.lua

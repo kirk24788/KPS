@@ -10,15 +10,45 @@ local Player = kps.Player.prototype
 function Player.rage(self)
     return UnitPower("player", 1)
 end
+function Player.rageMax(self)
+    return UnitPowerMax("player", 1)
+end
 -- PowerType 2 - Focus
 function Player.focus(self)
     return UnitPower("player", 2)
+end
+function Player.focusMax(self)
+    return UnitPowerMax("player", 2)
+end
+function Player.focusRegen(self)
+    local inactiveRegen, activeRegen = GetPowerRegen()
+    return activeRegen
+end
+function Player.focusTimeToMax(self)
+    local missing = UnitPowerMax("player", 2) - UnitPower("player", 2)
+    local inactiveRegen, activeRegen = GetPowerRegen()
+    return missing / activeRegen
 end
 -- PowerType 2 - Energy
 function Player.energy(self)
     return UnitPower("player", 3)
 end
--- PowerType 4 - Happiness (obsolete)
+function Player.energyMax(self)
+    return UnitPowerMax("player", 3)
+end
+function Player.energyRegen(self)
+    local inactiveRegen, activeRegen = GetPowerRegen()
+    return activeRegen
+end
+function Player.energyTimeToMax(self)
+    local missing = UnitPowerMax("player", 3) - UnitPower("player", 3)
+    local inactiveRegen, activeRegen = GetPowerRegen()
+    return missing / activeRegen
+end
+-- PowerType 4 - Happiness (obsolete) - Is now ComboPoints(?)
+function Player.comboPoints(self)
+    return UnitPower("player", 4)
+end
 -- PowerType 5 - Runes (doesn't appear in Blizzard UI code - instead GetRuneCooldown() is used)
 -- PowerType 6 - Runic Power
 function Player.runicPower(self)

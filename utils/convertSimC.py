@@ -18,7 +18,20 @@ BRACKET=4
 BINARY_OPERATOR=4
 UNARY_OPERATOR=5
 
-def _convert_spell(spell):
+_SPELL_CONVERSION = {
+    "deathknight":  {
+
+    }, "druid":  {
+        "king_of_the_jungle":"incarnationKingOfTheJungle",
+        "wild_charge_movement":"wildCharge",
+        "thrash_cat":"thrash",
+        "moonfire_cat":"moonfire",
+    }, "warlock":  {},
+}
+
+def _convert_spell(spell, profile):
+    if spell in _SPELL_CONVERSION[profile.kps_class].keys():
+        return _SPELL_CONVERSION[profile.kps_class][spell]
     return lower_case(spell.replace("_", " ").title().replace(" ", ""))
 
 def _convert_fn(fn):
@@ -48,7 +61,17 @@ _DIRECT_PRECONVERSIONS = [
 ]
 
 _REGEX_PRECONVERSIONS = [
+    (r'^set_bonus.tier[0-9]*_[0-9]pc$', "1>1"),
+    (r'set_bonus.tier[0-9]*_[0-9]pc', ""),
     (r'movement\.remains\>\d*\.?\d*', "movement.remains"),
+    (r'\!?t18_class_trinket(\|\&)?', ""),
+    (r'[a-z]*\.[a-z_]*\.pmultiplier', "1"),
+    (r'persistent_multiplier', "1"),
+    (r'\(\)', ""),
+    (r'\&\&', "&"),
+    (r'\|\|', "|"),
+    (r'[\|\&]\)', ")"),
+    (r'\([\|\&]', ")"),
 ]
 
 _EXPESSION_CONVERSIONS = [
@@ -60,9 +83,17 @@ _EXPESSION_CONVERSIONS = [
     ("gcd", "player.gcd"),
     ("incoming_damage_5s", "kps.incomingDamage(5)"),
     ("movement.remains", "player.isMoving"),
+    ("movement.distance", "target.distance"),
     ("active_enemies", "activeEnemies()"),
     ("level", "player.level"),
     ("buff.bloodlust.up", "player.bloodlust"),
+    ("trinket.stat.intellect.up","player.hasIntProc"),
+    ("trinket.proc.all.react","player.hasProc"),
+    ("energy.time_to_max","player.energyTimeToMax"),
+    ("energy.max","player.energyMax"),
+    ("energy.regen","player.energyRegen"),
+    ("energy","player.energy"),
+    ("combo_points","target.comboPoints"),
     # DK specific
     ("blood", "player.bloodRunes"),
     ("frost", "player.frostRunes"),
@@ -81,6 +112,7 @@ _EXPESSION_CONVERSIONS = [
     ("lunar_max","player.eclipseLunarMax"),
     ("solar_max","player.eclipseSolarMax"),
     ("eclipse_energy", "player.eclipsePower"),
+    ("eclipse_change", "player.eclipseChange"),
 ]
 
 
@@ -91,6 +123,7 @@ _IGNOREABLE_SPELLS = [
     'berserking', # Troll Racial
     'arcane_torrent', # BloodElf Racial
     'use_item', # Use of Items deativated
+    'pool_resource', # Use of Items deativated
 ]
 
 _TALENTS = {
@@ -101,19 +134,26 @@ _TALENTS = {
                     "deathPact", "deathSiphon", "conversion",
                     "gorefiendsGrasp", "remoreselessWinter", "desecratedGround",
                     "necroticPlague", "defile", "breathOfSindragosa"],
-    "druid":        ["felineSwiftness","displacerBeast","wildCharge"
-                    "yserasGift","renewal","cenarionWard"
-                    "faerieSwarm","massEntanglement","typhoon"
-                    "soulOfTheForest","incarnationChosenOfElune","forceOfNature"
-                    "incapacitatingRoar","ursolsVortex","mightyBash"
-                    "heartOfTheWild","dreamOfCenarius","naturesVigil"
-                    "euphoria","stellarFlare","balanceOfPower"],
+    "druid":        ["felineSwiftness","displacerBeast","wildCharge",
+                    "yserasGift","renewal","cenarionWard",
+                    "faerieSwarm","massEntanglement","typhoon",
+                    "soulOfTheForest","incarnation|incarnationChosenOfElune|incarnationKingOfTheJungle","forceOfNature",
+                    "incapacitatingRoar","ursolsVortex","mightyBash",
+                    "heartOfTheWild","dreamOfCenarius","naturesVigil",
+                    "euphoria|lunarInspiration","stellarFlare|bloodtalons","balanceOfPower|clawsOfShirvallah"],
+    "mage":         ["evanesce", "blazingSpeed", "iceFloes",
+                    "alterTime", "flameglow", "iceBarrier",
+                    "ringOfFrost","iceWard","frostjaw",
+                    "greaterInvisibility","cauterize","coldSnap",
+                    "frostBomb","unstableMagic","iceNova",
+                    "mirrorImage","runeOfPower","icantersFlow",
+                    "thermalVoid", "prismaticCrystal", "cometStorm|arcaneOrb"],
     "warlock":      ["darkRegeneration", "soulLeech", "searingFlames",
                     "howlOfTerror", "mortalCoil", "shadowfury",
-                    "","",""
-                    "","",""
-                    "","",""
-                    "","",""
+                    "","","",
+                    "","","",
+                    "","","",
+                    "","","",
                     "soulLink", "sacrificialPact", "darkBargain"],
 }
 
@@ -145,11 +185,12 @@ def _tokenize(condition):
     return _post_process(results)
 
 class Condition(object):
-    def __init__(self, condition, profile):
+    def __init__(self, condition, profile, condition_spell=None):
         self.condition = condition
         self.profile = profile
         self.player_spells = profile.player_spells
         self.player_env = profile.player_env
+        self.condition_spell = condition_spell
         self.tokens = _tokenize(_pre_tokenize(condition))
         self.__convert_tokens()
 
@@ -170,9 +211,9 @@ class Condition(object):
             if expression==sc:
                 return kps
 
-        m = re.search("buff\.(.*)\.(up|down|react|stack)", expression)
+        m = re.search("buff\.(.*)\.(up|down|react|stack|remains)", expression)
         if m:
-            buff = _convert_spell(m.group(1))
+            buff = _convert_spell(m.group(1), self.profile)
             buff_key = "kps.spells.%s.%s" % (self.player_spells.class_name, buff)
             if buff not in self.player_spells.keys():
                 raise ParserError("Spell '%s' unknown (in expression: '%s')!" % (buff_key, expression))
@@ -183,23 +224,31 @@ class Condition(object):
                 return "target.hasMyDebuff(spells.%s)" % buff
             elif state == "react" or state == "stack":
                 return "player.buffStacks(spells.%s)" % buff
+            elif state == "remains":
+                return "player.buffDuration(spells.%s)" % buff
             else:
                 raise ParserError("Unknown Buff State '%s'" % state)
 
 
         m = re.search("talent\.(.*)\.enabled", expression)
         if m:
-            talent_name = _convert_spell(m.group(1))
-            if talent_name not in _TALENTS[self.player_spells.class_name]:
+            talent_name = _convert_spell(m.group(1), self.profile)
+            def talentIndex(talent_name):
+                if talent_name in _TALENTS[self.player_spells.class_name]:
+                    return _TALENTS[self.player_spells.class_name].index(talent_name)
+                for talent in _TALENTS[self.player_spells.class_name]:
+                    if "|" in talent and talent_name in talent.split("|"):
+                        return _TALENTS[self.player_spells.class_name].index(talent)
                 raise ParserError("Unknown Talent '%s' for '%s'!" % (talent_name, self.player_spells.class_name))
-            idx = _TALENTS[self.player_spells.class_name].index(talent_name)
+
+            idx = talentIndex(talent_name)
             row = 1+(idx / 3 )
             talent = 1+(idx % 3 )
             return "player.hasTalent(%s, %s)" % (row, talent)
 
         m = re.search("dot\.(.*)\.(ticking|remains)", expression)
         if m:
-            dot = _convert_spell(m.group(1))
+            dot = _convert_spell(m.group(1), self.profile)
             dot_key = "kps.spells.%s.%s" % (self.player_spells.class_name, dot)
             if dot not in self.player_spells.keys():
                 raise ParserError("Spell '%s' unknown (in expression: '%s')!" % (dot_key, expression))
@@ -213,7 +262,7 @@ class Condition(object):
 
         m = re.search("cooldown\.(.*)\.(remains)", expression)
         if m:
-            cd = _convert_spell(m.group(1))
+            cd = _convert_spell(m.group(1), self.profile)
             cd_key = "kps.spells.%s.%s" % (self.player_spells.class_name, cd)
             if cd not in self.player_spells.keys():
                 raise ParserError("Spell '%s' unknown (in expression: '%s')!" % (cd_key, expression))
@@ -225,7 +274,7 @@ class Condition(object):
 
         m = re.search("(.*)\.(ready_in)", expression)
         if m:
-            cd = _convert_spell(m.group(1))
+            cd = _convert_spell(m.group(1), self.profile)
             cd_key = "kps.spells.%s.%s" % (self.player_spells.class_name, cd)
             if cd not in self.player_spells.keys():
                 raise ParserError("Spell '%s' unknown (in expression: '%s')!" % (cd_key, expression))
@@ -239,6 +288,18 @@ class Condition(object):
         if fn in self.player_env.keys():
             return "%s()" % fn
 
+        if self.condition_spell:
+            if expression=="charges":
+                return "spells.%s.charges" % self.condition_spell
+            if expression=="recharge_time": # TODO: Check if recharge_time is actally the cooldown OR just the time to the next charge
+                return "spells.%s.cooldown" % self.condition_spell
+            if expression=="remains":
+                return "target.myDebuffDuration(spells.%s)" % self.condition_spell
+            if expression=="cast_time":
+                return "spells.%s.castTime" % self.condition_spell
+            if expression=="tick_time":
+                return "spells.%s.tickTime" % self.condition_spell
+
         raise ParserError("Unkown expression '%s'!" % expression)
 
 
@@ -249,7 +310,7 @@ class Condition(object):
 
 
 class Action(object):
-    def __init__(self, action, profile, indent):
+    def __init__(self, action, profile, indent, condition_spell=None):
         self.simc_action = action
         self.profile = profile
         self.player_spells = profile.player_spells
@@ -258,7 +319,7 @@ class Action(object):
         parts = action.split(",if=")
         if len(parts) > 1:
             try:
-                self.condition = Condition(parts[1], profile)
+                self.condition = Condition(parts[1], profile,condition_spell)
                 self.comment = None
             except ParserError,e:
                 LOG.warn("Error while converting condition '%s': %s" % (parts[1], str(e)))
@@ -278,8 +339,8 @@ class Action(object):
 
 class SpellAction(Action):
     def __init__(self, action, profile, indent):
-        Action.__init__(self, action, profile, indent)
-        self.spell = self.convert_spell(action.split(",")[0])
+        Action.__init__(self, action, profile, indent, _convert_spell(action.split(",")[0], profile))
+        self.spell = _convert_spell(action.split(",")[0], profile)
         self.spell_key = "kps.spells.%s.%s" % (profile.player_spells.class_name, self.spell)
         if self.spell not in profile.player_spells:
             raise ParserError("Spell '%s' unknown!" % self.spell)
@@ -293,9 +354,6 @@ class SpellAction(Action):
             return "%s{spells.%s, '%s'},%s" % (prefix, self.spell, self.condition, comment)
         else:
             return "%s{spells.%s},%s" % (prefix, self.spell, comment)
-
-    def convert_spell(self, spell):
-        return lower_case(spell.replace("_", " ").title().replace(" ", ""))
 
 class NestedActions(Action):
     def __init__(self, action, profile, indent):

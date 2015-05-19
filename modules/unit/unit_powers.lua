@@ -47,3 +47,8 @@ function Unit.manaMax(self)
     if not UnitExists(self.unit) then return 1 end
     return UnitManaMax(self.unit)
 end
+
+-- Combo Points ON this target FROM player
+function Unit.comboPoints(self)
+    return GetComboPoints("player", self.unit)
+end

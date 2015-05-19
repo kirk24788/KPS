@@ -5,6 +5,11 @@ function Spell.charges(spell)
     return GetSpellCharges(spell.name)
 end
 
+function Spell.castTime(spell)
+    name, rank, icon, castTime, minRange, maxRange = GetSpellInfo(spell.id)
+    return castTime / 1000.0
+end
+
 function Spell.cooldown(spell)
     if not IsUsableSpell(spell.name) then return 999 end
     local start,duration,_ = GetSpellCooldown(spell.name)
