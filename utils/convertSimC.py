@@ -20,12 +20,14 @@ UNARY_OPERATOR=5
 
 _SPELL_CONVERSION = {
     "deathknight":  {
-
     }, "druid":  {
         "king_of_the_jungle":"incarnationKingOfTheJungle",
         "wild_charge_movement":"wildCharge",
         "thrash_cat":"thrash",
+        "thrash_bear":"thrash",
         "moonfire_cat":"moonfire",
+    }, "hunter": {
+    }, "mage":  {
     }, "warlock":  {},
 }
 
@@ -60,70 +62,133 @@ _DIRECT_PRECONVERSIONS = [
     ("!disease.min_ticking", "disease.ticking"),
 ]
 
+_CLASS_REGEX_PRECONVERSIONS = {
+    "deathknight":  [
+    ], "druid":  [
+    ], "hunter": [
+    ], "mage":  [
+        ("glyph.cone_of_cold.enabled","glyph.cone_of_cold.enabled&target_distance <= 12"),
+        ("(current_)?target!=prismatic_crystal","target.npc_id!=76933"),
+        ("(current_)?target=prismatic_crystal","target.npc_id=76933"),
+        ("pet.prismatic_crystal.active","pet.npc_id=76933"),
+        ("pet.prismatic_crystal.remains","cooldown.prismatic_crystal.remains-78"), # no actual pet remains, but cooldown is 90 sec, duration is 12 sec
+    ], "warlock":  [
+    ],
+
+}
+_CMP_ = r'\s*[\<\>\=]*\s*'
+_NR_ = r'\d*\.?\d*'
+_TOKEN_ = r'[\.a-z_]*'
+_NR_OR_TOKEN_ = r'\d*\.?\d*[\.a-z_]*'
 _REGEX_PRECONVERSIONS = [
-    (r'^set_bonus.tier[0-9]*_[0-9]pc$', "1>1"),
-    (r'set_bonus.tier[0-9]*_[0-9]pc', ""),
-    (r'movement\.remains\>\d*\.?\d*', "movement.remains"),
-    (r'\!?t18_class_trinket(\|\&)?', ""),
-    (r'[a-z]*\.[a-z_]*\.pmultiplier', "1"),
-    (r'persistent_multiplier', "1"),
-    (r'\(\)', ""),
-    (r'\&\&', "&"),
-    (r'\|\|', "|"),
-    (r'[\|\&]\)', ")"),
-    (r'\([\|\&]', ")"),
+    (r'(.*)active_dot\.([a-z_]*)'+_CMP_+_NR_+r'(.*)', lambda x: x.group(1)+"dot."+x.group(2)+".ticking"+x.group(3)), # convert active_dot.XXX <=> Y.Y to dot.XXX.ticking
+    (r'(.*)active_dot\.([a-z_]*)'+_CMP_+_TOKEN_+r'(.*)', lambda x: x.group(1)+"dot."+x.group(2)+".ticking"+x.group(3)), # convert active_dot.XXX <=> YYY to dot.XXX.ticking
+    (r'set_bonus.tier[0-9]*_[0-9]pc(_caster)?', ""), # remove tXX set boni
+    (r'\!?t[0-9]*_class_trinket(\|\&)?', ""), # remove tXX trinkets
+    (r'raid_event\.movement\.distance\>\d*\.?\d*', "movement.remains"), # not predictable, isMoving will be closest equivalent
+    (r'raid_event\.movement\.in'+_CMP_+r'[1-9\s\+\-\*\.a-z_]*', "movement.remains"), # not predictable, isMoving will be closest equivalent
+    (r'movement\.remains\>\d*\.?\d*', "movement.remains"), # not predictable, isMoving will be closest equivalent
+    (r'raid_event\.adds\.in'+_CMP_+r'[1-9\s\+\-\*\.a-z_]*', ""), # not predictable, remove
+    (r'[a-z]*\.[a-z_]*\.pmultiplier', "1"), # ???
+    (r'persistent_multiplier', "1"), # ???
+    (r'(action\.[a-z_]*\.)?travel_time', "1"), # Remove travel_time, no equivalent!
+    (r'([a-z_\.]*[-+*])?cast_regen([\s\-+*][a-z_\.]*)?[\s\<\>\=]*[0-9]*', ""), # cast_regen is too complicated, depends on too much information
+    (r'\(\)', ""), # remove useless paranthesis left from previous replacements
+    (r'\&\&', "&"), # remove double operators left from previous replacements
+    (r'\|\|', "|"), # remove double operators left from previous replacements
+    (r'[\|\&]\)', ")"), # remove dangling operators in paranthesis from previous replacements
+    (r'\([\|\&]', "("), # remove dangling operators in paranthesis from previous replacements
+    (r'^[\&\|](.*)', lambda x: x.group(1)), # remove leading operators left from previous replacements
+    (r'(.*)[\&\|]$', lambda x: x.group(1)), # remove trailing operators left from previous replacements
+    (r'^$', "EMPTY_EXPRESSION"),
 ]
 
-_EXPESSION_CONVERSIONS = [
+_CLASS_EXPRESSION_CONVERSIONS = {
+    "deathknight":  [
+        ("blood", "player.bloodRunes"),
+        ("frost", "player.frostRunes"),
+        ("unholy", "player.unholyRunes"),
+        ("blood.death", "player.bloodDeathRunes"),
+        ("frost.death", "player.frostDeathRunes"),
+        ("unholy.death", "player.unholyDeathRunes"),
+        ("blood.frac", "player.bloodFraction"),
+        ("frost.frac", "player.frostFraction"),
+        ("unholy.frac", "player.unholyFraction"),
+        ("Blood", "player.bloodOrDeathRunes"),
+        ("Frost", "player.frostOrDeathRunes"),
+        ("Unholy", "player.unholyOrDeathRunes"),
+        ("death", "player.deathRunes"),
+    ], "druid":  [
+        ("lunar_max","player.eclipseLunarMax"),
+        ("solar_max","player.eclipseSolarMax"),
+        ("eclipse_energy", "player.eclipsePower"),
+        ("eclipse_change", "player.eclipseChange"),
+    ], "hunter": [
+        ("buff.potion.up","player.hasAgiProc"),
+        ("trinket.proc.any.react","player.hasAgiProc"),
+        ("trinket.proc.any.remains",""),
+        ("cooldown.potion.remains",""),
+    ], "mage":  [
+        ("spell_haste","1"),
+        ("incanters_flow_dir","incanters_flow_direction"),
+    ], "warlock":  [
+    ],
+}
+
+_EXPRESSION_CONVERSIONS = [
     ("runic_power", "player.runicPower"),
     ("health.pct", "player.hp"),
     ("health.max", "player.hpMax"),
+    ("mana.pct", "player.mana"),
+    ("target_distance", "target.distance"),
     ("target.health.pct", "target.hp"),
     ("target.time_to_die", "target.timeToDie"),
     ("gcd", "player.gcd"),
+    ("gcd.max", "player.gcd"),
+    ("incoming_damage_1s", "kps.incomingDamage(1)"),
     ("incoming_damage_5s", "kps.incomingDamage(5)"),
     ("movement.remains", "player.isMoving"),
     ("movement.distance", "target.distance"),
+    ("in_flight","player.isMoving"),
     ("active_enemies", "activeEnemies()"),
     ("level", "player.level"),
     ("buff.bloodlust.up", "player.bloodlust"),
+    ("trinket.stat.any.up","player.hasProc"),
     ("trinket.stat.intellect.up","player.hasIntProc"),
+    ("buff.archmages_incandescence_agi.up","player.hasAgiProc"),
+    ("buff.archmages_greater_incandescence_agi.up","player.hasAgiProc"),
     ("trinket.proc.all.react","player.hasProc"),
     ("energy.time_to_max","player.energyTimeToMax"),
     ("energy.max","player.energyMax"),
     ("energy.regen","player.energyRegen"),
     ("energy","player.energy"),
+    ("focus.time_to_max","player.focusTimeToMax"),
+    ("focus.max","player.focusMax"),
+    ("focus.regen","player.focusRegen"),
+    ("focus.deficit","(player.focusMax-player.focus)"),
+    ("focus","player.focus"),
     ("combo_points","target.comboPoints"),
-    # DK specific
-    ("blood", "player.bloodRunes"),
-    ("frost", "player.frostRunes"),
-    ("unholy", "player.unholyRunes"),
-    ("blood.death", "player.bloodDeathRunes"),
-    ("frost.death", "player.frostDeathRunes"),
-    ("unholy.death", "player.unholyDeathRunes"),
-    ("blood.frac", "player.bloodFraction"),
-    ("frost.frac", "player.frostFraction"),
-    ("unholy.frac", "player.unholyFraction"),
-    ("Blood", "player.bloodOrDeathRunes"),
-    ("Frost", "player.frostOrDeathRunes"),
-    ("Unholy", "player.unholyOrDeathRunes"),
-    ("death", "player.deathRunes"),
-    # Druid specific
-    ("lunar_max","player.eclipseLunarMax"),
-    ("solar_max","player.eclipseSolarMax"),
-    ("eclipse_energy", "player.eclipsePower"),
-    ("eclipse_change", "player.eclipseChange"),
+    ("rage","player.rage"),
+    ("target.npc_id","target.npcId"),
+    ("pet.npc_id","pet.npcId"),
+    ("time","player.timeInCombat"),
 ]
 
 
 _IGNOREABLE_SPELLS = [
     'auto_attack', # No need to add auto-attack
+    'auto_shot', # No need to add auto-attack
     'potion', # don't use potions!
     'blood_fury', # Orc Racial
     'berserking', # Troll Racial
     'arcane_torrent', # BloodElf Racial
     'use_item', # Use of Items deativated
     'pool_resource', # Use of Items deativated
+    'choose_target',
+    'start_burn_phase',
+    'stop_burn_phase',
+    'start_pyro_chain',
+    'stop_pyro_chain',
 ]
 
 _TALENTS = {
@@ -137,17 +202,25 @@ _TALENTS = {
     "druid":        ["felineSwiftness","displacerBeast","wildCharge",
                     "yserasGift","renewal","cenarionWard",
                     "faerieSwarm","massEntanglement","typhoon",
-                    "soulOfTheForest","incarnation|incarnationChosenOfElune|incarnationKingOfTheJungle","forceOfNature",
+                    "soulOfTheForest","incarnation|incarnationChosenOfElune|incarnationKingOfTheJungle|incarnationSonOfUrsoc","forceOfNature",
                     "incapacitatingRoar","ursolsVortex","mightyBash",
                     "heartOfTheWild","dreamOfCenarius","naturesVigil",
-                    "euphoria|lunarInspiration","stellarFlare|bloodtalons","balanceOfPower|clawsOfShirvallah"],
+                    "euphoria|lunarInspiration|guardianOfElune","stellarFlare|bloodtalons|pulverize","balanceOfPower|clawsOfShirvallah|bristlingFur"],
+    "hunter":       ["posthaste", "narrowEscape","crouchingTigerHiddenChimaera",
+                    "bindingShot","wyvernSting","intimidation",
+                    "exhilaration","ironHawk","spiritBond",
+                    "steadyFocus","direBeast","thrillOfTheHunt",
+                    "aMurderOfCrows","blinkStrikes","stampede",
+                    "glaiveToss","powershot","barrage",
+                    "exoticMunitions","focusingShot","adaptation",
+                    ],
     "mage":         ["evanesce", "blazingSpeed", "iceFloes",
                     "alterTime", "flameglow", "iceBarrier",
                     "ringOfFrost","iceWard","frostjaw",
                     "greaterInvisibility","cauterize","coldSnap",
-                    "frostBomb","unstableMagic","iceNova",
-                    "mirrorImage","runeOfPower","icantersFlow",
-                    "thermalVoid", "prismaticCrystal", "cometStorm|arcaneOrb"],
+                    "frostBomb|livingBomb","unstableMagic","iceNova|blastWave",
+                    "mirrorImage","runeOfPower","incantersFlow",
+                    "overpowered|kindling|thermalVoid", "prismaticCrystal", "arcaneOrb|meteor|cometStorm"],
     "warlock":      ["darkRegeneration", "soulLeech", "searingFlames",
                     "howlOfTerror", "mortalCoil", "shadowfury",
                     "","","",
@@ -158,9 +231,11 @@ _TALENTS = {
 }
 
 
-def _pre_tokenize(condition):
+def _pre_tokenize(condition, profile):
     for (old,new) in _DIRECT_PRECONVERSIONS:
         condition = condition.replace(old, new)
+    for (rex,new) in _CLASS_REGEX_PRECONVERSIONS[profile.kps_class]:
+        condition = re.sub(rex, new, condition)
     for (rex,new) in _REGEX_PRECONVERSIONS:
         condition = re.sub(rex, new, condition)
     return condition
@@ -170,6 +245,8 @@ def _tokenize(condition):
     scanner=re.Scanner([
         (r"\d+(.\d+)?",       lambda scanner,token:(NUMBER, token)),
         (r"[a-zA-Z][a-zA-Z_.0-9]+",      lambda scanner,token:(EXPRESSION, token)),
+        (r"\=",      lambda scanner,token:(COMPERATOR, "==")),
+        (r"\!\=",        lambda scanner,token:(COMPERATOR, "=")),
         (r"(\<\=|\>\=|\=|\<|\>)",      lambda scanner,token:(COMPERATOR, token)),
         (r"[\(\)]",        lambda scanner,token:(BRACKET, token)),
         (r"\&",        lambda scanner,token:(BINARY_OPERATOR, "and")),
@@ -191,7 +268,7 @@ class Condition(object):
         self.player_spells = profile.player_spells
         self.player_env = profile.player_env
         self.condition_spell = condition_spell
-        self.tokens = _tokenize(_pre_tokenize(condition))
+        self.tokens = _tokenize(_pre_tokenize(condition, self.profile))
         self.__convert_tokens()
 
     def __str__(self):
@@ -207,7 +284,10 @@ class Condition(object):
         self.kps = " ".join(condition_parts)
 
     def __convert_condition(self, expression):
-        for sc,kps in _EXPESSION_CONVERSIONS:
+        for sc,kps in _CLASS_EXPRESSION_CONVERSIONS[self.profile.kps_class]:
+            if expression==sc:
+                return kps
+        for sc,kps in _EXPRESSION_CONVERSIONS:
             if expression==sc:
                 return kps
 
@@ -246,7 +326,7 @@ class Condition(object):
             talent = 1+(idx % 3 )
             return "player.hasTalent(%s, %s)" % (row, talent)
 
-        m = re.search("dot\.(.*)\.(ticking|remains)", expression)
+        m = re.search("dot\.(.*)\.(ticking|remains|stack)", expression)
         if m:
             dot = _convert_spell(m.group(1), self.profile)
             dot_key = "kps.spells.%s.%s" % (self.player_spells.class_name, dot)
@@ -257,10 +337,24 @@ class Condition(object):
                 return "target.hasMyDebuff(spells.%s)" % dot
             elif state == "remains":
                 return "target.myDebuffDuration(spells.%s)" % dot
+            elif state == "stack":
+                return "target.debuffStacks(spells.%s)" % dot
             else:
                 raise ParserError("Unknown Buff State '%s'" % state)
 
-        m = re.search("cooldown\.(.*)\.(remains)", expression)
+        m = re.search("glyph\.(.*)\.(enabled)", expression)
+        if m:
+            glyph = _convert_spell("glyph_of_"+m.group(1), self.profile)
+            glyph_key = "kps.spells.%s.%s" % (self.player_spells.class_name, glyph)
+            if glyph not in self.player_spells.keys():
+                raise ParserError("Spell '%s' unknown (in expression: '%s')!" % (glyph_key, expression))
+            state = m.group(2)
+            if state == "enabled":
+                return "player.hasGlyph(spells.%s)" % glyph
+            else:
+                raise ParserError("Unknown Buff State '%s'" % state)
+
+        m = re.search("cooldown\.(.*)\.(remains|up|duration)", expression)
         if m:
             cd = _convert_spell(m.group(1), self.profile)
             cd_key = "kps.spells.%s.%s" % (self.player_spells.class_name, cd)
@@ -269,6 +363,26 @@ class Condition(object):
             state = m.group(2)
             if state == "remains":
                 return "spells.%s.cooldown" % cd
+            elif state == "up":
+                return "spells.%s.cooldown == 0" % cd
+            elif state == "duration":
+                return "spells.%s.cooldownTotal" % cd
+            else:
+                raise ParserError("Unknown Buff State '%s'" % state)
+
+        m = re.search("action\.(.*)\.(execute_time|in_flight|charges_fractional|charges)", expression)
+        if m:
+            action = _convert_spell(m.group(1), self.profile)
+            action_key = "kps.spells.%s.%s" % (self.player_spells.class_name, action)
+            if action not in self.player_spells.keys():
+                raise ParserError("Spell '%s' unknown (in expression: '%s')!" % (action_key, expression))
+            state = m.group(2)
+            if state == "execute_time":
+                return "spells.%s.castTime" % action
+            elif state == "in_flight":
+                return "spells.%s.isRecastAt(\"target\")" % action
+            elif state == "charges" or state == "charges_fractional":
+                return "spells.%s.charges" % action
             else:
                 raise ParserError("Unknown Buff State '%s'" % state)
 
@@ -284,12 +398,28 @@ class Condition(object):
             else:
                 raise ParserError("Unknown State '%s'" % state)
 
+        m = re.search("prev_gcd\.(.*)", expression)
+        if m:
+            spell = _convert_spell(m.group(1), self.profile)
+            spell_key = "kps.spells.%s.%s" % (self.player_spells.class_name, spell)
+            if spell not in self.player_spells.keys():
+                raise ParserError("Spell '%s' unknown (in expression: '%s')!" % (cd_key, expression))
+            return "spells.%s.isRecastAt(\"target\")" % spell
+
+        m = re.search("prev_off_gcd\.(.*)", expression)
+        if m:
+            spell = _convert_spell(m.group(1), self.profile)
+            spell_key = "kps.spells.%s.%s" % (self.player_spells.class_name, spell)
+            if spell not in self.player_spells.keys():
+                raise ParserError("Spell '%s' unknown (in expression: '%s')!" % (cd_key, expression))
+            return "spells.%s.isRecastAt(\"target\")" % spell
+
         fn = _convert_fn(expression)
         if fn in self.player_env.keys():
             return "%s()" % fn
 
         if self.condition_spell:
-            if expression=="charges":
+            if expression=="charges" or expression=="charges_fractional":
                 return "spells.%s.charges" % self.condition_spell
             if expression=="recharge_time": # TODO: Check if recharge_time is actally the cooldown OR just the time to the next charge
                 return "spells.%s.cooldown" % self.condition_spell
@@ -299,7 +429,10 @@ class Condition(object):
                 return "spells.%s.castTime" % self.condition_spell
             if expression=="tick_time":
                 return "spells.%s.tickTime" % self.condition_spell
-
+            if expression=="ticking":
+                return "target.hasMyDebuff(spells.%s)" % self.condition_spell
+            if expression == "execute_time":
+                return "spells.%s.castTime" % self.condition_spell
         raise ParserError("Unkown expression '%s'!" % expression)
 
 
@@ -320,14 +453,14 @@ class Action(object):
         if len(parts) > 1:
             try:
                 self.condition = Condition(parts[1], profile,condition_spell)
-                self.comment = None
+                self.error_description = None
             except ParserError,e:
                 LOG.warn("Error while converting condition '%s': %s" % (parts[1], str(e)))
                 self.condition = "SimC Conversion ERROR"
-                self.comment = "ERROR in '%s': %s" % (parts[1], str(e))
+                self.error_description = "ERROR in '%s': %s" % (self.simc_action, str(e))
         else:
             self.condition = None
-            self.comment = None
+            self.error_description = None
 
     @staticmethod
     def parse(action, profile, indent=1):
@@ -346,10 +479,10 @@ class SpellAction(Action):
             raise ParserError("Spell '%s' unknown!" % self.spell)
     def __str__(self):
         prefix = " "*(self.indent*4)
-        if self.comment:
-            comment = " -- " + self.comment
+        if self.error_description:
+            return "-- " + self.error_description
         else:
-            comment = ""
+            comment = " -- " + self.simc_action
         if self.condition:
             return "%s{spells.%s, '%s'},%s" % (prefix, self.spell, self.condition, comment)
         else:
@@ -360,21 +493,23 @@ class NestedActions(Action):
         Action.__init__(self, action, profile, indent)
         name = action.split(",")[1].split("=")[1]
         self.actions = []
-        for a in profile.get_action_sublist(name):
-            try:
-                self.actions.append(Action.parse(a, profile, self.indent+1))
-            except ParserError,e:
-                LOG.warn("Error while converting condition '%s': %s" % (a, str(e)))
-
+        try:
+            for a in profile.get_action_sublist(name):
+                try:
+                    self.actions.append(Action.parse(a, profile, self.indent+1))
+                except ParserError,e:
+                    LOG.warn("Error while converting nested action '%s': %s" % (a, str(e)))
+        except KeyError:
+            LOG.warn("No Action SubList '%s' in: %s", name, action)
     def __str__(self):
         if self.condition:
             condition = self.condition
         else:
             condition = "True"
-        if self.comment:
-            comment = " -- " + self.comment
+        if self.error_description:
+            return "-- " + self.error_description
         else:
-            comment = ""
+            comment = " -- " + self.simc_action
         prefix = " "*(self.indent*4)
         s = """%s{{"nested"}, '%s', {%s\n""" % (prefix, condition, comment)
         for a in self.actions:
@@ -455,7 +590,7 @@ class SimCraftProfile(object):
             try:
                 action_list.append(Action.parse(a, self))
             except ParserError,e:
-                LOG.warn("Error while converting condition '%s': %s" % (a, str(e)))
+                LOG.warn("Error while converting to actionList '%s': %s" % (a, str(e)))
         return action_list
 
     def __str__(self):

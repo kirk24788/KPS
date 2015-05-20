@@ -19,6 +19,12 @@ function Spell.cooldown(spell)
     return cd
 end
 
+function Spell.cooldownTotal(spell)
+    local start,duration,_ = GetSpellCooldown(spell.name)
+    if duration == nil then return 0 end
+    return duration
+end
+
 local isRecastAt = setmetatable({}, {
     __index = function(t, self)
         local val = function (unit)

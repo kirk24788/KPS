@@ -103,7 +103,7 @@ class PlayerSpells(dict):
         if class_name not in SUPPORTED_CLASSES:
             raise KpsError("Unknown class: '%s'" % class_name)
         self.class_name = class_name
-
+        self.__player_spells = {}
         spell_ids_found = {}
         def is_spell_duplicate(spell_id, currentLine):
             if spell_id in spell_ids_found.keys():
@@ -145,7 +145,7 @@ class PlayerEnv(dict):
         self.class_name = class_name
 
         file_name = os.path.dirname(os.path.abspath(__file__)) + "/../rotations/" + class_name + ".lua"
-        LOG.info("Parsing PlayerSpells in '%s'", file_name)
+        LOG.info("Parsing PlayerEnv in '%s'", file_name)
         line_nr = 0
         try:
             for line in open(file_name).read().split("\n"):

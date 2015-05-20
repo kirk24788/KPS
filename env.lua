@@ -7,6 +7,7 @@ KPS Environment for use in Spell Rotations
 kps.env.player = kps.Player.new()
 kps.env.keys = kps.Keys.new()
 kps.env.target = kps.Unit.new("target")
+kps.env.pet = kps.Unit.new("pet")
 kps.env.focus = kps.Unit.new("focus")
 kps.env.mouseover = kps.Unit.new("mouseover")
 

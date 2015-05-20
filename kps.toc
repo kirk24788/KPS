@@ -29,6 +29,7 @@ modules\unlock\basic.lua
 modules\unit\unit.lua
 modules\unit\unit_auras.lua
 modules\unit\unit_casting.lua
+modules\unit\unit_info.lua
 modules\unit\unit_powers.lua
 modules\unit\unit_range.lua
 modules\unit\unit_state.lua
@@ -55,6 +56,13 @@ rotations\deathknight_frost.lua
 rotations\deathknight_unholy.lua
 rotations\druid_balance.lua
 rotations\druid_feral.lua
+rotations\druid_guardian.lua
+rotations\hunter_beastmaster.lua
+rotations\hunter_marksmanship.lua
+rotations\hunter_survival.lua
+rotations\mage_arcane.lua
+rotations\mage_fire.lua
+rotations\mage_frost.lua
 rotations\warlock_destruction.lua
 gui\gui.lua
 gui\toggle.lua

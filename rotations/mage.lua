@@ -76,14 +76,30 @@ kps.spells.mage.portalStonard = kps.Spell.fromId(49361)
 kps.spells.mage.teleportDalaran = kps.Spell.fromId(53140)
 kps.spells.mage.portalDalaran = kps.Spell.fromId(53142)
 kps.spells.mage.mirrorImage = kps.Spell.fromId(55342)
+kps.spells.mage.glyphOfIcyVeins = kps.Spell.fromId(56364)
+kps.spells.mage.glyphOfBlink = kps.Spell.fromId(56365)
+kps.spells.mage.glyphOfCombustion = kps.Spell.fromId(56368)
+kps.spells.mage.glyphOfPolymorph = kps.Spell.fromId(56375)
+kps.spells.mage.glyphOfFrostNova = kps.Spell.fromId(56376)
+kps.spells.mage.glyphOfSplittingIce = kps.Spell.fromId(56377)
+kps.spells.mage.glyphOfCrittermorph = kps.Spell.fromId(56382)
+kps.spells.mage.glyphOfMomentum = kps.Spell.fromId(56384)
+kps.spells.mage.glyphOfArcaneLanguage = kps.Spell.fromId(57925)
+kps.spells.mage.glyphOfIgnite = kps.Spell.fromId(61205)
 kps.spells.mage.dalaranBrilliance = kps.Spell.fromId(61316)
+kps.spells.mage.glyphOfArcanePower = kps.Spell.fromId(62210)
+kps.spells.mage.glyphOfWaterElemental = kps.Spell.fromId(63090)
+kps.spells.mage.glyphOfIllusion = kps.Spell.fromId(63092)
 kps.spells.mage.masteryManaAdept = kps.Spell.fromId(76547)
 kps.spells.mage.masteryIcicles = kps.Spell.fromId(76613)
 kps.spells.mage.timeWarp = kps.Spell.fromId(80353)
 kps.spells.mage.frozenOrb = kps.Spell.fromId(84714)
+kps.spells.mage.glyphOfSlow = kps.Spell.fromId(86209)
 kps.spells.mage.cauterize = kps.Spell.fromId(86949)
 kps.spells.mage.teleportTolBarad = kps.Spell.fromId(88342)
 kps.spells.mage.portalTolBarad = kps.Spell.fromId(88345)
+kps.spells.mage.glyphOfRapidTeleportation = kps.Spell.fromId(89749)
+kps.spells.mage.glyphOfInfernoBlast = kps.Spell.fromId(89926)
 kps.spells.mage.frostjaw = kps.Spell.fromId(102051)
 kps.spells.mage.iceFloes = kps.Spell.fromId(108839)
 kps.spells.mage.blazingSpeed = kps.Spell.fromId(108843)
@@ -96,13 +112,25 @@ kps.spells.mage.fingersOfFrost = kps.Spell.fromId(112965)
 kps.spells.mage.ringOfFrost = kps.Spell.fromId(113724)
 kps.spells.mage.arcaneCharge = kps.Spell.fromId(114664)
 kps.spells.mage.netherTempest = kps.Spell.fromId(114923)
+kps.spells.mage.glyphOfRemoveCurse = kps.Spell.fromId(115700)
+kps.spells.mage.glyphOfCounterspell = kps.Spell.fromId(115703)
+kps.spells.mage.glyphOfConeOfCold = kps.Spell.fromId(115705)
+kps.spells.mage.glyphOfDeepFreeze = kps.Spell.fromId(115710)
+kps.spells.mage.glyphOfSpellsteal = kps.Spell.fromId(115713)
+kps.spells.mage.glyphOfArcaneExplosion = kps.Spell.fromId(115718)
+kps.spells.mage.glyphOfIceBlock = kps.Spell.fromId(115723)
 kps.spells.mage.runeOfPower = kps.Spell.fromId(116011)
 kps.spells.mage.criticalMass = kps.Spell.fromId(117216)
 kps.spells.mage.ancientTeleportDalaran = kps.Spell.fromId(120145)
 kps.spells.mage.ancientPortalDalaran = kps.Spell.fromId(120146)
+kps.spells.mage.glyphOfConjureFamiliar = kps.Spell.fromId(126748)
 kps.spells.mage.portalValeOfEternalBlossoms = kps.Spell.fromId(132620)
 kps.spells.mage.teleportValeOfEternalBlossoms = kps.Spell.fromId(132621)
 kps.spells.mage.flameglow = kps.Spell.fromId(140468)
+kps.spells.mage.glyphOfRapidDisplacement = kps.Spell.fromId(146659)
+kps.spells.mage.glyphOfEvaporation = kps.Spell.fromId(146662)
+kps.spells.mage.glyphOfTheUnboundElemental = kps.Spell.fromId(146976)
+kps.spells.mage.glyphOfCondensation = kps.Spell.fromId(147353)
 kps.spells.mage.prismaticCrystal = kps.Spell.fromId(152087)
 kps.spells.mage.meteor = kps.Spell.fromId(153561)
 kps.spells.mage.cometStorm = kps.Spell.fromId(153595)
@@ -115,6 +143,8 @@ kps.spells.mage.unstableMagic = kps.Spell.fromId(157976)
 kps.spells.mage.supernova = kps.Spell.fromId(157980)
 kps.spells.mage.blastWave = kps.Spell.fromId(157981)
 kps.spells.mage.iceNova = kps.Spell.fromId(157997)
+kps.spells.mage.glyphOfDragonsBreath = kps.Spell.fromId(159485)
+kps.spells.mage.glyphOfRegenerativeIce = kps.Spell.fromId(159486)
 kps.spells.mage.amplifyMagic = kps.Spell.fromId(159916)
 kps.spells.mage.incineration = kps.Spell.fromId(165357)
 kps.spells.mage.arcaneMind = kps.Spell.fromId(165359)
@@ -123,4 +153,70 @@ kps.spells.mage.teleportWarspear = kps.Spell.fromId(176242)
 kps.spells.mage.portalWarspear = kps.Spell.fromId(176244)
 kps.spells.mage.portalStormshield = kps.Spell.fromId(176246)
 kps.spells.mage.teleportStormshield = kps.Spell.fromId(176248)
+kps.spells.mage.arcaneInstability = kps.Spell.fromId(166872)
+kps.spells.mage.potentFlames = kps.Spell.fromId(145254)
+kps.spells.mage.heatingUp = kps.Spell.fromId(48107)
+kps.spells.mage.pyromaniac = kps.Spell.fromId(166868)
+kps.spells.mage.ignite = kps.Spell.fromId(101166)
+kps.spells.mage.waterJet = kps.Spell.fromId(135029)
+
+
+kps.env.mage = {}
+
+local burnPhase = false
+function kps.env.mage.burnPhase()
+    if not burnPhase then
+        -- At the start of the fight and whenever Evocation Icon Evocation is about to come off cooldown, you need to start the Burn Phase
+        -- and burn your Mana. Before doing so, make sure that you have 3 charges of Arcane Missiles and 4 stacks of Arcane Charge.
+        burnPhase = kps.env.player.timeInCombat < 5 or kps.spells.mage.evocation.cooldown < 2
+    else
+        burnPhase = kps.env.player.mana > 0.35
+    end
+    return burnPhase
+end
+
+local incantersFlowDirection = 0
+local incantersFlowLastStacks = 0
+function kps.env.mage.incantersFlowDirection()
+    local stack = select(4, UnitBuff("player", GetSpellInfo(116267)))
+    if stack < incantersFlowLastStacks then
+        incantersFlowDirection = -1
+        incantersFlowLastStacks = stack
+    elseif stack > incantersFlowLastStacks then
+        incantersFlowDirection = 1
+        incantersFlowLastStacks = stack
+    end
+    return encantersFlowDirection
+end
+
+local pyroChain = false
+local pyroChainEnd = 0
+function kps.env.mage.pyroChain()
+    if not pyroChain then
+        -- Combustion sequence initialization
+        -- This sequence lists the requirements for preparing a Combustion combo with each talent choice
+        -- Meteor Combustion:
+        --    actions.init_combust=start_pyro_chain,if=talent.meteor.enabled&cooldown.meteor.up&((cooldown.combustion.remains<gcd.max*3&buff.pyroblast.up&(buff.heating_up.up^action.fireball.in_flight))|(buff.pyromaniac.up&(cooldown.combustion.remains<ceil(buff.pyromaniac.remains%gcd.max)*gcd.max)))
+        -- Prismatic Crystal Combustion without 2T17:
+        --    actions.init_combust+=/start_pyro_chain,if=talent.prismatic_crystal.enabled&!set_bonus.tier17_2pc&cooldown.prismatic_crystal.up&((cooldown.combustion.remains<gcd.max*2&buff.pyroblast.up&(buff.heating_up.up^action.fireball.in_flight))|(buff.pyromaniac.up&(cooldown.combustion.remains<ceil(buff.pyromaniac.remains%gcd.max)*gcd.max)))
+        -- Prismatic Crystal Combustion with 2T17:
+        --    actions.init_combust+=/start_pyro_chain,if=talent.prismatic_crystal.enabled&set_bonus.tier17_2pc&cooldown.prismatic_crystal.up&cooldown.combustion.remains<gcd.max*2&buff.pyroblast.up&(buff.heating_up.up^action.fireball.in_flight)
+        -- Unglyphed Combustions between Prismatic Crystals:
+        --    actions.init_combust+=/start_pyro_chain,if=talent.prismatic_crystal.enabled&!glyph.combustion.enabled&cooldown.prismatic_crystal.remains>20&((cooldown.combustion.remains<gcd.max*2&buff.pyroblast.up&buff.heating_up.up&action.fireball.in_flight)|(buff.pyromaniac.up&(cooldown.combustion.remains<ceil(buff.pyromaniac.remains%gcd.max)*gcd.max)))
+        -- Kindling or Level 90 Combustion:
+        --    actions.init_combust+=/start_pyro_chain,if=!talent.prismatic_crystal.enabled&!talent.meteor.enabled&((cooldown.combustion.remains<gcd.max*4&buff.pyroblast.up&buff.heating_up.up&action.fireball.in_flight)|(buff.pyromaniac.up&cooldown.combustion.remains<ceil(buff.pyromaniac.remains%gcd.max)*(gcd.max+talent.kindling.enabled)))
+
+        --TODO!!!
+        -- pyroChainStart = GetTime()
+        return false
+    else
+        -- actions=stop_pyro_chain,if=prev_off_gcd.combustion
+        pyroChain = kps.env.player.mana > 0.35
+    end
+    return pyroChain
+end
+function kps.env.mage.pyroChainDuration()
+    local duration = pyroChainEnd - GetTime()
+    if duration < 0 then return 0 else return duration end
+end
 
