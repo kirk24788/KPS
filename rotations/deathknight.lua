@@ -2,6 +2,7 @@
 @module Deathknight
 @description
 Deathknight Spells and Environment Functions.
+GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
 kps.spells.deathknight = {}
@@ -67,9 +68,38 @@ kps.spells.deathknight.unholyAura = kps.Spell.fromId(55610)
 kps.spells.deathknight.darkCommand = kps.Spell.fromId(56222)
 kps.spells.deathknight.reaping = kps.Spell.fromId(56835)
 kps.spells.deathknight.hornOfWinter = kps.Spell.fromId(57330)
+kps.spells.deathknight.glyphOfUnholyFrenzy = kps.Spell.fromId(58616)
+kps.spells.deathknight.glyphOfStrangulate = kps.Spell.fromId(58618)
+kps.spells.deathknight.glyphOfChainsOfIce = kps.Spell.fromId(58620)
+kps.spells.deathknight.glyphOfAntimagicShell = kps.Spell.fromId(58623)
+kps.spells.deathknight.glyphOfDeathAndDecay = kps.Spell.fromId(58629)
+kps.spells.deathknight.glyphOfIcyTouch = kps.Spell.fromId(58631)
+kps.spells.deathknight.glyphOfPillarOfFrost = kps.Spell.fromId(58635)
+kps.spells.deathknight.glyphOfTheGeist = kps.Spell.fromId(58640)
+kps.spells.deathknight.glyphOfFoulMenagerie = kps.Spell.fromId(58642)
+kps.spells.deathknight.glyphOfShiftingPresences = kps.Spell.fromId(58647)
+kps.spells.deathknight.glyphOfBloodBoil = kps.Spell.fromId(58657)
+kps.spells.deathknight.glyphOfArmyOfTheDead = kps.Spell.fromId(58669)
+kps.spells.deathknight.glyphOfEnduringInfection = kps.Spell.fromId(58671)
+kps.spells.deathknight.glyphOfIceboundFortitude = kps.Spell.fromId(58673)
+kps.spells.deathknight.glyphOfVampiricBlood = kps.Spell.fromId(58676)
+kps.spells.deathknight.glyphOfDeathsEmbrace = kps.Spell.fromId(58677)
+kps.spells.deathknight.glyphOfHornOfWinter = kps.Spell.fromId(58680)
+kps.spells.deathknight.glyphOfMindFreeze = kps.Spell.fromId(58686)
 kps.spells.deathknight.rime = kps.Spell.fromId(59057)
+kps.spells.deathknight.glyphOfPathOfFrost = kps.Spell.fromId(59307)
+kps.spells.deathknight.glyphOfResilientGrip = kps.Spell.fromId(59309)
+kps.spells.deathknight.glyphOfUnholyCommand = kps.Spell.fromId(59327)
+kps.spells.deathknight.glyphOfOutbreak = kps.Spell.fromId(59332)
+kps.spells.deathknight.glyphOfCorpseExplosion = kps.Spell.fromId(59336)
+kps.spells.deathknight.glyphOfDeathGate = kps.Spell.fromId(60200)
 kps.spells.deathknight.raiseAlly = kps.Spell.fromId(61999)
 kps.spells.deathknight.runeOfTheStoneskinGargoyle = kps.Spell.fromId(62158)
+kps.spells.deathknight.glyphOfDeathGrip = kps.Spell.fromId(62259)
+kps.spells.deathknight.glyphOfDancingRuneWeapon = kps.Spell.fromId(63330)
+kps.spells.deathknight.glyphOfDarkSimulacrum = kps.Spell.fromId(63331)
+kps.spells.deathknight.glyphOfDeathCoil = kps.Spell.fromId(63333)
+kps.spells.deathknight.glyphOfTranquilGrip = kps.Spell.fromId(63335)
 kps.spells.deathknight.darkTransformation = kps.Spell.fromId(63560)
 kps.spells.deathknight.threatOfThassarian = kps.Spell.fromId(66192)
 kps.spells.deathknight.masteryBloodShield = kps.Spell.fromId(77513)
@@ -96,23 +126,28 @@ kps.spells.deathknight.soulReaper = kps.Spell.fromId(114866)
 kps.spells.deathknight.unholyBlight = kps.Spell.fromId(115989)
 kps.spells.deathknight.conversion = kps.Spell.fromId(119975)
 kps.spells.deathknight.plagueLeech = kps.Spell.fromId(123693)
-kps.spells.deathknight.soulReaper = kps.Spell.fromId(130735)
-kps.spells.deathknight.soulReaper = kps.Spell.fromId(130736)
+kps.spells.deathknight.glyphOfSwiftDeath = kps.Spell.fromId(146645)
+kps.spells.deathknight.glyphOfRegenerativeMagic = kps.Spell.fromId(146648)
+kps.spells.deathknight.glyphOfTheSkeleton = kps.Spell.fromId(146652)
 kps.spells.deathknight.breathOfSindragosa = kps.Spell.fromId(152279)
 kps.spells.deathknight.defile = kps.Spell.fromId(152280)
 kps.spells.deathknight.necroticPlague = kps.Spell.fromId(152281)
 kps.spells.deathknight.powerOfTheGrave = kps.Spell.fromId(155522)
 kps.spells.deathknight.resolve = kps.Spell.fromId(158298)
+kps.spells.deathknight.glyphOfAbsorbMagic = kps.Spell.fromId(159415)
+kps.spells.deathknight.glyphOfTheIceReaper = kps.Spell.fromId(159416)
+kps.spells.deathknight.glyphOfIcyRunes = kps.Spell.fromId(159418)
+kps.spells.deathknight.glyphOfEmpowerment = kps.Spell.fromId(159421)
+kps.spells.deathknight.glyphOfRaiseAlly = kps.Spell.fromId(159427)
+kps.spells.deathknight.glyphOfRuneTap = kps.Spell.fromId(159428)
+kps.spells.deathknight.glyphOfRunicPower = kps.Spell.fromId(159429)
 kps.spells.deathknight.plaguebearer = kps.Spell.fromId(161497)
 kps.spells.deathknight.bladedArmor = kps.Spell.fromId(161608)
 kps.spells.deathknight.riposte = kps.Spell.fromId(161797)
 kps.spells.deathknight.runicStrikes = kps.Spell.fromId(165394)
 kps.spells.deathknight.necrosis = kps.Spell.fromId(165395)
 kps.spells.deathknight.darkSuccor = kps.Spell.fromId(178819)
-
-
 kps.spells.deathknight.bloodCharge = kps.Spell.fromId(114851)
-
 
 
 kps.env.deathknight = {}
@@ -144,5 +179,3 @@ end
 function kps.env.deathknight.diseaseMaxTicking(unit)
     return kps.env.deathknight.diseaseMaxRemains(unit) > 0
 end
-
-

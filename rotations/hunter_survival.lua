@@ -1,9 +1,10 @@
 --[[
 @module Hunter Survival Rotation
-GENERATED FROM SIMCRAFT PROFILE: Hunter_SV_T17N.simc
+GENERATED FROM SIMCRAFT PROFILE 'hunter_survival.simc'
 ]]
 local spells = kps.spells.hunter
 local env = kps.env.hunter
+
 
 kps.rotations.register("HUNTER","SURVIVAL",
 {
@@ -43,4 +44,4 @@ kps.rotations.register("HUNTER","SURVIVAL",
     {spells.focusingShot}, -- focusing_shot
     {spells.cobraShot}, -- cobra_shot
 }
-,"Hunter_SV_T17N.simc")
+,"hunter_survival.simc")

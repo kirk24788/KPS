@@ -1,9 +1,10 @@
 --[[
 @module Mage Frost Rotation
-GENERATED FROM SIMCRAFT PROFILE: Mage_Frost_T17N.simc
+GENERATED FROM SIMCRAFT PROFILE 'mage_frost.simc'
 ]]
 local spells = kps.spells.mage
 local env = kps.env.mage
+
 
 kps.rotations.register("MAGE","FROST",
 {
@@ -81,4 +82,4 @@ kps.rotations.register("MAGE","FROST",
         {spells.iceLance}, -- ice_lance,moving=1
     },
 }
-,"Mage_Frost_T17N.simc")
+,"mage_frost.simc")

@@ -1,9 +1,10 @@
 --[[
 @module Hunter Beastmaster Rotation
-GENERATED FROM SIMCRAFT PROFILE: Hunter_BM_T17N.simc
+GENERATED FROM SIMCRAFT PROFILE 'hunter_beastmaster.simc'
 ]]
 local spells = kps.spells.hunter
 local env = kps.env.hunter
+
 
 kps.rotations.register("HUNTER","BEASTMASTER",
 {
@@ -31,4 +32,4 @@ kps.rotations.register("HUNTER","BEASTMASTER",
     {spells.arcaneShot, 'player.focus >= 75'}, -- arcane_shot,if=focus>=75
     {spells.cobraShot}, -- cobra_shot
 }
-,"Hunter_BM_T17N.simc")
+,"hunter_beastmaster.simc")

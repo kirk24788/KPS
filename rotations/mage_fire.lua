@@ -1,9 +1,10 @@
 --[[
 @module Mage Fire Rotation
-GENERATED FROM SIMCRAFT PROFILE: Mage_Fire_T17N.simc
+GENERATED FROM SIMCRAFT PROFILE 'mage_fire.simc'
 ]]
 local spells = kps.spells.mage
 local env = kps.env.mage
+
 
 kps.rotations.register("MAGE","FIRE",
 {
@@ -110,4 +111,4 @@ kps.rotations.register("MAGE","FIRE",
         {spells.scorch}, -- scorch,moving=1
     },
 }
-,"Mage_Fire_T17N.simc")
+,"mage_fire.simc")

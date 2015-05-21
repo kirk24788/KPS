@@ -1,6 +1,6 @@
 --[[
 @module Paladin Retribution Rotation
-GENERATED FROM SIMCRAFT PROFILE: Paladin_Retribution_T17N.simc
+GENERATED FROM SIMCRAFT PROFILE 'paladin_retribution.simc'
 ]]
 local spells = kps.spells.paladin
 local env = kps.env.paladin
@@ -107,4 +107,4 @@ kps.rotations.register("PALADIN","RETRIBUTION",
         {spells.holyPrism}, -- holy_prism
     },
 }
-,"Paladin_Retribution_T17N.simc")
+,"paladin_retribution.simc")

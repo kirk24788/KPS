@@ -142,6 +142,7 @@ _CLASS_EXPRESSION_CONVERSIONS = {
         ("Frost", "player.frostOrDeathRunes"),
         ("Unholy", "player.unholyOrDeathRunes"),
         ("death", "player.deathRunes"),
+        ("buff.potion.up","player.hasStrProc"),
     ], "druid":  [
         ("lunar_max","player.eclipseLunarMax"),
         ("solar_max","player.eclipseSolarMax"),
@@ -269,7 +270,7 @@ _TALENTS = {
                     "powerStrikes","ascension","chiBrew",
                     "ringOfPeace","chargingOxWave","legSweep",
                     "healingElixirs","dampenHarm","diffuseMagic",
-                    "rushingJadeWind","invokeXuen","chiTorpedo",
+                    "rushingJadeWind","invokeXuen|invokeXuenTheWhiteTiger","chiTorpedo",
                     "soulDance|hurricaneStrike","chiExplosion","serenity"],
     "paladin":      ["speedOfLight","longArmOfTheLaw","pursuitOfJustice",
                     "fistOfJustice","repentance","blindingLight",
@@ -683,12 +684,12 @@ class SimCraftProfile(object):
         if self.show_header:
             header = """--[[
 @module %s %s Rotation
-GENERATED FROM SIMCRAFT PROFILE: %s
+GENERATED FROM SIMCRAFT PROFILE '%s'
 ]]\n""" %(self.kps_class.title(), self.kps_spec.title(), os.path.basename(self.filename))
             header += "local spells = kps.spells.%s\n" % self.kps_class
             header += "local env = kps.env.%s\n\n" % self.kps_class
         else:
-            header = ""
+            header = "\n--GENERATED FROM SIMCRAFT PROFILE '%s'" % os.path.basename(self.filename)
         rota = """kps.rotations.register("%s","%s",\n{\n""" % (self.kps_class.upper(),self.kps_spec.upper())
         for r in simc.convert_to_action_list():
             rota += "%s\n" % r

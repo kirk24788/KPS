@@ -2,6 +2,7 @@
 @module Mage
 @description
 Mage Spells and Environment Functions.
+GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
 kps.spells.mage = {}

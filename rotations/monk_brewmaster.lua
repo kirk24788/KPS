@@ -1,6 +1,6 @@
 --[[
 @module Monk Brewmaster Rotation
-GENERATED FROM SIMCRAFT PROFILE: Monk_Brewmaster_1h_CE_T17N.simc
+GENERATED FROM SIMCRAFT PROFILE 'monk_brewmaster_1h.simc'
 ]]
 local spells = kps.spells.monk
 local env = kps.env.monk
@@ -16,7 +16,7 @@ kps.rotations.register("MONK","BREWMASTER",
     {spells.dampenHarm, 'kps.incomingDamage(1.5) and target.hasMyDebuff(spells.fortifyingBrew) and target.hasMyDebuff(spells.elusiveBrew)'}, -- dampen_harm,if=incoming_damage_1500ms&buff.fortifying_brew.down&buff.elusive_brew_activated.down
     {spells.fortifyingBrew, 'kps.incomingDamage(1.5) and ( target.hasMyDebuff(spells.dampenHarm) or target.hasMyDebuff(spells.diffuseMagic) ) and target.hasMyDebuff(spells.elusiveBrew)'}, -- fortifying_brew,if=incoming_damage_1500ms&(buff.dampen_harm.down|buff.diffuse_magic.down)&buff.elusive_brew_activated.down
     {spells.elusiveBrew, 'player.buffStacks(spells.elusiveBrew) >= 9 and ( target.hasMyDebuff(spells.dampenHarm) or target.hasMyDebuff(spells.diffuseMagic) ) and target.hasMyDebuff(spells.elusiveBrew)'}, -- elusive_brew,if=buff.elusive_brew_stacks.react>=9&(buff.dampen_harm.down|buff.diffuse_magic.down)&buff.elusive_brew_activated.down
-    {spells.invokeXuen, 'player.hasTalent(6, 2) and target.timeToDie > 15 and player.buffDuration(spells.shuffle) >= 3 and target.hasMyDebuff(spells.serenity)'}, -- invoke_xuen,if=talent.invoke_xuen.enabled&target.time_to_die>15&buff.shuffle.remains>=3&buff.serenity.down
+    {spells.invokeXuenTheWhiteTiger, 'player.hasTalent(6, 2) and target.timeToDie > 15 and player.buffDuration(spells.shuffle) >= 3 and target.hasMyDebuff(spells.serenity)'}, -- invoke_xuen,if=talent.invoke_xuen.enabled&target.time_to_die>15&buff.shuffle.remains>=3&buff.serenity.down
     {spells.serenity, 'player.hasTalent(7, 3) and spells.kegSmash.cooldown > 6'}, -- serenity,if=talent.serenity.enabled&cooldown.keg_smash.remains>6
     {spells.touchOfDeath, 'target.hp < 10 and spells.touchOfDeath.cooldown == 0 and ( ( not player.hasGlyph(spells.glyphOfTouchOfDeath) and player.chi >= 3 and target.timeToDie < 8 ) or ( player.hasGlyph(spells.glyphOfTouchOfDeath) and target.timeToDie < 5 ) )'}, -- touch_of_death,if=target.health.percent<10&cooldown.touch_of_death.remains=0&((!glyph.touch_of_death.enabled&chi>=3&target.time_to_die<8)|(glyph.touch_of_death.enabled&target.time_to_die<5))
     {{"nested"}, 'activeEnemies() < 3', { -- call_action_list,name=st,if=active_enemies<3
@@ -61,8 +61,9 @@ kps.rotations.register("MONK","BREWMASTER",
         {spells.tigerPalm}, -- tiger_palm
     },
 }
-,"Monk_Brewmaster_1h_CE_T17N.simc")
+,"monk_brewmaster_1h.simc")
 
+--GENERATED FROM SIMCRAFT PROFILE 'monk_brewmaster_2h.simc'
 kps.rotations.register("MONK","BREWMASTER",
 {
     {spells.chiSphere, 'player.hasTalent(3, 1) and player.buffStacks(spells.chiSphere) and player.chi < 4'}, -- chi_sphere,if=talent.power_strikes.enabled&buff.chi_sphere.react&chi<4
@@ -73,7 +74,7 @@ kps.rotations.register("MONK","BREWMASTER",
     {spells.dampenHarm, 'kps.incomingDamage(1.5) and target.hasMyDebuff(spells.fortifyingBrew) and target.hasMyDebuff(spells.elusiveBrew)'}, -- dampen_harm,if=incoming_damage_1500ms&buff.fortifying_brew.down&buff.elusive_brew_activated.down
     {spells.fortifyingBrew, 'kps.incomingDamage(1.5) and ( target.hasMyDebuff(spells.dampenHarm) or target.hasMyDebuff(spells.diffuseMagic) ) and target.hasMyDebuff(spells.elusiveBrew)'}, -- fortifying_brew,if=incoming_damage_1500ms&(buff.dampen_harm.down|buff.diffuse_magic.down)&buff.elusive_brew_activated.down
     {spells.elusiveBrew, 'player.buffStacks(spells.elusiveBrew) >= 9 and ( target.hasMyDebuff(spells.dampenHarm) or target.hasMyDebuff(spells.diffuseMagic) ) and target.hasMyDebuff(spells.elusiveBrew)'}, -- elusive_brew,if=buff.elusive_brew_stacks.react>=9&(buff.dampen_harm.down|buff.diffuse_magic.down)&buff.elusive_brew_activated.down
-    {spells.invokeXuen, 'player.hasTalent(6, 2) and target.timeToDie > 15 and player.buffDuration(spells.shuffle) >= 3 and target.hasMyDebuff(spells.serenity)'}, -- invoke_xuen,if=talent.invoke_xuen.enabled&target.time_to_die>15&buff.shuffle.remains>=3&buff.serenity.down
+    {spells.invokeXuenTheWhiteTiger, 'player.hasTalent(6, 2) and target.timeToDie > 15 and player.buffDuration(spells.shuffle) >= 3 and target.hasMyDebuff(spells.serenity)'}, -- invoke_xuen,if=talent.invoke_xuen.enabled&target.time_to_die>15&buff.shuffle.remains>=3&buff.serenity.down
     {spells.serenity, 'player.hasTalent(7, 3) and spells.kegSmash.cooldown > 6'}, -- serenity,if=talent.serenity.enabled&cooldown.keg_smash.remains>6
     {spells.touchOfDeath, 'target.hp < 10 and spells.touchOfDeath.cooldown == 0 and ( ( not player.hasGlyph(spells.glyphOfTouchOfDeath) and player.chi >= 3 and target.timeToDie < 8 ) or ( player.hasGlyph(spells.glyphOfTouchOfDeath) and target.timeToDie < 5 ) )'}, -- touch_of_death,if=target.health.percent<10&cooldown.touch_of_death.remains=0&((!glyph.touch_of_death.enabled&chi>=3&target.time_to_die<8)|(glyph.touch_of_death.enabled&target.time_to_die<5))
     {{"nested"}, 'activeEnemies() < 3', { -- call_action_list,name=st,if=active_enemies<3
@@ -118,4 +119,4 @@ kps.rotations.register("MONK","BREWMASTER",
         {spells.tigerPalm}, -- tiger_palm
     },
 }
-,"Monk_Brewmaster_2h_CE_T17N.simc")
+,"monk_brewmaster_2h.simc")

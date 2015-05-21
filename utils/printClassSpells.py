@@ -34,7 +34,7 @@ THOTTBOT_IDS = {
 }
 
 ADDITIONAL_SPELLS = {
-    "deathknight": [],
+    "deathknight": [114851],
     "druid": [164545,164547,171743,171744,117679,135201],
     "hunter": [168980],
     "mage": [166872,145254,48107,166868,101166,135029],
@@ -149,7 +149,30 @@ end
     "priest": """""",
     "rogue": """""",
     "shaman": """""",
-    "warlock": """""",
+    "warlock": """
+kps.env.warlock = {}
+
+function kps.env.warlock.isHavocUnit(unit)
+    if not UnitExists(unit) then  return false end
+    if UnitIsUnit("target",unit) then return false end
+    return true
+end
+local burningRushLastMovement = 0
+function kps.env.warlock.deactivateBurningRushIfNotMoving(seconds)
+    return function ()
+        if not seconds then seconds = 0 end
+        local player = kps.env.player
+        if player.isMoving or not player.hasBuff(kps.spells.warlock.burningRush) then
+            burningRushLastMovement = GetTime()
+        else
+            local nonMovingDuration = GetTime() - burningRushLastMovement
+            if nonMovingDuration >= seconds then
+                RunMacroText("/cancelaura " .. kps.spells.warlock.burningRush)
+            end
+        end
+    end
+end
+""",
     "warrior": """""",
 }
 

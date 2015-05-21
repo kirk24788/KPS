@@ -1,9 +1,10 @@
 --[[
 @module Mage Arcane Rotation
-GENERATED FROM SIMCRAFT PROFILE: Mage_Arcane_T17N.simc
+GENERATED FROM SIMCRAFT PROFILE 'mage_arcane.simc'
 ]]
 local spells = kps.spells.mage
 local env = kps.env.mage
+
 
 kps.rotations.register("MAGE","ARCANE",
 {
@@ -65,7 +66,7 @@ kps.rotations.register("MAGE","ARCANE",
             {spells.supernova, 'player.mana < 96'}, -- supernova,if=mana.pct<96
             {spells.presenceOfMind, 'spells.coldSnap.cooldown == 0 or spells.prismaticCrystal.cooldown - 78<2 * 1'}, -- presence_of_mind,if=cooldown.cold_snap.up|pet.prismatic_crystal.remains<2*spell_haste
             {spells.arcaneBlast, 'player.buffStacks(spells.arcaneCharge) == 4 and player.mana > 93 and spells.prismaticCrystal.cooldown - 78 > spells.arcaneBlast.castTime'}, -- arcane_blast,if=buff.arcane_charge.stack=4&mana.pct>93&pet.prismatic_crystal.remains>cast_time
-            {spells.arcaneMissiles, 'spells.prismaticCrystal.cooldown - 78>2 * 1'}, -- arcane_missiles,if=pet.prismatic_crystal.remains>2*spell_haste+travel_time
+            {spells.arcaneMissiles, 'spells.prismaticCrystal.cooldown - 78>2 * 1 + 1'}, -- arcane_missiles,if=pet.prismatic_crystal.remains>2*spell_haste+travel_time
             {spells.supernova, 'spells.prismaticCrystal.cooldown - 78<2 * 1'}, -- supernova,if=pet.prismatic_crystal.remains<2*spell_haste
             {spells.arcaneBlast}, -- arcane_blast
         },
@@ -108,4 +109,4 @@ kps.rotations.register("MAGE","ARCANE",
         {spells.arcaneBarrage}, -- arcane_barrage
     },
 }
-,"Mage_Arcane_T17N.simc")
+,"mage_arcane.simc")

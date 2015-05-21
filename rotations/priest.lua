@@ -2,6 +2,7 @@
 @module Priest
 @description
 Priest Spells and Environment Functions.
+GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
 kps.spells.priest = {}

@@ -1,6 +1,6 @@
 --[[
 @module Paladin Protection Rotation
-GENERATED FROM SIMCRAFT PROFILE: Paladin_Protection_T17N.simc
+GENERATED FROM SIMCRAFT PROFILE 'paladin_protection.simc'
 ]]
 local spells = kps.spells.paladin
 local env = kps.env.paladin
@@ -45,4 +45,4 @@ kps.rotations.register("PALADIN","PROTECTION",
     {spells.sacredShield}, -- sacred_shield
     {spells.flashOfLight, 'player.hasTalent(3, 1) and player.buffStacks(spells.selflessHealer) >= 3'}, -- flash_of_light,if=talent.selfless_healer.enabled&buff.selfless_healer.stack>=3
 }
-,"Paladin_Protection_T17N.simc")
+,"paladin_protection.simc")

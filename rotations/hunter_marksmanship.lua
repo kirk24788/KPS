@@ -1,9 +1,10 @@
 --[[
 @module Hunter Marksmanship Rotation
-GENERATED FROM SIMCRAFT PROFILE: Hunter_MM_T17N.simc
+GENERATED FROM SIMCRAFT PROFILE 'hunter_marksmanship.simc'
 ]]
 local spells = kps.spells.hunter
 local env = kps.env.hunter
+
 
 kps.rotations.register("HUNTER","MARKSMANSHIP",
 {
@@ -31,8 +32,8 @@ kps.rotations.register("HUNTER","MARKSMANSHIP",
     {spells.multishot, 'activeEnemies() > 6'}, -- multishot,if=active_enemies>6
     {spells.aimedShot, 'player.hasTalent(7, 2)'}, -- aimed_shot,if=talent.focusing_shot.enabled
 -- ERROR in 'aimed_shot,if=focus+cast_regen>=85': Unkown expression 'EMPTY_EXPRESSION'!
-    {spells.aimedShot, 'player.buffStacks(spells.thrillOfTheHunt) and'}, -- aimed_shot,if=buff.thrill_of_the_hunt.react&focus+cast_regen>=65
+    {spells.aimedShot, 'player.buffStacks(spells.thrillOfTheHunt)'}, -- aimed_shot,if=buff.thrill_of_the_hunt.react&focus+cast_regen>=65
     {spells.focusingShot, '50 < (player.focusMax-player.focus)'}, -- focusing_shot,if=50+cast_regen-10<focus.deficit
     {spells.steadyShot}, -- steady_shot
 }
-,"Hunter_MM_T17N.simc")
+,"hunter_marksmanship.simc")
