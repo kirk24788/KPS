@@ -108,9 +108,44 @@ function Player.gcd(self)
     return kps.gcd
 end
 function Player.bloodlust(self)
-    for _,spell in pairs(kps.spells.bloodlust) do 
+    for _,spell in pairs(kps.spells.bloodlust) do
         if self.hasBuff(spell) then return true end
     end
     return false
+end
+function Player.timeToNextHolyPower(self)
+    local spec = GetSpecialization()
+    -- Generic
+    --  [Crusader Strike] Generates 1 charge.
+    local spellTime = kps.spells.paladin.crusaderStrike.cooldown
+    local timeToNextHolyPower = spellTime
+
+    -- Holy
+    if spec == 1 then
+        --  [Holy Shock] Generates 1 charge.
+        spellTime = kps.spells.paladin.holyShock.cooldown
+        if spellTime < timeToNextHolyPower then timeToNextHolyPower = spellTime end
+        --  [Holy Radiance] Generates 1 charge.
+        spellTime = kps.spells.paladin.holyRadiance.cooldown + kps.spells.paladin.holyRadiance.castTime
+        if spellTime < timeToNextHolyPower then timeToNextHolyPower = spellTime end
+    -- Protection
+    else if spec == 2 then
+        --  [Hammer of the Righteous] Generates 1 charge.
+        spellTime = kps.spells.paladin.hammerOfTheRighteous.cooldown
+        if spellTime < timeToNextHolyPower then timeToNextHolyPower = spellTime end
+        --  [Grand Crusader] generates a charge of Holy Power if the  [Avenger's Shield] it procs is used within 6 seconds
+    -- Retribution
+    else if spec == 3 then
+        --  [Hammer of the Righteous] Generates 1 charge.
+        spellTime = kps.spells.paladin.hammerOfTheRighteous.cooldown
+        if spellTime < timeToNextHolyPower then timeToNextHolyPower = spellTime end
+        --  [Hammer of Wrath] Generates 1 charge.
+        spellTime = kps.spells.paladin.hammerOfWrath.cooldown
+        if spellTime < timeToNextHolyPower then timeToNextHolyPower = spellTime end
+        --  [Exorcism] Generates 1 charge.
+        spellTime = kps.spells.paladin.exorcism.cooldown
+        if spellTime < timeToNextHolyPower then timeToNextHolyPower = spellTime end
+    end
+    return timeToNextHolyPower
 end
 

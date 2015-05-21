@@ -27,8 +27,20 @@ _SPELL_CONVERSION = {
         "thrash_bear":"thrash",
         "moonfire_cat":"moonfire",
     }, "hunter": {
-    }, "mage":  {
-    }, "warlock":  {},
+    }, "mage": {
+    }, "monk": {
+        "combo_breaker_bok":"comboBreakerBlackoutKick",
+        "combo_breaker_tp":"comboBreakerTigerPalm",
+        "combo_breaker_ce":"comboBreakerChiExplosion",
+        "combo_breaker_e":"comboBreakerEnergize",
+        "invoke_xuen":"invokeXuenTheWhiteTiger",
+    }, "paladin": {
+    }, "priest": {
+    }, "rogue": {
+    }, "shaman": {
+    }, "warlock": {
+    }, "warrior": {
+    },
 }
 
 def _convert_spell(spell, profile):
@@ -72,7 +84,19 @@ _CLASS_REGEX_PRECONVERSIONS = {
         ("(current_)?target=prismatic_crystal","target.npc_id=76933"),
         ("pet.prismatic_crystal.active","pet.npc_id=76933"),
         ("pet.prismatic_crystal.remains","cooldown.prismatic_crystal.remains-78"), # no actual pet remains, but cooldown is 90 sec, duration is 12 sec
+    ], "monk":  [
+        ("buff\.elusive_brew_stacks\.react","buff.elusive_brew.stacks"),
+        ("buff\.elusive_brew_stacks\.stack","buff.elusive_brew.stacks"),
+        ("buff\.elusive_brew_activated\.down","buff.elusive_brew.down"),
+        ("debuff.([a-z_]*)_target.down", lambda x: "debuff."+x.group(1)+".down"),
+        ("buff.([a-z_]*)_use.down", lambda x: "debuff."+x.group(1)+".down"),
+    ], "paladin":  [
+        (r'([\!\&\|\(])seal.([a-z_]*)([\!\&\|\)])', lambda x: x.group(1) + "buff.seal_of_" + x.group(2) + ".up" + x.group(3)),
+    ], "priest":  [
+    ], "rogue":  [
+    ], "shaman":  [
     ], "warlock":  [
+    ], "warrior":  [
     ],
 
 }
@@ -131,22 +155,37 @@ _CLASS_EXPRESSION_CONVERSIONS = {
     ], "mage":  [
         ("spell_haste","1"),
         ("incanters_flow_dir","incanters_flow_direction"),
+    ], "monk":  [
+        ("stagger.light","player.staggerPercent < 0.035"),
+        ("stagger.moderate","player.staggerPercent >= 0.035 and player.staggerPercent < 0.065"),
+        ("stagger.heavy","player.staggerPercent >= 0.065"),
+    ], "paladin":  [
+        ("target.debuff.flying.down",""), # ignore flying check, used for desecration
+        ("time_to_hpg","player.timeToNextHolyPower"),
+    ], "priest":  [
+    ], "rogue":  [
+    ], "shaman":  [
     ], "warlock":  [
+    ], "warrior":  [
     ],
 }
 
 _EXPRESSION_CONVERSIONS = [
     ("runic_power", "player.runicPower"),
+    ("health.percent", "player.hp"),
     ("health.pct", "player.hp"),
     ("health.max", "player.hpMax"),
     ("mana.pct", "player.mana"),
     ("target_distance", "target.distance"),
+    ("target.health.percent", "target.hp"),
     ("target.health.pct", "target.hp"),
     ("target.time_to_die", "target.timeToDie"),
     ("gcd", "player.gcd"),
     ("gcd.max", "player.gcd"),
     ("incoming_damage_1s", "kps.incomingDamage(1)"),
+    ("incoming_damage_1500ms", "kps.incomingDamage(1.5)"),
     ("incoming_damage_5s", "kps.incomingDamage(5)"),
+    ("incoming_damage_10s", "kps.incomingDamage(10)"),
     ("movement.remains", "player.isMoving"),
     ("movement.distance", "target.distance"),
     ("in_flight","player.isMoving"),
@@ -167,6 +206,9 @@ _EXPRESSION_CONVERSIONS = [
     ("focus.regen","player.focusRegen"),
     ("focus.deficit","(player.focusMax-player.focus)"),
     ("focus","player.focus"),
+    ("chi.max","player.chiMax"),
+    ("chi","player.chi"),
+    ("holy_power","player.holyPower"),
     ("combo_points","target.comboPoints"),
     ("rage","player.rage"),
     ("target.npc_id","target.npcId"),
@@ -183,8 +225,9 @@ _IGNOREABLE_SPELLS = [
     'berserking', # Troll Racial
     'arcane_torrent', # BloodElf Racial
     'use_item', # Use of Items deativated
-    'pool_resource', # Use of Items deativated
-    'choose_target',
+    'pool_resource', # ?
+    'wait', # No wait...yet
+    'choose_target', # Can't switch tagets...
     'start_burn_phase',
     'stop_burn_phase',
     'start_pyro_chain',
@@ -221,6 +264,41 @@ _TALENTS = {
                     "frostBomb|livingBomb","unstableMagic","iceNova|blastWave",
                     "mirrorImage","runeOfPower","incantersFlow",
                     "overpowered|kindling|thermalVoid", "prismaticCrystal", "arcaneOrb|meteor|cometStorm"],
+    "monk":         ["celerity","tigersLust","momentum",
+                    "chiWaves","zenSphere","chiBurst",
+                    "powerStrikes","ascension","chiBrew",
+                    "ringOfPeace","chargingOxWave","legSweep",
+                    "healingElixirs","dampenHarm","diffuseMagic",
+                    "rushingJadeWind","invokeXuen","chiTorpedo",
+                    "soulDance|hurricaneStrike","chiExplosion","serenity"],
+    "paladin":      ["speedOfLight","longArmOfTheLaw","pursuitOfJustice",
+                    "fistOfJustice","repentance","blindingLight",
+                    "selflessHealer","eternalFlame","sacredShield",
+                    "handOfPurity","unbreakableSpirit","clemency",
+                    "holyAvenger","sanctifiedWrath","divinePurpose",
+                    "holyPrism","lightsHammer","executionSentence",
+                    "empoweredSeals","seraphim","holyShield|finalVerdict"],
+    "priest":       ["","","",
+                    "","","",
+                    "","","",
+                    "","","",
+                    "","","",
+                    "","","",
+                    "","",""],
+    "rogue":        ["","","",
+                    "","","",
+                    "","","",
+                    "","","",
+                    "","","",
+                    "","","",
+                    "","",""],
+    "shaman":       ["","","",
+                    "","","",
+                    "","","",
+                    "","","",
+                    "","","",
+                    "","","",
+                    "","",""],
     "warlock":      ["darkRegeneration", "soulLeech", "searingFlames",
                     "howlOfTerror", "mortalCoil", "shadowfury",
                     "","","",
@@ -228,6 +306,13 @@ _TALENTS = {
                     "","","",
                     "","","",
                     "soulLink", "sacrificialPact", "darkBargain"],
+    "warrior":      ["","","",
+                    "","","",
+                    "","","",
+                    "","","",
+                    "","","",
+                    "","","",
+                    "","",""],
 }
 
 
@@ -522,6 +607,7 @@ class SimCraftProfile(object):
     def __init__(self, filename, kps_class, kps_spec=None, kps_title=None):
         LOG.info("Parsing SimCraftProfile: %s", filename)
         self.filename = filename
+        self.show_header = True
         self.player_spells = spells.PlayerSpells(kps_class)
         self.player_env = spells.PlayerEnv(kps_class)
         self.kps_class = kps_class
@@ -594,17 +680,20 @@ class SimCraftProfile(object):
         return action_list
 
     def __str__(self):
-        header = """--[[
+        if self.show_header:
+            header = """--[[
 @module %s %s Rotation
 GENERATED FROM SIMCRAFT PROFILE: %s
 ]]\n""" %(self.kps_class.title(), self.kps_spec.title(), os.path.basename(self.filename))
-        header += "local spells = kps.spells.%s\n" % self.kps_class
-        header += "local env = kps.env.%s\n\n" % self.kps_class
-        header += """kps.rotations.register("%s","%s",\n{\n""" % (self.kps_class.upper(),self.kps_spec.upper())
+            header += "local spells = kps.spells.%s\n" % self.kps_class
+            header += "local env = kps.env.%s\n\n" % self.kps_class
+        else:
+            header = ""
+        rota = """kps.rotations.register("%s","%s",\n{\n""" % (self.kps_class.upper(),self.kps_spec.upper())
         for r in simc.convert_to_action_list():
-            header += "%s\n" % r
-        header += """}\n,"%s")""" % self.kps_title
-        return header
+            rota += "%s\n" % r
+        rota += """}\n,"%s")""" % self.kps_title
+        return header + "\n" + rota + "\n"
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='SimC 2 KPS Rotation Converter')
@@ -612,11 +701,16 @@ if __name__ == "__main__":
     parser.add_argument('-c','--kps-class', dest="kps_class", help='KPS Class', required=True, choices=spells.SUPPORTED_CLASSES)
     parser.add_argument('-s','--kps-spec', dest="kps_spec", help='KPS Spec', required=True)
     parser.add_argument('-t','--title', help='KPS Rotation Title', default=None)
-    parser.add_argument('-o','--output', help='Output file (omit to print to stdout)', default=None)
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('-o','--output', help='Output file (omit to print to stdout)', default=None)
+    group.add_argument('-a','--append', help='Append file (omit to print to stdout)', default=None)
     args = setup_logging_and_get_args(parser)
     simc = SimCraftProfile(args.simc, args.kps_class, args.kps_spec, args.title)
     if args.output:
         open(args.output,"w").write(str(simc))
+    elif args.append:
+        simc.show_header = False
+        open(args.append,"a").write(str(simc))
     else:
         print simc
 

@@ -38,8 +38,8 @@ ADDITIONAL_SPELLS = {
     "druid": [164545,164547,171743,171744,117679,135201],
     "hunter": [168980],
     "mage": [166872,145254,48107,166868,101166,135029],
-    "monk": [],
-    "paladin": [],
+    "monk": [115307,121286,116768,118864,159407,145008,125359],
+    "paladin": [114637,117809,156989,156988,144595,156990,166831],
     "priest": [],
     "rogue": [],
     "shaman": [],
@@ -220,6 +220,7 @@ def generate_lua(spells, class_name):
 @module %s
 @description
 %s Spells and Environment Functions.
+GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
 kps.spells.%s = {}

@@ -47,7 +47,7 @@ local function specToNumber(classId, spec)
             if v == specName then return k end
         end
     elseif type(spec) == "number" then
-        if specNames[classId][class] then return class end
+        if specNames[classId][spec] then return class end
     end
     return nil
 end

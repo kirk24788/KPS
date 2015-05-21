@@ -13,7 +13,7 @@ from kps import KpsError, camel_case
 
 LOG = logging.getLogger(__name__)
 
-ILLEGAL_KEY_STRINGS=[":","&#039;","'","-"]
+ILLEGAL_KEY_STRINGS=[":","&#039;","'","-",","]
 def clean_key(key):
     for illegal_string in ILLEGAL_KEY_STRINGS:
         key = key.replace(illegal_string, "")

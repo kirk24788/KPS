@@ -72,6 +72,9 @@ end
 function Player.chi(self)
     return UnitPower("player", 12)
 end
+function Player.chiMax(self)
+    return UnitPowerMax("player", 12)
+end
 -- PowerType 13 - Shadow Orbs
 function Player.shadowOrbs(self)
     return UnitPower("player", 13)

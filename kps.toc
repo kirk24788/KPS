@@ -39,6 +39,7 @@ modules\player\player_eclipse.lua
 modules\player\player_powers.lua
 modules\player\player_procs.lua
 modules\player\player_runes.lua
+modules\player\player_stagger.lua
 modules\unlock\basic.lua
 rotations\deathknight.lua
 rotations\druid.lua
@@ -63,6 +64,10 @@ rotations\hunter_survival.lua
 rotations\mage_arcane.lua
 rotations\mage_fire.lua
 rotations\mage_frost.lua
+rotations\monk_brewmaster.lua
+rotations\monk_windwalker.lua
+rotations\paladin_protection.lua
+rotations\paladin_retribution.lua
 rotations\warlock_destruction.lua
 gui\gui.lua
 gui\toggle.lua
