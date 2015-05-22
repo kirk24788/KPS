@@ -36,8 +36,8 @@ kps.rotations.register("HUNTER","SURVIVAL",
     {spells.glaiveToss}, -- glaive_toss
     {spells.powershot}, -- powershot
     {spells.barrage}, -- barrage
--- ERROR in 'explosive_trap,if=!trinket.proc.any.react&!trinket.stacking_proc.any.react': Unkown expression 'trinket.stacking_proc.any.react'!
--- ERROR in 'arcane_shot,if=talent.steady_focus.enabled&!talent.focusing_shot.enabled&focus.deficit<action.cobra_shot.cast_regen*2+28': Unkown expression 'action.cobra_shot.'!
+-- ERROR in 'explosive_trap,if=!trinket.proc.any.react&!trinket.stacking_proc.any.react': Unknown expression 'trinket.stacking_proc.any.react'!
+-- ERROR in 'arcane_shot,if=talent.steady_focus.enabled&!talent.focusing_shot.enabled&focus.deficit<action.cobra_shot.cast_regen*2+28': Unknown expression 'action.cobra_shot.'!
     {spells.cobraShot, 'player.hasTalent(4, 1) and player.buffDuration(spells.steadyFocus) < 5'}, -- cobra_shot,if=talent.steady_focus.enabled&buff.steady_focus.remains<5
     {spells.focusingShot, 'player.hasTalent(4, 1) and player.buffDuration(spells.steadyFocus) <= spells.focusingShot.castTime and (player.focusMax-player.focus) >'}, -- focusing_shot,if=talent.steady_focus.enabled&buff.steady_focus.remains<=cast_time&focus.deficit>cast_regen
     {spells.arcaneShot, 'player.focus >= 70 or player.hasTalent(7, 2) or ( player.hasTalent(4, 1) and player.focus >= 50 )'}, -- arcane_shot,if=focus>=70|talent.focusing_shot.enabled|(talent.steady_focus.enabled&focus>=50)

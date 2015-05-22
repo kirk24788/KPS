@@ -36,6 +36,7 @@ _SPELL_CONVERSION = {
         "invoke_xuen":"invokeXuenTheWhiteTiger",
     }, "paladin": {
     }, "priest": {
+       "holy_word":"holyWordChastise",
     }, "rogue": {
     }, "shaman": {
     }, "warlock": {
@@ -93,6 +94,13 @@ _CLASS_REGEX_PRECONVERSIONS = {
     ], "paladin":  [
         (r'([\!\&\|\(])seal.([a-z_]*)([\!\&\|\)])', lambda x: x.group(1) + "buff.seal_of_" + x.group(2) + ".up" + x.group(3)),
     ], "priest":  [
+        (r'moving\=1', "movement.remains"), # seems to be only used in spriest rotation
+        (r'primary_target\=0', ""), # ?
+        (r'natural_shadow_word_death_range', ""), # ?
+        (r'devouring_plague_(dot|tick)', "devouring_plague"),
+        (r',interrupt=1', ""),
+        (r'.*shadowy_apparitions_in_flight.*', "IGNORE_LINE"),
+        (r'.*mind_harvest.*', "IGNORE_LINE"),
     ], "rogue":  [
     ], "shaman":  [
     ], "warlock":  [
@@ -117,6 +125,10 @@ _REGEX_PRECONVERSIONS = [
     (r'persistent_multiplier', "1"), # ???
     (r'(action\.[a-z_]*\.)?travel_time', "1"), # Remove travel_time, no equivalent!
     (r'([a-z_\.]*[-+*])?cast_regen([\s\-+*][a-z_\.]*)?[\s\<\>\=]*[0-9]*', ""), # cast_regen is too complicated, depends on too much information
+    (r'miss_react', ""), # no info on spell misses
+    (r',cycle_targets.*',""), # remove trailing "cycle_targets"
+    (r',chain=.*',""), # remove trailing "chain=" condition
+    (r',interrupt_if.*',""), # remove trailing "interrupt_if" condition
     (r'\(\)', ""), # remove useless paranthesis left from previous replacements
     (r'\&\&', "&"), # remove double operators left from previous replacements
     (r'\|\|', "|"), # remove double operators left from previous replacements
@@ -164,6 +176,7 @@ _CLASS_EXPRESSION_CONVERSIONS = {
         ("target.debuff.flying.down",""), # ignore flying check, used for desecration
         ("time_to_hpg","player.timeToNextHolyPower"),
     ], "priest":  [
+        ("target.dot.devouring_plague.ticks_remain", "(target.myDebuffDuration(spells.devouringPlague)/spells.devouringPlague.tickTime)"),
     ], "rogue":  [
     ], "shaman":  [
     ], "warlock":  [
@@ -177,6 +190,7 @@ _EXPRESSION_CONVERSIONS = [
     ("health.pct", "player.hp"),
     ("health.max", "player.hpMax"),
     ("mana.pct", "player.mana"),
+    ("target.distance", "target.distance"),
     ("target_distance", "target.distance"),
     ("target.health.percent", "target.hp"),
     ("target.health.pct", "target.hp"),
@@ -193,6 +207,7 @@ _EXPRESSION_CONVERSIONS = [
     ("active_enemies", "activeEnemies()"),
     ("level", "player.level"),
     ("buff.bloodlust.up", "player.bloodlust"),
+    ("cooldown_react","player.hasProc"),
     ("trinket.stat.any.up","player.hasProc"),
     ("trinket.stat.intellect.up","player.hasIntProc"),
     ("buff.archmages_incandescence_agi.up","player.hasAgiProc"),
@@ -209,6 +224,7 @@ _EXPRESSION_CONVERSIONS = [
     ("focus","player.focus"),
     ("chi.max","player.chiMax"),
     ("chi","player.chi"),
+    ("shadow_orb","player.shadowOrbs"),
     ("holy_power","player.holyPower"),
     ("combo_points","target.comboPoints"),
     ("rage","player.rage"),
@@ -279,13 +295,13 @@ _TALENTS = {
                     "holyAvenger","sanctifiedWrath","divinePurpose",
                     "holyPrism","lightsHammer","executionSentence",
                     "empoweredSeals","seraphim","holyShield|finalVerdict"],
-    "priest":       ["","","",
-                    "","","",
-                    "","","",
-                    "","","",
-                    "","","",
-                    "","","",
-                    "","",""],
+    "priest":       ["despreatePrayer","spectralGuise","angelicBulkward",
+                    "bodyAndSoul","angelicFeather","phantasm",
+                    "surgeOfLight|surgeOfDarkness","mindbender","powerWordSolace|insanity",
+                    "voidTendrils","psychicScream","dominateMind",
+                    "twistOfFate","powerInfusion","spiritShell",
+                    "cascade","divineStar","halo",
+                    "clarityOfWill|clarityOfPower","wordsOfMending|voidEntropy","savingGrace|auspiciousSpirits"],
     "rogue":        ["","","",
                     "","","",
                     "","","",
@@ -519,7 +535,17 @@ class Condition(object):
                 return "target.hasMyDebuff(spells.%s)" % self.condition_spell
             if expression == "execute_time":
                 return "spells.%s.castTime" % self.condition_spell
-        raise ParserError("Unkown expression '%s'!" % expression)
+            if expression=="ticks_remain":
+                return "(target.myDebuffDuration(spells.%s)/spells.%s.tickTime)" % (self.condition_spell,self.condition_spell)
+            if expression == "duration":
+                return "target.myDebuffDurationMax(spells.%s)" % self.condition_spell
+
+        if expression == "EMPTY_EXPRESSION":
+            raise ParserError("Empty Expression after RegEx Replacements", silent=True)
+        if expression == "IGNORE_LINE":
+            raise ParserError("Line Skipped", silent=True)
+
+        raise ParserError("Unknown expression '%s'!" % expression)
 
 
 
@@ -541,9 +567,10 @@ class Action(object):
                 self.condition = Condition(parts[1], profile,condition_spell)
                 self.error_description = None
             except ParserError,e:
-                LOG.warn("Error while converting condition '%s': %s" % (parts[1], str(e)))
+                if not e.silent:
+                    LOG.warn("Error while converting condition '%s': %s" % (parts[1], str(e)))
                 self.condition = "SimC Conversion ERROR"
-                self.error_description = "ERROR in '%s': %s" % (self.simc_action, str(e))
+                self.error_description = "%s '%s': %s" % ("SKIP" if e.silent else "ERROR in", self.simc_action, str(e))
         else:
             self.condition = None
             self.error_description = None
@@ -584,7 +611,8 @@ class NestedActions(Action):
                 try:
                     self.actions.append(Action.parse(a, profile, self.indent+1))
                 except ParserError,e:
-                    LOG.warn("Error while converting nested action '%s': %s" % (a, str(e)))
+                    if not e.silent:
+                        LOG.warn("Error while converting nested action '%s': %s" % (a, str(e)))
         except KeyError:
             LOG.warn("No Action SubList '%s' in: %s", name, action)
     def __str__(self):
@@ -677,7 +705,9 @@ class SimCraftProfile(object):
             try:
                 action_list.append(Action.parse(a, self))
             except ParserError,e:
-                LOG.warn("Error while converting to actionList '%s': %s" % (a, str(e)))
+                if not e.silent:
+                    LOG.warn("Error while converting to actionList '%s': %s" % (a, str(e)))
+                action_list.append("-- %s '%s': %s" % ("SKIP" if e.silent else "ERROR in", a, str(e)))
         return action_list
 
     def __str__(self):

@@ -18,14 +18,14 @@ kps.rotations.register("MAGE","FIRE",
         {spells.prismaticCrystal}, -- prismatic_crystal
         {spells.infernoBlast, 'spells.infernoBlast.isRecastAt("target") and pyroChainDuration() > player.gcd * 3'}, -- inferno_blast,if=prev_gcd.inferno_blast&pyro_chain_duration>gcd.max*3
         {spells.infernoBlast, 'spells.infernoBlast.charges >= 2 - ( player.gcd % 8 ) and ( ( target.hasMyDebuff(spells.pyroblast) and target.hasMyDebuff(spells.pyromaniac) ) or ( target.npcId == 76933 and spells.prismaticCrystal.cooldown - 78*2 < player.gcd * 5 ) )'}, -- inferno_blast,if=charges_fractional>=2-(gcd.max%8)&((buff.pyroblast.down&buff.pyromaniac.down)|(current_target=prismatic_crystal&pet.prismatic_crystal.remains*2<gcd.max*5))
--- ERROR in 'pyroblast,if=prev_gcd.inferno_blast&execute_time=gcd.max&dot.ignite.tick_dmg*(6-ceil(dot.ignite.remains-travel_time))*100<hit_damage*(100+crit_pct_current)*mastery_value': Unkown expression 'dot.ignite.tick_dmg'!
+-- ERROR in 'pyroblast,if=prev_gcd.inferno_blast&execute_time=gcd.max&dot.ignite.tick_dmg*(6-ceil(dot.ignite.remains-travel_time))*100<hit_damage*(100+crit_pct_current)*mastery_value': Unknown expression 'dot.ignite.tick_dmg'!
         {spells.combustion, 'spells.infernoBlast.isRecastAt("target") and pyroChainDuration() > player.gcd'}, -- combustion,if=prev_gcd.inferno_blast&pyro_chain_duration>gcd.max
         {spells.combustion, 'spells.pyroblast.isRecastAt("target") and spells.infernoBlast.charges == 0 and pyroChainDuration() > player.gcd'}, -- combustion,if=prev_gcd.pyroblast&action.inferno_blast.charges=0&pyro_chain_duration>gcd.max
         {spells.meteor, 'activeEnemies() <= 2 and spells.pyroblast.isRecastAt("target")'}, -- meteor,if=active_enemies<=2&prev_gcd.pyroblast
         {spells.pyroblast, 'player.hasBuff(spells.pyroblast) and player.hasBuff(spells.heatingUp) and spells.fireball.isRecastAt("target")'}, -- pyroblast,if=buff.pyroblast.up&buff.heating_up.up&action.fireball.in_flight
         {spells.fireball, 'not target.hasMyDebuff(spells.ignite) and not player.isMoving'}, -- fireball,if=!dot.ignite.ticking&!in_flight
         {spells.pyroblast, 'player.hasBuff(spells.pyromaniac)'}, -- pyroblast,if=set_bonus.tier17_4pc&buff.pyromaniac.up
--- ERROR in 'fireball,if=buff.pyroblast.up&buff.heating_up.down&dot.ignite.tick_dmg*100*(execute_time+travel_time)<hit_damage*(100+crit_pct_current)*mastery_value&(!current_target=prismatic_crystal|pet.prismatic_crystal.remains>6)': Unkown expression 'dot.ignite.tick_dmg'!
+-- ERROR in 'fireball,if=buff.pyroblast.up&buff.heating_up.down&dot.ignite.tick_dmg*100*(execute_time+travel_time)<hit_damage*(100+crit_pct_current)*mastery_value&(!current_target=prismatic_crystal|pet.prismatic_crystal.remains>6)': Unknown expression 'dot.ignite.tick_dmg'!
         {spells.pyroblast, 'target.npcId == 76933 and spells.prismaticCrystal.cooldown - 78 < player.gcd * 4 and spells.pyroblast.castTime == player.gcd'}, -- pyroblast,if=current_target=prismatic_crystal&pet.prismatic_crystal.remains<gcd.max*4&execute_time=gcd.max
         {spells.pyroblast, 'player.hasBuff(spells.pyroblast) and spells.infernoBlast.charges >= 2 - ( player.gcd % 4 ) and ( target.npcId = 76933 or spells.prismaticCrystal.cooldown - 78<8 ) and spells.pyroblast.isRecastAt("target")'}, -- pyroblast,if=buff.pyroblast.up&action.inferno_blast.charges_fractional>=2-(gcd.max%4)&(current_target!=prismatic_crystal|pet.prismatic_crystal.remains<8)&prev_gcd.pyroblast
         {spells.infernoBlast, 'target.hasMyDebuff(spells.pyroblast) and target.hasMyDebuff(spells.heatingUp) and spells.pyroblast.isRecastAt("target")'}, -- inferno_blast,if=buff.pyroblast.down&buff.heating_up.down&prev_gcd.pyroblast
@@ -37,9 +37,9 @@ kps.rotations.register("MAGE","FIRE",
         {spells.pyroblast, 'player.hasBuff(spells.pyromaniac)'}, -- pyroblast,if=set_bonus.tier17_4pc&buff.pyromaniac.up
 -- ERROR in 'inferno_blast,if=set_bonus.tier16_4pc_caster&(buff.pyroblast.up^buff.heating_up.up)': Couldn't tokenize '(buff.pyroblast.up^buff.heating_up.up)' - error at: ^buff.heating_up.up)
         {spells.fireball, 'not target.hasMyDebuff(spells.ignite) and not player.isMoving'}, -- fireball,if=!dot.ignite.ticking&!in_flight
--- ERROR in 'pyroblast,if=buff.pyroblast.up&dot.ignite.tick_dmg*(6-ceil(dot.ignite.remains-travel_time))<crit_damage*mastery_value': Unkown expression 'dot.ignite.tick_dmg'!
+-- ERROR in 'pyroblast,if=buff.pyroblast.up&dot.ignite.tick_dmg*(6-ceil(dot.ignite.remains-travel_time))<crit_damage*mastery_value': Unknown expression 'dot.ignite.tick_dmg'!
         {spells.infernoBlast, 'player.hasTalent(7, 3) and spells.meteor.cooldownTotal - spells.meteor.cooldown < player.gcd * 3'}, -- inferno_blast,if=talent.meteor.enabled&cooldown.meteor.duration-cooldown.meteor.remains<gcd.max*3
--- ERROR in 'inferno_blast,if=dot.ignite.tick_dmg*(6-dot.ignite.ticks_remain)<crit_damage*mastery_value': Unkown expression 'dot.ignite.tick_dmg'!
+-- ERROR in 'inferno_blast,if=dot.ignite.tick_dmg*(6-dot.ignite.ticks_remain)<crit_damage*mastery_value': Unknown expression 'dot.ignite.tick_dmg'!
         {spells.combustion}, -- combustion
     },
     {{"nested"}, 'player.hasTalent(7, 2) and pet.npcId == 76933', { -- call_action_list,name=crystal_sequence,if=talent.prismatic_crystal.enabled&pet.prismatic_crystal.active

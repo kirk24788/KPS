@@ -155,5 +155,7 @@ kps.spells.priest.divineProvidence = kps.Spell.fromId(165362)
 kps.spells.priest.mastermind = kps.Spell.fromId(165370)
 kps.spells.priest.enlightenment = kps.Spell.fromId(165376)
 kps.spells.priest.glyphOfPurification = kps.Spell.fromId(171921)
+kps.spells.priest.searingInsanity = kps.Spell.fromId(179337)
+kps.spells.priest.mentalInstinct = kps.Spell.fromId(167254)
 
 

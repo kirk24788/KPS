@@ -24,7 +24,7 @@ kps.rotations.register("PALADIN","PROTECTION",
     {spells.avengersShield, 'player.buffStacks(spells.grandCrusader) and activeEnemies() > 1 and not player.hasGlyph(spells.glyphOfFocusedShield)'}, -- avengers_shield,if=buff.grand_crusader.react&active_enemies>1&!glyph.focused_shield.enabled
     {spells.hammerOfTheRighteous, 'activeEnemies() >= 3'}, -- hammer_of_the_righteous,if=active_enemies>=3
     {spells.crusaderStrike}, -- crusader_strike
--- ERROR in 'judgment,cycle_targets=1,if=glyph.double_jeopardy.enabled&last_judgment_target!=target': Unkown expression 'last_judgment_target'!
+-- ERROR in 'judgment,cycle_targets=1,if=glyph.double_jeopardy.enabled&last_judgment_target!=target': Unknown expression 'last_judgment_target'!
     {spells.judgment}, -- judgment
     {spells.avengersShield, 'activeEnemies() > 1 and not player.hasGlyph(spells.glyphOfFocusedShield)'}, -- avengers_shield,if=active_enemies>1&!glyph.focused_shield.enabled
     {spells.holyWrath, 'player.hasTalent(5, 2)'}, -- holy_wrath,if=talent.sanctified_wrath.enabled

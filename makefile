@@ -10,76 +10,82 @@ toc:
 
 
 # Rotations Directory (Spells & SimC Profiles)
-rotations: rotation_spells class_rotations
+rotations: class_spells class_rotations
 
 # Global Spells
 global_spells:
 	./utils/printGlobalSpells.py > modules/spell/spells.lua
 
 # Rotation Spells for each class
-rotation_spells: deathknight_class_spells druid_class_spells hunter_class_spells mage_class_spells monk_class_spells paladin_class_spells priest_class_spells rogue_class_spells shaman_class_spells warlock_class_spells warrior_class_spells
-%_class_spells: rotations/%.lua
-	./utils/printClassSpells.py -c $(subst _class_spells,,$@) -o $<
+class_spells: deathknight_spells druid_spells hunter_spells mage_spells monk_spells paladin_spells priest_spells rogue_spells shaman_spells warlock_spells warrior_spells
+%_spells: rotations/%.lua
+	./utils/printClassSpells.py -c $(subst _spells,,$@) -o $<
 
 
 # Rotations for each class
-class_rotations: deathknight_class_rotations druid_class_rotations hunter_class_rotations mage_class_rotations monk_class_rotations paladin_class_rotations priest_class_rotations rogue_class_rotations shaman_class_rotations warlock_class_rotations warrior_class_rotations
+class_rotations: deathknight_rotations druid_rotations hunter_rotations mage_rotations monk_rotations paladin_rotations priest_rotations rogue_rotations shaman_rotations warlock_rotations warrior_rotations
 
-deathknight_class_rotations: rotations/deathknight_blood.lua rotations/deathknight_frost.lua rotations/deathknight_unholy.lua
-rotations/deathknight_blood.lua: FORCE
+deathknight_rotations: deathknight_blood_rotation deathknight_frost_rotation deathknight_unholy_rotation
+deathknight_blood_rotation:
 	./utils/convertSimC.py -p simc/deathknight_blood.simc -c deathknight -s blood -o rotations/deathknight_blood.lua
-rotations/deathknight_frost.lua: FORCE
+deathknight_frost_rotation:
 	./utils/convertSimC.py -p simc/deathknight_frost_1h.simc -c deathknight -s frost -o rotations/deathknight_frost.lua
 	./utils/convertSimC.py -p simc/deathknight_frost_2h.simc -c deathknight -s frost -a rotations/deathknight_frost.lua
-rotations/deathknight_unholy.lua: FORCE
+deathknight_unholy_rotation:
 	./utils/convertSimC.py -p simc/deathknight_unholy.simc -c deathknight -s unholy -o rotations/deathknight_unholy.lua
 
-druid_class_rotations: rotations/druid_balance.lua rotations/druid_feral.lua rotations/druid_guardian.lua
-rotations/druid_balance.lua: FORCE
+druid_rotations: druid_balance_rotation druid_feral_rotation druid_guardian_rotation
+druid_balance_rotation:
 	./utils/convertSimC.py -p simc/druid_balance.simc -c druid -s balance -o rotations/druid_balance.lua
-rotations/druid_feral.lua: FORCE
+druid_feral_rotation:
 	./utils/convertSimC.py -p simc/druid_feral.simc -c druid -s feral -o rotations/druid_feral.lua
-rotations/druid_guardian.lua: FORCE
+druid_guardian_rotation:
 	./utils/convertSimC.py -p simc/druid_guardian.simc -c druid -s guardian -o rotations/druid_guardian.lua
 
-hunter_class_rotations: rotations/hunter_beastmaster.lua rotations/hunter_marksmanship.lua rotations/hunter_survival.lua
-rotations/hunter_beastmaster.lua: FORCE
+hunter_rotations: hunter_beastmaster_rotation hunter_marksmanship_rotation hunter_survival_rotation
+hunter_beastmaster_rotation:
 	./utils/convertSimC.py -p simc/hunter_beastmaster.simc -c hunter -s beastmaster -o rotations/hunter_beastmaster.lua
-rotations/hunter_marksmanship.lua: FORCE
+hunter_marksmanship_rotation:
 	./utils/convertSimC.py -p simc/hunter_marksmanship.simc -c hunter -s marksmanship -o rotations/hunter_marksmanship.lua
-rotations/hunter_survival.lua: FORCE
+hunter_survival_rotation:
 	./utils/convertSimC.py -p simc/hunter_survival.simc -c hunter -s survival -o rotations/hunter_survival.lua
 
-mage_class_rotations: rotations/mage_arcane.lua rotations/mage_fire.lua rotations/mage_frost.lua
-rotations/mage_arcane.lua: FORCE
+mage_rotations: mage_arcane_rotation mage_fire_rotation mage_frost_rotation
+mage_arcane_rotation:
 	./utils/convertSimC.py -p simc/mage_arcane.simc -c mage -s arcane -o rotations/mage_arcane.lua
-rotations/mage_fire.lua: FORCE
+mage_fire_rotation:
 	./utils/convertSimC.py -p simc/mage_fire.simc -c mage -s fire -o rotations/mage_fire.lua
-rotations/mage_frost.lua: FORCE
+mage_frost_rotation:
 	./utils/convertSimC.py -p simc/mage_frost.simc -c mage -s frost -o rotations/mage_frost.lua
 
-monk_class_rotations: rotations/monk_brewmaster.lua rotations/monk_windwalker.lua
-rotations/monk_brewmaster.lua: FORCE
+monk_rotations: monk_brewmaster_rotation monk_windwalker_rotation
+monk_brewmaster_rotation:
 	./utils/convertSimC.py -p simc/monk_brewmaster_1h.simc -c monk -s brewmaster -o rotations/monk_brewmaster.lua
 	./utils/convertSimC.py -p simc/monk_brewmaster_2h.simc -c monk -s brewmaster -a rotations/monk_brewmaster.lua
-rotations/monk_windwalker.lua: FORCE
+monk_windwalker_rotation:
 	./utils/convertSimC.py -p simc/monk_windwalker_1h.simc -c monk -s windwalker -o rotations/monk_windwalker.lua
 	./utils/convertSimC.py -p simc/monk_windwalker_2h.simc -c monk -s windwalker -a rotations/monk_windwalker.lua
 
-paladin_class_rotations: rotations/paladin_protection.lua rotations/paladin_retribution.lua
-rotations/paladin_protection.lua: FORCE
+paladin_rotations: paladin_protection_rotation paladin_retribution_rotation
+paladin_protection_rotation:
 	./utils/convertSimC.py -p simc/paladin_protection.simc -c paladin -s protection -o rotations/paladin_protection.lua
-rotations/paladin_retribution.lua: FORCE
+paladin_retribution_rotation:
 	./utils/convertSimC.py -p simc/paladin_retribution.simc -c paladin -s retribution -o rotations/paladin_retribution.lua
 
-priest_class_rotations:
+priest_rotations: priest_discipline_rotation priest_discipline_rotation priest_shadow_rotation
+priest_discipline_rotation:
+	./utils/convertSimC.py -p simc/priest_discipline_dmg.simc -c priest -s discipline -o rotations/priest_discipline.lua
+priest_holy_rotation:
+	./utils/convertSimC.py -p simc/priest_holy_dmg.simc -c priest -s holy -o rotations/priest_holy.lua
+priest_shadow_rotation:
+	./utils/convertSimC.py -p simc/priest_shadow.simc -c priest -s shadow -o rotations/priest_shadow.lua
 
-rogue_class_rotations:
+rogue_rotations:
 
-shaman_class_rotations:
+shaman_rotations:
 
-warlock_class_rotations:
+warlock_rotations:
 
-warrior_class_rotations:
+warrior_rotations:
 
 FORCE:

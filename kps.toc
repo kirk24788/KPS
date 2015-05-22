@@ -68,6 +68,9 @@ rotations\monk_brewmaster.lua
 rotations\monk_windwalker.lua
 rotations\paladin_protection.lua
 rotations\paladin_retribution.lua
+rotations\priest_discipline.lua
+rotations\priest_holy.lua
+rotations\priest_shadow.lua
 rotations\warlock_destruction.lua
 gui\gui.lua
 gui\toggle.lua

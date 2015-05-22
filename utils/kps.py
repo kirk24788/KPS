@@ -13,8 +13,9 @@ class KpsError(Exception):
         return self.msg
 
 class ParserError(KpsError):
-    def __init__(self, msg):
+    def __init__(self, msg, silent=False):
         self.msg = msg
+        self.silent = silent
     def __str__(self):
         return self.msg
 

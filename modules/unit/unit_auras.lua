@@ -80,6 +80,22 @@ function Unit.myDebuffDuration(self)
     return myDebuffDuration[self.unit]
 end
 
+local myDebuffDurationMax = setmetatable({}, {
+    __index = function(t, unit)
+        local val = function (spell)
+            local _,_,_,_,_,_,duration,caster,_,_ = UnitDebuff(unit,spell.name)
+            if caster~="player" then return 0 end
+            if duration==nil then return 0 end
+            if duration < 0 then return 0 end
+            return duration
+        end
+        t[unit] = val
+        return val
+    end})
+function Unit.myDebuffDurationMax(self)
+    return myDebuffDurationMax[self.unit]
+end
+
 local buffDuration = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)

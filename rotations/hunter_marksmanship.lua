@@ -31,7 +31,7 @@ kps.rotations.register("HUNTER","MARKSMANSHIP",
 -- ERROR in 'steady_shot,if=buff.pre_steady_focus.up&(14+cast_regen+action.aimed_shot.cast_regen)<=focus.deficit': Spell 'kps.spells.hunter.preSteadyFocus' unknown (in expression: 'buff.pre_steady_focus.up')!
     {spells.multishot, 'activeEnemies() > 6'}, -- multishot,if=active_enemies>6
     {spells.aimedShot, 'player.hasTalent(7, 2)'}, -- aimed_shot,if=talent.focusing_shot.enabled
--- ERROR in 'aimed_shot,if=focus+cast_regen>=85': Unkown expression 'EMPTY_EXPRESSION'!
+-- SKIP 'aimed_shot,if=focus+cast_regen>=85': Empty Expression after RegEx Replacements
     {spells.aimedShot, 'player.buffStacks(spells.thrillOfTheHunt)'}, -- aimed_shot,if=buff.thrill_of_the_hunt.react&focus+cast_regen>=65
     {spells.focusingShot, '50 < (player.focusMax-player.focus)'}, -- focusing_shot,if=50+cast_regen-10<focus.deficit
     {spells.steadyShot}, -- steady_shot

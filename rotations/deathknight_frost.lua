@@ -14,7 +14,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
     {spells.empowerRuneWeapon, 'target.timeToDie <= 60 and player.hasStrProc'}, -- empower_rune_weapon,if=target.time_to_die<=60&buff.potion.up
     {{"nested"}, 'activeEnemies() >= 3', { -- run_action_list,name=aoe,if=active_enemies>=3
         {spells.unholyBlight}, -- unholy_blight
--- ERROR in 'blood_boil,if=dot.blood_plague.ticking&(!talent.unholy_blight.enabled|cooldown.unholy_blight.remains<49),line_cd=28': Unkown expression 'line_cd'!
+-- ERROR in 'blood_boil,if=dot.blood_plague.ticking&(!talent.unholy_blight.enabled|cooldown.unholy_blight.remains<49),line_cd=28': Unknown expression 'line_cd'!
         {spells.defile}, -- defile
         {spells.breathOfSindragosa, 'player.runicPower > 75'}, -- breath_of_sindragosa,if=runic_power>75
         {{"nested"}, 'target.hasMyDebuff(spells.breathOfSindragosa)', { -- run_action_list,name=bos_aoe,if=dot.breath_of_sindragosa.ticking
@@ -85,7 +85,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
     {spells.empowerRuneWeapon, 'target.timeToDie <= 60 and player.hasStrProc'}, -- empower_rune_weapon,if=target.time_to_die<=60&buff.potion.up
     {{"nested"}, 'activeEnemies() >= 4', { -- run_action_list,name=aoe,if=active_enemies>=4
         {spells.unholyBlight}, -- unholy_blight
--- ERROR in 'blood_boil,if=dot.blood_plague.ticking&(!talent.unholy_blight.enabled|cooldown.unholy_blight.remains<49),line_cd=28': Unkown expression 'line_cd'!
+-- ERROR in 'blood_boil,if=dot.blood_plague.ticking&(!talent.unholy_blight.enabled|cooldown.unholy_blight.remains<49),line_cd=28': Unknown expression 'line_cd'!
         {spells.defile}, -- defile
         {spells.breathOfSindragosa, 'player.runicPower > 75'}, -- breath_of_sindragosa,if=runic_power>75
         {{"nested"}, 'target.hasMyDebuff(spells.breathOfSindragosa)', { -- run_action_list,name=bos_aoe,if=dot.breath_of_sindragosa.ticking
