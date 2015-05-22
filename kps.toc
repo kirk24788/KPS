@@ -71,6 +71,9 @@ rotations\paladin_retribution.lua
 rotations\priest_discipline.lua
 rotations\priest_holy.lua
 rotations\priest_shadow.lua
+rotations\rogue_assassination.lua
+rotations\rogue_combat.lua
+rotations\rogue_subtlety.lua
 rotations\warlock_destruction.lua
 gui\gui.lua
 gui\toggle.lua

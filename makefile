@@ -80,7 +80,13 @@ priest_holy_rotation:
 priest_shadow_rotation:
 	./utils/convertSimC.py -p simc/priest_shadow.simc -c priest -s shadow -o rotations/priest_shadow.lua
 
-rogue_rotations:
+rogue_rotations: rogue_assassination_rotation rogue_combat_rotation rogue_subtlety_rotation
+rogue_assassination_rotation:
+	./utils/convertSimC.py -p simc/rogue_assassination.simc -c rogue -s assassination -o rotations/rogue_assassination.lua
+rogue_combat_rotation:
+	./utils/convertSimC.py -p simc/rogue_combat.simc -c rogue -s combat -o rotations/rogue_combat.lua
+rogue_subtlety_rotation:
+	./utils/convertSimC.py -p simc/rogue_subtlety.simc -c rogue -s subtlety -o rotations/rogue_subtlety.lua
 
 shaman_rotations:
 
@@ -88,4 +94,3 @@ warlock_rotations:
 
 warrior_rotations:
 
-FORCE:

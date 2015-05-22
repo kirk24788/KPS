@@ -102,6 +102,8 @@ _CLASS_REGEX_PRECONVERSIONS = {
         (r'.*shadowy_apparitions_in_flight.*', "IGNORE_LINE"),
         (r'.*mind_harvest.*', "IGNORE_LINE"),
     ], "rogue":  [
+        (r'dot.deadly_poison_dot.ticking',"dot.deadly_poison.ticking"),
+        (r'anticipation_charges',"buff.anticipation.stacks"),
     ], "shaman":  [
     ], "warlock":  [
     ], "warrior":  [
@@ -125,6 +127,7 @@ _REGEX_PRECONVERSIONS = [
     (r'persistent_multiplier', "1"), # ???
     (r'(action\.[a-z_]*\.)?travel_time', "1"), # Remove travel_time, no equivalent!
     (r'([a-z_\.]*[-+*])?cast_regen([\s\-+*][a-z_\.]*)?[\s\<\>\=]*[0-9]*', ""), # cast_regen is too complicated, depends on too much information
+    (r'.*buff.archmages_greater_incandescence_agi.remains.*',"IGNORE_LINE"), # TODO: needs greater incendescnence module!
     (r'miss_react', ""), # no info on spell misses
     (r',cycle_targets.*',""), # remove trailing "cycle_targets"
     (r',chain=.*',""), # remove trailing "chain=" condition
@@ -178,6 +181,7 @@ _CLASS_EXPRESSION_CONVERSIONS = {
     ], "priest":  [
         ("target.dot.devouring_plague.ticks_remain", "(target.myDebuffDuration(spells.devouringPlague)/spells.devouringPlague.tickTime)"),
     ], "rogue":  [
+        (r'position_front',""),
     ], "shaman":  [
     ], "warlock":  [
     ], "warrior":  [
@@ -207,11 +211,16 @@ _EXPRESSION_CONVERSIONS = [
     ("active_enemies", "activeEnemies()"),
     ("level", "player.level"),
     ("buff.bloodlust.up", "player.bloodlust"),
+    ("buff.bloodlust.remains", "player.buffDuration(spells.bloodlust)"),
     ("cooldown_react","player.hasProc"),
     ("trinket.stat.any.up","player.hasProc"),
     ("trinket.stat.intellect.up","player.hasIntProc"),
     ("buff.archmages_incandescence_agi.up","player.hasAgiProc"),
     ("buff.archmages_greater_incandescence_agi.up","player.hasAgiProc"),
+    ("buff.archmages_incandescence_agi.react","player.hasAgiProc"),
+    ("buff.archmages_greater_incandescence_agi.react","player.hasAgiProc"),
+    ("trinket.stacking_proc.any.react","player.hasProc"),
+    ("trinket.proc.any.react","player.hasProc"),
     ("trinket.proc.all.react","player.hasProc"),
     ("energy.time_to_max","player.energyTimeToMax"),
     ("energy.max","player.energyMax"),
@@ -241,6 +250,7 @@ _IGNOREABLE_SPELLS = [
     'blood_fury', # Orc Racial
     'berserking', # Troll Racial
     'arcane_torrent', # BloodElf Racial
+    'shadowmeld', # Night Elf Racial
     'use_item', # Use of Items deativated
     'pool_resource', # ?
     'wait', # No wait...yet
@@ -302,13 +312,13 @@ _TALENTS = {
                     "twistOfFate","powerInfusion","spiritShell",
                     "cascade","divineStar","halo",
                     "clarityOfWill|clarityOfPower","wordsOfMending|voidEntropy","savingGrace|auspiciousSpirits"],
-    "rogue":        ["","","",
-                    "","","",
-                    "","","",
-                    "","","",
-                    "","","",
-                    "","","",
-                    "","",""],
+    "rogue":        ["nightstalker","subterfuge","shadowFocus",
+                    "deadlyThrow","nerveStrike","combatReadiness",
+                    "cheatDeath","LeechingPoison","Elusiveness",
+                    "CloadAndDagger","shadowstep","burstOfSpeed",
+                    "preyOnTheWeak","internalBleeding","dirtyTricks",
+                    "shurikenToss","markedForDeath","anticipation",
+                    "venomRush","shadowReflection","deathFromAbove"],
     "shaman":       ["","","",
                     "","","",
                     "","","",
@@ -393,7 +403,7 @@ class Condition(object):
             if expression==sc:
                 return kps
 
-        m = re.search("buff\.(.*)\.(up|down|react|stack|remains)", expression)
+        m = re.search("buff\.(.*)\.(up|down|react|stack|remains|duration)", expression)
         if m:
             buff = _convert_spell(m.group(1), self.profile)
             buff_key = "kps.spells.%s.%s" % (self.player_spells.class_name, buff)
@@ -408,6 +418,8 @@ class Condition(object):
                 return "player.buffStacks(spells.%s)" % buff
             elif state == "remains":
                 return "player.buffDuration(spells.%s)" % buff
+            elif state == "duration":
+                return "player.buffDurationMax(spells.%s)" % buff
             else:
                 raise ParserError("Unknown Buff State '%s'" % state)
 
