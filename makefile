@@ -88,9 +88,19 @@ rogue_combat_rotation:
 rogue_subtlety_rotation:
 	./utils/convertSimC.py -p simc/rogue_subtlety.simc -c rogue -s subtlety -o rotations/rogue_subtlety.lua
 
-shaman_rotations:
+shaman_rotations: shaman_elemental_rotation shaman_enhancement_rotation
+shaman_elemental_rotation:
+	./utils/convertSimC.py -p simc/shaman_elemental.simc -c shaman -s elemental -o rotations/shaman_elemental.lua
+shaman_enhancement_rotation:
+	./utils/convertSimC.py -p simc/shaman_enhancement.simc -c shaman -s enhancement -o rotations/shaman_enhancement.lua
 
-warlock_rotations:
+warlock_rotations: warlock_affliction_rotation warlock_demonology_rotation warlock_destruction_rotation
+warlock_affliction_rotation:
+	./utils/convertSimC.py -p simc/warlock_affliction.simc -c warlock -s affliction -o rotations/warlock_affliction.lua
+warlock_demonology_rotation:
+	./utils/convertSimC.py -p simc/warlock_demonology.simc -c warlock -s demonology -o rotations/warlock_demonology.lua
+warlock_destruction_rotation:
+	#MANUAL ROTATION: ./utils/convertSimC.py -p simc/warlock_destruction.simc -c warlock -s destruction -o rotations/warlock_destruction.lua
 
 warrior_rotations:
 

@@ -162,5 +162,8 @@ kps.spells.shaman.unleashFlame = kps.Spell.fromId(165462)
 kps.spells.shaman.enhancedWeapons = kps.Spell.fromId(166221)
 kps.spells.shaman.masteryMoltenEarth = kps.Spell.fromId(170374)
 kps.spells.shaman.glyphOfPurifySpirit = kps.Spell.fromId(171933)
+kps.spells.shaman.enhancedChainLightning = kps.Spell.fromId(157765)
+kps.spells.shaman.lavaBeam = kps.Spell.fromId(114074)
+kps.spells.shaman.windstrike = kps.Spell.fromId(115356)
 
 

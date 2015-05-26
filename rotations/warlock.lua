@@ -143,6 +143,16 @@ kps.spells.warlock.demonicTactics = kps.Spell.fromId(165392)
 kps.spells.warlock.bloodPact = kps.Spell.fromId(166928)
 kps.spells.warlock.grimoireOfSynergy = kps.Spell.fromId(171975)
 kps.spells.warlock.searingFlames = kps.Spell.fromId(174848)
+kps.spells.warlock.darkSoul = kps.Spell.fromId(77801)
+kps.spells.warlock.hauntingSpirits = kps.Spell.fromId(157698)
+kps.spells.warlock.shadowflame = kps.Spell.fromId(163512)
+kps.spells.warlock.impSwarm = kps.Spell.fromId(104316)
+kps.spells.warlock.touchOfChaos = kps.Spell.fromId(103964)
+kps.spells.warlock.immolationAura = kps.Spell.fromId(104025)
+kps.spells.warlock.chaosWave = kps.Spell.fromId(124915)
+kps.spells.warlock.felstorm = kps.Spell.fromId(89751)
+kps.spells.warlock.wrathstorm = kps.Spell.fromId(115831)
+kps.spells.warlock.mortalCleave = kps.Spell.fromId(115625)
 
 
 kps.env.warlock = {}

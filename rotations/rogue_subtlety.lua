@@ -33,7 +33,7 @@ kps.rotations.register("ROGUE","SUBTLETY",
         {spells.ambush}, -- ambush
         {spells.fanOfKnives, 'activeEnemies() > 1'}, -- fan_of_knives,if=active_enemies>1
         {spells.backstab, 'player.hasBuff(spells.findWeakness) or player.hasAgiProc or player.hasProc'}, -- backstab,if=debuff.find_weakness.up|buff.archmages_greater_incandescence_agi.up|trinket.stat.any.up
-        {spells.hemorrhage, '( target.myDebuffDuration(spells.hemorrhage) < target.myDebuffDurationMax(spells.hemorrhage) * 0.3 and target.timeToDie >= target.myDebuffDuration(spells.hemorrhage) + target.myDebuffDurationMax(spells.hemorrhage) + 8 and target.hasMyDebuff(spells.findWeakness) ) or not target.hasMyDebuff(spells.hemorrhage) or '}, -- hemorrhage,if=(remains<duration*0.3&target.time_to_die>=remains+duration+8&debuff.find_weakness.down)|!ticking|position_front
+        {spells.hemorrhage, '( target.myDebuffDuration(spells.hemorrhage) < target.myDebuffDurationMax(spells.hemorrhage) * 0.3 and target.timeToDie >= target.myDebuffDuration(spells.hemorrhage) + target.myDebuffDurationMax(spells.hemorrhage) + 8 and target.hasMyDebuff(spells.findWeakness) ) or not target.hasMyDebuff(spells.hemorrhage)'}, -- hemorrhage,if=(remains<duration*0.3&target.time_to_die>=remains+duration+8&debuff.find_weakness.down)|!ticking|position_front
         {spells.shurikenToss, 'player.energy < 65 and player.energyRegen < 16'}, -- shuriken_toss,if=energy<65&energy.regen<16
         {spells.backstab}, -- backstab
         {{"nested"}, 'True', { -- run_action_list,name=pool

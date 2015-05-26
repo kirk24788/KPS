@@ -39,7 +39,12 @@ _SPELL_CONVERSION = {
        "holy_word":"holyWordChastise",
     }, "rogue": {
     }, "shaman": {
+        "shock":"flameShock", # All Shocks share the same cd?
     }, "warlock": {
+        "cancel_metamorphosis":"metamorphosis",
+        "felguard:felstorm":"felstorm",
+        "wrathguard:wrathstorm":"wrathstorm",
+        "wrathguard:mortal_cleave":"mortalCleave",
     }, "warrior": {
     },
 }
@@ -80,17 +85,17 @@ _CLASS_REGEX_PRECONVERSIONS = {
     ], "druid":  [
     ], "hunter": [
     ], "mage":  [
-        ("glyph.cone_of_cold.enabled","glyph.cone_of_cold.enabled&target_distance <= 12"),
-        ("(current_)?target!=prismatic_crystal","target.npc_id!=76933"),
-        ("(current_)?target=prismatic_crystal","target.npc_id=76933"),
-        ("pet.prismatic_crystal.active","pet.npc_id=76933"),
-        ("pet.prismatic_crystal.remains","cooldown.prismatic_crystal.remains-78"), # no actual pet remains, but cooldown is 90 sec, duration is 12 sec
+        (r"glyph.cone_of_cold.enabled","glyph.cone_of_cold.enabled&target_distance <= 12"),
+        (r"(current_)?target!=prismatic_crystal","target.npc_id!=76933"),
+        (r"(current_)?target=prismatic_crystal","target.npc_id=76933"),
+        (r"pet.prismatic_crystal.active","pet.npc_id=76933"),
+        (r"pet.prismatic_crystal.remains","cooldown.prismatic_crystal.remains-78"), # no actual pet remains, but cooldown is 90 sec, duration is 12 sec
     ], "monk":  [
-        ("buff\.elusive_brew_stacks\.react","buff.elusive_brew.stacks"),
-        ("buff\.elusive_brew_stacks\.stack","buff.elusive_brew.stacks"),
-        ("buff\.elusive_brew_activated\.down","buff.elusive_brew.down"),
-        ("debuff.([a-z_]*)_target.down", lambda x: "debuff."+x.group(1)+".down"),
-        ("buff.([a-z_]*)_use.down", lambda x: "debuff."+x.group(1)+".down"),
+        (r"buff\.elusive_brew_stacks\.react","buff.elusive_brew.stacks"),
+        (r"buff\.elusive_brew_stacks\.stack","buff.elusive_brew.stacks"),
+        (r"buff\.elusive_brew_activated\.down","buff.elusive_brew.down"),
+        (r"debuff.([a-z_]*)_target.down", lambda x: "debuff."+x.group(1)+".down"),
+        (r"buff.([a-z_]*)_use.down", lambda x: "debuff."+x.group(1)+".down"),
     ], "paladin":  [
         (r'([\!\&\|\(])seal.([a-z_]*)([\!\&\|\)])', lambda x: x.group(1) + "buff.seal_of_" + x.group(2) + ".up" + x.group(3)),
     ], "priest":  [
@@ -104,7 +109,10 @@ _CLASS_REGEX_PRECONVERSIONS = {
     ], "rogue":  [
         (r'dot.deadly_poison_dot.ticking',"dot.deadly_poison.ticking"),
         (r'anticipation_charges',"buff.anticipation.stacks"),
+        (r'position_front',""),
     ], "shaman":  [
+        (r"pet.([a-z_]*).remains", lambda x: "totem."+x.group(1)+".remains"),
+        (r"pet.([a-z_]*).active", lambda x: "totem."+x.group(1)+".active"),
     ], "warlock":  [
     ], "warrior":  [
     ],
@@ -117,7 +125,7 @@ _NR_OR_TOKEN_ = r'\d*\.?\d*[\.a-z_]*'
 _REGEX_PRECONVERSIONS = [
     (r'(.*)active_dot\.([a-z_]*)'+_CMP_+_NR_+r'(.*)', lambda x: x.group(1)+"dot."+x.group(2)+".ticking"+x.group(3)), # convert active_dot.XXX <=> Y.Y to dot.XXX.ticking
     (r'(.*)active_dot\.([a-z_]*)'+_CMP_+_TOKEN_+r'(.*)', lambda x: x.group(1)+"dot."+x.group(2)+".ticking"+x.group(3)), # convert active_dot.XXX <=> YYY to dot.XXX.ticking
-    (r'set_bonus.tier[0-9]*_[0-9]pc(_caster)?', ""), # remove tXX set boni
+    (r'set_bonus.tier[0-9]*_[0-9]pc(_caster|_melee)?', ""), # remove tXX set boni
     (r'\!?t[0-9]*_class_trinket(\|\&)?', ""), # remove tXX trinkets
     (r'raid_event\.movement\.distance\>\d*\.?\d*', "movement.remains"), # not predictable, isMoving will be closest equivalent
     (r'raid_event\.movement\.in'+_CMP_+r'[1-9\s\+\-\*\.a-z_]*', "movement.remains"), # not predictable, isMoving will be closest equivalent
@@ -181,9 +189,14 @@ _CLASS_EXPRESSION_CONVERSIONS = {
     ], "priest":  [
         ("target.dot.devouring_plague.ticks_remain", "(target.myDebuffDuration(spells.devouringPlague)/spells.devouringPlague.tickTime)"),
     ], "rogue":  [
-        (r'position_front',""),
     ], "shaman":  [
+        ("buff.lightning_shield.max_stack","7"),
+        ("totem.fire.active","totem.fire.isActive"),
+        ("totem.earth.active","totem.earth.isActive"),
+        ("totem.water.active","totem.water.isActive"),
+        ("totem.air.active","totem.air.isActive"),
     ], "warlock":  [
+        ("shard_react", "player.soulShards>0"),
     ], "warrior":  [
     ],
 }
@@ -233,6 +246,8 @@ _EXPRESSION_CONVERSIONS = [
     ("focus","player.focus"),
     ("chi.max","player.chiMax"),
     ("chi","player.chi"),
+    ("soul_shard", "player.soulShards"),
+    ("demonic_fury","player.demonicFury"),
     ("shadow_orb","player.shadowOrbs"),
     ("holy_power","player.holyPower"),
     ("combo_points","target.comboPoints"),
@@ -319,27 +334,27 @@ _TALENTS = {
                     "preyOnTheWeak","internalBleeding","dirtyTricks",
                     "shurikenToss","markedForDeath","anticipation",
                     "venomRush","shadowReflection","deathFromAbove"],
-    "shaman":       ["","","",
-                    "","","",
-                    "","","",
-                    "","","",
-                    "","","",
-                    "","","",
-                    "","",""],
+    "shaman":       ["naturesGuardian","stoneBulwarkTotem","astralShift",
+                    "frozenPower","earthgrabTotem","windwalkTotem",
+                    "callOfTheElements","totemicPersistence","totemicProjection",
+                    "elementalMastery","ancestralSwiftness","echoOfTheElements",
+                    "rushingStreams","ancestralGuidance","conductivity",
+                    "unleashedFury","primalElementalist","elementalBlast",
+                    "elementalFusion","storeElementalTotem","liquidMagma"],
     "warlock":      ["darkRegeneration", "soulLeech", "searingFlames",
                     "howlOfTerror", "mortalCoil", "shadowfury",
-                    "","","",
-                    "","","",
-                    "","","",
-                    "","","",
-                    "soulLink", "sacrificialPact", "darkBargain"],
-    "warrior":      ["","","",
-                    "","","",
-                    "","","",
-                    "","","",
-                    "","","",
-                    "","","",
-                    "","",""],
+                    "soulLink","sacrificialPact","darkBargain",
+                    "bloodHorror","burningRush","unboundWill",
+                    "grimoireOfSupremecy","grimoireOfService","grimoireOfSacrifice",
+                    "archimondesDarkness","kiljaedensCunning","mannorothsFury",
+                    "soulburnHaunt|demonbolt|charredRemains", "cataclysm", "demonicServitude"],
+    "warrior":      ["juggernaut","doubleTime","warbringer",
+                    "enragedRegeneration","secondWind","impendingVictory",
+                    "tasteForBlood","suddenDeath","slam",
+                    "stormBolt","shockwave","dragonRoar",
+                    "massSpellReflection","safeguard","vigilance",
+                    "avatar","bloodbath","bladestorm",
+                    "angerManagement","ravager","siegebreaker"],
 }
 
 
@@ -403,7 +418,7 @@ class Condition(object):
             if expression==sc:
                 return kps
 
-        m = re.search("buff\.(.*)\.(up|down|react|stack|remains|duration)", expression)
+        m = re.search(r"buff\.(.*)\.(up|down|react|stack|remains|duration)", expression)
         if m:
             buff = _convert_spell(m.group(1), self.profile)
             buff_key = "kps.spells.%s.%s" % (self.player_spells.class_name, buff)
@@ -424,7 +439,7 @@ class Condition(object):
                 raise ParserError("Unknown Buff State '%s'" % state)
 
 
-        m = re.search("talent\.(.*)\.enabled", expression)
+        m = re.search(r"talent\.(.*)\.enabled", expression)
         if m:
             talent_name = _convert_spell(m.group(1), self.profile)
             def talentIndex(talent_name):
@@ -440,7 +455,7 @@ class Condition(object):
             talent = 1+(idx % 3 )
             return "player.hasTalent(%s, %s)" % (row, talent)
 
-        m = re.search("dot\.(.*)\.(ticking|remains|stack)", expression)
+        m = re.search(r"dot\.(.*)\.(ticking|remains|stack|duration)", expression)
         if m:
             dot = _convert_spell(m.group(1), self.profile)
             dot_key = "kps.spells.%s.%s" % (self.player_spells.class_name, dot)
@@ -453,10 +468,12 @@ class Condition(object):
                 return "target.myDebuffDuration(spells.%s)" % dot
             elif state == "stack":
                 return "target.debuffStacks(spells.%s)" % dot
+            elif state == "duration":
+                return "player.myDebuffDurationMax(spells.%s)" % dot
             else:
                 raise ParserError("Unknown Buff State '%s'" % state)
 
-        m = re.search("glyph\.(.*)\.(enabled)", expression)
+        m = re.search(r"glyph\.(.*)\.(enabled)", expression)
         if m:
             glyph = _convert_spell("glyph_of_"+m.group(1), self.profile)
             glyph_key = "kps.spells.%s.%s" % (self.player_spells.class_name, glyph)
@@ -468,7 +485,7 @@ class Condition(object):
             else:
                 raise ParserError("Unknown Buff State '%s'" % state)
 
-        m = re.search("cooldown\.(.*)\.(remains|up|duration)", expression)
+        m = re.search(r"cooldown\.(.*)\.(remains|up|duration)", expression)
         if m:
             cd = _convert_spell(m.group(1), self.profile)
             cd_key = "kps.spells.%s.%s" % (self.player_spells.class_name, cd)
@@ -484,7 +501,7 @@ class Condition(object):
             else:
                 raise ParserError("Unknown Buff State '%s'" % state)
 
-        m = re.search("action\.(.*)\.(execute_time|in_flight|charges_fractional|charges)", expression)
+        m = re.search(r"action\.(.*)\.(execute_time|in_flight|in_flight_to_target|charges_fractional|charges|cast_time|cooldown)", expression)
         if m:
             action = _convert_spell(m.group(1), self.profile)
             action_key = "kps.spells.%s.%s" % (self.player_spells.class_name, action)
@@ -493,14 +510,18 @@ class Condition(object):
             state = m.group(2)
             if state == "execute_time":
                 return "spells.%s.castTime" % action
-            elif state == "in_flight":
+            elif state == "in_flight" or state == "in_flight_to_target":
                 return "spells.%s.isRecastAt(\"target\")" % action
             elif state == "charges" or state == "charges_fractional":
                 return "spells.%s.charges" % action
+            elif state == "cast_time":
+                return "spells.%s.castTime" % action
+            elif state == "cooldown":
+                return "spells.%s.cooldown" % action
             else:
                 raise ParserError("Unknown Buff State '%s'" % state)
 
-        m = re.search("(.*)\.(ready_in)", expression)
+        m = re.search(r"(.*)\.(ready_in)", expression)
         if m:
             cd = _convert_spell(m.group(1), self.profile)
             cd_key = "kps.spells.%s.%s" % (self.player_spells.class_name, cd)
@@ -512,7 +533,7 @@ class Condition(object):
             else:
                 raise ParserError("Unknown State '%s'" % state)
 
-        m = re.search("prev_gcd\.(.*)", expression)
+        m = re.search(r"prev_gcd\.(.*)", expression)
         if m:
             spell = _convert_spell(m.group(1), self.profile)
             spell_key = "kps.spells.%s.%s" % (self.player_spells.class_name, spell)
@@ -520,13 +541,27 @@ class Condition(object):
                 raise ParserError("Spell '%s' unknown (in expression: '%s')!" % (cd_key, expression))
             return "spells.%s.isRecastAt(\"target\")" % spell
 
-        m = re.search("prev_off_gcd\.(.*)", expression)
+        m = re.search(r"prev_off_gcd\.(.*)", expression)
         if m:
             spell = _convert_spell(m.group(1), self.profile)
             spell_key = "kps.spells.%s.%s" % (self.player_spells.class_name, spell)
             if spell not in self.player_spells.keys():
                 raise ParserError("Spell '%s' unknown (in expression: '%s')!" % (cd_key, expression))
             return "spells.%s.isRecastAt(\"target\")" % spell
+
+        m = re.search(r"totem\.(.*)\.(remains|active)", expression)
+        if m:
+            spell = _convert_spell(m.group(1), self.profile)
+            spell_key = "kps.spells.%s.%s" % (self.player_spells.class_name, spell)
+            if spell not in self.player_spells.keys():
+                raise ParserError("Spell '%s' unknown (in expression: '%s')!" % (spell_key, expression))
+            state = m.group(2)
+            if state == "remains":
+                return "totem.duration(spells.%s)" % spell
+            elif state == "active":
+                return "totem.isActive(spells.%s)" % spell
+            else:
+                raise ParserError("Unknown Totem State '%s'" % state)
 
         fn = _convert_fn(expression)
         if fn in self.player_env.keys():
@@ -551,6 +586,8 @@ class Condition(object):
                 return "(target.myDebuffDuration(spells.%s)/spells.%s.tickTime)" % (self.condition_spell,self.condition_spell)
             if expression == "duration":
                 return "target.myDebuffDurationMax(spells.%s)" % self.condition_spell
+            if expression == "in_flight" or expression == "in_flight_to_target":
+                return "spells.%s.isRecastAt(\"target\")" % self.condition_spell
 
         if expression == "EMPTY_EXPRESSION":
             raise ParserError("Empty Expression after RegEx Replacements", silent=True)
