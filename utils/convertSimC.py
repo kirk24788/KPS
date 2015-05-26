@@ -115,6 +115,9 @@ _CLASS_REGEX_PRECONVERSIONS = {
         (r"pet.([a-z_]*).active", lambda x: "totem."+x.group(1)+".active"),
     ], "warlock":  [
     ], "warrior":  [
+        (r'buff.colossus_smash_up.up', "buff.colossus_smash.up"), # ?
+        (r'buff.ravager_protection.up', "buff.ravager.up"), # ?
+        (r'.*desired_targets.*', "IGNORE_LINE"),
     ],
 
 }
@@ -131,6 +134,9 @@ _REGEX_PRECONVERSIONS = [
     (r'raid_event\.movement\.in'+_CMP_+r'[1-9\s\+\-\*\.a-z_]*', "movement.remains"), # not predictable, isMoving will be closest equivalent
     (r'movement\.remains\>\d*\.?\d*', "movement.remains"), # not predictable, isMoving will be closest equivalent
     (r'raid_event\.adds\.in'+_CMP_+r'[1-9\s\+\-\*\.a-z_]*', ""), # not predictable, remove
+    (r'raid_event\.adds\.cooldown', ""), # not predictable, remove
+    (r'raid_event\.adds\.count', ""), # not predictable, remove
+    (r'raid_event\.movement\.cooldown', ""), # not predictable, remove
     (r'[a-z]*\.[a-z_]*\.pmultiplier', "1"), # ???
     (r'persistent_multiplier', "1"), # ???
     (r'(action\.[a-z_]*\.)?travel_time', "1"), # Remove travel_time, no equivalent!
@@ -198,6 +204,7 @@ _CLASS_EXPRESSION_CONVERSIONS = {
     ], "warlock":  [
         ("shard_react", "player.soulShards>0"),
     ], "warrior":  [
+        ("buff.potion.up","player.hasStrProc"),
     ],
 }
 
@@ -216,12 +223,15 @@ _EXPRESSION_CONVERSIONS = [
     ("gcd.max", "player.gcd"),
     ("incoming_damage_1s", "kps.incomingDamage(1)"),
     ("incoming_damage_1500ms", "kps.incomingDamage(1.5)"),
+    ("incoming_damage_2500ms", "kps.incomingDamage(2.5)"),
     ("incoming_damage_5s", "kps.incomingDamage(5)"),
     ("incoming_damage_10s", "kps.incomingDamage(10)"),
     ("movement.remains", "player.isMoving"),
     ("movement.distance", "target.distance"),
     ("in_flight","player.isMoving"),
+    ("raid_event.movement.exists","player.isMoving"),
     ("active_enemies", "activeEnemies()"),
+    ("raid_event.adds.exists", "activeEnemies()"),
     ("level", "player.level"),
     ("buff.bloodlust.up", "player.bloodlust"),
     ("buff.bloodlust.remains", "player.buffDuration(spells.bloodlust)"),
@@ -252,6 +262,7 @@ _EXPRESSION_CONVERSIONS = [
     ("holy_power","player.holyPower"),
     ("combo_points","target.comboPoints"),
     ("rage","player.rage"),
+    ("rage.max","player.rageMax"),
     ("target.npc_id","target.npcId"),
     ("pet.npc_id","pet.npcId"),
     ("time","player.timeInCombat"),
@@ -266,6 +277,7 @@ _IGNOREABLE_SPELLS = [
     'berserking', # Troll Racial
     'arcane_torrent', # BloodElf Racial
     'shadowmeld', # Night Elf Racial
+    'stoneform', # Dwarf Racial
     'use_item', # Use of Items deativated
     'pool_resource', # ?
     'wait', # No wait...yet
@@ -350,7 +362,7 @@ _TALENTS = {
                     "soulburnHaunt|demonbolt|charredRemains", "cataclysm", "demonicServitude"],
     "warrior":      ["juggernaut","doubleTime","warbringer",
                     "enragedRegeneration","secondWind","impendingVictory",
-                    "tasteForBlood","suddenDeath","slam",
+                    "tasteForBlood","suddenDeath","slam|unquenchableThirst|unyieldingStrikes",
                     "stormBolt","shockwave","dragonRoar",
                     "massSpellReflection","safeguard","vigilance",
                     "avatar","bloodbath","bladestorm",
@@ -588,6 +600,8 @@ class Condition(object):
                 return "target.myDebuffDurationMax(spells.%s)" % self.condition_spell
             if expression == "in_flight" or expression == "in_flight_to_target":
                 return "spells.%s.isRecastAt(\"target\")" % self.condition_spell
+            if expression == "enemies":
+                return "activeEnemies()"
 
         if expression == "EMPTY_EXPRESSION":
             raise ParserError("Empty Expression after RegEx Replacements", silent=True)

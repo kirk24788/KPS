@@ -102,5 +102,13 @@ warlock_demonology_rotation:
 warlock_destruction_rotation:
 	#MANUAL ROTATION: ./utils/convertSimC.py -p simc/warlock_destruction.simc -c warlock -s destruction -o rotations/warlock_destruction.lua
 
-warrior_rotations:
+warrior_rotations: warrior_arms_rotation warrior_fury_rotation warrior_protection_rotation
+warrior_arms_rotation:
+	./utils/convertSimC.py -p simc/warrior_arms.simc -c warrior -s arms -o rotations/warrior_arms.lua
+warrior_fury_rotation:
+	./utils/convertSimC.py -p simc/warrior_fury_1h.simc -c warrior -s fury -o rotations/warrior_fury.lua
+	./utils/convertSimC.py -p simc/warrior_fury_2h.simc -c warrior -s fury -a rotations/warrior_fury.lua
+warrior_protection_rotation:
+	./utils/convertSimC.py -p simc/warrior_protection.simc -c warrior -s protection -o rotations/warrior_protection.lua
+	./utils/convertSimC.py -p simc/warrior_gladiator.simc -c warrior -s protection -a rotations/warrior_protection.lua
 
