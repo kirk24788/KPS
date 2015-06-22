@@ -24,7 +24,7 @@ kps.rotations.register("HUNTER","SURVIVAL",
         {spells.multishot, 'player.focus >= 70 or player.hasTalent(7, 2)'}, -- multishot,if=focus>=70|talent.focusing_shot.enabled
         {spells.focusingShot}, -- focusing_shot
         {spells.cobraShot}, -- cobra_shot
-    },
+    }},
     {spells.aMurderOfCrows}, -- a_murder_of_crows
     {spells.stampede, 'player.hasAgiProc or (  and ( player.hasAgiProc or player.hasProc ) ) or target.timeToDie <= 45'}, -- stampede,if=buff.potion.up|(cooldown.potion.remains&(buff.archmages_greater_incandescence_agi.up|trinket.stat.any.up))|target.time_to_die<=45
     {spells.blackArrow, 'target.myDebuffDuration(spells.blackArrow) < player.gcd * 1.5'}, -- black_arrow,if=remains<gcd*1.5

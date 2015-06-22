@@ -159,7 +159,7 @@ local function fnParseCondition(conditions)
         return function()
             return conditions()
         end
-    elseif type(conditions) == "string" then
+    elseif type(conditions) == "string" and string.len(conditions) > 0 then
         local tokens = {}
         local i = 0
 

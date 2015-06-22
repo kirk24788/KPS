@@ -29,7 +29,7 @@ kps.rotations.register("SHAMAN","ELEMENTAL",
         {spells.searingTotem, '( not player.hasTalent(7, 3) and not totem.fire.isActive ) or ( player.hasTalent(7, 3) and totem.duration(spells.searingTotem) <= 20 and not totem.isActive(spells.fireElementalTotem) and not player.hasBuff(spells.liquidMagma) )'}, -- searing_totem,if=(!talent.liquid_magma.enabled&!totem.fire.active)|(talent.liquid_magma.enabled&pet.searing_totem.remains<=20&!pet.fire_elemental_totem.active&!buff.liquid_magma.up)
         {spells.spiritwalkersGrace, '( ( player.hasTalent(6, 3) and spells.elementalBlast.cooldown == 0 ) or ( spells.lavaBurst.cooldown == 0 and not player.buffStacks(spells.lavaSurge) ) )'}, -- spiritwalkers_grace,moving=1,if=((talent.elemental_blast.enabled&cooldown.elemental_blast.remains=0)|(cooldown.lava_burst.remains=0&!buff.lava_surge.react))
         {spells.lightningBolt}, -- lightning_bolt
-    },
+    }},
     {{"nested"}, 'activeEnemies() > 2', { -- call_action_list,name=aoe,if=active_enemies>2
         {spells.earthquake, 'not target.hasMyDebuff(spells.earthquake) and ( player.hasBuff(spells.enhancedChainLightning) or player.level <= 90 ) and activeEnemies() >= 2'}, -- earthquake,cycle_targets=1,if=!ticking&(buff.enhanced_chain_lightning.up|level<=90)&active_enemies>=2
         {spells.lavaBeam}, -- lava_beam
@@ -38,6 +38,6 @@ kps.rotations.register("SHAMAN","ELEMENTAL",
         {spells.searingTotem, '( not player.hasTalent(7, 3) and not totem.fire.isActive ) or ( player.hasTalent(7, 3) and totem.duration(spells.searingTotem) <= 20 and not totem.isActive(spells.fireElementalTotem) and not player.hasBuff(spells.liquidMagma) )'}, -- searing_totem,if=(!talent.liquid_magma.enabled&!totem.fire.active)|(talent.liquid_magma.enabled&pet.searing_totem.remains<=20&!pet.fire_elemental_totem.active&!buff.liquid_magma.up)
         {spells.chainLightning, 'activeEnemies() >= 2'}, -- chain_lightning,if=active_enemies>=2
         {spells.lightningBolt}, -- lightning_bolt
-    },
+    }},
 }
 ,"shaman_elemental.simc")

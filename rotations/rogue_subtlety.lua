@@ -24,12 +24,12 @@ kps.rotations.register("ROGUE","SUBTLETY",
         {spells.eviscerate, '( player.energyTimeToMax <= spells.deathFromAbove.cooldown + spells.deathFromAbove.castTime ) or not player.hasTalent(7, 3)'}, -- eviscerate,if=(energy.time_to_max<=cooldown.death_from_above.remains+action.death_from_above.execute_time)|!talent.death_from_above.enabled
         {{"nested"}, 'True', { -- run_action_list,name=pool
             {spells.preparation, 'not player.hasBuff(spells.vanish) and spells.vanish.cooldown > 60'}, -- preparation,if=!buff.vanish.up&cooldown.vanish.remains>60
-        },
-    },
+        }},
+    }},
     {{"nested"}, 'target.comboPoints < 4 or ( target.comboPoints == 4 and spells.honorAmongThieves.cooldown > 1 and player.energy > 95-25 * player.hasTalent(6, 3) - player.energyRegen ) or ( player.hasTalent(6, 3) and player.buffStacks(spells.anticipation) < 3 and target.hasMyDebuff(spells.findWeakness) )', { -- run_action_list,name=generator,if=combo_points<4|(combo_points=4&cooldown.honor_among_thieves.remains>1&energy>95-25*talent.anticipation.enabled-energy.regen)|(talent.anticipation.enabled&anticipation_charges<3&debuff.find_weakness.down)
         {{"nested"}, 'target.hasMyDebuff(spells.masterOfSubtlety) and target.hasMyDebuff(spells.shadowDance) and target.hasMyDebuff(spells.findWeakness) and ( player.energy + * 50 + spells.shadowDance.cooldown * player.energyRegen <= player.energyMax or player.energy + 15 + spells.vanish.cooldown * player.energyRegen <= player.energyMax )', { -- run_action_list,name=pool,if=buff.master_of_subtlety.down&buff.shadow_dance.down&debuff.find_weakness.down&(energy+set_bonus.tier17_2pc*50+cooldown.shadow_dance.remains*energy.regen<=energy.max|energy+15+cooldown.vanish.remains*energy.regen<=energy.max)
             {spells.preparation, 'not player.hasBuff(spells.vanish) and spells.vanish.cooldown > 60'}, -- preparation,if=!buff.vanish.up&cooldown.vanish.remains>60
-        },
+        }},
         {spells.ambush}, -- ambush
         {spells.fanOfKnives, 'activeEnemies() > 1'}, -- fan_of_knives,if=active_enemies>1
         {spells.backstab, 'player.hasBuff(spells.findWeakness) or player.hasAgiProc or player.hasProc'}, -- backstab,if=debuff.find_weakness.up|buff.archmages_greater_incandescence_agi.up|trinket.stat.any.up
@@ -38,10 +38,10 @@ kps.rotations.register("ROGUE","SUBTLETY",
         {spells.backstab}, -- backstab
         {{"nested"}, 'True', { -- run_action_list,name=pool
             {spells.preparation, 'not player.hasBuff(spells.vanish) and spells.vanish.cooldown > 60'}, -- preparation,if=!buff.vanish.up&cooldown.vanish.remains>60
-        },
-    },
+        }},
+    }},
     {{"nested"}, 'True', { -- run_action_list,name=pool
         {spells.preparation, 'not player.hasBuff(spells.vanish) and spells.vanish.cooldown > 60'}, -- preparation,if=!buff.vanish.up&cooldown.vanish.remains>60
-    },
+    }},
 }
 ,"rogue_subtlety.simc")

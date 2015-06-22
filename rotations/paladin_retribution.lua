@@ -55,7 +55,7 @@ kps.rotations.register("PALADIN","RETRIBUTION",
         {spells.divineStorm, 'player.holyPower >= 3 and player.hasBuff(spells.finalVerdict)'}, -- divine_storm,if=holy_power>=3&buff.final_verdict.up
         {spells.finalVerdict, 'player.holyPower >= 3 and target.hasMyDebuff(spells.finalVerdict)'}, -- final_verdict,if=holy_power>=3&buff.final_verdict.down
         {spells.holyPrism}, -- holy_prism,target=self
-    },
+    }},
     {{"nested"}, 'True', { -- call_action_list,name=single
         {spells.divineStorm, 'player.buffStacks(spells.divineCrusader) and ( player.holyPower == 5 or player.hasBuff(spells.holyAvenger) and player.holyPower >= 3 ) and player.hasBuff(spells.finalVerdict)'}, -- divine_storm,if=buff.divine_crusader.react&(holy_power=5|buff.holy_avenger.up&holy_power>=3)&buff.final_verdict.up
         {spells.divineStorm, 'player.buffStacks(spells.divineCrusader) and ( player.holyPower == 5 or player.hasBuff(spells.holyAvenger) and player.holyPower >= 3 ) and activeEnemies() == 2 and not player.hasTalent(7, 3)'}, -- divine_storm,if=buff.divine_crusader.react&(holy_power=5|buff.holy_avenger.up&holy_power>=3)&active_enemies=2&!talent.final_verdict.enabled
@@ -105,6 +105,6 @@ kps.rotations.register("PALADIN","RETRIBUTION",
         {spells.finalVerdict, 'player.holyPower >= 3'}, -- final_verdict,if=holy_power>=3
         {spells.templarsVerdict, 'player.holyPower >= 3 and ( not player.hasTalent(7, 2) or spells.seraphim.cooldown > player.gcd * 6 )'}, -- templars_verdict,if=holy_power>=3&(!talent.seraphim.enabled|cooldown.seraphim.remains>gcd*6)
         {spells.holyPrism}, -- holy_prism
-    },
+    }},
 }
 ,"paladin_retribution.simc")

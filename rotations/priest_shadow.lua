@@ -56,7 +56,7 @@ kps.rotations.register("PRIEST","SHADOW",
             {spells.divineStar, 'player.hasTalent(6, 2) and target.distance <= 28'}, -- divine_star,moving=1,if=talent.divine_star.enabled&target.distance<=28
             {spells.cascade, 'player.hasTalent(6, 1) and target.distance <= 40'}, -- cascade,moving=1,if=talent.cascade.enabled&target.distance<=40
             {spells.shadowWordPain}, -- shadow_word_pain,moving=1,cycle_targets=1
-        },
+        }},
         {{"nested"}, 'player.hasTalent(7, 2) and not player.hasTalent(7, 1) and not player.hasTalent(7, 3)', { -- call_action_list,name=vent,if=talent.void_entropy.enabled&!talent.clarity_of_power.enabled&!talent.auspicious_spirits.enabled
             {spells.voidEntropy, 'player.shadowOrbs == 3 and not target.hasMyDebuff(spells.voidEntropy) and target.timeToDie > 60 and activeEnemies() == 1'}, -- void_entropy,if=shadow_orb=3&!ticking&target.time_to_die>60&active_enemies=1
             {spells.voidEntropy, 'not target.hasMyDebuff(spells.voidEntropy) and player.shadowOrbs == 5 and activeEnemies() >= 1 and target.timeToDie > 60'}, -- void_entropy,if=!dot.void_entropy.ticking&shadow_orb=5&active_enemies>=1&target.time_to_die>60,cycle_targets=1,max_cycle_targets=6
@@ -96,7 +96,7 @@ kps.rotations.register("PRIEST","SHADOW",
             {spells.divineStar, 'player.hasTalent(6, 2) and target.distance <= 28'}, -- divine_star,moving=1,if=talent.divine_star.enabled&target.distance<=28
             {spells.cascade, 'player.hasTalent(6, 1) and target.distance <= 40'}, -- cascade,moving=1,if=talent.cascade.enabled&target.distance<=40
             {spells.shadowWordPain}, -- shadow_word_pain,moving=1,cycle_targets=1
-        },
+        }},
         {{"nested"}, 'player.hasTalent(7, 1) and not player.hasTalent(3, 3)', { -- call_action_list,name=cop,if=talent.clarity_of_power.enabled&!talent.insanity.enabled
             {spells.devouringPlague, 'player.shadowOrbs == 5 and not target.hasMyDebuff(spells.devouringPlague) and target.timeToDie >= ( player.gcd * 4*7 % 6 )'}, -- devouring_plague,if=shadow_orb=5&primary_target=0&!target.dot.devouring_plague_dot.ticking&target.time_to_die>=(gcd*4*7%6),cycle_targets=1
             {spells.devouringPlague, 'player.shadowOrbs == 5 and target.timeToDie >= ( player.gcd * 4*7 % 6 ) and ( spells.mindBlast.cooldown <= player.gcd or ( spells.shadowWordDeath.cooldown <= player.gcd and target.hp < 20 ) )'}, -- devouring_plague,if=shadow_orb=5&primary_target=0&target.time_to_die>=(gcd*4*7%6)&(cooldown.mind_blast.remains<=gcd|(cooldown.shadow_word_death.remains<=gcd&target.health.pct<20)),cycle_targets=1
@@ -135,7 +135,7 @@ kps.rotations.register("PRIEST","SHADOW",
             {spells.divineStar, 'player.hasTalent(6, 2) and target.distance <= 28 , player.isMoving'}, -- divine_star,if=talent.divine_star.enabled&target.distance<=28,moving=1
             {spells.cascade, 'player.hasTalent(6, 1) and target.distance <= 40 , player.isMoving'}, -- cascade,if=talent.cascade.enabled&target.distance<=40,moving=1
             {spells.devouringPlague}, -- devouring_plague,moving=1
-        },
+        }},
         {{"nested"}, 'player.hasTalent(7, 1) and player.hasTalent(3, 3) and target.hp > 20 and activeEnemies() <= 6', { -- call_action_list,name=cop_dotweave,if=talent.clarity_of_power.enabled&talent.insanity.enabled&target.health.pct>20&active_enemies<=6
             {spells.devouringPlague, 'target.hasMyDebuff(spells.vampiricTouch) and target.hasMyDebuff(spells.shadowWordPain) and player.shadowOrbs == 5 and player.hasProc'}, -- devouring_plague,if=target.dot.vampiric_touch.ticking&target.dot.shadow_word_pain.ticking&shadow_orb=5&cooldown_react
             {spells.devouringPlague, 'player.buffDuration(spells.mentalInstinct) < player.gcd and player.buffDuration(spells.mentalInstinct) > ( player.gcd * 0.7 ) and player.buffDuration(spells.mentalInstinct)'}, -- devouring_plague,if=buff.mental_instinct.remains<gcd&buff.mental_instinct.remains>(gcd*0.7)&buff.mental_instinct.remains
@@ -172,7 +172,7 @@ kps.rotations.register("PRIEST","SHADOW",
             {spells.cascade, 'player.hasTalent(6, 1) and target.distance <= 40 , player.isMoving'}, -- cascade,if=talent.cascade.enabled&target.distance<=40,moving=1
             {spells.devouringPlague}, -- devouring_plague,moving=1
             {spells.shadowWordPain, ', player.isMoving'}, -- shadow_word_pain,if=primary_target=0,moving=1,cycle_targets=1
-        },
+        }},
         {{"nested"}, 'player.hasTalent(7, 1) and player.hasTalent(3, 3)', { -- call_action_list,name=cop_insanity,if=talent.clarity_of_power.enabled&talent.insanity.enabled
             {spells.devouringPlague, 'player.shadowOrbs == 5 or ( activeEnemies() >= 5 and not player.buffDuration(spells.insanity) )'}, -- devouring_plague,if=shadow_orb=5|(active_enemies>=5&!buff.insanity.remains)
             {spells.devouringPlague, 'player.buffDuration(spells.mentalInstinct) < ( player.gcd * 1.7 ) and player.buffDuration(spells.mentalInstinct) > ( player.gcd * 0.7 ) and player.buffDuration(spells.mentalInstinct)'}, -- devouring_plague,if=buff.mental_instinct.remains<(gcd*1.7)&buff.mental_instinct.remains>(gcd*0.7)&buff.mental_instinct.remains
@@ -203,7 +203,7 @@ kps.rotations.register("PRIEST","SHADOW",
             {spells.cascade, 'player.hasTalent(6, 1) and target.distance <= 40 , player.isMoving'}, -- cascade,if=talent.cascade.enabled&target.distance<=40,moving=1
             {spells.devouringPlague}, -- devouring_plague,moving=1
             {spells.shadowWordPain, ', player.isMoving'}, -- shadow_word_pain,if=primary_target=0,moving=1,cycle_targets=1
-        },
-    },
+        }},
+    }},
 }
 ,"priest_shadow.simc")

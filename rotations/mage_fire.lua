@@ -30,7 +30,7 @@ kps.rotations.register("MAGE","FIRE",
         {spells.pyroblast, 'player.hasBuff(spells.pyroblast) and spells.infernoBlast.charges >= 2 - ( player.gcd % 4 ) and ( target.npcId = 76933 or spells.prismaticCrystal.cooldown - 78<8 ) and spells.pyroblast.isRecastAt("target")'}, -- pyroblast,if=buff.pyroblast.up&action.inferno_blast.charges_fractional>=2-(gcd.max%4)&(current_target!=prismatic_crystal|pet.prismatic_crystal.remains<8)&prev_gcd.pyroblast
         {spells.infernoBlast, 'target.hasMyDebuff(spells.pyroblast) and target.hasMyDebuff(spells.heatingUp) and spells.pyroblast.isRecastAt("target")'}, -- inferno_blast,if=buff.pyroblast.down&buff.heating_up.down&prev_gcd.pyroblast
         {spells.fireball}, -- fireball
-    },
+    }},
     {{"nested"}, 'pyroChain()', { -- call_action_list,name=combust_sequence,if=pyro_chain
         {spells.prismaticCrystal}, -- prismatic_crystal
         {spells.meteor, 'activeEnemies() <= 2'}, -- meteor,if=active_enemies<=2
@@ -41,7 +41,7 @@ kps.rotations.register("MAGE","FIRE",
         {spells.infernoBlast, 'player.hasTalent(7, 3) and spells.meteor.cooldownTotal - spells.meteor.cooldown < player.gcd * 3'}, -- inferno_blast,if=talent.meteor.enabled&cooldown.meteor.duration-cooldown.meteor.remains<gcd.max*3
 -- ERROR in 'inferno_blast,if=dot.ignite.tick_dmg*(6-dot.ignite.ticks_remain)<crit_damage*mastery_value': Unknown expression 'dot.ignite.tick_dmg'!
         {spells.combustion}, -- combustion
-    },
+    }},
     {{"nested"}, 'player.hasTalent(7, 2) and pet.npcId == 76933', { -- call_action_list,name=crystal_sequence,if=talent.prismatic_crystal.enabled&pet.prismatic_crystal.active
         {spells.infernoBlast, 'target.hasMyDebuff(spells.combustion) and target.hasMyDebuff(spells.combustion) + 1'}, -- inferno_blast,if=dot.combustion.ticking&active_dot.combustion<active_enemies+1
         {spells.infernoBlast, 'target.hasMyDebuff(spells.combustion) and target.hasMyDebuff(spells.combustion)'}, -- inferno_blast,cycle_targets=1,if=dot.combustion.ticking&active_dot.combustion<active_enemies
@@ -60,17 +60,17 @@ kps.rotations.register("MAGE","FIRE",
                 {{"nested"}, 'player.hasTalent(5, 1) and ( activeEnemies() > 1|0 )', { -- call_action_list,name=living_bomb,if=talent.living_bomb.enabled&(active_enemies>1|raid_event.adds.in<10)
                     {spells.infernoBlast, 'target.hasMyDebuff(spells.livingBomb) and target.hasMyDebuff(spells.livingBomb)'}, -- inferno_blast,cycle_targets=1,if=dot.living_bomb.ticking&active_dot.living_bomb<active_enemies
                     {spells.livingBomb, 'target.npcId = 76933 and ( target.hasMyDebuff(spells.livingBomb) or ( target.hasMyDebuff(spells.livingBomb) and target.hasMyDebuff(spells.livingBomb) ) ) and ( ( ( not player.hasTalent(6, 3) or incanters_flow_direction < 0 or player.buffStacks(spells.incantersFlow) == 5 ) and target.myDebuffDuration(spells.livingBomb) < 3.6 ) or ( ( incanters_flow_direction > 0 or player.buffStacks(spells.incantersFlow) == 1 ) and target.myDebuffDuration(spells.livingBomb) < player.gcd ) ) and target.timeToDie > target.myDebuffDuration(spells.livingBomb) + 12'}, -- living_bomb,cycle_targets=1,if=target!=prismatic_crystal&(active_dot.living_bomb=0|(ticking&active_dot.living_bomb=1))&(((!talent.incanters_flow.enabled|incanters_flow_dir<0|buff.incanters_flow.stack=5)&remains<3.6)|((incanters_flow_dir>0|buff.incanters_flow.stack=1)&remains<gcd.max))&target.time_to_die>remains+12
-                },
+                }},
                 {spells.blastWave, '( not player.hasTalent(6, 3) or player.buffStacks(spells.incantersFlow) >= 4 ) and ( target.timeToDie < 10 or not player.hasTalent(7, 2) or ( spells.blastWave.charges >= 1 and spells.prismaticCrystal.cooldown > spells.blastWave.cooldown ) )'}, -- blast_wave,if=(!talent.incanters_flow.enabled|buff.incanters_flow.stack>=4)&(target.time_to_die<10|!talent.prismatic_crystal.enabled|(charges>=1&cooldown.prismatic_crystal.remains>recharge_time))
-            },
+            }},
             {spells.infernoBlast, '( spells.combustion.cooldown % 8 + spells.infernoBlast.charges >= 2 or not or not ( activeEnemies() > 1 or player.hasTalent(7, 2) ) ) and player.hasBuff(spells.pyroblast) and target.hasMyDebuff(spells.heatingUp) and not spells.fireball.isRecastAt("target")'}, -- inferno_blast,if=(cooldown.combustion.remains%8+charges_fractional>=2|!set_bonus.tier17_2pc|!(active_enemies>1|talent.prismatic_crystal.enabled))&buff.pyroblast.up&buff.heating_up.down&!action.fireball.in_flight
             {spells.infernoBlast, '( spells.combustion.cooldown % 8 + spells.infernoBlast.charges > 2 or not or not ( activeEnemies() > 1 or player.hasTalent(7, 2) ) ) and spells.infernoBlast.charges > 2 - ( player.gcd % 8 )'}, -- inferno_blast,if=set_bonus.tier17_2pc&(cooldown.combustion.remains%8+charges_fractional>2|!set_bonus.tier17_2pc|!(active_enemies>1|talent.prismatic_crystal.enabled))&charges_fractional>2-(gcd.max%8)
             {spells.fireball}, -- fireball
             {spells.scorch}, -- scorch,moving=1
-        },
-    },
+        }},
+    }},
     {{"nested"}, 'not pyroChain()', { -- call_action_list,name=init_combust,if=!pyro_chain
-    },
+    }},
     {spells.runeOfPower, 'player.buffDuration(spells.runeOfPower) < spells.fireball.castTime + player.gcd and not ( player.hasBuff(spells.heatingUp) and spells.fireball.isRecastAt("target") )'}, -- rune_of_power,if=buff.rune_of_power.remains<action.fireball.execute_time+gcd.max&!(buff.heating_up.up&action.fireball.in_flight)
     {spells.mirrorImage, 'not ( player.hasBuff(spells.heatingUp) and spells.fireball.isRecastAt("target") )'}, -- mirror_image,if=!(buff.heating_up.up&action.fireball.in_flight)
     {{"nested"}, 'activeEnemies() > 10', { -- call_action_list,name=aoe,if=active_enemies>10
@@ -80,15 +80,15 @@ kps.rotations.register("MAGE","FIRE",
             {{"nested"}, 'player.hasTalent(5, 1) and ( activeEnemies() > 1|0 )', { -- call_action_list,name=living_bomb,if=talent.living_bomb.enabled&(active_enemies>1|raid_event.adds.in<10)
                 {spells.infernoBlast, 'target.hasMyDebuff(spells.livingBomb) and target.hasMyDebuff(spells.livingBomb)'}, -- inferno_blast,cycle_targets=1,if=dot.living_bomb.ticking&active_dot.living_bomb<active_enemies
                 {spells.livingBomb, 'target.npcId = 76933 and ( target.hasMyDebuff(spells.livingBomb) or ( target.hasMyDebuff(spells.livingBomb) and target.hasMyDebuff(spells.livingBomb) ) ) and ( ( ( not player.hasTalent(6, 3) or incanters_flow_direction < 0 or player.buffStacks(spells.incantersFlow) == 5 ) and target.myDebuffDuration(spells.livingBomb) < 3.6 ) or ( ( incanters_flow_direction > 0 or player.buffStacks(spells.incantersFlow) == 1 ) and target.myDebuffDuration(spells.livingBomb) < player.gcd ) ) and target.timeToDie > target.myDebuffDuration(spells.livingBomb) + 12'}, -- living_bomb,cycle_targets=1,if=target!=prismatic_crystal&(active_dot.living_bomb=0|(ticking&active_dot.living_bomb=1))&(((!talent.incanters_flow.enabled|incanters_flow_dir<0|buff.incanters_flow.stack=5)&remains<3.6)|((incanters_flow_dir>0|buff.incanters_flow.stack=1)&remains<gcd.max))&target.time_to_die>remains+12
-            },
+            }},
             {spells.blastWave, '( not player.hasTalent(6, 3) or player.buffStacks(spells.incantersFlow) >= 4 ) and ( target.timeToDie < 10 or not player.hasTalent(7, 2) or ( spells.blastWave.charges >= 1 and spells.prismaticCrystal.cooldown > spells.blastWave.cooldown ) )'}, -- blast_wave,if=(!talent.incanters_flow.enabled|buff.incanters_flow.stack>=4)&(target.time_to_die<10|!talent.prismatic_crystal.enabled|(charges>=1&cooldown.prismatic_crystal.remains>recharge_time))
-        },
+        }},
         {spells.pyroblast, 'player.buffStacks(spells.pyroblast) or player.buffStacks(spells.pyromaniac)'}, -- pyroblast,if=buff.pyroblast.react|buff.pyromaniac.react
         {spells.pyroblast, 'target.hasMyDebuff(spells.pyroblast) and not player.isMoving'}, -- pyroblast,if=active_dot.pyroblast=0&!in_flight
         {spells.coldSnap, 'player.hasGlyph(spells.glyphOfDragonsBreath) and not spells.dragonsBreath.cooldown == 0'}, -- cold_snap,if=glyph.dragons_breath.enabled&!cooldown.dragons_breath.up
         {spells.dragonsBreath, 'player.hasGlyph(spells.glyphOfDragonsBreath)'}, -- dragons_breath,if=glyph.dragons_breath.enabled
         {spells.flamestrike, 'player.mana > 10 and target.myDebuffDuration(spells.flamestrike) < 2.4'}, -- flamestrike,if=mana.pct>10&remains<2.4
-    },
+    }},
     {{"nested"}, 'True', { -- call_action_list,name=single_target
         {spells.infernoBlast, '( target.hasMyDebuff(spells.combustion) and target.hasMyDebuff(spells.combustion) ) or ( target.hasMyDebuff(spells.livingBomb) and target.hasMyDebuff(spells.livingBomb) )'}, -- inferno_blast,if=(dot.combustion.ticking&active_dot.combustion<active_enemies)|(dot.living_bomb.ticking&active_dot.living_bomb<active_enemies)
         {spells.pyroblast, 'player.hasBuff(spells.pyroblast) and player.buffDuration(spells.pyroblast) < spells.fireball.castTime'}, -- pyroblast,if=buff.pyroblast.up&buff.pyroblast.remains<action.fireball.execute_time
@@ -102,13 +102,13 @@ kps.rotations.register("MAGE","FIRE",
             {{"nested"}, 'player.hasTalent(5, 1) and ( activeEnemies() > 1|0 )', { -- call_action_list,name=living_bomb,if=talent.living_bomb.enabled&(active_enemies>1|raid_event.adds.in<10)
                 {spells.infernoBlast, 'target.hasMyDebuff(spells.livingBomb) and target.hasMyDebuff(spells.livingBomb)'}, -- inferno_blast,cycle_targets=1,if=dot.living_bomb.ticking&active_dot.living_bomb<active_enemies
                 {spells.livingBomb, 'target.npcId = 76933 and ( target.hasMyDebuff(spells.livingBomb) or ( target.hasMyDebuff(spells.livingBomb) and target.hasMyDebuff(spells.livingBomb) ) ) and ( ( ( not player.hasTalent(6, 3) or incanters_flow_direction < 0 or player.buffStacks(spells.incantersFlow) == 5 ) and target.myDebuffDuration(spells.livingBomb) < 3.6 ) or ( ( incanters_flow_direction > 0 or player.buffStacks(spells.incantersFlow) == 1 ) and target.myDebuffDuration(spells.livingBomb) < player.gcd ) ) and target.timeToDie > target.myDebuffDuration(spells.livingBomb) + 12'}, -- living_bomb,cycle_targets=1,if=target!=prismatic_crystal&(active_dot.living_bomb=0|(ticking&active_dot.living_bomb=1))&(((!talent.incanters_flow.enabled|incanters_flow_dir<0|buff.incanters_flow.stack=5)&remains<3.6)|((incanters_flow_dir>0|buff.incanters_flow.stack=1)&remains<gcd.max))&target.time_to_die>remains+12
-            },
+            }},
             {spells.blastWave, '( not player.hasTalent(6, 3) or player.buffStacks(spells.incantersFlow) >= 4 ) and ( target.timeToDie < 10 or not player.hasTalent(7, 2) or ( spells.blastWave.charges >= 1 and spells.prismaticCrystal.cooldown > spells.blastWave.cooldown ) )'}, -- blast_wave,if=(!talent.incanters_flow.enabled|buff.incanters_flow.stack>=4)&(target.time_to_die<10|!talent.prismatic_crystal.enabled|(charges>=1&cooldown.prismatic_crystal.remains>recharge_time))
-        },
+        }},
         {spells.infernoBlast, '( spells.combustion.cooldown % 8 + spells.infernoBlast.charges >= 2 or not or not ( activeEnemies() > 1 or player.hasTalent(7, 2) ) ) and player.hasBuff(spells.pyroblast) and target.hasMyDebuff(spells.heatingUp) and not spells.fireball.isRecastAt("target")'}, -- inferno_blast,if=(cooldown.combustion.remains%8+charges_fractional>=2|!set_bonus.tier17_2pc|!(active_enemies>1|talent.prismatic_crystal.enabled))&buff.pyroblast.up&buff.heating_up.down&!action.fireball.in_flight
         {spells.infernoBlast, '( spells.combustion.cooldown % 8 + spells.infernoBlast.charges > 2 or not or not ( activeEnemies() > 1 or player.hasTalent(7, 2) ) ) and spells.infernoBlast.charges > 2 - ( player.gcd % 8 )'}, -- inferno_blast,if=set_bonus.tier17_2pc&(cooldown.combustion.remains%8+charges_fractional>2|!set_bonus.tier17_2pc|!(active_enemies>1|talent.prismatic_crystal.enabled))&charges_fractional>2-(gcd.max%8)
         {spells.fireball}, -- fireball
         {spells.scorch}, -- scorch,moving=1
-    },
+    }},
 }
 ,"mage_fire.simc")

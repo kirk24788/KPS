@@ -27,7 +27,7 @@ kps.rotations.register("DEATHKNIGHT","UNHOLY",
                 {spells.plagueLeech}, -- plague_leech
                 {spells.empowerRuneWeapon, 'player.runicPower < 60'}, -- empower_rune_weapon,if=runic_power<60
                 {spells.deathCoil, 'player.buffStacks(spells.suddenDoom)'}, -- death_coil,if=buff.sudden_doom.react
-            },
+            }},
             {spells.summonGargoyle}, -- summon_gargoyle
             {spells.unholyBlight, 'not ( target.hasMyDebuff(spells.bloodPlague) or target.hasMyDebuff(spells.frostFever) )'}, -- unholy_blight,if=!(dot.blood_plague.ticking|dot.frost_fever.ticking)
             {spells.outbreak, 'not ( target.hasMyDebuff(spells.bloodPlague) or target.hasMyDebuff(spells.frostFever) )'}, -- outbreak,cycle_targets=1,if=!(dot.blood_plague.ticking|dot.frost_fever.ticking)
@@ -46,8 +46,8 @@ kps.rotations.register("DEATHKNIGHT","UNHOLY",
             {spells.festeringStrike, 'spells.breathOfSindragosa.cooldown > 6 or player.runicPower < 75'}, -- festering_strike,if=cooldown.breath_of_sindragosa.remains>6|runic_power<75
             {spells.deathCoil, 'spells.breathOfSindragosa.cooldown > 20'}, -- death_coil,if=cooldown.breath_of_sindragosa.remains>20
             {spells.plagueLeech}, -- plague_leech
-        },
-    },
+        }},
+    }},
     {spells.antimagicShell}, -- antimagic_shell,damage=100000
     {{"nested"}, '( not player.hasTalent(7, 1) and activeEnemies() >= 2 ) or activeEnemies() >= 4', { -- run_action_list,name=aoe,if=(!talent.necrotic_plague.enabled&active_enemies>=2)|active_enemies>=4
         {spells.unholyBlight}, -- unholy_blight
@@ -55,7 +55,7 @@ kps.rotations.register("DEATHKNIGHT","UNHOLY",
             {spells.bloodBoil, 'diseaseTicking()'}, -- blood_boil,cycle_targets=1,if=!disease.min_ticking
             {spells.outbreak, 'diseaseTicking()'}, -- outbreak,if=!disease.min_ticking
             {spells.plagueStrike, 'diseaseTicking()'}, -- plague_strike,if=!disease.min_ticking
-        },
+        }},
         {spells.defile}, -- defile
         {spells.bloodBoil, 'player.bloodRunes == 2 or ( player.frostRunes == 2 and player.deathRunes == 2 )'}, -- blood_boil,if=blood=2|(frost=2&death=2)
         {spells.summonGargoyle}, -- summon_gargoyle
@@ -74,7 +74,7 @@ kps.rotations.register("DEATHKNIGHT","UNHOLY",
         {spells.bloodTap}, -- blood_tap
         {spells.plagueLeech}, -- plague_leech
         {spells.empowerRuneWeapon}, -- empower_rune_weapon
-    },
+    }},
     {{"nested"}, '( not player.hasTalent(7, 1) and activeEnemies() < 2 ) or activeEnemies() < 4', { -- run_action_list,name=single_target,if=(!talent.necrotic_plague.enabled&active_enemies<2)|active_enemies<4
         {spells.plagueLeech, '( spells.outbreak.cooldown < 1 ) and ( ( player.bloodRunes < 1 and player.frostRunes < 1 ) or ( player.bloodRunes < 1 and player.unholyRunes < 1 ) or ( player.frostRunes < 1 and player.unholyRunes < 1 ) )'}, -- plague_leech,if=(cooldown.outbreak.remains<1)&((blood<1&frost<1)|(blood<1&unholy<1)|(frost<1&unholy<1))
         {spells.plagueLeech, '( ( player.bloodRunes < 1 and player.frostRunes < 1 ) or ( player.bloodRunes < 1 and player.unholyRunes < 1 ) or ( player.frostRunes < 1 and player.unholyRunes < 1 ) ) and diseaseMinRemains() < 3'}, -- plague_leech,if=((blood<1&frost<1)|(blood<1&unholy<1)|(frost<1&unholy<1))&disease.min_remains<3
@@ -118,6 +118,6 @@ kps.rotations.register("DEATHKNIGHT","UNHOLY",
         {spells.bloodBoil, 'spells.empowerRuneWeapon.cooldown == 0'}, -- blood_boil,if=cooldown.empower_rune_weapon.remains=0
         {spells.icyTouch, 'spells.empowerRuneWeapon.cooldown == 0'}, -- icy_touch,if=cooldown.empower_rune_weapon.remains=0
         {spells.empowerRuneWeapon, 'player.bloodRunes < 1 and player.unholyRunes < 1 and player.frostRunes < 1'}, -- empower_rune_weapon,if=blood<1&unholy<1&frost<1
-    },
+    }},
 }
 ,"deathknight_unholy.simc")

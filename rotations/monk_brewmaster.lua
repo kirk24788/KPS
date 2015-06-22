@@ -38,7 +38,7 @@ kps.rotations.register("MONK","BREWMASTER",
         {spells.expelHarm, 'player.chiMax - player.chi >= 1 and spells.kegSmash.cooldown >= player.gcd and ( player.energy + ( player.energyRegen * ( spells.kegSmash.cooldown ) ) ) >= 80'}, -- expel_harm,if=chi.max-chi>=1&cooldown.keg_smash.remains>=gcd&(energy+(energy.regen*(cooldown.keg_smash.remains)))>=80
         {spells.jab, 'player.chiMax - player.chi >= 1 and spells.kegSmash.cooldown >= player.gcd and spells.expelHarm.cooldown >= player.gcd and ( player.energy + ( player.energyRegen * ( spells.kegSmash.cooldown ) ) ) >= 80'}, -- jab,if=chi.max-chi>=1&cooldown.keg_smash.remains>=gcd&cooldown.expel_harm.remains>=gcd&(energy+(energy.regen*(cooldown.keg_smash.remains)))>=80
         {spells.tigerPalm}, -- tiger_palm
-    },
+    }},
     {{"nested"}, 'activeEnemies() >= 3', { -- call_action_list,name=aoe,if=active_enemies>=3
         {spells.purifyingBrew, 'player.staggerPercent >= 0.065'}, -- purifying_brew,if=stagger.heavy
         {spells.blackoutKick, 'target.hasMyDebuff(spells.shuffle)'}, -- blackout_kick,if=buff.shuffle.down
@@ -59,7 +59,7 @@ kps.rotations.register("MONK","BREWMASTER",
         {spells.expelHarm, 'player.chiMax - player.chi >= 1 and spells.kegSmash.cooldown >= player.gcd and ( player.energy + ( player.energyRegen * ( spells.kegSmash.cooldown ) ) ) >= 80'}, -- expel_harm,if=chi.max-chi>=1&cooldown.keg_smash.remains>=gcd&(energy+(energy.regen*(cooldown.keg_smash.remains)))>=80
         {spells.jab, 'player.chiMax - player.chi >= 1 and spells.kegSmash.cooldown >= player.gcd and spells.expelHarm.cooldown >= player.gcd and ( player.energy + ( player.energyRegen * ( spells.kegSmash.cooldown ) ) ) >= 80'}, -- jab,if=chi.max-chi>=1&cooldown.keg_smash.remains>=gcd&cooldown.expel_harm.remains>=gcd&(energy+(energy.regen*(cooldown.keg_smash.remains)))>=80
         {spells.tigerPalm}, -- tiger_palm
-    },
+    }},
 }
 ,"monk_brewmaster_1h.simc")
 
@@ -96,7 +96,7 @@ kps.rotations.register("MONK","BREWMASTER",
         {spells.expelHarm, 'player.chiMax - player.chi >= 1 and spells.kegSmash.cooldown >= player.gcd and ( player.energy + ( player.energyRegen * ( spells.kegSmash.cooldown ) ) ) >= 80'}, -- expel_harm,if=chi.max-chi>=1&cooldown.keg_smash.remains>=gcd&(energy+(energy.regen*(cooldown.keg_smash.remains)))>=80
         {spells.jab, 'player.chiMax - player.chi >= 1 and spells.kegSmash.cooldown >= player.gcd and spells.expelHarm.cooldown >= player.gcd and ( player.energy + ( player.energyRegen * ( spells.kegSmash.cooldown ) ) ) >= 80'}, -- jab,if=chi.max-chi>=1&cooldown.keg_smash.remains>=gcd&cooldown.expel_harm.remains>=gcd&(energy+(energy.regen*(cooldown.keg_smash.remains)))>=80
         {spells.tigerPalm}, -- tiger_palm
-    },
+    }},
     {{"nested"}, 'activeEnemies() >= 3', { -- call_action_list,name=aoe,if=active_enemies>=3
         {spells.purifyingBrew, 'player.staggerPercent >= 0.065'}, -- purifying_brew,if=stagger.heavy
         {spells.blackoutKick, 'target.hasMyDebuff(spells.shuffle)'}, -- blackout_kick,if=buff.shuffle.down
@@ -117,6 +117,6 @@ kps.rotations.register("MONK","BREWMASTER",
         {spells.expelHarm, 'player.chiMax - player.chi >= 1 and spells.kegSmash.cooldown >= player.gcd and ( player.energy + ( player.energyRegen * ( spells.kegSmash.cooldown ) ) ) >= 80'}, -- expel_harm,if=chi.max-chi>=1&cooldown.keg_smash.remains>=gcd&(energy+(energy.regen*(cooldown.keg_smash.remains)))>=80
         {spells.jab, 'player.chiMax - player.chi >= 1 and spells.kegSmash.cooldown >= player.gcd and spells.expelHarm.cooldown >= player.gcd and ( player.energy + ( player.energyRegen * ( spells.kegSmash.cooldown ) ) ) >= 80'}, -- jab,if=chi.max-chi>=1&cooldown.keg_smash.remains>=gcd&cooldown.expel_harm.remains>=gcd&(energy+(energy.regen*(cooldown.keg_smash.remains)))>=80
         {spells.tigerPalm}, -- tiger_palm
-    },
+    }},
 }
 ,"monk_brewmaster_2h.simc")

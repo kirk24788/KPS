@@ -50,7 +50,7 @@ kps.rotations.register("WARLOCK","DEMONOLOGY",
         {spells.shadowBolt}, -- shadow_bolt
         {spells.hellfire}, -- hellfire,moving=1,interrupt=1
         {spells.lifeTap}, -- life_tap
-    },
+    }},
     {spells.kiljaedensCunning, 'not spells.cataclysm.cooldown and player.hasBuff(spells.metamorphosis)'}, -- kiljaedens_cunning,if=!cooldown.cataclysm.remains&buff.metamorphosis.up
     {spells.cataclysm, 'player.hasBuff(spells.metamorphosis)'}, -- cataclysm,if=buff.metamorphosis.up
     {spells.immolationAura, 'player.demonicFury > 450 and activeEnemies() >= 3 and target.hasMyDebuff(spells.immolationAura)'}, -- immolation_aura,if=demonic_fury>450&active_enemies>=3&buff.immolation_aura.down

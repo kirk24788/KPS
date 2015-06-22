@@ -20,7 +20,7 @@ kps.rotations.register("MONK","WINDWALKER",
         {spells.chiBrew, 'player.chiMax - player.chi >= 2'}, -- chi_brew,if=chi.max-chi>=2
         {spells.serenity, 'player.chiMax - player.chi <= 2'}, -- serenity,if=chi.max-chi<=2
         {spells.jab, 'player.chiMax - player.chi >= 2 and not player.hasBuff(spells.serenity)'}, -- jab,if=chi.max-chi>=2&!buff.serenity.up
-    },
+    }},
     {spells.chiSphere, 'player.hasTalent(3, 1) and player.buffStacks(spells.chiSphere) and player.chi < player.chiMax'}, -- chi_sphere,if=talent.power_strikes.enabled&buff.chi_sphere.react&chi<chi.max
     {spells.chiBrew, 'player.chiMax - player.chi >= 2 and ( ( spells.chiBrew.charges == 1 and spells.chiBrew.cooldown <= 10 ) or spells.chiBrew.charges == 2 or target.timeToDie < spells.chiBrew.charges * 10 ) and player.buffStacks(spells.tigereyeBrew) <= 16'}, -- chi_brew,if=chi.max-chi>=2&((charges=1&recharge_time<=10)|charges=2|target.time_to_die<charges*10)&buff.tigereye_brew.stack<=16
     {spells.tigerPalm, 'not player.hasTalent(7, 2) and player.buffDuration(spells.tigerPower) < 6.6'}, -- tiger_palm,if=!talent.chi_explosion.enabled&buff.tiger_power.remains<6.6
@@ -48,7 +48,7 @@ kps.rotations.register("MONK","WINDWALKER",
         {spells.blackoutKick, 'player.chiMax - player.chi < 2'}, -- blackout_kick,if=chi.max-chi<2
         {spells.expelHarm, 'player.chiMax - player.chi >= 2 and player.hp < 95'}, -- expel_harm,if=chi.max-chi>=2&health.percent<95
         {spells.jab, 'player.chiMax - player.chi >= 2'}, -- jab,if=chi.max-chi>=2
-    },
+    }},
     {{"nested"}, 'activeEnemies() == 1 and player.hasTalent(7, 2)', { -- call_action_list,name=st_chix,if=active_enemies=1&talent.chi_explosion.enabled
         {spells.chiExplosion, 'player.chi >= 2 and player.buffStacks(spells.comboBreakerChiExplosion) and spells.fistsOfFury.cooldown > 2'}, -- chi_explosion,if=chi>=2&buff.combo_breaker_ce.react&cooldown.fists_of_fury.remains>2
         {spells.tigerPalm, 'player.buffStacks(spells.comboBreakerTigerPalm) and player.buffDuration(spells.comboBreakerTigerPalm) <= 2'}, -- tiger_palm,if=buff.combo_breaker_tp.react&buff.combo_breaker_tp.remains<=2
@@ -61,7 +61,7 @@ kps.rotations.register("MONK","WINDWALKER",
         {spells.chiTorpedo, 'player.energyTimeToMax > 2'}, -- chi_torpedo,if=energy.time_to_max>2
         {spells.expelHarm, 'player.chiMax - player.chi >= 2 and player.hp < 95'}, -- expel_harm,if=chi.max-chi>=2&health.percent<95
         {spells.jab, 'player.chiMax - player.chi >= 2'}, -- jab,if=chi.max-chi>=2
-    },
+    }},
     {{"nested"}, '( activeEnemies() == 2 or activeEnemies() == 3 and not player.hasTalent(6, 1) ) and player.hasTalent(7, 2)', { -- call_action_list,name=cleave_chix,if=(active_enemies=2|active_enemies=3&!talent.rushing_jade_wind.enabled)&talent.chi_explosion.enabled
         {spells.chiExplosion, 'player.chi >= 4 and spells.fistsOfFury.cooldown > 4'}, -- chi_explosion,if=chi>=4&cooldown.fists_of_fury.remains>4
         {spells.tigerPalm, 'player.buffStacks(spells.comboBreakerTigerPalm) and player.buffDuration(spells.comboBreakerTigerPalm) <= 2'}, -- tiger_palm,if=buff.combo_breaker_tp.react&buff.combo_breaker_tp.remains<=2
@@ -71,7 +71,7 @@ kps.rotations.register("MONK","WINDWALKER",
         {spells.chiTorpedo, 'player.energyTimeToMax > 2'}, -- chi_torpedo,if=energy.time_to_max>2
         {spells.expelHarm, 'player.chiMax - player.chi >= 2 and player.hp < 95'}, -- expel_harm,if=chi.max-chi>=2&health.percent<95
         {spells.jab, 'player.chiMax - player.chi >= 2'}, -- jab,if=chi.max-chi>=2
-    },
+    }},
     {{"nested"}, 'activeEnemies() >= 3 and not player.hasTalent(6, 1) and not player.hasTalent(7, 2)', { -- call_action_list,name=aoe_norjw,if=active_enemies>=3&!talent.rushing_jade_wind.enabled&!talent.chi_explosion.enabled
         {spells.chiWave, 'player.energyTimeToMax > 2 and target.hasMyDebuff(spells.serenity)'}, -- chi_wave,if=energy.time_to_max>2&buff.serenity.down
         {spells.chiBurst, 'player.energyTimeToMax > 2 and target.hasMyDebuff(spells.serenity)'}, -- chi_burst,if=energy.time_to_max>2&buff.serenity.down
@@ -81,7 +81,7 @@ kps.rotations.register("MONK","WINDWALKER",
         {spells.blackoutKick, 'player.chiMax - player.chi < 2 and spells.fistsOfFury.cooldown > 3'}, -- blackout_kick,if=chi.max-chi<2&cooldown.fists_of_fury.remains>3
         {spells.chiTorpedo, 'player.energyTimeToMax > 2'}, -- chi_torpedo,if=energy.time_to_max>2
         {spells.spinningCraneKick}, -- spinning_crane_kick
-    },
+    }},
     {{"nested"}, 'activeEnemies() >= 4 and not player.hasTalent(6, 1) and player.hasTalent(7, 2)', { -- call_action_list,name=aoe_norjw_chix,if=active_enemies>=4&!talent.rushing_jade_wind.enabled&talent.chi_explosion.enabled
         {spells.chiExplosion, 'player.chi >= 4 and spells.fistsOfFury.cooldown > 4'}, -- chi_explosion,if=chi>=4&cooldown.fists_of_fury.remains>4
         {spells.risingSunKick, 'player.chi == player.chiMax'}, -- rising_sun_kick,if=chi=chi.max
@@ -90,7 +90,7 @@ kps.rotations.register("MONK","WINDWALKER",
         {spells.zenSphere, 'player.energyTimeToMax > 2 and not target.hasMyDebuff(spells.zenSphere)'}, -- zen_sphere,cycle_targets=1,if=energy.time_to_max>2&!dot.zen_sphere.ticking
         {spells.chiTorpedo, 'player.energyTimeToMax > 2'}, -- chi_torpedo,if=energy.time_to_max>2
         {spells.spinningCraneKick}, -- spinning_crane_kick
-    },
+    }},
     {{"nested"}, 'activeEnemies() >= 3 and player.hasTalent(6, 1)', { -- call_action_list,name=aoe_rjw,if=active_enemies>=3&talent.rushing_jade_wind.enabled
         {spells.chiExplosion, 'player.chi >= 4 and spells.fistsOfFury.cooldown > 4'}, -- chi_explosion,if=chi>=4&cooldown.fists_of_fury.remains>4
         {spells.rushingJadeWind}, -- rushing_jade_wind
@@ -103,7 +103,7 @@ kps.rotations.register("MONK","WINDWALKER",
         {spells.chiTorpedo, 'player.energyTimeToMax > 2'}, -- chi_torpedo,if=energy.time_to_max>2
         {spells.expelHarm, 'player.chiMax - player.chi >= 2 and player.hp < 95'}, -- expel_harm,if=chi.max-chi>=2&health.percent<95
         {spells.jab, 'player.chiMax - player.chi >= 2'}, -- jab,if=chi.max-chi>=2
-    },
+    }},
 }
 ,"monk_windwalker_1h.simc")
 
@@ -122,7 +122,7 @@ kps.rotations.register("MONK","WINDWALKER",
         {spells.chiBrew, 'player.chiMax - player.chi >= 2'}, -- chi_brew,if=chi.max-chi>=2
         {spells.serenity, 'player.chiMax - player.chi <= 2'}, -- serenity,if=chi.max-chi<=2
         {spells.jab, 'player.chiMax - player.chi >= 2 and not player.hasBuff(spells.serenity)'}, -- jab,if=chi.max-chi>=2&!buff.serenity.up
-    },
+    }},
     {spells.chiSphere, 'player.hasTalent(3, 1) and player.buffStacks(spells.chiSphere) and player.chi < player.chiMax'}, -- chi_sphere,if=talent.power_strikes.enabled&buff.chi_sphere.react&chi<chi.max
     {spells.chiBrew, 'player.chiMax - player.chi >= 2 and ( ( spells.chiBrew.charges == 1 and spells.chiBrew.cooldown <= 10 ) or spells.chiBrew.charges == 2 or target.timeToDie < spells.chiBrew.charges * 10 ) and player.buffStacks(spells.tigereyeBrew) <= 16'}, -- chi_brew,if=chi.max-chi>=2&((charges=1&recharge_time<=10)|charges=2|target.time_to_die<charges*10)&buff.tigereye_brew.stack<=16
     {spells.tigerPalm, 'not player.hasTalent(7, 2) and player.buffDuration(spells.tigerPower) < 6.6'}, -- tiger_palm,if=!talent.chi_explosion.enabled&buff.tiger_power.remains<6.6
@@ -150,7 +150,7 @@ kps.rotations.register("MONK","WINDWALKER",
         {spells.blackoutKick, 'player.chiMax - player.chi < 2'}, -- blackout_kick,if=chi.max-chi<2
         {spells.expelHarm, 'player.chiMax - player.chi >= 2 and player.hp < 95'}, -- expel_harm,if=chi.max-chi>=2&health.percent<95
         {spells.jab, 'player.chiMax - player.chi >= 2'}, -- jab,if=chi.max-chi>=2
-    },
+    }},
     {{"nested"}, 'activeEnemies() == 1 and player.hasTalent(7, 2)', { -- call_action_list,name=st_chix,if=active_enemies=1&talent.chi_explosion.enabled
         {spells.chiExplosion, 'player.chi >= 2 and player.buffStacks(spells.comboBreakerChiExplosion) and spells.fistsOfFury.cooldown > 2'}, -- chi_explosion,if=chi>=2&buff.combo_breaker_ce.react&cooldown.fists_of_fury.remains>2
         {spells.tigerPalm, 'player.buffStacks(spells.comboBreakerTigerPalm) and player.buffDuration(spells.comboBreakerTigerPalm) <= 2'}, -- tiger_palm,if=buff.combo_breaker_tp.react&buff.combo_breaker_tp.remains<=2
@@ -163,7 +163,7 @@ kps.rotations.register("MONK","WINDWALKER",
         {spells.chiTorpedo, 'player.energyTimeToMax > 2'}, -- chi_torpedo,if=energy.time_to_max>2
         {spells.expelHarm, 'player.chiMax - player.chi >= 2 and player.hp < 95'}, -- expel_harm,if=chi.max-chi>=2&health.percent<95
         {spells.jab, 'player.chiMax - player.chi >= 2'}, -- jab,if=chi.max-chi>=2
-    },
+    }},
     {{"nested"}, '( activeEnemies() == 2 or activeEnemies() == 3 and not player.hasTalent(6, 1) ) and player.hasTalent(7, 2)', { -- call_action_list,name=cleave_chix,if=(active_enemies=2|active_enemies=3&!talent.rushing_jade_wind.enabled)&talent.chi_explosion.enabled
         {spells.chiExplosion, 'player.chi >= 4 and spells.fistsOfFury.cooldown > 4'}, -- chi_explosion,if=chi>=4&cooldown.fists_of_fury.remains>4
         {spells.tigerPalm, 'player.buffStacks(spells.comboBreakerTigerPalm) and player.buffDuration(spells.comboBreakerTigerPalm) <= 2'}, -- tiger_palm,if=buff.combo_breaker_tp.react&buff.combo_breaker_tp.remains<=2
@@ -173,7 +173,7 @@ kps.rotations.register("MONK","WINDWALKER",
         {spells.chiTorpedo, 'player.energyTimeToMax > 2'}, -- chi_torpedo,if=energy.time_to_max>2
         {spells.expelHarm, 'player.chiMax - player.chi >= 2 and player.hp < 95'}, -- expel_harm,if=chi.max-chi>=2&health.percent<95
         {spells.jab, 'player.chiMax - player.chi >= 2'}, -- jab,if=chi.max-chi>=2
-    },
+    }},
     {{"nested"}, 'activeEnemies() >= 3 and not player.hasTalent(6, 1) and not player.hasTalent(7, 2)', { -- call_action_list,name=aoe_norjw,if=active_enemies>=3&!talent.rushing_jade_wind.enabled&!talent.chi_explosion.enabled
         {spells.chiWave, 'player.energyTimeToMax > 2 and target.hasMyDebuff(spells.serenity)'}, -- chi_wave,if=energy.time_to_max>2&buff.serenity.down
         {spells.chiBurst, 'player.energyTimeToMax > 2 and target.hasMyDebuff(spells.serenity)'}, -- chi_burst,if=energy.time_to_max>2&buff.serenity.down
@@ -183,7 +183,7 @@ kps.rotations.register("MONK","WINDWALKER",
         {spells.blackoutKick, 'player.chiMax - player.chi < 2 and spells.fistsOfFury.cooldown > 3'}, -- blackout_kick,if=chi.max-chi<2&cooldown.fists_of_fury.remains>3
         {spells.chiTorpedo, 'player.energyTimeToMax > 2'}, -- chi_torpedo,if=energy.time_to_max>2
         {spells.spinningCraneKick}, -- spinning_crane_kick
-    },
+    }},
     {{"nested"}, 'activeEnemies() >= 4 and not player.hasTalent(6, 1) and player.hasTalent(7, 2)', { -- call_action_list,name=aoe_norjw_chix,if=active_enemies>=4&!talent.rushing_jade_wind.enabled&talent.chi_explosion.enabled
         {spells.chiExplosion, 'player.chi >= 4 and spells.fistsOfFury.cooldown > 4'}, -- chi_explosion,if=chi>=4&cooldown.fists_of_fury.remains>4
         {spells.risingSunKick, 'player.chi == player.chiMax'}, -- rising_sun_kick,if=chi=chi.max
@@ -192,7 +192,7 @@ kps.rotations.register("MONK","WINDWALKER",
         {spells.zenSphere, 'player.energyTimeToMax > 2 and not target.hasMyDebuff(spells.zenSphere)'}, -- zen_sphere,cycle_targets=1,if=energy.time_to_max>2&!dot.zen_sphere.ticking
         {spells.chiTorpedo, 'player.energyTimeToMax > 2'}, -- chi_torpedo,if=energy.time_to_max>2
         {spells.spinningCraneKick}, -- spinning_crane_kick
-    },
+    }},
     {{"nested"}, 'activeEnemies() >= 3 and player.hasTalent(6, 1)', { -- call_action_list,name=aoe_rjw,if=active_enemies>=3&talent.rushing_jade_wind.enabled
         {spells.chiExplosion, 'player.chi >= 4 and spells.fistsOfFury.cooldown > 4'}, -- chi_explosion,if=chi>=4&cooldown.fists_of_fury.remains>4
         {spells.rushingJadeWind}, -- rushing_jade_wind
@@ -205,6 +205,6 @@ kps.rotations.register("MONK","WINDWALKER",
         {spells.chiTorpedo, 'player.energyTimeToMax > 2'}, -- chi_torpedo,if=energy.time_to_max>2
         {spells.expelHarm, 'player.chiMax - player.chi >= 2 and player.hp < 95'}, -- expel_harm,if=chi.max-chi>=2&health.percent<95
         {spells.jab, 'player.chiMax - player.chi >= 2'}, -- jab,if=chi.max-chi>=2
-    },
+    }},
 }
 ,"monk_windwalker_2h.simc")

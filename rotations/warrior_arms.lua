@@ -15,7 +15,7 @@ kps.rotations.register("WARRIOR","ARMS",
         {spells.charge}, -- charge
         {spells.stormBolt}, -- storm_bolt
         {spells.heroicThrow}, -- heroic_throw
-    },
+    }},
 -- SKIP 'recklessness,if=(((target.time_to_die>190|target.health.pct<20)&(buff.bloodbath.up|!talent.bloodbath.enabled))|target.time_to_die<=12|talent.anger_management.enabled)&((desired_targets=1&!raid_event.adds.exists)|!talent.bladestorm.enabled)': Line Skipped
     {spells.bloodbath, '( target.hasMyDebuff(spells.rend) and spells.colossusSmash.cooldown < 5 and ( ( player.hasTalent(7, 2) and spells.ravager.isRecastAt("target") ) or not player.hasTalent(7, 2) ) ) or target.timeToDie < 20'}, -- bloodbath,if=(dot.rend.ticking&cooldown.colossus_smash.remains<5&((talent.ravager.enabled&prev_gcd.ravager)|!talent.ravager.enabled))|target.time_to_die<20
     {spells.avatar, 'player.hasBuff(spells.recklessness) or target.timeToDie < 25'}, -- avatar,if=buff.recklessness.up|target.time_to_die<25
@@ -36,7 +36,7 @@ kps.rotations.register("WARRIOR","ARMS",
         {spells.thunderClap, 'not player.hasTalent(3, 3) and target.hp > 20 and ( player.rage >= 40 or player.hasBuff(spells.colossusSmash) ) and player.hasGlyph(spells.glyphOfResonatingPower) and spells.colossusSmash.cooldown > player.gcd'}, -- thunder_clap,if=!talent.slam.enabled&target.health.pct>20&(rage>=40|debuff.colossus_smash.up)&glyph.resonating_power.enabled&cooldown.colossus_smash.remains>gcd
         {spells.whirlwind, 'not player.hasTalent(3, 3) and target.hp > 20 and ( player.rage >= 40 or player.hasBuff(spells.colossusSmash) ) and spells.colossusSmash.cooldown > player.gcd'}, -- whirlwind,if=!talent.slam.enabled&target.health.pct>20&(rage>=40|debuff.colossus_smash.up)&cooldown.colossus_smash.remains>gcd
         {spells.shockwave}, -- shockwave
-    },
+    }},
     {{"nested"}, 'activeEnemies() > 1', { -- call_action_list,name=aoe,if=active_enemies>1
         {spells.sweepingStrikes}, -- sweeping_strikes
         {spells.rend, '(target.myDebuffDuration(spells.rend)/spells.rend.tickTime) < 2 and target.timeToDie > 4 and ( target.hp > 20 or not player.hasBuff(spells.colossusSmash) )'}, -- rend,if=ticks_remain<2&target.time_to_die>4&(target.health.pct>20|!debuff.colossus_smash.up)
@@ -55,6 +55,6 @@ kps.rotations.register("WARRIOR","ARMS",
         {spells.stormBolt, 'spells.colossusSmash.cooldown > 4 or player.hasBuff(spells.colossusSmash)'}, -- storm_bolt,if=cooldown.colossus_smash.remains>4|debuff.colossus_smash.up
         {spells.shockwave}, -- shockwave
         {spells.execute, 'player.buffStacks(spells.suddenDeath)'}, -- execute,if=buff.sudden_death.react
-    },
+    }},
 }
 ,"warrior_arms.simc")

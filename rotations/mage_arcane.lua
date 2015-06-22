@@ -20,7 +20,7 @@ kps.rotations.register("MAGE","ARCANE",
     {{"nested"}, 'activeEnemies() >= 5', { -- call_action_list,name=aoe,if=active_enemies>=5
         {{"nested"}, 'True', { -- call_action_list,name=cooldowns
             {spells.arcanePower}, -- arcane_power
-        },
+        }},
         {spells.netherTempest, 'player.buffStacks(spells.arcaneCharge) == 4 and ( target.hasMyDebuff(spells.netherTempest) or ( target.hasMyDebuff(spells.netherTempest) and target.myDebuffDuration(spells.netherTempest) < 3.6 ) )'}, -- nether_tempest,cycle_targets=1,if=buff.arcane_charge.stack=4&(active_dot.nether_tempest=0|(ticking&remains<3.6))
         {spells.supernova}, -- supernova
         {spells.arcaneOrb, 'player.buffStacks(spells.arcaneCharge) < 4'}, -- arcane_orb,if=buff.arcane_charge.stack<4
@@ -31,15 +31,15 @@ kps.rotations.register("MAGE","ARCANE",
         {spells.arcaneBarrage, 'player.buffStacks(spells.arcaneCharge) == 4'}, -- arcane_barrage,if=buff.arcane_charge.stack=4
         {spells.coneOfCold, 'player.hasGlyph(spells.glyphOfConeOfCold) and target.distance <= 12'}, -- cone_of_cold,if=glyph.cone_of_cold.enabled
         {spells.arcaneExplosion}, -- arcane_explosion
-    },
+    }},
     {{"nested"}, 'not burnPhase()', { -- call_action_list,name=init_burn,if=!burn_phase
-    },
+    }},
     {{"nested"}, 'burnPhase()', { -- call_action_list,name=burn,if=burn_phase
         {{"nested"}, 'player.hasTalent(7, 2) and spells.prismaticCrystal.cooldown == 0', { -- call_action_list,name=init_crystal,if=talent.prismatic_crystal.enabled&cooldown.prismatic_crystal.up
             {{"nested"}, 'player.buffStacks(spells.arcaneCharge) < 4', { -- call_action_list,name=conserve,if=buff.arcane_charge.stack<4
                 {{"nested"}, 'target.timeToDie < 15', { -- call_action_list,name=cooldowns,if=target.time_to_die<15
                     {spells.arcanePower}, -- arcane_power
-                },
+                }},
                 {spells.arcaneMissiles, 'player.buffStacks(spells.arcaneMissiles) == 3 or ( player.hasTalent(7, 1) and player.hasBuff(spells.arcanePower) and player.buffDuration(spells.arcanePower) < spells.arcaneBlast.castTime )'}, -- arcane_missiles,if=buff.arcane_missiles.react=3|(talent.overpowered.enabled&buff.arcane_power.up&buff.arcane_power.remains<action.arcane_blast.execute_time)
                 {spells.arcaneMissiles, 'player.buffStacks(spells.arcaneInstability) and player.buffDuration(spells.arcaneInstability) < spells.arcaneBlast.castTime'}, -- arcane_missiles,if=set_bonus.tier17_4pc&buff.arcane_instability.react&buff.arcane_instability.remains<action.arcane_blast.execute_time
                 {spells.netherTempest, 'target.npcId = 76933 and player.buffStacks(spells.arcaneCharge) == 4 and ( target.hasMyDebuff(spells.netherTempest) or ( target.hasMyDebuff(spells.netherTempest) and target.myDebuffDuration(spells.netherTempest) < 3.6 ) )'}, -- nether_tempest,cycle_targets=1,if=target!=prismatic_crystal&buff.arcane_charge.stack=4&(active_dot.nether_tempest=0|(ticking&remains<3.6))
@@ -55,13 +55,13 @@ kps.rotations.register("MAGE","ARCANE",
                 {spells.presenceOfMind, 'player.buffStacks(spells.arcaneCharge) < 2 and player.mana > 93'}, -- presence_of_mind,if=buff.arcane_charge.stack<2&mana.pct>93
                 {spells.arcaneBlast}, -- arcane_blast
                 {spells.arcaneBarrage}, -- arcane_barrage
-            },
+            }},
             {spells.prismaticCrystal}, -- prismatic_crystal
-        },
+        }},
         {{"nested"}, 'player.hasTalent(7, 2) and pet.npcId == 76933', { -- call_action_list,name=crystal_sequence,if=talent.prismatic_crystal.enabled&pet.prismatic_crystal.active
             {{"nested"}, 'True', { -- call_action_list,name=cooldowns
                 {spells.arcanePower}, -- arcane_power
-            },
+            }},
             {spells.netherTempest, 'player.buffStacks(spells.arcaneCharge) == 4 and not target.hasMyDebuff(spells.netherTempest) and spells.prismaticCrystal.cooldown - 78>8'}, -- nether_tempest,if=buff.arcane_charge.stack=4&!ticking&pet.prismatic_crystal.remains>8
             {spells.supernova, 'player.mana < 96'}, -- supernova,if=mana.pct<96
             {spells.presenceOfMind, 'spells.coldSnap.cooldown == 0 or spells.prismaticCrystal.cooldown - 78<2 * 1'}, -- presence_of_mind,if=cooldown.cold_snap.up|pet.prismatic_crystal.remains<2*spell_haste
@@ -69,10 +69,10 @@ kps.rotations.register("MAGE","ARCANE",
             {spells.arcaneMissiles, 'spells.prismaticCrystal.cooldown - 78>2 * 1 + 1'}, -- arcane_missiles,if=pet.prismatic_crystal.remains>2*spell_haste+travel_time
             {spells.supernova, 'spells.prismaticCrystal.cooldown - 78<2 * 1'}, -- supernova,if=pet.prismatic_crystal.remains<2*spell_haste
             {spells.arcaneBlast}, -- arcane_blast
-        },
+        }},
         {{"nested"}, 'True', { -- call_action_list,name=cooldowns
             {spells.arcanePower}, -- arcane_power
-        },
+        }},
         {spells.arcaneMissiles, 'player.buffStacks(spells.arcaneMissiles) == 3'}, -- arcane_missiles,if=buff.arcane_missiles.react=3
         {spells.arcaneMissiles, 'player.buffStacks(spells.arcaneInstability) and player.buffDuration(spells.arcaneInstability) < spells.arcaneBlast.castTime'}, -- arcane_missiles,if=set_bonus.tier17_4pc&buff.arcane_instability.react&buff.arcane_instability.remains<action.arcane_blast.execute_time
         {spells.supernova, 'target.timeToDie < 8 or spells.supernova.charges == 2'}, -- supernova,if=target.time_to_die<8|charges=2
@@ -87,11 +87,11 @@ kps.rotations.register("MAGE","ARCANE",
         {spells.presenceOfMind, 'not player.hasTalent(7, 2) or not spells.prismaticCrystal.cooldown == 0'}, -- presence_of_mind,if=!talent.prismatic_crystal.enabled|!cooldown.prismatic_crystal.up
         {spells.arcaneBlast}, -- arcane_blast
         {spells.evocation}, -- evocation
-    },
+    }},
     {{"nested"}, 'True', { -- call_action_list,name=conserve
         {{"nested"}, 'target.timeToDie < 15', { -- call_action_list,name=cooldowns,if=target.time_to_die<15
             {spells.arcanePower}, -- arcane_power
-        },
+        }},
         {spells.arcaneMissiles, 'player.buffStacks(spells.arcaneMissiles) == 3 or ( player.hasTalent(7, 1) and player.hasBuff(spells.arcanePower) and player.buffDuration(spells.arcanePower) < spells.arcaneBlast.castTime )'}, -- arcane_missiles,if=buff.arcane_missiles.react=3|(talent.overpowered.enabled&buff.arcane_power.up&buff.arcane_power.remains<action.arcane_blast.execute_time)
         {spells.arcaneMissiles, 'player.buffStacks(spells.arcaneInstability) and player.buffDuration(spells.arcaneInstability) < spells.arcaneBlast.castTime'}, -- arcane_missiles,if=set_bonus.tier17_4pc&buff.arcane_instability.react&buff.arcane_instability.remains<action.arcane_blast.execute_time
         {spells.netherTempest, 'target.npcId = 76933 and player.buffStacks(spells.arcaneCharge) == 4 and ( target.hasMyDebuff(spells.netherTempest) or ( target.hasMyDebuff(spells.netherTempest) and target.myDebuffDuration(spells.netherTempest) < 3.6 ) )'}, -- nether_tempest,cycle_targets=1,if=target!=prismatic_crystal&buff.arcane_charge.stack=4&(active_dot.nether_tempest=0|(ticking&remains<3.6))
@@ -107,6 +107,6 @@ kps.rotations.register("MAGE","ARCANE",
         {spells.presenceOfMind, 'player.buffStacks(spells.arcaneCharge) < 2 and player.mana > 93'}, -- presence_of_mind,if=buff.arcane_charge.stack<2&mana.pct>93
         {spells.arcaneBlast}, -- arcane_blast
         {spells.arcaneBarrage}, -- arcane_barrage
-    },
+    }},
 }
 ,"mage_arcane.simc")

@@ -176,3 +176,6 @@ end
 function UnitGUID( ... )
     return "0x242345"
 end
+function LibStub( ... )
+    return {}
+end

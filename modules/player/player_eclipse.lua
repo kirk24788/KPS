@@ -68,12 +68,11 @@ function Player.eclipsePhaseDuration(self)
 end
 
 -- eclipseMax - Time until the next solar or lunar max.
-local timeToMax = {
-    1 = {0.0,0.8},
-    2 = {0.8,1.0},
-    3 = {0.0,0.8},
-    4 = {0.8,1.0},
-}
+local timeToMax = {}
+timeToMax[1] = {0.0,0.8}
+timeToMax[2] = {0.8,1.0}
+timeToMax[3] = {0.0,0.8}
+timeToMax[4] = {0.8,1.0}
 function Player.eclipseMax(self)
     local phase = Player.eclipsePhase(self)
     local duration = Player.eclipsePhaseDuration(self)
@@ -82,12 +81,11 @@ function Player.eclipseMax(self)
 end
 
 -- eclipseLunarMax - Time until the next lunar max is reached
-local timeToLunarMax = {
-    1 = {0.0,0.8},
-    2 = {2.8,1.0},
-    3 = {1.8,1.0},
-    4 = {0.8,1.0},
-}
+local timeToLunarMax = {}
+timeToLunarMax[1] = {0.0,0.8}
+timeToLunarMax[2] = {2.8,1.0}
+timeToLunarMax[3] = {1.8,1.0}
+timeToLunarMax[4] = {0.8,1.0}
 function Player.eclipseLunarMax(self)
     local phase = Player.eclipsePhase(self)
     local duration = Player.eclipsePhaseDuration(self)
@@ -96,12 +94,11 @@ function Player.eclipseLunarMax(self)
 end
 
 --eclipseSolarMax - Time until the next solar max is reached
-local timeToSolarMax = {
-    1 = {1.8,1.0},
-    2 = {0.8,1.0},
-    3 = {0.0,0.8},
-    4 = {2.8,1.0},
-}
+local timeToSolarMax = {}
+timeToSolarMax[1] = {1.8,1.0}
+timeToSolarMax[2] = {0.8,1.0}
+timeToSolarMax[3] = {0.0,0.8}
+timeToSolarMax[4] = {2.8,1.0}
 function Player.eclipseSolarMax(self)
     local phase = Player.eclipsePhase(self)
     local duration = Player.eclipsePhaseDuration(self)
@@ -110,12 +107,11 @@ function Player.eclipseSolarMax(self)
 end
 
 -- eclipseChange - Time until eclipse energy hits 0
-local timeToChange = {
-    1 = {1.0,1.0},
-    2 = {0.0,1.0},
-    3 = {1.0,1.0},
-    4 = {0.0,1.0},
-}
+local timeToChange = {}
+timeToChange[1] = {1.0,1.0}
+timeToChange[2] = {0.0,1.0}
+timeToChange[3] = {1.0,1.0}
+timeToChange[4] = {0.0,1.0}
 function Player.eclipseChange(self)
     local phase = Player.eclipsePhase(self)
     local duration = Player.eclipsePhaseDuration(self)

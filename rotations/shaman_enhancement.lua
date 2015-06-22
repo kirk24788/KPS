@@ -37,7 +37,7 @@ kps.rotations.register("SHAMAN","ENHANCEMENT",
         {spells.stormstrike, 'player.hasTalent(4, 3)'}, -- stormstrike,if=talent.echo_of_the_elements.enabled
         {spells.lightningBolt, '( player.buffStacks(spells.maelstromWeapon) >= 1 and not player.hasBuff(spells.ascendance) ) or player.hasBuff(spells.ancestralSwiftness)'}, -- lightning_bolt,if=(buff.maelstrom_weapon.react>=1&!buff.ascendance.up)|buff.ancestral_swiftness.up
         {spells.searingTotem, 'totem.duration(spells.searingTotem) <= 20 and not totem.isActive(spells.fireElementalTotem) and not player.hasBuff(spells.liquidMagma)'}, -- searing_totem,if=pet.searing_totem.remains<=20&!pet.fire_elemental_totem.active&!buff.liquid_magma.up
-    },
+    }},
     {{"nested"}, 'activeEnemies() > 1', { -- call_action_list,name=aoe,if=active_enemies>1
         {spells.unleashElements, 'activeEnemies() >= 4 and target.hasMyDebuff(spells.flameShock) and ( spells.flameShock.cooldown > spells.fireNova.cooldown or spells.fireNova.cooldown == 0 )'}, -- unleash_elements,if=active_enemies>=4&dot.flame_shock.ticking&(cooldown.shock.remains>cooldown.fire_nova.remains|cooldown.fire_nova.remains=0)
         {spells.fireNova, 'target.hasMyDebuff(spells.flameShock)'}, -- fire_nova,if=active_dot.flame_shock>=3
@@ -65,6 +65,6 @@ kps.rotations.register("SHAMAN","ENHANCEMENT",
         {spells.chainLightning, '( player.buffStacks(spells.maelstromWeapon) >= 1 or player.hasBuff(spells.ancestralSwiftness) ) and ( ( player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies() >= 3 ) or ( not player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies() >= 2 ) )'}, -- chain_lightning,if=(buff.maelstrom_weapon.react>=1|buff.ancestral_swiftness.up)&((glyph.chain_lightning.enabled&active_enemies>=3)|(!glyph.chain_lightning.enabled&active_enemies>=2))
         {spells.lightningBolt, '( player.buffStacks(spells.maelstromWeapon) >= 1 or player.hasBuff(spells.ancestralSwiftness) ) and player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies() < 3'}, -- lightning_bolt,if=(buff.maelstrom_weapon.react>=1|buff.ancestral_swiftness.up)&glyph.chain_lightning.enabled&active_enemies<3
         {spells.fireNova, 'target.hasMyDebuff(spells.flameShock)'}, -- fire_nova,if=active_dot.flame_shock>=1
-    },
+    }},
 }
 ,"shaman_enhancement.simc")

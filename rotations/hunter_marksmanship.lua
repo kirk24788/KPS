@@ -19,7 +19,7 @@ kps.rotations.register("HUNTER","MARKSMANSHIP",
         {spells.aimedShot}, -- aimed_shot
         {spells.focusingShot, '50 (player.focusMax-player.focus)'}, -- focusing_shot,if=50+cast_regen<focus.deficit
         {spells.steadyShot}, -- steady_shot
-    },
+    }},
     {spells.explosiveTrap, 'activeEnemies() > 1'}, -- explosive_trap,if=active_enemies>1
     {spells.aMurderOfCrows}, -- a_murder_of_crows
     {spells.direBeast, '(player.focusMax-player.focus)'}, -- dire_beast,if=cast_regen+action.aimed_shot.cast_regen<focus.deficit

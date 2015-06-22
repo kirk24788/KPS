@@ -35,7 +35,7 @@ kps.rotations.register("WARRIOR","PROTECTION",
             {spells.shieldSlam}, -- shield_slam
             {spells.execute, 'player.buffStacks(spells.suddenDeath)'}, -- execute,if=buff.sudden_death.react
             {spells.devastate}, -- devastate
-        },
+        }},
         {spells.heroicStrike, 'player.hasBuff(spells.ultimatum) or ( player.hasTalent(3, 3) and player.buffStacks(spells.unyieldingStrikes) >= 6 )'}, -- heroic_strike,if=buff.ultimatum.up|(talent.unyielding_strikes.enabled&buff.unyielding_strikes.stack>=6)
         {spells.bloodbath, 'player.hasTalent(6, 2) and ( ( spells.dragonRoar.cooldown == 0 and player.hasTalent(4, 3) ) or ( spells.stormBolt.cooldown == 0 and player.hasTalent(4, 1) ) or player.hasTalent(4, 2) )'}, -- bloodbath,if=talent.bloodbath.enabled&((cooldown.dragon_roar.remains=0&talent.dragon_roar.enabled)|(cooldown.storm_bolt.remains=0&talent.storm_bolt.enabled)|talent.shockwave.enabled)
         {spells.avatar, 'player.hasTalent(6, 1) and ( ( spells.ravager.cooldown == 0 and player.hasTalent(7, 2) ) or ( spells.dragonRoar.cooldown == 0 and player.hasTalent(4, 3) ) or ( player.hasTalent(4, 1) and spells.stormBolt.cooldown == 0 ) or ( not ( player.hasTalent(4, 3) or player.hasTalent(7, 2) or player.hasTalent(4, 1) ) ) )'}, -- avatar,if=talent.avatar.enabled&((cooldown.ravager.remains=0&talent.ravager.enabled)|(cooldown.dragon_roar.remains=0&talent.dragon_roar.enabled)|(talent.storm_bolt.enabled&cooldown.storm_bolt.remains=0)|(!(talent.dragon_roar.enabled|talent.ravager.enabled|talent.storm_bolt.enabled)))
@@ -48,7 +48,7 @@ kps.rotations.register("WARRIOR","PROTECTION",
         {spells.victoryRush, 'not player.hasTalent(2, 3) and spells.shieldSlam.cooldown <= spells.victoryRush.castTime'}, -- victory_rush,if=!talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
         {spells.execute, 'player.buffStacks(spells.suddenDeath)'}, -- execute,if=buff.sudden_death.react
         {spells.devastate}, -- devastate
-    },
+    }},
 }
 ,"warrior_protection.simc")
 
@@ -61,7 +61,7 @@ kps.rotations.register("WARRIOR","PROTECTION",
         {spells.shieldCharge}, -- shield_charge
         {spells.stormBolt}, -- storm_bolt
         {spells.heroicThrow}, -- heroic_throw
-    },
+    }},
     {spells.avatar}, -- avatar
     {spells.bloodbath}, -- bloodbath
     {spells.shieldCharge, '( not player.hasBuff(spells.shieldCharge) and not spells.shieldSlam.cooldown ) or spells.shieldCharge.charges == 2'}, -- shield_charge,if=(!buff.shield_charge.up&!cooldown.shield_slam.remains)|charges=2
@@ -78,7 +78,7 @@ kps.rotations.register("WARRIOR","PROTECTION",
         {spells.dragonRoar, 'player.buffStacks(spells.unyieldingStrikes) >= 4 and player.buffStacks(spells.unyieldingStrikes) < 6'}, -- dragon_roar,if=buff.unyielding_strikes.stack>=4&buff.unyielding_strikes.stack<6
         {spells.execute, 'player.rage > 60 and target.hp < 20'}, -- execute,if=rage>60&target.health.pct<20
         {spells.devastate}, -- devastate
-    },
+    }},
     {{"nested"}, 'activeEnemies() >= 2', { -- call_action_list,name=aoe,if=active_enemies>=2
         {spells.revenge}, -- revenge
         {spells.shieldSlam}, -- shield_slam
@@ -90,6 +90,6 @@ kps.rotations.register("WARRIOR","PROTECTION",
         {spells.thunderClap, 'activeEnemies() > 6'}, -- thunder_clap,if=active_enemies>6
         {spells.devastate, 'target.myDebuffDuration(spells.deepWounds) < 5 and spells.shieldSlam.cooldown > spells.devastate.castTime * 0.4'}, -- devastate,cycle_targets=1,if=dot.deep_wounds.remains<5&cooldown.shield_slam.remains>execute_time*0.4
         {spells.devastate, 'spells.shieldSlam.cooldown > spells.devastate.castTime * 0.4'}, -- devastate,if=cooldown.shield_slam.remains>execute_time*0.4
-    },
+    }},
 }
 ,"warrior_gladiator.simc")

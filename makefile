@@ -9,6 +9,10 @@ toc:
 	./utils/generateTOC.py > kps.toc
 
 
+# Test (requires coreutils!)
+test:
+	gtimeout 10 lua _test.lua
+
 # Rotations Directory (Spells & SimC Profiles)
 rotations: class_spells class_rotations
 

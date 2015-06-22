@@ -48,6 +48,7 @@ rotations\hunter.lua
 rotations\mage.lua
 rotations\monk.lua
 rotations\paladin.lua
+rotations\priest.lua
 rotations\rogue.lua
 rotations\shaman.lua
 rotations\warlock.lua
@@ -75,6 +76,11 @@ rotations\priest_shadow.lua
 rotations\rogue_assassination.lua
 rotations\rogue_combat.lua
 rotations\rogue_subtlety.lua
+rotations\warlock_affliction.lua
+rotations\warlock_demonology.lua
 rotations\warlock_destruction.lua
+rotations\warrior_arms.lua
+rotations\warrior_fury.lua
+rotations\warrior_protection.lua
 gui\gui.lua
 gui\toggle.lua

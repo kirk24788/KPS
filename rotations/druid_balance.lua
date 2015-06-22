@@ -22,7 +22,7 @@ kps.rotations.register("DRUID","BALANCE",
         {spells.wrath, '( player.eclipsePower <= 0 and player.eclipseChange > spells.wrath.castTime ) or ( player.eclipsePower > 0 and spells.wrath.castTime > player.eclipseChange )'}, -- wrath,if=(eclipse_energy<=0&eclipse_change>cast_time)|(eclipse_energy>0&cast_time>eclipse_change)
         {spells.starfire, '( player.eclipsePower >= 0 and player.eclipseChange > spells.starfire.castTime ) or ( player.eclipsePower < 0 and spells.starfire.castTime > player.eclipseChange )'}, -- starfire,if=(eclipse_energy>=0&eclipse_change>cast_time)|(eclipse_energy<0&cast_time>eclipse_change)
         {spells.wrath}, -- wrath
-    },
+    }},
     {{"nested"}, 'activeEnemies() > 1', { -- call_action_list,name=aoe,if=active_enemies>1
         {spells.celestialAlignment, 'player.eclipseLunarMax < 8 or target.timeToDie < 20'}, -- celestial_alignment,if=lunar_max<8|target.time_to_die<20
         {spells.incarnation, 'player.hasBuff(spells.celestialAlignment)'}, -- incarnation,if=buff.celestial_alignment.up
@@ -36,6 +36,6 @@ kps.rotations.register("DRUID","BALANCE",
         {spells.wrath, '( player.eclipsePower <= 0 and player.eclipseChange > spells.wrath.castTime ) or ( player.eclipsePower > 0 and spells.wrath.castTime > player.eclipseChange )'}, -- wrath,if=(eclipse_energy<=0&eclipse_change>cast_time)|(eclipse_energy>0&cast_time>eclipse_change)
         {spells.starfire, '( player.eclipsePower >= 0 and player.eclipseChange > spells.starfire.castTime ) or ( player.eclipsePower < 0 and spells.starfire.castTime > player.eclipseChange )'}, -- starfire,if=(eclipse_energy>=0&eclipse_change>cast_time)|(eclipse_energy<0&cast_time>eclipse_change)
         {spells.wrath}, -- wrath
-    },
+    }},
 }
 ,"druid_balance.simc")

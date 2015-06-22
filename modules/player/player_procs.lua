@@ -129,13 +129,13 @@ function Player.timeToNextHolyPower(self)
         spellTime = kps.spells.paladin.holyRadiance.cooldown + kps.spells.paladin.holyRadiance.castTime
         if spellTime < timeToNextHolyPower then timeToNextHolyPower = spellTime end
     -- Protection
-    else if spec == 2 then
+    elseif spec == 2 then
         --  [Hammer of the Righteous] Generates 1 charge.
         spellTime = kps.spells.paladin.hammerOfTheRighteous.cooldown
         if spellTime < timeToNextHolyPower then timeToNextHolyPower = spellTime end
         --  [Grand Crusader] generates a charge of Holy Power if the  [Avenger's Shield] it procs is used within 6 seconds
     -- Retribution
-    else if spec == 3 then
+    elseif spec == 3 then
         --  [Hammer of the Righteous] Generates 1 charge.
         spellTime = kps.spells.paladin.hammerOfTheRighteous.cooldown
         if spellTime < timeToNextHolyPower then timeToNextHolyPower = spellTime end

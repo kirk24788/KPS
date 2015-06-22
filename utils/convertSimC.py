@@ -691,7 +691,7 @@ class NestedActions(Action):
         s = """%s{{"nested"}, '%s', {%s\n""" % (prefix, condition, comment)
         for a in self.actions:
             s = s + str(a) + "\n"
-        s = s + prefix + "},"
+        s = s + prefix + "}},"
         return s
 
 class SimCraftProfile(object):

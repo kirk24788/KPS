@@ -35,25 +35,25 @@ kps.rotations.register("DEATHKNIGHT","BLOOD",
         {spells.deathCoil, 'player.runicPower > 70'}, -- death_coil,if=runic_power>70
         {spells.soulReaper, 'target.hp - 3 * ( target.hp % target.timeToDie ) <= 35 and ( player.bloodRunes == 2 or ( player.bloodRunes and not player.bloodDeathRunes ) )'}, -- soul_reaper,if=target.health.pct-3*(target.health.pct%target.time_to_die)<=35&(blood=2|(blood&!blood.death))
         {spells.bloodBoil, 'player.bloodRunes == 2 or ( player.bloodRunes and not player.bloodDeathRunes )'}, -- blood_boil,if=blood=2|(blood&!blood.death)
-    },
+    }},
     {{"nested"}, 'player.hasTalent(4, 2)', { -- call_action_list,name=re,if=talent.runic_empowerment.enabled
         {spells.deathStrike, 'player.unholyRunes and player.frostRunes'}, -- death_strike,if=unholy&frost
         {spells.deathCoil, 'player.runicPower > 70'}, -- death_coil,if=runic_power>70
         {spells.soulReaper, 'target.hp - 3 * ( target.hp % target.timeToDie ) <= 35 and player.bloodRunes == 2'}, -- soul_reaper,if=target.health.pct-3*(target.health.pct%target.time_to_die)<=35&blood=2
         {spells.bloodBoil, 'player.bloodRunes == 2'}, -- blood_boil,if=blood=2
-    },
+    }},
     {{"nested"}, 'player.hasTalent(4, 3)', { -- call_action_list,name=rc,if=talent.runic_corruption.enabled
         {spells.deathStrike, 'player.unholyRunes == 2 or player.frostRunes == 2'}, -- death_strike,if=unholy=2|frost=2
         {spells.deathCoil, 'player.runicPower > 70'}, -- death_coil,if=runic_power>70
         {spells.soulReaper, 'target.hp - 3 * ( target.hp % target.timeToDie ) <= 35 and player.bloodRunes >= 1'}, -- soul_reaper,if=target.health.pct-3*(target.health.pct%target.time_to_die)<=35&blood>=1
         {spells.bloodBoil, 'player.bloodRunes == 2'}, -- blood_boil,if=blood=2
-    },
+    }},
     {{"nested"}, 'not player.hasTalent(4, 1) and not player.hasTalent(4, 2) and not player.hasTalent(4, 3)', { -- call_action_list,name=nrt,if=!talent.blood_tap.enabled&!talent.runic_empowerment.enabled&!talent.runic_corruption.enabled
         {spells.deathStrike, 'player.unholyRunes == 2 or player.frostRunes == 2'}, -- death_strike,if=unholy=2|frost=2
         {spells.deathCoil, 'player.runicPower > 70'}, -- death_coil,if=runic_power>70
         {spells.soulReaper, 'target.hp - 3 * ( target.hp % target.timeToDie ) <= 35 and player.bloodRunes >= 1'}, -- soul_reaper,if=target.health.pct-3*(target.health.pct%target.time_to_die)<=35&blood>=1
         {spells.bloodBoil, 'player.bloodRunes >= 1'}, -- blood_boil,if=blood>=1
-    },
+    }},
     {spells.defile, 'player.buffStacks(spells.crimsonScourge)'}, -- defile,if=buff.crimson_scourge.react
     {spells.deathAndDecay, 'player.buffStacks(spells.crimsonScourge)'}, -- death_and_decay,if=buff.crimson_scourge.react
     {spells.bloodBoil, 'player.buffStacks(spells.crimsonScourge)'}, -- blood_boil,if=buff.crimson_scourge.react
