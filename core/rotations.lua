@@ -69,6 +69,11 @@ local function getCurrentKey()
     return classId * 10 + specId
 end
 
+local function isPlayerClass(class)
+    _,_,classId = UnitClass("player")
+    return classToNumber(class) == classId
+end
+
 local function addRotationToTable(rotations,rotation)
     for k,v in pairs(rotations) do
         if v.tooltip == rotation.tooltip then
@@ -107,6 +112,7 @@ choose your Rotation.
 @param tooltip Unique Name for this Rotation
 ]]--
 function kps.rotations.register(class,spec,table,tooltip)
+    if not isPlayerClass(class) then return end
     key = toKey(class, spec)
     if not rotations[key] then rotations[key] = {} end
     --TODO: Set correct Environment!!!

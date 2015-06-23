@@ -40,6 +40,9 @@ kps.useBagItem = function(bagItem)
 end
 
 kps.combatStep = function ()
+    -- Check for combat
+    if not InCombatLockdown() then return end
+
     -- Check for rotation
     if not kps.rotations.getActive() then
         kps.write("KPS does not have a rotation for your class (%s) or spec (%s)!", kps.spec, kps.class)

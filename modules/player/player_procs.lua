@@ -46,6 +46,20 @@ end)
 local haste = createStatWatch(function ()
     return UnitSpellHaste("player")
 end)
+local int = createStatWatch(function ()
+    local base, stat, posBuff, negBuff = UnitStat("player", 4)
+    return stat
+end)
+local str = createStatWatch(function ()
+    local base, stat, posBuff, negBuff = UnitStat("player", 1)
+    return stat
+end)
+local agi = createStatWatch(function ()
+    local base, stat, posBuff, negBuff = UnitStat("player", 2)
+    return stat
+end)
+
+
 
 local function updateStatWatches()
     mastery.update()
@@ -93,16 +107,13 @@ function Player.hasHasteProc(self)
     return haste.hasProc()
 end
 function Player.hasIntProc(self)
-    local _,_,posBuff,_ = UnitStat("player", 4)
-    return posBuff > 0
+    return int.hasProc()
 end
 function Player.hasStrProc(self)
-    local _,_,posBuff,_ = UnitStat("player", 1)
-    return posBuff > 0
+    return str.hasProc()
 end
 function Player.hasAgiProc(self)
-    local _,_,posBuff,_ = UnitStat("player", 2)
-    return posBuff > 0
+    return agi.hasProc()
 end
 function Player.gcd(self)
     return kps.gcd

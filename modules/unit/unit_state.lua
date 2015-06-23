@@ -8,7 +8,7 @@ local Unit = kps.Unit.prototype
 
 
 function Unit.isAttackable(self)
-    if not Unit.exists(self.unit) then return false end
+    if not Unit.exists(self) then return false end
     --[[ TODO: PvP
     if jps.PvP then
         if jps.buff("Ice Block", unit) then return false end

@@ -8,13 +8,13 @@ kps.Keys.prototype = {}
 kps.Keys.metatable = {}
 
 function kps.Keys.prototype.shift(self)
-    return IsShiftKeyDown() and GetCurrentKeyBoardFocus() 
+    return IsShiftKeyDown() and GetCurrentKeyBoardFocus() ~= nil
 end
 function kps.Keys.prototype.alt(self)
-    return IsAltKeyDown() and GetCurrentKeyBoardFocus() 
+    return IsAltKeyDown() and GetCurrentKeyBoardFocus() ~= nil
 end
 function kps.Keys.prototype.ctrl(self)
-    return IsControlKeyDown() and GetCurrentKeyBoardFocus() 
+    return IsControlKeyDown() and GetCurrentKeyBoardFocus() ~= nil
 end
 
 function kps.Keys.new()

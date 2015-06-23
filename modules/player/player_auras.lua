@@ -8,7 +8,7 @@ Functions which handle player auras
 local Player = kps.Player.prototype
 
 function Player.isMounted(self)
-    return IsMounted() and not Unit.hasBuff(self)(kps.spells.mount.frostwolfWarMount) and not Unit.hasBuff(self)(kps.spells.mount.telaariTalbuk)
+    return IsMounted() and not Player.hasBuff(self)(kps.spells.mount.frostwolfWarMount) and not Player.hasBuff(self)(kps.spells.mount.telaariTalbuk)
 end
 
 function Player.isFalling(self)
