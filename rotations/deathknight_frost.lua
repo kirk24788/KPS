@@ -60,7 +60,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
         {spells.frostStrike, 'player.buffStacks(spells.killingMachine) or player.runicPower > 88'}, -- frost_strike,if=buff.killing_machine.react|runic_power>88
         {spells.frostStrike, 'spells.antimagicShell.cooldown < 1 and player.runicPower >= 50 and not player.hasBuff(spells.antimagicShell)'}, -- frost_strike,if=cooldown.antimagic_shell.remains<1&runic_power>=50&!buff.antimagic_shell.up
         {spells.howlingBlast, 'player.deathRunes > 1 or player.frostRunes > 1'}, -- howling_blast,if=death>1|frost>1
-        {spells.unholyBlight, 'not diseaseTicking()'}, -- unholy_blight,if=!disease.ticking
+        {spells.unholyBlight, 'not diseaseTicking(target)'}, -- unholy_blight,if=!disease.ticking
         {spells.howlingBlast, 'not player.hasTalent(7, 1) and not target.hasMyDebuff(spells.frostFever)'}, -- howling_blast,if=!talent.necrotic_plague.enabled&!dot.frost_fever.ticking
         {spells.howlingBlast, 'player.hasTalent(7, 1) and not target.hasMyDebuff(spells.necroticPlague)'}, -- howling_blast,if=talent.necrotic_plague.enabled&!dot.necrotic_plague.ticking
         {spells.plagueStrike, 'not player.hasTalent(7, 1) and not target.hasMyDebuff(spells.bloodPlague) and player.unholyRunes > 0'}, -- plague_strike,if=!talent.necrotic_plague.enabled&!dot.blood_plague.ticking&unholy>0
@@ -120,7 +120,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
         {spells.bloodTap, 'player.buffStacks(spells.killingMachine)'}, -- blood_tap,if=buff.killing_machine.react
         {spells.howlingBlast, 'not player.hasTalent(7, 1) and not target.hasMyDebuff(spells.frostFever) and player.buffStacks(spells.rime)'}, -- howling_blast,if=!talent.necrotic_plague.enabled&!dot.frost_fever.ticking&buff.rime.react
         {spells.outbreak, 'not diseaseMaxTicking()'}, -- outbreak,if=!disease.max_ticking
-        {spells.unholyBlight, 'diseaseTicking()'}, -- unholy_blight,if=!disease.min_ticking
+        {spells.unholyBlight, 'diseaseTicking(target)'}, -- unholy_blight,if=!disease.min_ticking
         {spells.breathOfSindragosa, 'player.runicPower > 75'}, -- breath_of_sindragosa,if=runic_power>75
         {{"nested"}, 'target.hasMyDebuff(spells.breathOfSindragosa)', { -- run_action_list,name=bos_st,if=dot.breath_of_sindragosa.ticking
             {spells.obliterate, 'player.buffStacks(spells.killingMachine)'}, -- obliterate,if=buff.killing_machine.react

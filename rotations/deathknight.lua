@@ -154,7 +154,7 @@ kps.env.deathknight = {}
 function kps.env.deathknight.diseaseMinRemains(unit)
     minTimeLeft = min(unit.myDebuffDuration(kps.spells.deathknight.bloodPlague),
                       unit.myDebuffDuration(kps.spells.deathknight.frostFever))
-    if player.hasTalent(7, 1) then -- Necrotic Plague Talent
+    if kps.env.player.hasTalent(7, 1) then -- Necrotic Plague Talent
         return min(minTimeLeft, unit.myDebuffDuration(kps.spells.deathknight.necroticPlague))
     else
         return minTimeLeft
@@ -164,7 +164,7 @@ end
 function kps.env.deathknight.diseaseMaxRemains(unit)
     maxTimeLeft = max(unit.myDebuffDuration(kps.spells.deathknight.bloodPlague),
                       unit.myDebuffDuration(kps.spells.deathknight.frostFever))
-    if player.hasTalent(7, 1) then -- Necrotic Plague Talent
+    if kps.env.player.hasTalent(7, 1) then -- Necrotic Plague Talent
         return max(maxTimeLeft, unit.myDebuffDuration(kps.spells.deathknight.necroticPlague))
     else
         return maxTimeLeft

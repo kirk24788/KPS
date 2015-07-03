@@ -172,6 +172,7 @@ _CLASS_EXPRESSION_CONVERSIONS = {
         ("Unholy", "player.unholyOrDeathRunes"),
         ("death", "player.deathRunes"),
         ("buff.potion.up","player.hasStrProc"),
+        ("disease.ticking","diseaseTicking(target)"),
     ], "druid":  [
         ("lunar_max","player.eclipseLunarMax"),
         ("solar_max","player.eclipseSolarMax"),
