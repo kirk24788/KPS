@@ -153,6 +153,7 @@ kps.spells.warlock.chaosWave = kps.Spell.fromId(124915)
 kps.spells.warlock.felstorm = kps.Spell.fromId(89751)
 kps.spells.warlock.wrathstorm = kps.Spell.fromId(115831)
 kps.spells.warlock.mortalCleave = kps.Spell.fromId(115625)
+kps.spells.warlock.chaoticInfusion = kps.Spell.fromId(170000)
 
 
 kps.env.warlock = {}

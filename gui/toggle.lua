@@ -76,7 +76,7 @@ local function createToggleButton(id, parent, anchorOffset, texture)
     else
         frame:RegisterForClicks("LeftButtonUp")
         frame:SetScript("OnClick", function(self, button)
-            kps[id] = not kps["id"]
+            kps[id] = not kps[id]
             if kps[id] then
                 kps.write("kps.%s enabled", id)
             else

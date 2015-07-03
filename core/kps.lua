@@ -100,3 +100,7 @@ hooksecurefunc("UseAction", function(...)
         end
     end
 end)
+
+kps.stopCasting = function()
+    SpellStopCasting()
+end
