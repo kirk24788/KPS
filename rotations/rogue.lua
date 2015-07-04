@@ -133,3 +133,4 @@ kps.spells.rogue.masterPoisoner = kps.Spell.fromId(165390)
 kps.spells.rogue.deepInsight = kps.Spell.fromId(84747)
 
 
+kps.env.rogue = {}
