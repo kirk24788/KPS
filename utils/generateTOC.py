@@ -6,7 +6,7 @@ import re
 # * Checks Common Rotation Files for outdated and duplicate Spells
 # ****************************************************************
 
-INTERFACE_VERSION = 50400
+INTERFACE_VERSION = 60200
 TITLE = "KPS Addon"
 NOTES = "Karnofsky Performance System"
 SAVED_VARIABLES = ""

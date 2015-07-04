@@ -136,7 +136,6 @@ kps.spells.deathknight.powerOfTheGrave = kps.Spell.fromId(155522)
 kps.spells.deathknight.resolve = kps.Spell.fromId(158298)
 kps.spells.deathknight.glyphOfAbsorbMagic = kps.Spell.fromId(159415)
 kps.spells.deathknight.glyphOfTheIceReaper = kps.Spell.fromId(159416)
-kps.spells.deathknight.glyphOfIceReaper = kps.Spell.fromId(110801)
 kps.spells.deathknight.glyphOfEmpowerment = kps.Spell.fromId(159421)
 kps.spells.deathknight.glyphOfRaiseAlly = kps.Spell.fromId(159427)
 kps.spells.deathknight.glyphOfRuneTap = kps.Spell.fromId(159428)
@@ -155,7 +154,7 @@ kps.env.deathknight = {}
 function kps.env.deathknight.diseaseMinRemains(unit)
     minTimeLeft = min(unit.myDebuffDuration(kps.spells.deathknight.bloodPlague),
                       unit.myDebuffDuration(kps.spells.deathknight.frostFever))
-    if player.hasTalent(7, 1) then -- Necrotic Plague Talent
+    if kps.env.player.hasTalent(7, 1) then -- Necrotic Plague Talent
         return min(minTimeLeft, unit.myDebuffDuration(kps.spells.deathknight.necroticPlague))
     else
         return minTimeLeft
@@ -165,7 +164,7 @@ end
 function kps.env.deathknight.diseaseMaxRemains(unit)
     maxTimeLeft = max(unit.myDebuffDuration(kps.spells.deathknight.bloodPlague),
                       unit.myDebuffDuration(kps.spells.deathknight.frostFever))
-    if player.hasTalent(7, 1) then -- Necrotic Plague Talent
+    if kps.env.player.hasTalent(7, 1) then -- Necrotic Plague Talent
         return max(maxTimeLeft, unit.myDebuffDuration(kps.spells.deathknight.necroticPlague))
     else
         return maxTimeLeft

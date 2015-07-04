@@ -136,7 +136,6 @@ kps.spells.hunter.survivalist = kps.Spell.fromId(164856)
 kps.spells.hunter.lethalShots = kps.Spell.fromId(165378)
 kps.spells.hunter.animalHandler = kps.Spell.fromId(165389)
 kps.spells.hunter.lightningReflexes = kps.Spell.fromId(165396)
-kps.spells.hunter.aspectOfTheFox = kps.Spell.fromId(172106)
 kps.spells.hunter.steadyFocus = kps.Spell.fromId(177667)
 kps.spells.hunter.lockAndLoad = kps.Spell.fromId(168980)
 

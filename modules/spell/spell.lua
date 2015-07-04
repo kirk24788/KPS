@@ -62,7 +62,7 @@ function kps.Spell.fromId(spellId)
         local inst = {}
         inst.id = spellId
         local spellname = select(1,GetSpellInfo(spellId))
-        if spellname == nil then spellname = "Unknown Spell" end
+        if spellname == nil then spellname = "Unknown Spell-ID:"..spellId end
         inst.name = tostring(spellname)
         inst.lastCast = 0
         setmetatable(inst, kps.Spell.metatable)

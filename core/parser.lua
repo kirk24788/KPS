@@ -100,6 +100,33 @@ local function VALUE(val)
     end
 end
 
+
+local function SUBSTRACT(o1, o2)
+    return function()
+        return o1() - o2()
+    end
+end
+local function ADD(o1, o2)
+    return function()
+        return o1() - o2()
+    end
+end
+local function MULTIPLY(o1, o2)
+    return function()
+        return o1() * o2()
+    end
+end
+local function DIVIDE(o1, o2)
+    return function()
+        return o1() / o2()
+    end
+end
+local function MODULO(o1, o2)
+    return function()
+        return o1() % o2()
+    end
+end
+
 local function GLOBAL_IDENTIFIER(id)
     return function()
         return kps.env[id]
@@ -310,6 +337,39 @@ function parser.conditions(tokens, bracketLevel)
             else
                 error("Unexpected '" .. tostring(v) .. "' conditions must be combined using keywords 'and' or 'or'!")
             end
+        elseif t == "%" then
+            local condition2 = parser.conditions(tokens, bracketLevel)
+            return MODULO(condition1, condition2)
+        elseif t == "-" then
+            local condition2 = parser.conditions(tokens, bracketLevel)
+            return SUBSTRACT(condition1, condition2)
+        elseif t == "+" then
+            local condition2 = parser.conditions(tokens, bracketLevel)
+            return ADD(condition1, condition2)
+        elseif t == "*" then
+            local condition2 = parser.conditions(tokens, bracketLevel)
+            return MULTIPLY(condition1, condition2)
+        elseif t == "/" then
+            local condition2 = parser.conditions(tokens, bracketLevel)
+            return DIVIDE(condition1, condition2)
+        elseif t == "<" then
+            local condition2 = parser.conditions(tokens, bracketLevel)
+            return LT(condition1, condition2)
+        elseif t == "<=" then
+            local condition2 = parser.conditions(tokens, bracketLevel)
+            return LE(condition1, condition2)
+        elseif t == "=" or t == "==" then
+            local condition2 = parser.conditions(tokens, bracketLevel)
+            return EQ(condition1, condition2)
+        elseif t == "~=" then
+            local condition2 = parser.conditions(tokens, bracketLevel)
+            return NEQ(condition1, condition2)
+        elseif t == ">=" then
+            local condition2 = parser.conditions(tokens, bracketLevel)
+            return GE(condition1, condition2)
+        elseif t == ">" then
+            local condition2 = parser.conditions(tokens, bracketLevel)
+            return GT(condition1, condition2)
         elseif bracketLevel > 0 then
             if t == ")" then
                 return condition1
