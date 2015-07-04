@@ -149,4 +149,6 @@ kps.spells.warrior.unyieldingStrikes = kps.Spell.fromId(169685)
 kps.spells.warrior.shieldBarrier = kps.Spell.fromId(174926)
 kps.spells.warrior.siegebreaker = kps.Spell.fromId(176289)
 
+kps.env.warrior = {}
+
 
