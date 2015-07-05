@@ -55,7 +55,7 @@ end
 
 
 function Spell.isPrioritySpell(self)
-    if rawget(spell,"_isPrioritySpell") == nil then
+    if rawget(self,"_isPrioritySpell") == nil then
         self._isPrioritySpell = not self.isOneOf(kps.spells.ignore)
     end
     return self._isPrioritySpell
