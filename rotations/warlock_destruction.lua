@@ -18,8 +18,8 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
 
     -- Cooldowns
     {{"nested"}, 'kps.cooldowns', {
-        {spells.darkSoulInstability, 'spells.darkSoulInstability.cooldown == 0 and player.emberShards > 28'},
-        {spells.darkSoulInstability, 'spells.darkSoulInstability.charges == 2 and player.emberShards > 19'},
+        {spells.darkSoulInstability, 'spells.darkSoulInstability.cooldown == 0 and player.emberShards > 19'},
+        {spells.darkSoulInstability, 'spells.darkSoulInstability.charges == 2 and player.emberShards > 9'},
     }},
 
     -- Havoc + ChaosBolt at focus (or mouseover on ctrl)
