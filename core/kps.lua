@@ -10,8 +10,8 @@ kps.runMacro = function(macroText)
     RunMacroText(macroText)
 end
 
-function kps.write(msg,a,b,c,d,e,f,g,h)
-    print(string.format(msg, tostring(a), tostring(b), tostring(c), tostring(d), tostring(e), tostring(f), tostring(g), tostring(h)) )
+function kps.write(...)
+    DEFAULT_CHAT_FRAME:AddMessage("|cffff8000KPS: " .. strjoin(" ", tostringall(...))); -- color orange
 end
 
 kps.useBagItem = function(bagItem)

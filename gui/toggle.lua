@@ -78,9 +78,9 @@ local function createToggleButton(id, parent, anchorOffset, texture)
         frame:SetScript("OnClick", function(self, button)
             kps[id] = not kps[id]
             if kps[id] then
-                kps.write("kps.%s enabled", id)
+                kps.write("kps." .. id, "enabled")
             else
-                kps.write("kps.%s disabled", id)
+                kps.write("kps." .. id, "disabled")
             end
             frame.updateState()
         end)
@@ -109,8 +109,9 @@ end
 local toggleAnchor = createToggleButton("enabled", UIParent, 0, "Interface\\AddOns\\KPS\\Media\\kps.tga")
 local nextToggleOffset = 1
 function kps.gui.createToggle(id, texture)
-    createToggleButton(id, toggleAnchor, (iconSize+iconOffset) * nextToggleOffset, texture)
+    local toggle = createToggleButton(id, toggleAnchor, (iconSize+iconOffset) * nextToggleOffset, texture)
     nextToggleOffset = nextToggleOffset + 1
+    return toggle
 end
 
 kps.gui.createToggle("multiTarget", "Interface\\Icons\\achievement_arena_5v5_3")
@@ -123,4 +124,12 @@ function kps.gui.updateToggleStates()
         frame.updateState()
         frame:Show()
     end
+end
+
+function kps.gui.hide()
+    toggleAnchor:Hide()
+end
+
+function kps.gui.show()
+    toggleAnchor:Show()
 end
