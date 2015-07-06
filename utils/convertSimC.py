@@ -441,7 +441,7 @@ class Condition(object):
             if state == "up":
                 return "player.hasBuff(spells.%s)" % buff
             elif state == "down":
-                return "target.hasMyDebuff(spells.%s)" % buff
+                return "not player.hasBuff(spells.%s)" % buff
             elif state == "react" or state == "stack":
                 return "player.buffStacks(spells.%s)" % buff
             elif state == "remains":

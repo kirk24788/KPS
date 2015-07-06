@@ -11,7 +11,7 @@ kps.rotations.register("DRUID","FERAL",
     {spells.catForm}, -- cat_form
     {spells.wildCharge}, -- wild_charge
     {spells.displacerBeast, 'target.distance > 10'}, -- displacer_beast,if=movement.distance>10
-    {spells.dash, 'target.distance and target.hasMyDebuff(spells.displacerBeast) and target.hasMyDebuff(spells.wildCharge)'}, -- dash,if=movement.distance&buff.displacer_beast.down&buff.wild_charge_movement.down
+    {spells.dash, 'target.distance and not player.hasBuff(spells.displacerBeast) and not player.hasBuff(spells.wildCharge)'}, -- dash,if=movement.distance&buff.displacer_beast.down&buff.wild_charge_movement.down
     {spells.rake, 'player.hasBuff(spells.prowl) or player.hasBuff(spells.shadowmeld)'}, -- rake,if=buff.prowl.up|buff.shadowmeld.up
     {spells.skullBash}, -- skull_bash
     {spells.forceOfNature, 'spells.forceOfNature.charges == 3 or player.hasProc or target.timeToDie < 20'}, -- force_of_nature,if=charges=3|trinket.proc.all.react|target.time_to_die<20
@@ -21,7 +21,7 @@ kps.rotations.register("DRUID","FERAL",
     {spells.incarnation, 'spells.berserk.cooldown < 1 and player.energyTimeToMax < 3'}, -- incarnation,if=t18_class_trinket&cooldown.berserk.remains<1&energy.time_to_max<3
     {spells.ferociousBite, 'target.hasMyDebuff(spells.rip) and target.myDebuffDuration(spells.rip) < 3 and target.hp < 25'}, -- ferocious_bite,cycle_targets=1,if=dot.rip.ticking&dot.rip.remains<3&target.health.pct<25
     {spells.healingTouch, 'player.hasTalent(7, 2) and player.hasBuff(spells.predatorySwiftness) and ( target.comboPoints >= 4 or player.buffDuration(spells.predatorySwiftness) < 1.5 )'}, -- healing_touch,if=talent.bloodtalons.enabled&buff.predatory_swiftness.up&(combo_points>=4|buff.predatory_swiftness.remains<1.5)
-    {spells.savageRoar, 'target.hasMyDebuff(spells.savageRoar)'}, -- savage_roar,if=buff.savage_roar.down
+    {spells.savageRoar, 'not player.hasBuff(spells.savageRoar)'}, -- savage_roar,if=buff.savage_roar.down
     {spells.thrash, 'target.myDebuffDuration(spells.thrash) < 4.5 and ( activeEnemies() >= 2 and or activeEnemies() >= 4 )'}, -- thrash_cat,cycle_targets=1,if=remains<4.5&(active_enemies>=2&set_bonus.tier17_2pc|active_enemies>=4)
     {{"nested"}, 'target.comboPoints == 5', { -- call_action_list,name=finisher,if=combo_points=5
         {spells.rip, 'target.myDebuffDuration(spells.rip) < 2 and target.timeToDie - target.myDebuffDuration(spells.rip) > 18 and ( target.hp > 25 or not target.hasMyDebuff(spells.rip) )'}, -- rip,cycle_targets=1,if=remains<2&target.time_to_die-remains>18&(target.health.pct>25|!dot.rip.ticking)

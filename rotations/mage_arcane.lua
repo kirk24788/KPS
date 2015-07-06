@@ -13,10 +13,10 @@ kps.rotations.register("MAGE","ARCANE",
     {spells.blazingSpeed, 'player.isMoving'}, -- blazing_speed,if=movement.remains>0
     {spells.coldSnap, 'player.hp < 0.3'}, -- cold_snap,if=health.pct<30
     {spells.timeWarp, 'target.hp < 25 or player.timeInCombat > 5'}, -- time_warp,if=target.health.pct<25|time>5
-    {spells.iceFloes, 'target.hasMyDebuff(spells.iceFloes) and ( player.isMoving or player.isMoving )'}, -- ice_floes,if=buff.ice_floes.down&(raid_event.movement.distance>0|raid_event.movement.in<2*spell_haste)
+    {spells.iceFloes, 'not player.hasBuff(spells.iceFloes) and ( player.isMoving or player.isMoving )'}, -- ice_floes,if=buff.ice_floes.down&(raid_event.movement.distance>0|raid_event.movement.in<2*spell_haste)
     {spells.runeOfPower, 'player.buffDuration(spells.runeOfPower) < 2 * 1'}, -- rune_of_power,if=buff.rune_of_power.remains<2*spell_haste
     {spells.mirrorImage}, -- mirror_image
-    {spells.coldSnap, 'target.hasMyDebuff(spells.presenceOfMind) and spells.presenceOfMind.cooldown > 75'}, -- cold_snap,if=buff.presence_of_mind.down&cooldown.presence_of_mind.remains>75
+    {spells.coldSnap, 'not player.hasBuff(spells.presenceOfMind) and spells.presenceOfMind.cooldown > 75'}, -- cold_snap,if=buff.presence_of_mind.down&cooldown.presence_of_mind.remains>75
     {{"nested"}, 'activeEnemies() >= 5', { -- call_action_list,name=aoe,if=active_enemies>=5
         {{"nested"}, 'True', { -- call_action_list,name=cooldowns
             {spells.arcanePower}, -- arcane_power

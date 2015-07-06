@@ -8,10 +8,10 @@ local env = kps.env.warrior
 
 kps.rotations.register("WARRIOR","ARMS",
 {
-    {spells.charge, 'target.hasMyDebuff(spells.charge)'}, -- charge,if=debuff.charge.down
+    {spells.charge, 'not player.hasBuff(spells.charge)'}, -- charge,if=debuff.charge.down
     {{"nested"}, 'target.distance > 5', { -- call_action_list,name=movement,if=movement.distance>5
         {spells.heroicLeap}, -- heroic_leap
-        {spells.charge, 'target.hasMyDebuff(spells.charge)'}, -- charge,cycle_targets=1,if=debuff.charge.down
+        {spells.charge, 'not player.hasBuff(spells.charge)'}, -- charge,cycle_targets=1,if=debuff.charge.down
         {spells.charge}, -- charge
         {spells.stormBolt}, -- storm_bolt
         {spells.heroicThrow}, -- heroic_throw

@@ -10,10 +10,10 @@ kps.rotations.register("HUNTER","BEASTMASTER",
 {
     {spells.stampede, 'player.bloodlust or player.hasBuff(spells.focusFire) or target.timeToDie <= 25'}, -- stampede,if=buff.bloodlust.up|buff.focus_fire.up|target.time_to_die<=25
     {spells.direBeast}, -- dire_beast
-    {spells.focusFire, 'target.hasMyDebuff(spells.focusFire) and ( ( spells.bestialWrath.cooldown < 1 and target.hasMyDebuff(spells.bestialWrath) ) or ( player.hasTalent(5, 3) and player.buffDuration(spells.stampede) ) or player.buffDuration(spells.frenzy) < 1 )'}, -- focus_fire,if=buff.focus_fire.down&((cooldown.bestial_wrath.remains<1&buff.bestial_wrath.down)|(talent.stampede.enabled&buff.stampede.remains)|pet.cat.buff.frenzy.remains<1)
+    {spells.focusFire, 'not player.hasBuff(spells.focusFire) and ( ( spells.bestialWrath.cooldown < 1 and not player.hasBuff(spells.bestialWrath) ) or ( player.hasTalent(5, 3) and player.buffDuration(spells.stampede) ) or player.buffDuration(spells.frenzy) < 1 )'}, -- focus_fire,if=buff.focus_fire.down&((cooldown.bestial_wrath.remains<1&buff.bestial_wrath.down)|(talent.stampede.enabled&buff.stampede.remains)|pet.cat.buff.frenzy.remains<1)
     {spells.bestialWrath, 'player.focus > 30 and not player.hasBuff(spells.bestialWrath)'}, -- bestial_wrath,if=focus>30&!buff.bestial_wrath.up
     {spells.multishot, 'activeEnemies() > 1 and player.buffDuration(spells.beastCleave) < 0.5'}, -- multishot,if=active_enemies>1&pet.cat.buff.beast_cleave.remains<0.5
-    {spells.focusFire, 'target.hasMyDebuff(spells.focusFire)'}, -- focus_fire,five_stacks=1,if=buff.focus_fire.down
+    {spells.focusFire, 'not player.hasBuff(spells.focusFire)'}, -- focus_fire,five_stacks=1,if=buff.focus_fire.down
     {spells.barrage, 'activeEnemies() > 1'}, -- barrage,if=active_enemies>1
     {spells.explosiveTrap, 'activeEnemies() > 5'}, -- explosive_trap,if=active_enemies>5
     {spells.multishot, 'activeEnemies() > 5'}, -- multishot,if=active_enemies>5
