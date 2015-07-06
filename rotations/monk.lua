@@ -160,3 +160,4 @@ kps.spells.monk.tigerPower = kps.Spell.fromId(125359)
 
 kps.env.monk = {}
 
+kps.env.monk = {}

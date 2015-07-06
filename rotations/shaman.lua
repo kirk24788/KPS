@@ -169,3 +169,4 @@ kps.spells.shaman.windstrike = kps.Spell.fromId(115356)
 
 kps.env.shaman = {}
 
+kps.env.shaman = {}

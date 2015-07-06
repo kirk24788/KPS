@@ -70,7 +70,7 @@ kps.combatStep = function ()
                 LOG.warn("Priority Spell %s was casted.", prioritySpell)
                 prioritySpell = nil
             else
-                if kps.spells.cooldown(prioritySpell) > 3 then prioritySpell = nil end
+                if prioritySpell.cooldown > 3 then prioritySpell = nil end
                 spell.cast(target)
             end
         else
