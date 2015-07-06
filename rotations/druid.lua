@@ -187,4 +187,5 @@ kps.spells.druid.solarPeak = kps.Spell.fromId(171744)
 kps.spells.druid.incarnation = kps.Spell.fromId(117679)
 kps.spells.druid.shadowmeld = kps.Spell.fromId(135201)
 
+kps.env.druid = {}
 

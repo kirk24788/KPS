@@ -148,7 +148,6 @@ kps.spells.deathknight.necrosis = kps.Spell.fromId(165395)
 kps.spells.deathknight.darkSuccor = kps.Spell.fromId(178819)
 kps.spells.deathknight.bloodCharge = kps.Spell.fromId(114851)
 
-
 kps.env.deathknight = {}
 
 function kps.env.deathknight.diseaseMinRemains(unit)

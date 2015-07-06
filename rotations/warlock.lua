@@ -155,7 +155,6 @@ kps.spells.warlock.wrathstorm = kps.Spell.fromId(115831)
 kps.spells.warlock.mortalCleave = kps.Spell.fromId(115625)
 kps.spells.warlock.chaoticInfusion = kps.Spell.fromId(170000)
 
-
 kps.env.warlock = {}
 
 function kps.env.warlock.isHavocUnit(unit)
