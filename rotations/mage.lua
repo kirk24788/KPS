@@ -160,7 +160,6 @@ kps.spells.mage.pyromaniac = kps.Spell.fromId(166868)
 kps.spells.mage.ignite = kps.Spell.fromId(101166)
 kps.spells.mage.waterJet = kps.Spell.fromId(135029)
 
-
 kps.env.mage = {}
 
 local burnPhase = false

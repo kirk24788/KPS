@@ -167,4 +167,5 @@ kps.spells.shaman.enhancedChainLightning = kps.Spell.fromId(157765)
 kps.spells.shaman.lavaBeam = kps.Spell.fromId(114074)
 kps.spells.shaman.windstrike = kps.Spell.fromId(115356)
 
+kps.env.shaman = {}
 

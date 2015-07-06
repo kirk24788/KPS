@@ -158,4 +158,5 @@ kps.spells.priest.glyphOfPurification = kps.Spell.fromId(171921)
 kps.spells.priest.searingInsanity = kps.Spell.fromId(179337)
 kps.spells.priest.mentalInstinct = kps.Spell.fromId(167254)
 
+kps.env.priest = {}
 

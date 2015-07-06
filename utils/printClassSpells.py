@@ -54,8 +54,6 @@ SPELL_BLACKLIST = [
 
 ENV_FUNCTIONS = {
     "deathknight": """
-kps.env.deathknight = {}
-
 function kps.env.deathknight.diseaseMinRemains(unit)
     minTimeLeft = min(unit.myDebuffDuration(kps.spells.deathknight.bloodPlague),
                       unit.myDebuffDuration(kps.spells.deathknight.frostFever))
@@ -86,8 +84,6 @@ end""",
     "druid": """""",
     "hunter": """""",
     "mage": """
-kps.env.mage = {}
-
 local burnPhase = false
 function kps.env.mage.burnPhase()
     if not burnPhase then
@@ -151,8 +147,6 @@ end
     "rogue": """""",
     "shaman": """""",
     "warlock": """
-kps.env.warlock = {}
-
 function kps.env.warlock.isHavocUnit(unit)
     if not UnitExists(unit) then  return false end
     if UnitIsUnit("target",unit) then return false end
@@ -256,7 +250,7 @@ kps.spells.%s = {}
     for spell_id in ADDITIONAL_SPELLS[class_name]:
         spell = Spell(spell_id)
         s += "kps.spells.%s.%s = kps.Spell.fromId(%s)\n" % (class_name, spell.key, spell.id)
-    return s + "\n" + ENV_FUNCTIONS[class_name] + "\n"
+    return s + "\nkps.env." + class_name + " = {}\n" + ENV_FUNCTIONS[class_name] + "\n"
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Loads Class Spells from Wowhead')
