@@ -9,7 +9,7 @@ local env = kps.env.warrior
 kps.rotations.register("WARRIOR","PROTECTION",
 {
     {spells.charge}, -- charge
-    {spells.berserkerRage, 'target.hasMyDebuff(spells.enrage)'}, -- berserker_rage,if=buff.enrage.down
+    {spells.berserkerRage, 'not player.hasBuff(spells.enrage)'}, -- berserker_rage,if=buff.enrage.down
     {{"nested"}, 'True', { -- call_action_list,name=prot
         {spells.shieldBlock, 'not ( player.hasBuff(spells.demoralizingShout) or player.hasBuff(spells.ravager) or player.hasBuff(spells.shieldWall) or player.hasBuff(spells.lastStand) or player.hasBuff(spells.enragedRegeneration) or player.hasBuff(spells.shieldBlock) )'}, -- shield_block,if=!(debuff.demoralizing_shout.up|buff.ravager_protection.up|buff.shield_wall.up|buff.last_stand.up|buff.enraged_regeneration.up|buff.shield_block.up)
         {spells.shieldBarrier, 'target.hasMyDebuff(spells.shieldBarrier) and ( ( target.hasMyDebuff(spells.shieldBlock) and spells.shieldBlock.charges < 0.75 ) or player.rage >= 85 )'}, -- shield_barrier,if=buff.shield_barrier.down&((buff.shield_block.down&action.shield_block.charges_fractional<0.75)|rage>=85)
