@@ -188,3 +188,4 @@ kps.spells.druid.incarnation = kps.Spell.fromId(117679)
 kps.spells.druid.shadowmeld = kps.Spell.fromId(135201)
 
 
+kps.env.druid = {}

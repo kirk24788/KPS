@@ -170,3 +170,4 @@ kps.spells.paladin.maraadsTruth = kps.Spell.fromId(156990)
 kps.spells.paladin.blazingContempt = kps.Spell.fromId(166831)
 
 
+kps.env.paladin = {}

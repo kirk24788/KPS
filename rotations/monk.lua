@@ -159,3 +159,4 @@ kps.spells.monk.comboBreakerEnergize = kps.Spell.fromId(145008)
 kps.spells.monk.tigerPower = kps.Spell.fromId(125359)
 
 
+kps.env.monk = {}
