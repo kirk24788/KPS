@@ -9,10 +9,10 @@ local env = kps.env.warrior
 kps.rotations.register("WARRIOR","PROTECTION",
 {
     {spells.charge}, -- charge
-    {spells.berserkerRage, 'target.hasMyDebuff(spells.enrage)'}, -- berserker_rage,if=buff.enrage.down
+    {spells.berserkerRage, 'not player.hasBuff(spells.enrage)'}, -- berserker_rage,if=buff.enrage.down
     {{"nested"}, 'True', { -- call_action_list,name=prot
         {spells.shieldBlock, 'not ( player.hasBuff(spells.demoralizingShout) or player.hasBuff(spells.ravager) or player.hasBuff(spells.shieldWall) or player.hasBuff(spells.lastStand) or player.hasBuff(spells.enragedRegeneration) or player.hasBuff(spells.shieldBlock) )'}, -- shield_block,if=!(debuff.demoralizing_shout.up|buff.ravager_protection.up|buff.shield_wall.up|buff.last_stand.up|buff.enraged_regeneration.up|buff.shield_block.up)
-        {spells.shieldBarrier, 'target.hasMyDebuff(spells.shieldBarrier) and ( ( target.hasMyDebuff(spells.shieldBlock) and spells.shieldBlock.charges < 0.75 ) or player.rage >= 85 )'}, -- shield_barrier,if=buff.shield_barrier.down&((buff.shield_block.down&action.shield_block.charges_fractional<0.75)|rage>=85)
+        {spells.shieldBarrier, 'not player.hasBuff(spells.shieldBarrier) and ( ( not player.hasBuff(spells.shieldBlock) and spells.shieldBlock.charges < 0.75 ) or player.rage >= 85 )'}, -- shield_barrier,if=buff.shield_barrier.down&((buff.shield_block.down&action.shield_block.charges_fractional<0.75)|rage>=85)
         {spells.demoralizingShout, 'kps.incomingDamage(2.5) > player.hpMax * 0.1 and not ( player.hasBuff(spells.demoralizingShout) or player.hasBuff(spells.ravager) or player.hasBuff(spells.shieldWall) or player.hasBuff(spells.lastStand) or player.hasBuff(spells.enragedRegeneration) or player.hasBuff(spells.shieldBlock) or player.hasStrProc )'}, -- demoralizing_shout,if=incoming_damage_2500ms>health.max*0.1&!(debuff.demoralizing_shout.up|buff.ravager_protection.up|buff.shield_wall.up|buff.last_stand.up|buff.enraged_regeneration.up|buff.shield_block.up|buff.potion.up)
         {spells.enragedRegeneration, 'kps.incomingDamage(2.5) > player.hpMax * 0.1 and not ( player.hasBuff(spells.demoralizingShout) or player.hasBuff(spells.ravager) or player.hasBuff(spells.shieldWall) or player.hasBuff(spells.lastStand) or player.hasBuff(spells.enragedRegeneration) or player.hasBuff(spells.shieldBlock) or player.hasStrProc )'}, -- enraged_regeneration,if=incoming_damage_2500ms>health.max*0.1&!(debuff.demoralizing_shout.up|buff.ravager_protection.up|buff.shield_wall.up|buff.last_stand.up|buff.enraged_regeneration.up|buff.shield_block.up|buff.potion.up)
         {spells.shieldWall, 'kps.incomingDamage(2.5) > player.hpMax * 0.1 and not ( player.hasBuff(spells.demoralizingShout) or player.hasBuff(spells.ravager) or player.hasBuff(spells.shieldWall) or player.hasBuff(spells.lastStand) or player.hasBuff(spells.enragedRegeneration) or player.hasBuff(spells.shieldBlock) or player.hasStrProc )'}, -- shield_wall,if=incoming_damage_2500ms>health.max*0.1&!(debuff.demoralizing_shout.up|buff.ravager_protection.up|buff.shield_wall.up|buff.last_stand.up|buff.enraged_regeneration.up|buff.shield_block.up|buff.potion.up)
@@ -65,7 +65,7 @@ kps.rotations.register("WARRIOR","PROTECTION",
     {spells.avatar}, -- avatar
     {spells.bloodbath}, -- bloodbath
     {spells.shieldCharge, '( not player.hasBuff(spells.shieldCharge) and not spells.shieldSlam.cooldown ) or spells.shieldCharge.charges == 2'}, -- shield_charge,if=(!buff.shield_charge.up&!cooldown.shield_slam.remains)|charges=2
-    {spells.berserkerRage, 'target.hasMyDebuff(spells.enrage)'}, -- berserker_rage,if=buff.enrage.down
+    {spells.berserkerRage, 'not player.hasBuff(spells.enrage)'}, -- berserker_rage,if=buff.enrage.down
     {spells.heroicLeap, '( player.isMoving and player.isMoving ) or not player.isMoving'}, -- heroic_leap,if=(raid_event.movement.distance>25&raid_event.movement.in>45)|!raid_event.movement.exists
     {spells.heroicStrike, '( player.hasBuff(spells.shieldCharge) or ( player.hasBuff(spells.unyieldingStrikes) and player.rage >= 80 - player.buffStacks(spells.unyieldingStrikes) * 10 ) ) and target.hp > 20'}, -- heroic_strike,if=(buff.shield_charge.up|(buff.unyielding_strikes.up&rage>=80-buff.unyielding_strikes.stack*10))&target.health.pct>20
     {spells.heroicStrike, 'player.hasBuff(spells.ultimatum) or player.rage >= player.rageMax - 20 or player.buffStacks(spells.unyieldingStrikes) > 4 or target.timeToDie < 10'}, -- heroic_strike,if=buff.ultimatum.up|rage>=rage.max-20|buff.unyielding_strikes.stack>4|target.time_to_die<10
@@ -85,7 +85,7 @@ kps.rotations.register("WARRIOR","PROTECTION",
         {spells.dragonRoar, '( player.hasBuff(spells.bloodbath) or spells.bloodbath.cooldown > 10 ) or not player.hasTalent(6, 2)'}, -- dragon_roar,if=(buff.bloodbath.up|cooldown.bloodbath.remains>10)|!talent.bloodbath.enabled
         {spells.stormBolt, '( player.hasBuff(spells.bloodbath) or spells.bloodbath.cooldown > 7 ) or not player.hasTalent(6, 2)'}, -- storm_bolt,if=(buff.bloodbath.up|cooldown.bloodbath.remains>7)|!talent.bloodbath.enabled
         {spells.thunderClap, 'target.myDebuffDuration(spells.deepWounds) < 3 and activeEnemies() > 4'}, -- thunder_clap,cycle_targets=1,if=dot.deep_wounds.remains<3&active_enemies>4
-        {spells.bladestorm, 'target.hasMyDebuff(spells.shieldCharge)'}, -- bladestorm,if=buff.shield_charge.down
+        {spells.bladestorm, 'not player.hasBuff(spells.shieldCharge)'}, -- bladestorm,if=buff.shield_charge.down
         {spells.execute, 'player.buffStacks(spells.suddenDeath)'}, -- execute,if=buff.sudden_death.react
         {spells.thunderClap, 'activeEnemies() > 6'}, -- thunder_clap,if=active_enemies>6
         {spells.devastate, 'target.myDebuffDuration(spells.deepWounds) < 5 and spells.shieldSlam.cooldown > spells.devastate.castTime * 0.4'}, -- devastate,cycle_targets=1,if=dot.deep_wounds.remains<5&cooldown.shield_slam.remains>execute_time*0.4

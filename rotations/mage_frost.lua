@@ -19,7 +19,7 @@ kps.rotations.register("MAGE","FROST",
         {spells.iceLance, 'spells.frostbolt.isRecastAt("target")'}, -- ice_lance,if=prev_gcd.frostbolt
     }},
     {spells.mirrorImage}, -- mirror_image
-    {spells.iceFloes, 'target.hasMyDebuff(spells.iceFloes) and ( player.isMoving or player.isMoving )'}, -- ice_floes,if=buff.ice_floes.down&(raid_event.movement.distance>0|raid_event.movement.in<action.frostbolt.cast_time)
+    {spells.iceFloes, 'not player.hasBuff(spells.iceFloes) and ( player.isMoving or player.isMoving )'}, -- ice_floes,if=buff.ice_floes.down&(raid_event.movement.distance>0|raid_event.movement.in<action.frostbolt.cast_time)
     {spells.runeOfPower, 'player.buffDuration(spells.runeOfPower) < spells.runeOfPower.castTime'}, -- rune_of_power,if=buff.rune_of_power.remains<cast_time
     {spells.runeOfPower, '( spells.icyVeins.cooldown < player.gcd and player.buffDuration(spells.runeOfPower) < 20 ) or ( spells.prismaticCrystal.cooldown < player.gcd and player.buffDuration(spells.runeOfPower) < 10 )'}, -- rune_of_power,if=(cooldown.icy_veins.remains<gcd.max&buff.rune_of_power.remains<20)|(cooldown.prismatic_crystal.remains<gcd.max&buff.rune_of_power.remains<10)
     {{"nested"}, 'target.timeToDie < 24', { -- call_action_list,name=cooldowns,if=target.time_to_die<24

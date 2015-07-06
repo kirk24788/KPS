@@ -66,7 +66,7 @@ kps.rotations.register("DEATHKNIGHT","UNHOLY",
         {spells.soulReaper, 'target.hp - 3 * ( target.hp % target.timeToDie ) <= 45'}, -- soul_reaper,if=target.health.pct-3*(target.health.pct%target.time_to_die)<=45
         {spells.scourgeStrike, 'player.unholyRunes == 2'}, -- scourge_strike,if=unholy=2
         {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) > 10'}, -- blood_tap,if=buff.blood_charge.stack>10
-        {spells.deathCoil, 'player.runicPower > 90 or player.buffStacks(spells.suddenDoom) or ( target.hasMyDebuff(spells.darkTransformation) and player.unholyRunes <= 1 )'}, -- death_coil,if=runic_power>90|buff.sudden_doom.react|(buff.dark_transformation.down&unholy<=1)
+        {spells.deathCoil, 'player.runicPower > 90 or player.buffStacks(spells.suddenDoom) or ( not player.hasBuff(spells.darkTransformation) and player.unholyRunes <= 1 )'}, -- death_coil,if=runic_power>90|buff.sudden_doom.react|(buff.dark_transformation.down&unholy<=1)
         {spells.bloodBoil}, -- blood_boil
         {spells.icyTouch}, -- icy_touch
         {spells.scourgeStrike, 'player.unholyRunes == 1'}, -- scourge_strike,if=unholy=1
@@ -106,8 +106,8 @@ kps.rotations.register("DEATHKNIGHT","UNHOLY",
         {spells.bloodTap, 'player.hasTalent(7, 2) and spells.defile.cooldown == 0'}, -- blood_tap,if=talent.defile.enabled&cooldown.defile.remains=0
         {spells.plagueStrike, 'diseaseTicking(target)'}, -- plague_strike,if=!disease.min_ticking
         {spells.darkTransformation}, -- dark_transformation
-        {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) > 10 and ( player.buffStacks(spells.suddenDoom) or ( target.hasMyDebuff(spells.darkTransformation) and player.unholyRunes <= 1 ) )'}, -- blood_tap,if=buff.blood_charge.stack>10&(buff.sudden_doom.react|(buff.dark_transformation.down&unholy<=1))
-        {spells.deathCoil, 'player.buffStacks(spells.suddenDoom) or ( target.hasMyDebuff(spells.darkTransformation) and player.unholyRunes <= 1 )'}, -- death_coil,if=buff.sudden_doom.react|(buff.dark_transformation.down&unholy<=1)
+        {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) > 10 and ( player.buffStacks(spells.suddenDoom) or ( not player.hasBuff(spells.darkTransformation) and player.unholyRunes <= 1 ) )'}, -- blood_tap,if=buff.blood_charge.stack>10&(buff.sudden_doom.react|(buff.dark_transformation.down&unholy<=1))
+        {spells.deathCoil, 'player.buffStacks(spells.suddenDoom) or ( not player.hasBuff(spells.darkTransformation) and player.unholyRunes <= 1 )'}, -- death_coil,if=buff.sudden_doom.react|(buff.dark_transformation.down&unholy<=1)
         {spells.scourgeStrike, 'not ( ( target.hp - 3 * ( target.hp % target.timeToDie ) ) <= 45 ) or ( player.unholyOrDeathRunes >= 2 )'}, -- scourge_strike,if=!((target.health.pct-3*(target.health.pct%target.time_to_die))<=45)|(Unholy>=2)
         {spells.bloodTap}, -- blood_tap
         {spells.festeringStrike, 'not ( ( target.hp - 3 * ( target.hp % target.timeToDie ) ) <= 45 ) or ( ( ( player.frostOrDeathRunes - player.deathRunes ) > 0 ) and ( ( player.bloodOrDeathRunes - player.deathRunes ) > 0 ) )'}, -- festering_strike,if=!((target.health.pct-3*(target.health.pct%target.time_to_die))<=45)|(((Frost-death)>0)&((Blood-death)>0))
