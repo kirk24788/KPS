@@ -129,7 +129,7 @@ end
 
 local function GLOBAL_IDENTIFIER(id)
     return function()
-        return kps.env[id]
+        return kps["env"][id]
     end
 end
 
@@ -138,13 +138,20 @@ local function ACCESSOR(base, key)
         return base()[key]
     end
 end
-
+local errorCount = 0
+local errorLogTable = {}
 local function ERROR(condition,msg)
-    ePos = string.find(tostring(msg), ":", string.find(tostring(msg), ":"))
-    eDescription = string.sub(tostring(msg), ePos)
-    errorMsg = "Your rotation has an error in condition: '" .. tostring(condition) .. "':\n   " .. eDescription
+    local ePos = string.find(tostring(msg), ":", string.find(tostring(msg), ":"))
+    local eDescription = string.sub(tostring(msg), ePos)
+    local errorMsg = "Your rotation has an error in condition: '" .. tostring(condition) .. "':\n   " .. eDescription
+    local errorId = errorCount + 1
+    errorCount = errorCount + 1
+    errorLogTable[errorId] = 0
     return function()
-        LOG.error("Rotation-Error: %s", errorMsg)
+        if GetTime() - errorLogTable[errorId] > 15 then
+            LOG.error("Rotation-Error: %s", errorMsg)
+            errorLogTable[errorId] = GetTime()
+        end
         return false
     end
 end
@@ -215,7 +222,7 @@ end
 local function fnParseMacro(macroText, conditionFn)
     return function ()
         if conditionFn() then
-            if not kps.env.player.isCasting() then
+            if not kps["env"].player.isCasting() then
                 kps.runMacro(macroText)
             end
         end
