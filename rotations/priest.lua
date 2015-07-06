@@ -160,3 +160,4 @@ kps.spells.priest.mentalInstinct = kps.Spell.fromId(167254)
 
 kps.env.priest = {}
 
+kps.env.priest = {}
