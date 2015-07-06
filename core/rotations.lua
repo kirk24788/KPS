@@ -115,8 +115,11 @@ function kps.rotations.register(class,spec,table,tooltip)
     if not isPlayerClass(class) then return end
     key = toKey(class, spec)
     if not rotations[key] then rotations[key] = {} end
-    --TODO: Set correct Environment!!!
-    local rotation = {tooltip = tooltip, getSpell = kps.parser.parseSpellTable(table), env = kps.env}
+    local rotation = {tooltip = tooltip, env = kps.env}
+    rotation["getSpell"] = function ()
+        rotation.getSpell = kps.parser.parseSpellTable(table)
+        return rotation.getSpell()
+    end
     addRotationToTable(rotations[key], rotation)
     kps.rotations.reset()
 end

@@ -213,3 +213,8 @@ function eventLoop.attachCombatLogHandler()
         end
     end)
 end
+
+--- NotifyInspec on PLAYER_LOGIN
+kps.events.register("PLAYER_LOGIN", function()
+    NotifyInspect("player")
+end)
