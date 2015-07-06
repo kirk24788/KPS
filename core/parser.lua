@@ -108,7 +108,7 @@ local function SUBSTRACT(o1, o2)
 end
 local function ADD(o1, o2)
     return function()
-        return o1() - o2()
+        return o1() + o2()
     end
 end
 local function MULTIPLY(o1, o2)
@@ -344,39 +344,6 @@ function parser.conditions(tokens, bracketLevel)
             else
                 error("Unexpected '" .. tostring(v) .. "' conditions must be combined using keywords 'and' or 'or'!")
             end
-        elseif t == "%" then
-            local condition2 = parser.conditions(tokens, bracketLevel)
-            return MODULO(condition1, condition2)
-        elseif t == "-" then
-            local condition2 = parser.conditions(tokens, bracketLevel)
-            return SUBSTRACT(condition1, condition2)
-        elseif t == "+" then
-            local condition2 = parser.conditions(tokens, bracketLevel)
-            return ADD(condition1, condition2)
-        elseif t == "*" then
-            local condition2 = parser.conditions(tokens, bracketLevel)
-            return MULTIPLY(condition1, condition2)
-        elseif t == "/" then
-            local condition2 = parser.conditions(tokens, bracketLevel)
-            return DIVIDE(condition1, condition2)
-        elseif t == "<" then
-            local condition2 = parser.conditions(tokens, bracketLevel)
-            return LT(condition1, condition2)
-        elseif t == "<=" then
-            local condition2 = parser.conditions(tokens, bracketLevel)
-            return LE(condition1, condition2)
-        elseif t == "=" or t == "==" then
-            local condition2 = parser.conditions(tokens, bracketLevel)
-            return EQ(condition1, condition2)
-        elseif t == "~=" then
-            local condition2 = parser.conditions(tokens, bracketLevel)
-            return NEQ(condition1, condition2)
-        elseif t == ">=" then
-            local condition2 = parser.conditions(tokens, bracketLevel)
-            return GE(condition1, condition2)
-        elseif t == ">" then
-            local condition2 = parser.conditions(tokens, bracketLevel)
-            return GT(condition1, condition2)
         elseif bracketLevel > 0 then
             if t == ")" then
                 return condition1
@@ -403,14 +370,54 @@ function parser.condition(tokens, bracketLevel)
         parser.pop(tokens)
         return parser.conditions(tokens, bracketLevel + 1)
     else
-        return parser.comparison(tokens)
+        local value1 = parser.value(tokens)
+        local arithmetic = parser.arithmetic(tokens, value1)
+        if arithmetic~=nil then
+            return parser.comparison(tokens, arithmetic)
+        else
+            return parser.comparison(tokens, value1)
+        end
+    end
+end
+
+
+---[[[ Internal Parsing function - DON'T USE !!! -- arithmetic = <value> <arithmetic-operator> <value> -- arithmetic-operator = '%' | '+' | '-' | '*' | '/' ]]--
+function parser.arithmetic(tokens, value1)
+
+    local t = parser.lookaheadType(tokens)
+    if t == "%" then
+        local t, v = parser.pop(tokens)
+        local value2 = parser.value(tokens)
+        local arithmetic2 = parser.arithmetic(tokens, value2)
+        return MODULO(value1, arithmetic2==nil and value2 or arithmetic2)
+    elseif t == "-" then
+        local t, v = parser.pop(tokens)
+        local value2 = parser.value(tokens)
+        local arithmetic2 = parser.arithmetic(tokens, value2)
+        return SUBSTRACT(value1, arithmetic2==nil and value2 or arithmetic2)
+    elseif t == "+" then
+        local t, v = parser.pop(tokens)
+        local value2 = parser.value(tokens)
+        local arithmetic2 = parser.arithmetic(tokens, value2)
+        return ADD(value1, arithmetic2==nil and value2 or arithmetic2)
+    elseif t == "*" then
+        local t, v = parser.pop(tokens)
+        local value2 = parser.value(tokens)
+        local arithmetic2 = parser.arithmetic(tokens, value2)
+        return MULTIPLY(value1, arithmetic2==nil and value2 or arithmetic2)
+    elseif t == "/" then
+        local t, v = parser.pop(tokens)
+        local value2 = parser.value(tokens)
+        local arithmetic2 = parser.arithmetic(tokens, value2)
+        return DIVIDE(value1, arithmetic2==nil and value2 or arithmetic2)
+    else
+        return nil
     end
 end
 
 
 ---[[[ Internal Parsing function - DON'T USE !!! -- comparison = <value> <comparator> <value> -- comparator = '<' | '<=' | '=' | '==' | '~=' | '>=' | '>' ]]--
-function parser.comparison(tokens)
-    local value1 = parser.value(tokens)
+function parser.comparison(tokens, value1)
     local t = parser.lookaheadType(tokens)
     if t == "<" then
         local t, v = parser.pop(tokens)

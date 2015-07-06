@@ -3,11 +3,16 @@
 @description
 Definition of WoW Functions for testing without WoW.
 ]]--
-
+SlashCmdList = {}
 function GetTime()
     return 121412
 end
-
+function InCombatLockdown()
+    return true
+end
+function IsSpellInRange( ... )
+    return true
+end
 function UnitExists(unit)
     return true
 end
