@@ -86,5 +86,33 @@ require("gui.gui")
 require("gui.toggle")
 require("gui.slashcmd")
 
+-- Self-Made Asserts
+function is(expected)
+    return {expected, function (actual)
+        return actual == expected
+    end}
+end
+function assertThat(description, actual, expected)
+    if not expected[2](actual) then
+        local e = expected[1] ~= nil and ("'"..expected[1].."'") or "nil"
+        local a = actual ~= nil and ("'"..actual.."'") or "nil"
+        print("Test Failure: " .. description .. "\n  Expected: " .. e .. "\n    Actual: " .. a)
+        os.exit(1)
+    end
+end
 
+-- Test Combat Steps
 kps.combatStep()
+
+-- Test Parsing of Arithmethic Operations in Conditions
+function _testArithmeticOperation(op)
+    local spellTable = kps.parser.parseSpellTable({{kps.spells.warlock.rainOfFire, op}})
+    local spell, target = spellTable()
+    assertThat("Arithmethic Operation '"..op.."' in Spell Condition", spell, is(kps.spells.warlock.rainOfFire))
+    assertThat("Arithmethic Operation '"..op.."' in Spell Condition", target, is("target"))
+end
+_testArithmeticOperation("1 + 3 + 2 == 6")
+_testArithmeticOperation("1 + 3 - 2 == 2")
+_testArithmeticOperation("4%2 == 0")
+-- Test fails! Order of operations is currently not correct! _testArithmeticOperation("2 * 3 + 2 == 8")
+
