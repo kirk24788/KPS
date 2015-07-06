@@ -84,6 +84,7 @@ require("rotations.warrior_fury")
 require("rotations.warrior_protection")
 require("gui.gui")
 require("gui.toggle")
+require("gui.slashcmd")
 
 
 kps.combatStep()

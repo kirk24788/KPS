@@ -84,3 +84,4 @@ rotations\warrior_fury.lua
 rotations\warrior_protection.lua
 gui\gui.lua
 gui\toggle.lua
+gui\slashcmd.lua
