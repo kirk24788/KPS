@@ -92,6 +92,11 @@ function is(expected)
         return actual == expected
     end}
 end
+function isNot(expected)
+    return {expected, function (actual)
+        return actual ~= expected
+    end}
+end
 function assertThat(description, actual, expected)
     if not expected[2](actual) then
         local e = expected[1] ~= nil and ("'"..expected[1].."'") or "nil"
@@ -101,18 +106,58 @@ function assertThat(description, actual, expected)
     end
 end
 
--- Test Combat Steps
-kps.combatStep()
-
--- Test Parsing of Arithmethic Operations in Conditions
-function _testArithmeticOperation(op)
+-- Rotation Condition Helper Functions
+function _testErroneuosConditions(op)
+    print("Testing Erroneuos Condition '"..op.."'...")
+    local spellTable = kps.parser.parseSpellTable({{kps.spells.warlock.rainOfFire, op, "focus"},{kps.spells.warlock.lifeTap, "true"}})
+    local spell, target = spellTable()
+    assertThat("Erroneuos Condition '"..op.."'", spell, is(kps.spells.warlock.lifeTap))
+    assertThat("Erroneuos Condition '"..op.."'", target, is("target"))
+    print("...OK")
+end
+function _testCondition(op)
+    print("Testing Condition '"..op.."'...")
     local spellTable = kps.parser.parseSpellTable({{kps.spells.warlock.rainOfFire, op}})
     local spell, target = spellTable()
-    assertThat("Arithmethic Operation '"..op.."' in Spell Condition", spell, is(kps.spells.warlock.rainOfFire))
-    assertThat("Arithmethic Operation '"..op.."' in Spell Condition", target, is("target"))
+    assertThat("Condition '"..op.."'", spell, is(kps.spells.warlock.rainOfFire))
+    assertThat("Condition '"..op.."'", target, is("target"))
+    print("...OK")
 end
-_testArithmeticOperation("1 + 3 + 2 == 6")
-_testArithmeticOperation("1 + 3 - 2 == 2")
-_testArithmeticOperation("4%2 == 0")
--- Test fails! Order of operations is currently not correct! _testArithmeticOperation("2 * 3 + 2 == 8")
 
+-- Test simple conditions
+_testCondition("(((true)))")
+_testCondition("player.buffDuration(spells.rainOfFire) < 1.5")
+_testCondition("(5>4)")
+_testCondition("11%9%6")
+_testCondition("player.buffDuration(spells.rainOfFire, 3) < 1.5")
+
+
+-- Test errors in conditions - erroneous conditions mustn't be executed, but shouldn't intefere with the rest of the rotation
+_testErroneuosConditions("false or ((5>4) and true")
+
+-- Test Parsing of Arithmethic Operations in Conditions
+_testCondition("1 + 3 + 2 == 6")
+_testCondition("1 + 3 - 2 == 2")
+_testCondition("4%2 == 0")
+_testCondition("2 * 3 + 2 == 8")
+
+
+--Test Parameter List Values
+print("Testing Parameter List Values...")
+local parameterListValues = 0
+kps.env.testMe = function (a,b)
+    parameterListValues = a + b 
+    return true
+end
+local spellTable = kps.parser.parseSpellTable({{kps.spells.warlock.rainOfFire, "kps.env.testMe(1,2)"}})
+local spell, target = spellTable()
+assertThat("Parameter List Values", parameterListValues, is(3))
+assertThat("Parameter List Values", spell, is(kps.spells.warlock.rainOfFire))
+assertThat("Parameter List Values", target, is("target"))
+print("...OK")
+
+
+-- Test Combat Steps (Warlock)
+print("Testing Warlock Combat Rotation...")
+kps.combatStep()
+print("...OK")
