@@ -152,7 +152,7 @@ function IsMounted( ... )
     return false
 end
 function CastSpellByName(a,b)
-    print("CASTING: "..a.."@"..b)
+    print(">>>CASTING: "..a.."@"..b)
 end
 function UnitStat( ... )
     return 5,6,1,0
