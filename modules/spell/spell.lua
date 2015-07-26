@@ -8,8 +8,13 @@ Spell Class.
 kps.Spell = {}
 kps.Spell.prototype = {}
 kps.Spell.metatable = {}
+kps.IconSpell = nil
 
-
+function kps.setIcon(spell)
+	local icon = GetSpellTexture(spell)
+	kps.IconSpell = spell
+	kps.gui.updateTextureIcon(icon)
+end
 
 local castAt = setmetatable({}, {
     __index = function(t, self)
@@ -25,6 +30,11 @@ local castAt = setmetatable({}, {
             else
                 CastSpellByName(self.name,target)
             end
+            
+            if (kps.IconSpell ~= self.name) then
+				kps.setIcon(self.name)
+			end
+            
             local _, gcd = GetSpellCooldown(61304) -- Global Cooldown Spell
             kps.gcd = gcd
             kps.lastCast = self
