@@ -10,6 +10,7 @@ kps.env.target = kps.Unit.new("target")
 kps.env.pet = kps.Unit.new("pet")
 kps.env.focus = kps.Unit.new("focus")
 kps.env.mouseover = kps.Unit.new("mouseover")
+kps.env.activeEnemies = kps.activeEnemies.new()
 
 --TODO: Clean UP!!! This code is a mess...
 

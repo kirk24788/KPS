@@ -5,6 +5,19 @@ GENERATED FROM SIMCRAFT PROFILE 'priest_shadow.simc'
 local spells = kps.spells.priest
 local env = kps.env.priest
 
+kps.rotations.register("PRIEST","SHADOW",
+{
+	{spells.devouringPlague, 'player.shadowOrbs == 5'}, -- devouring_plague,if=shadow_orb=5
+	{spells.shadowform, 'not player.hasBuff(spells.shadowform)'},
+	{spells.mindBlast, 'true'},
+	{spells.mindSpike, 'not target.hasMyDebuff(spells.shadowWordPain) and not target.hasMyDebuff(spells.vampiricTouch) and player.shadowOrbs < 4'},
+	{spells.shadowWordPain, 'not target.hasMyDebuff(spells.shadowWordPain)'}, -- shadow_word_pain,if=primary_target=0&!ticking,cycle_targets=1,max_cycle_targets=5
+    {spells.vampiricTouch, 'not target.hasMyDebuff(spells.vampiricTouch)'}, -- vampiric_touch,if=primary_target=0&!ticking,cycle_targets=1,max_cycle_targets=5  
+    {spells.mindFlay},
+
+}
+,"priest_shadow.test")
+
 
 kps.rotations.register("PRIEST","SHADOW",
 {
