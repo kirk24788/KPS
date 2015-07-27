@@ -75,8 +75,8 @@ local canBeCastAt = setmetatable({}, {
             local usable, nomana = IsUsableSpell(self.name) -- usable, nomana = IsUsableSpell("spellName" or spellID)
             if not usable then return false end
             if nomana then return false end
-            if (self.cooldown~=0) then return false end
-            if self.hasRange and not self.inRange(unit) then return false end
+            if (self.cooldown > 0) then return false end -- unknown spell returns zero
+            if not self.inRange(unit) then return false end
             return true
         end
         t[self] = val

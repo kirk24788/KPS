@@ -7,7 +7,8 @@ local env = kps.env.warrior
 
 kps.rotations.register("WARRIOR","PROTECTION",
 {
-    --{spells.charge}, -- charge
+    {spells.charge}, -- charge
+    {spells.thunderClap,'activeEnemies.count > 3'},
     {spells.shieldSlam, 'player.hasBuff(spells.swordAndBoard)'}, -- shield_slam,if=buff.shield_block.up
     {spells.heroicStrike, 'player.hasBuff(spells.ultimatum)'},
     {spells.heroicStrike, 'player.rage > 89'},
