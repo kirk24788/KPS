@@ -48,7 +48,7 @@ function SlashCmdList.KPS(cmd, editbox)
     elseif msg == "pew" then
         kps.combatStep()
     else
-        if jps.Enabled then
+        if kps.enabled then
             kps.write("KPS Enabled")
         else
             kps.write("KPS Disabled")

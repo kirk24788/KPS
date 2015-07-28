@@ -5,6 +5,19 @@ GENERATED FROM SIMCRAFT PROFILE 'warrior_protection.simc'
 local spells = kps.spells.warrior
 local env = kps.env.warrior
 
+kps.rotations.register("WARRIOR","PROTECTION",
+{
+    {spells.charge}, -- charge
+    {spells.thunderClap,'activeEnemies.count > 3'},
+    {spells.shieldSlam, 'player.hasBuff(spells.swordAndBoard)'}, -- shield_slam,if=buff.shield_block.up
+    {spells.heroicStrike, 'player.hasBuff(spells.ultimatum)'},
+    {spells.heroicStrike, 'player.rage > 89'},
+    {spells.berserkerRage, 'not player.hasBuff(spells.enrage)'}, -- berserker_rage,if=buff.enrage.down
+    {spells.shieldSlam},
+    {spells.devastate},
+
+}
+,"warrior_protection.test")
 
 kps.rotations.register("WARRIOR","PROTECTION",
 {

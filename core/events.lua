@@ -218,3 +218,13 @@ end
 kps.events.register("PLAYER_LOGIN", function()
     NotifyInspect("player")
 end)
+
+-- Enter Combat
+kps.events.register("PLAYER_REGEN_DISABLED", function()
+	kps.gui.combatBorderIcon(true)
+end)
+
+-- Leave Combat
+kps.events.register("PLAYER_REGEN_ENABLED", function()
+	kps.gui.combatBorderIcon(false)
+end)

@@ -4,7 +4,7 @@
 GUI Toggle Buttons
 ]]--
 
-local LOG=kps.Logger(kps.LogLevel.INFO)
+local LOG = kps.Logger(kps.LogLevel.INFO)
 
 local iconSize = 36
 local iconOffset = 4
@@ -133,3 +133,43 @@ end
 function kps.gui.show()
     toggleAnchor:Show()
 end
+
+function kps.gui.updateTextureIcon(texture)
+	toggleAnchor.texture:SetTexture(texture)
+end
+
+function kps.gui.updateBorderIcon()
+	if kps.enabled then
+		toggleAnchor.border:SetTexture(borderTexture)
+		kps.write("KPS disabled")
+	else
+		if InCombatLockdown() then
+			toggleAnchor.border:SetTexture(borderTextureFailed)
+		else
+			toggleAnchor.border:SetTexture(borderTextureActive)
+		end
+		kps.write("KPS enabled")
+	end
+	kps.enabled = not kps.enabled
+end
+
+toggleAnchor:SetScript("OnClick", function(self,button)
+	if button == "LeftButton" then
+		kps.gui.updateBorderIcon()
+	end
+end)
+
+function kps.gui.combatBorderIcon(status)
+	if status then
+		if kps.enabled then
+			toggleAnchor.border:SetTexture(borderTextureFailed)
+		end
+	else
+		if kps.enabled then
+			toggleAnchor.border:SetTexture(borderTextureActive)
+		else
+			toggleAnchor.border:SetTexture(borderTexture)
+		end
+	end
+end
+
