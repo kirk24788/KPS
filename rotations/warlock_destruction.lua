@@ -38,16 +38,16 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
     -- Simple MultiTarget: FireAndBrimstone + default rotation
     {{"nested"}, 'kps.multiTarget and not keys.alt', {
         {spells.fireAndBrimstone, 'player.burningEmbers > 0 and not player.hasBuff(spells.fireAndBrimstone) and not spells.fireAndBrimstone.isRecastAt("target")' },
-        {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 1.0'},
+        {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 1.0 and not spells.immolate.isRecastAt("target")'},
         {spells.conflagrate, 'spells.conflagrate.charges >= 2'},
-        {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 4.5'},
+        {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 4.5 and not spells.immolate.isRecastAt("target")'},
         {spells.conflagrate},
         {spells.incinerate},
     }},
     -- Simple SingleTarget
     {{"nested"}, 'not kps.multiTarget and not keys.alt', {
         { {"macro"}, 'player.hasBuff(spells.fireAndBrimstone)', "/cancelaura "..spells.fireAndBrimstone },
-        {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 1.0'},
+        {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 1.0 and not spells.immolate.isRecastAt("target")'},
         {spells.conflagrate, 'spells.conflagrate.charges >= 2'},
         -- don't waste chaotic infusion if havoc cooldown is about to come off!
         {{"nested"}, 'not player.hasBuff(spells.chaoticInfusion) or spells.havoc.cooldown > 6 or spells.havoc.cooldown == 0 ', {
@@ -55,7 +55,7 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
             {spells.chaosBolt, 'player.hasMasteryProc or player.hasCritProc or player.hasIntProc'},
             {spells.chaosBolt, 'player.hasBuff(spells.darkSoulInstability)'},
         }},
-        {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 4.5'},
+        {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 4.5 and not spells.immolate.isRecastAt("target")'},
         {spells.conflagrate},
         {spells.incinerate},
     }},
