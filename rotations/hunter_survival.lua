@@ -8,12 +8,12 @@ local env = kps.env.hunter
 
 kps.rotations.register("HUNTER","SURVIVAL",
 {
-    {{"nested"}, 'activeEnemies() > 1', { -- call_action_list,name=aoe,if=active_enemies>1
+    {{"nested"}, 'activeEnemies.count > 1', { -- call_action_list,name=aoe,if=active_enemies>1
         {spells.stampede, 'player.hasAgiProc or (  and ( player.hasAgiProc or player.hasProc or player.hasAgiProc ) )'}, -- stampede,if=buff.potion.up|(cooldown.potion.remains&(buff.archmages_greater_incandescence_agi.up|trinket.stat.any.up|buff.archmages_incandescence_agi.up))
         {spells.explosiveShot, 'player.buffStacks(spells.lockAndLoad) and ( not player.hasTalent(6, 3) or spells.barrage.cooldown > 0 )'}, -- explosive_shot,if=buff.lock_and_load.react&(!talent.barrage.enabled|cooldown.barrage.remains>0)
         {spells.barrage}, -- barrage
         {spells.blackArrow, 'not target.hasMyDebuff(spells.blackArrow)'}, -- black_arrow,if=!ticking
-        {spells.explosiveShot, 'activeEnemies() < 5'}, -- explosive_shot,if=active_enemies<5
+        {spells.explosiveShot, 'activeEnemies.count < 5'}, -- explosive_shot,if=active_enemies<5
         {spells.explosiveTrap, 'target.myDebuffDuration(spells.explosiveTrap) <= 5'}, -- explosive_trap,if=dot.explosive_trap.remains<=5
         {spells.aMurderOfCrows}, -- a_murder_of_crows
         {spells.direBeast}, -- dire_beast

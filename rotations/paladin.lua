@@ -171,4 +171,3 @@ kps.spells.paladin.blazingContempt = kps.Spell.fromId(166831)
 
 kps.env.paladin = {}
 
-kps.env.paladin = {}

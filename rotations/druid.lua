@@ -189,4 +189,3 @@ kps.spells.druid.shadowmeld = kps.Spell.fromId(135201)
 
 kps.env.druid = {}
 
-kps.env.druid = {}

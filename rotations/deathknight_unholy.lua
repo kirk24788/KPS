@@ -18,11 +18,11 @@ kps.rotations.register("DEATHKNIGHT","UNHOLY",
             {spells.breathOfSindragosa, 'player.runicPower > 75'}, -- breath_of_sindragosa,if=runic_power>75
             {{"nested"}, 'target.hasMyDebuff(spells.breathOfSindragosa)', { -- run_action_list,name=bos_active,if=dot.breath_of_sindragosa.ticking
                 {spells.plagueStrike, 'not diseaseTicking(target)'}, -- plague_strike,if=!disease.ticking
-                {spells.bloodBoil, '( activeEnemies() >= 2 and not ( target.hasMyDebuff(spells.bloodPlague) or target.hasMyDebuff(spells.frostFever) ) ) or activeEnemies() >= 4 and ( player.runicPower < 88 and player.runicPower > 30 )'}, -- blood_boil,cycle_targets=1,if=(active_enemies>=2&!(dot.blood_plague.ticking|dot.frost_fever.ticking))|active_enemies>=4&(runic_power<88&runic_power>30)
-                {spells.scourgeStrike, 'activeEnemies() <= 3 and ( player.runicPower < 88 and player.runicPower > 30 )'}, -- scourge_strike,if=active_enemies<=3&(runic_power<88&runic_power>30)
+                {spells.bloodBoil, '( activeEnemies.count >= 2 and not ( target.hasMyDebuff(spells.bloodPlague) or target.hasMyDebuff(spells.frostFever) ) ) or activeEnemies.count >= 4 and ( player.runicPower < 88 and player.runicPower > 30 )'}, -- blood_boil,cycle_targets=1,if=(active_enemies>=2&!(dot.blood_plague.ticking|dot.frost_fever.ticking))|active_enemies>=4&(runic_power<88&runic_power>30)
+                {spells.scourgeStrike, 'activeEnemies.count <= 3 and ( player.runicPower < 88 and player.runicPower > 30 )'}, -- scourge_strike,if=active_enemies<=3&(runic_power<88&runic_power>30)
                 {spells.festeringStrike, 'player.runicPower < 77'}, -- festering_strike,if=runic_power<77
-                {spells.bloodBoil, 'activeEnemies() >= 4'}, -- blood_boil,if=active_enemies>=4
-                {spells.scourgeStrike, 'activeEnemies() <= 3'}, -- scourge_strike,if=active_enemies<=3
+                {spells.bloodBoil, 'activeEnemies.count >= 4'}, -- blood_boil,if=active_enemies>=4
+                {spells.scourgeStrike, 'activeEnemies.count <= 3'}, -- scourge_strike,if=active_enemies<=3
                 {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) >= 5'}, -- blood_tap,if=buff.blood_charge.stack>=5
                 {spells.plagueLeech}, -- plague_leech
                 {spells.empowerRuneWeapon, 'player.runicPower < 60'}, -- empower_rune_weapon,if=runic_power<60
@@ -33,14 +33,14 @@ kps.rotations.register("DEATHKNIGHT","UNHOLY",
             {spells.outbreak, 'not ( target.hasMyDebuff(spells.bloodPlague) or target.hasMyDebuff(spells.frostFever) )'}, -- outbreak,cycle_targets=1,if=!(dot.blood_plague.ticking|dot.frost_fever.ticking)
             {spells.plagueStrike, 'not ( target.hasMyDebuff(spells.bloodPlague) or target.hasMyDebuff(spells.frostFever) )'}, -- plague_strike,if=!(dot.blood_plague.ticking|dot.frost_fever.ticking)
             {spells.bloodBoil, 'not ( target.hasMyDebuff(spells.bloodPlague) or target.hasMyDebuff(spells.frostFever) )'}, -- blood_boil,cycle_targets=1,if=!(dot.blood_plague.ticking|dot.frost_fever.ticking)
-            {spells.deathAndDecay, 'activeEnemies() > 1 and player.unholyRunes > 1'}, -- death_and_decay,if=active_enemies>1&unholy>1
+            {spells.deathAndDecay, 'activeEnemies.count > 1 and player.unholyRunes > 1'}, -- death_and_decay,if=active_enemies>1&unholy>1
             {spells.festeringStrike, 'player.bloodRunes > 1 and player.frostRunes > 1'}, -- festering_strike,if=blood>1&frost>1
-            {spells.scourgeStrike, '( ( player.unholyRunes > 1 or player.deathRunes > 1 ) and activeEnemies() <= 3 ) or ( player.unholyRunes > 1 and activeEnemies() >= 4 )'}, -- scourge_strike,if=((unholy>1|death>1)&active_enemies<=3)|(unholy>1&active_enemies>=4)
-            {spells.deathAndDecay, 'activeEnemies() > 1'}, -- death_and_decay,if=active_enemies>1
-            {spells.bloodBoil, 'activeEnemies() >= 4 and ( player.bloodRunes == 2 or ( player.frostRunes == 2 and player.deathRunes == 2 ) )'}, -- blood_boil,if=active_enemies>=4&(blood=2|(frost=2&death=2))
+            {spells.scourgeStrike, '( ( player.unholyRunes > 1 or player.deathRunes > 1 ) and activeEnemies.count <= 3 ) or ( player.unholyRunes > 1 and activeEnemies.count >= 4 )'}, -- scourge_strike,if=((unholy>1|death>1)&active_enemies<=3)|(unholy>1&active_enemies>=4)
+            {spells.deathAndDecay, 'activeEnemies.count > 1'}, -- death_and_decay,if=active_enemies>1
+            {spells.bloodBoil, 'activeEnemies.count >= 4 and ( player.bloodRunes == 2 or ( player.frostRunes == 2 and player.deathRunes == 2 ) )'}, -- blood_boil,if=active_enemies>=4&(blood=2|(frost=2&death=2))
             {spells.darkTransformation}, -- dark_transformation
             {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) > 10'}, -- blood_tap,if=buff.blood_charge.stack>10
-            {spells.bloodBoil, 'activeEnemies() >= 4'}, -- blood_boil,if=active_enemies>=4
+            {spells.bloodBoil, 'activeEnemies.count >= 4'}, -- blood_boil,if=active_enemies>=4
             {spells.deathCoil, '( player.buffStacks(spells.suddenDoom) or player.runicPower > 80 ) and ( player.buffStacks(spells.bloodCharge) <= 10 )'}, -- death_coil,if=(buff.sudden_doom.react|runic_power>80)&(buff.blood_charge.stack<=10)
             {spells.scourgeStrike, 'spells.breathOfSindragosa.cooldown > 6 or player.runicPower < 75'}, -- scourge_strike,if=cooldown.breath_of_sindragosa.remains>6|runic_power<75
             {spells.festeringStrike, 'spells.breathOfSindragosa.cooldown > 6 or player.runicPower < 75'}, -- festering_strike,if=cooldown.breath_of_sindragosa.remains>6|runic_power<75
@@ -49,7 +49,7 @@ kps.rotations.register("DEATHKNIGHT","UNHOLY",
         }},
     }},
     {spells.antimagicShell}, -- antimagic_shell,damage=100000
-    {{"nested"}, '( not player.hasTalent(7, 1) and activeEnemies() >= 2 ) or activeEnemies() >= 4', { -- run_action_list,name=aoe,if=(!talent.necrotic_plague.enabled&active_enemies>=2)|active_enemies>=4
+    {{"nested"}, '( not player.hasTalent(7, 1) and activeEnemies.count >= 2 ) or activeEnemies.count >= 4', { -- run_action_list,name=aoe,if=(!talent.necrotic_plague.enabled&active_enemies>=2)|active_enemies>=4
         {spells.unholyBlight}, -- unholy_blight
         {{"nested"}, 'not target.hasMyDebuff(spells.bloodPlague) or not target.hasMyDebuff(spells.frostFever) or ( not target.hasMyDebuff(spells.necroticPlague) and player.hasTalent(7, 1) )', { -- call_action_list,name=spread,if=!dot.blood_plague.ticking|!dot.frost_fever.ticking|(!dot.necrotic_plague.ticking&talent.necrotic_plague.enabled)
             {spells.bloodBoil, 'diseaseTicking(target)'}, -- blood_boil,cycle_targets=1,if=!disease.min_ticking
@@ -75,7 +75,7 @@ kps.rotations.register("DEATHKNIGHT","UNHOLY",
         {spells.plagueLeech}, -- plague_leech
         {spells.empowerRuneWeapon}, -- empower_rune_weapon
     }},
-    {{"nested"}, '( not player.hasTalent(7, 1) and activeEnemies() < 2 ) or activeEnemies() < 4', { -- run_action_list,name=single_target,if=(!talent.necrotic_plague.enabled&active_enemies<2)|active_enemies<4
+    {{"nested"}, '( not player.hasTalent(7, 1) and activeEnemies.count < 2 ) or activeEnemies.count < 4', { -- run_action_list,name=single_target,if=(!talent.necrotic_plague.enabled&active_enemies<2)|active_enemies<4
         {spells.plagueLeech, '( spells.outbreak.cooldown < 1 ) and ( ( player.bloodRunes < 1 and player.frostRunes < 1 ) or ( player.bloodRunes < 1 and player.unholyRunes < 1 ) or ( player.frostRunes < 1 and player.unholyRunes < 1 ) )'}, -- plague_leech,if=(cooldown.outbreak.remains<1)&((blood<1&frost<1)|(blood<1&unholy<1)|(frost<1&unholy<1))
         {spells.plagueLeech, '( ( player.bloodRunes < 1 and player.frostRunes < 1 ) or ( player.bloodRunes < 1 and player.unholyRunes < 1 ) or ( player.frostRunes < 1 and player.unholyRunes < 1 ) ) and diseaseMinRemains() < 3'}, -- plague_leech,if=((blood<1&frost<1)|(blood<1&unholy<1)|(frost<1&unholy<1))&disease.min_remains<3
         {spells.plagueLeech, 'diseaseMinRemains() < 1'}, -- plague_leech,if=disease.min_remains<1

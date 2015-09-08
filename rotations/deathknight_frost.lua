@@ -12,7 +12,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
     {spells.antimagicShell}, -- antimagic_shell,damage=100000
     {spells.pillarOfFrost}, -- pillar_of_frost
     {spells.empowerRuneWeapon, 'target.timeToDie <= 60 and player.hasStrProc'}, -- empower_rune_weapon,if=target.time_to_die<=60&buff.potion.up
-    {{"nested"}, 'activeEnemies() >= 3', { -- run_action_list,name=aoe,if=active_enemies>=3
+    {{"nested"}, 'activeEnemies.count >= 3', { -- run_action_list,name=aoe,if=active_enemies>=3
         {spells.unholyBlight}, -- unholy_blight
 -- ERROR in 'blood_boil,if=dot.blood_plague.ticking&(!talent.unholy_blight.enabled|cooldown.unholy_blight.remains<49),line_cd=28': Unknown expression 'line_cd'!
         {spells.defile}, -- defile
@@ -38,7 +38,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
         {spells.plagueStrike, 'player.unholyRunes == 1'}, -- plague_strike,if=unholy=1
         {spells.empowerRuneWeapon}, -- empower_rune_weapon
     }},
-    {{"nested"}, 'activeEnemies() < 3', { -- run_action_list,name=single_target,if=active_enemies<3
+    {{"nested"}, 'activeEnemies.count < 3', { -- run_action_list,name=single_target,if=active_enemies<3
         {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) > 10 and ( player.runicPower > 76 or ( player.runicPower >= 20 and player.buffStacks(spells.killingMachine) ) )'}, -- blood_tap,if=buff.blood_charge.stack>10&(runic_power>76|(runic_power>=20&buff.killing_machine.react))
         {spells.soulReaper, 'target.hp - 3 * ( target.hp % target.timeToDie ) <= 35'}, -- soul_reaper,if=target.health.pct-3*(target.health.pct%target.time_to_die)<=35
         {spells.bloodTap, '( target.hp - 3 * ( target.hp % target.timeToDie ) <= 35 and spells.soulReaper.cooldown == 0 )'}, -- blood_tap,if=(target.health.pct-3*(target.health.pct%target.time_to_die)<=35&cooldown.soul_reaper.remains=0)
@@ -83,7 +83,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
     {spells.antimagicShell}, -- antimagic_shell,damage=100000
     {spells.pillarOfFrost}, -- pillar_of_frost
     {spells.empowerRuneWeapon, 'target.timeToDie <= 60 and player.hasStrProc'}, -- empower_rune_weapon,if=target.time_to_die<=60&buff.potion.up
-    {{"nested"}, 'activeEnemies() >= 4', { -- run_action_list,name=aoe,if=active_enemies>=4
+    {{"nested"}, 'activeEnemies.count >= 4', { -- run_action_list,name=aoe,if=active_enemies>=4
         {spells.unholyBlight}, -- unholy_blight
 -- ERROR in 'blood_boil,if=dot.blood_plague.ticking&(!talent.unholy_blight.enabled|cooldown.unholy_blight.remains<49),line_cd=28': Unknown expression 'line_cd'!
         {spells.defile}, -- defile
@@ -109,7 +109,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
         {spells.plagueStrike, 'player.unholyRunes == 1'}, -- plague_strike,if=unholy=1
         {spells.empowerRuneWeapon}, -- empower_rune_weapon
     }},
-    {{"nested"}, 'activeEnemies() < 4', { -- run_action_list,name=single_target,if=active_enemies<4
+    {{"nested"}, 'activeEnemies.count < 4', { -- run_action_list,name=single_target,if=active_enemies<4
         {spells.plagueLeech, 'diseaseMinRemains() < 1'}, -- plague_leech,if=disease.min_remains<1
         {spells.soulReaper, 'target.hp - 3 * ( target.hp % target.timeToDie ) <= 35'}, -- soul_reaper,if=target.health.pct-3*(target.health.pct%target.time_to_die)<=35
         {spells.bloodTap, '( target.hp - 3 * ( target.hp % target.timeToDie ) <= 35 and spells.soulReaper.cooldown == 0 )'}, -- blood_tap,if=(target.health.pct-3*(target.health.pct%target.time_to_die)<=35&cooldown.soul_reaper.remains=0)

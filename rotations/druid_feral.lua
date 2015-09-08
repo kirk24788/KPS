@@ -22,7 +22,7 @@ kps.rotations.register("DRUID","FERAL",
     {spells.ferociousBite, 'target.hasMyDebuff(spells.rip) and target.myDebuffDuration(spells.rip) < 3 and target.hp < 25'}, -- ferocious_bite,cycle_targets=1,if=dot.rip.ticking&dot.rip.remains<3&target.health.pct<25
     {spells.healingTouch, 'player.hasTalent(7, 2) and player.hasBuff(spells.predatorySwiftness) and ( target.comboPoints >= 4 or player.buffDuration(spells.predatorySwiftness) < 1.5 )'}, -- healing_touch,if=talent.bloodtalons.enabled&buff.predatory_swiftness.up&(combo_points>=4|buff.predatory_swiftness.remains<1.5)
     {spells.savageRoar, 'not player.hasBuff(spells.savageRoar)'}, -- savage_roar,if=buff.savage_roar.down
-    {spells.thrash, 'target.myDebuffDuration(spells.thrash) < 4.5 and ( activeEnemies() >= 2 and or activeEnemies() >= 4 )'}, -- thrash_cat,cycle_targets=1,if=remains<4.5&(active_enemies>=2&set_bonus.tier17_2pc|active_enemies>=4)
+    {spells.thrash, 'target.myDebuffDuration(spells.thrash) < 4.5 and ( activeEnemies.count >= 2 and or activeEnemies.count >= 4 )'}, -- thrash_cat,cycle_targets=1,if=remains<4.5&(active_enemies>=2&set_bonus.tier17_2pc|active_enemies>=4)
     {{"nested"}, 'target.comboPoints == 5', { -- call_action_list,name=finisher,if=combo_points=5
         {spells.rip, 'target.myDebuffDuration(spells.rip) < 2 and target.timeToDie - target.myDebuffDuration(spells.rip) > 18 and ( target.hp > 25 or not target.hasMyDebuff(spells.rip) )'}, -- rip,cycle_targets=1,if=remains<2&target.time_to_die-remains>18&(target.health.pct>25|!dot.rip.ticking)
         {spells.ferociousBite, 'target.hp < 25 and target.hasMyDebuff(spells.rip)'}, -- ferocious_bite,cycle_targets=1,max_energy=1,if=target.health.pct<25&dot.rip.ticking
@@ -33,15 +33,15 @@ kps.rotations.register("DRUID","FERAL",
     }},
     {spells.savageRoar, 'player.buffDuration(spells.savageRoar) < player.gcd'}, -- savage_roar,if=buff.savage_roar.remains<gcd
     {{"nested"}, 'target.comboPoints < 5', { -- call_action_list,name=maintain,if=combo_points<5
-        {spells.rake, 'target.myDebuffDuration(spells.rake) < 3 and ( ( target.timeToDie - target.myDebuffDuration(spells.rake) > 3 and activeEnemies() < 3 ) or target.timeToDie - target.myDebuffDuration(spells.rake) > 6 )'}, -- rake,cycle_targets=1,if=remains<3&((target.time_to_die-remains>3&active_enemies<3)|target.time_to_die-remains>6)
-        {spells.rake, 'target.myDebuffDuration(spells.rake) < 4.5 and ( 1 >= 1 or ( player.hasTalent(7, 2) and ( player.hasBuff(spells.bloodtalons) or not player.hasBuff(spells.predatorySwiftness) ) ) ) and ( ( target.timeToDie - target.myDebuffDuration(spells.rake) > 3 and activeEnemies() < 3 ) or target.timeToDie - target.myDebuffDuration(spells.rake) > 6 )'}, -- rake,cycle_targets=1,if=remains<4.5&(persistent_multiplier>=dot.rake.pmultiplier|(talent.bloodtalons.enabled&(buff.bloodtalons.up|!buff.predatory_swiftness.up)))&((target.time_to_die-remains>3&active_enemies<3)|target.time_to_die-remains>6)
-        {spells.moonfire, 'target.myDebuffDuration(spells.moonfire) < 4.2 and activeEnemies() <= 5 and target.timeToDie - target.myDebuffDuration(spells.moonfire) > spells.moonfire.tickTime * 5'}, -- moonfire_cat,cycle_targets=1,if=remains<4.2&active_enemies<=5&target.time_to_die-remains>tick_time*5
-        {spells.rake, '1>1 and activeEnemies() == 1 and ( ( target.timeToDie - target.myDebuffDuration(spells.rake) > 3 and activeEnemies() < 3 ) or target.timeToDie - target.myDebuffDuration(spells.rake) > 6 )'}, -- rake,cycle_targets=1,if=persistent_multiplier>dot.rake.pmultiplier&active_enemies=1&((target.time_to_die-remains>3&active_enemies<3)|target.time_to_die-remains>6)
+        {spells.rake, 'target.myDebuffDuration(spells.rake) < 3 and ( ( target.timeToDie - target.myDebuffDuration(spells.rake) > 3 and activeEnemies.count < 3 ) or target.timeToDie - target.myDebuffDuration(spells.rake) > 6 )'}, -- rake,cycle_targets=1,if=remains<3&((target.time_to_die-remains>3&active_enemies<3)|target.time_to_die-remains>6)
+        {spells.rake, 'target.myDebuffDuration(spells.rake) < 4.5 and ( 1 >= 1 or ( player.hasTalent(7, 2) and ( player.hasBuff(spells.bloodtalons) or not player.hasBuff(spells.predatorySwiftness) ) ) ) and ( ( target.timeToDie - target.myDebuffDuration(spells.rake) > 3 and activeEnemies.count < 3 ) or target.timeToDie - target.myDebuffDuration(spells.rake) > 6 )'}, -- rake,cycle_targets=1,if=remains<4.5&(persistent_multiplier>=dot.rake.pmultiplier|(talent.bloodtalons.enabled&(buff.bloodtalons.up|!buff.predatory_swiftness.up)))&((target.time_to_die-remains>3&active_enemies<3)|target.time_to_die-remains>6)
+        {spells.moonfire, 'target.myDebuffDuration(spells.moonfire) < 4.2 and activeEnemies.count <= 5 and target.timeToDie - target.myDebuffDuration(spells.moonfire) > spells.moonfire.tickTime * 5'}, -- moonfire_cat,cycle_targets=1,if=remains<4.2&active_enemies<=5&target.time_to_die-remains>tick_time*5
+        {spells.rake, '1>1 and activeEnemies.count == 1 and ( ( target.timeToDie - target.myDebuffDuration(spells.rake) > 3 and activeEnemies.count < 3 ) or target.timeToDie - target.myDebuffDuration(spells.rake) > 6 )'}, -- rake,cycle_targets=1,if=persistent_multiplier>dot.rake.pmultiplier&active_enemies=1&((target.time_to_die-remains>3&active_enemies<3)|target.time_to_die-remains>6)
     }},
-    {spells.thrash, 'target.myDebuffDuration(spells.thrash) < 4.5 and activeEnemies() >= 2'}, -- thrash_cat,cycle_targets=1,if=remains<4.5&active_enemies>=2
+    {spells.thrash, 'target.myDebuffDuration(spells.thrash) < 4.5 and activeEnemies.count >= 2'}, -- thrash_cat,cycle_targets=1,if=remains<4.5&active_enemies>=2
     {{"nested"}, 'target.comboPoints < 5', { -- call_action_list,name=generator,if=combo_points<5
-        {spells.swipe, 'activeEnemies() >= 3'}, -- swipe,if=active_enemies>=3
-        {spells.shred, 'activeEnemies() < 3'}, -- shred,if=active_enemies<3
+        {spells.swipe, 'activeEnemies.count >= 3'}, -- swipe,if=active_enemies>=3
+        {spells.shred, 'activeEnemies.count < 3'}, -- shred,if=active_enemies<3
     }},
 }
 ,"druid_feral.simc")

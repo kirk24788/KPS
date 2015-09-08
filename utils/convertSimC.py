@@ -231,8 +231,8 @@ _EXPRESSION_CONVERSIONS = [
     ("movement.distance", "target.distance"),
     ("in_flight","player.isMoving"),
     ("raid_event.movement.exists","player.isMoving"),
-    ("active_enemies", "activeEnemies()"),
-    ("raid_event.adds.exists", "activeEnemies()"),
+    ("active_enemies", "activeEnemies.count"),
+    ("raid_event.adds.exists", "activeEnemies.count"),
     ("level", "player.level"),
     ("buff.bloodlust.up", "player.bloodlust"),
     ("buff.bloodlust.remains", "player.buffDuration(spells.bloodlust)"),
@@ -602,7 +602,7 @@ class Condition(object):
             if expression == "in_flight" or expression == "in_flight_to_target":
                 return "spells.%s.isRecastAt(\"target\")" % self.condition_spell
             if expression == "enemies":
-                return "activeEnemies()"
+                return "activeEnemies.count"
 
         if expression == "EMPTY_EXPRESSION":
             raise ParserError("Empty Expression after RegEx Replacements", silent=True)

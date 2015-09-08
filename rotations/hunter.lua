@@ -141,4 +141,3 @@ kps.spells.hunter.lockAndLoad = kps.Spell.fromId(168980)
 
 kps.env.hunter = {}
 
-kps.env.hunter = {}

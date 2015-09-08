@@ -4,12 +4,12 @@
 Basic Unlock - Dummy Functions for access to enhanced unlock features. Prevents errors if no advanced unlock is present.
 ]]--
 
-kps.activeEnemies = {}
-kps.activeEnemies.prototype = {}
-kps.activeEnemies.metatable = {}
+kps.ActiveEnemies = {}
+kps.ActiveEnemies.prototype = {}
+kps.ActiveEnemies.metatable = {}
 
 
-function kps.activeEnemies.prototype.count(self)
+function kps.ActiveEnemies.prototype.count(self)
     if kps.multiTarget then
         return 6
     else
@@ -17,16 +17,16 @@ function kps.activeEnemies.prototype.count(self)
     end
 end
 
-function kps.activeEnemies.new()
+function kps.ActiveEnemies.new()
     local inst = {}
-    setmetatable(inst, kps.activeEnemies.metatable)
+    setmetatable(inst, kps.ActiveEnemies.metatable)
     return inst
 end
 
-kps.activeEnemies.metatable.__index = function (table, key)
-    local fn = kps.activeEnemies.prototype[key]
+kps.ActiveEnemies.metatable.__index = function (table, key)
+    local fn = kps.ActiveEnemies.prototype[key]
     if fn == nil then
-        error("Unknown Keys-Property '" .. activeEnemies .. "'!")
+        error("Unknown Keys-Property '" .. ActiveEnemies .. "'!")
     end
     return fn(table)
 end

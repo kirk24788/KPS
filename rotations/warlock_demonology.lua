@@ -19,17 +19,17 @@ kps.rotations.register("WARLOCK","DEMONOLOGY",
     {spells.handOfGuldan, 'not player.isMoving and target.myDebuffDuration(spells.shadowflame) < 1 + spells.shadowBolt.castTime and player.hasTalent(7, 1) and ( ( == 0 and ( ( spells.handOfGuldan.charges == 1 and spells.handOfGuldan.cooldown < 4 ) or spells.handOfGuldan.charges == 2 ) ) or ( spells.handOfGuldan.charges == 3 or ( spells.handOfGuldan.charges == 2 and spells.handOfGuldan.cooldown < 13.8 - 1*2 ) ) or target.myDebuffDuration(spells.shadowflame) > 1 )'}, -- hand_of_guldan,if=!in_flight&dot.shadowflame.remains<travel_time+action.shadow_bolt.cast_time&talent.demonbolt.enabled&((set_bonus.tier17_4pc=0&((charges=1&recharge_time<4)|charges=2))|(charges=3|(charges=2&recharge_time<13.8-travel_time*2))|dot.shadowflame.remains>travel_time)
     {spells.handOfGuldan, 'not player.isMoving and target.myDebuffDuration(spells.shadowflame) < 3.7 and player.timeInCombat < 5 and player.buffDuration(spells.demonbolt) < player.gcd * 2 and ( spells.handOfGuldan.charges >= 2 or == 0 ) and spells.darkSoul.charges >= 1'}, -- hand_of_guldan,if=!in_flight&dot.shadowflame.remains<3.7&time<5&buff.demonbolt.remains<gcd*2&(charges>=2|set_bonus.tier17_4pc=0)&action.dark_soul.charges>=1
 -- ERROR in 'service_pet,if=talent.grimoire_of_service.enabled&(target.time_to_die>120|target.time_to_die<=25|(buff.dark_soul.remains&target.health.pct<20))': Spell 'servicePet' unknown!
-    {spells.summonDoomguard, 'not player.hasTalent(7, 3) and activeEnemies() < 9'}, -- summon_doomguard,if=!talent.demonic_servitude.enabled&active_enemies<9
-    {spells.summonInfernal, 'not player.hasTalent(7, 3) and activeEnemies() >= 9'}, -- summon_infernal,if=!talent.demonic_servitude.enabled&active_enemies>=9
+    {spells.summonDoomguard, 'not player.hasTalent(7, 3) and activeEnemies.count < 9'}, -- summon_doomguard,if=!talent.demonic_servitude.enabled&active_enemies<9
+    {spells.summonInfernal, 'not player.hasTalent(7, 3) and activeEnemies.count >= 9'}, -- summon_infernal,if=!talent.demonic_servitude.enabled&active_enemies>=9
     {{"nested"}, 'player.hasTalent(7, 1)', { -- call_action_list,name=db,if=talent.demonbolt.enabled
-        {spells.immolationAura, 'player.demonicFury > 450 and activeEnemies() >= 5 and not player.hasBuff(spells.immolationAura)'}, -- immolation_aura,if=demonic_fury>450&active_enemies>=5&buff.immolation_aura.down
+        {spells.immolationAura, 'player.demonicFury > 450 and activeEnemies.count >= 5 and not player.hasBuff(spells.immolationAura)'}, -- immolation_aura,if=demonic_fury>450&active_enemies>=5&buff.immolation_aura.down
 -- ERROR in 'doom,cycle_targets=1,if=buff.metamorphosis.up&active_enemies>=6&target.time_to_die>=30*spell_haste&remains<=(duration*0.3)&(buff.dark_soul.down|!glyph.dark_soul.enabled)': Unknown expression 'spell_haste'!
 -- ERROR in 'kiljaedens_cunning,moving=1,if=buff.demonbolt.stack=0|(buff.demonbolt.stack<4&buff.demonbolt.remains>=(40*spell_haste-execute_time))': Unknown expression 'spell_haste'!
 -- ERROR in 'demonbolt,if=buff.demonbolt.stack=0|(buff.demonbolt.stack<4&buff.demonbolt.remains>=(40*spell_haste-execute_time))': Unknown expression 'spell_haste'!
 -- ERROR in 'doom,cycle_targets=1,if=buff.metamorphosis.up&target.time_to_die>=30*spell_haste&remains<=(duration*0.3)&(buff.dark_soul.down|!glyph.dark_soul.enabled)': Unknown expression 'spell_haste'!
         {spells.corruption, 'target.timeToDie >= 6 and target.myDebuffDuration(spells.corruption) <= ( 0.3 * target.myDebuffDurationMax(spells.corruption) ) and not player.hasBuff(spells.metamorphosis)'}, -- corruption,cycle_targets=1,if=target.time_to_die>=6&remains<=(0.3*duration)&buff.metamorphosis.down
         {spells.metamorphosis, 'player.hasBuff(spells.metamorphosis) and player.buffStacks(spells.demonbolt) > 3 and player.demonicFury <= 600 and target.timeToDie > player.buffDuration(spells.demonbolt) and not player.hasBuff(spells.darkSoul)'}, -- cancel_metamorphosis,if=buff.metamorphosis.up&buff.demonbolt.stack>3&demonic_fury<=600&target.time_to_die>buff.demonbolt.remains&buff.dark_soul.down
-        {spells.chaosWave, 'player.hasBuff(spells.metamorphosis) and player.hasBuff(spells.darkSoul) and activeEnemies() >= 2 and player.demonicFury > 450'}, -- chaos_wave,if=buff.metamorphosis.up&buff.dark_soul.up&active_enemies>=2&demonic_fury>450
+        {spells.chaosWave, 'player.hasBuff(spells.metamorphosis) and player.hasBuff(spells.darkSoul) and activeEnemies.count >= 2 and player.demonicFury > 450'}, -- chaos_wave,if=buff.metamorphosis.up&buff.dark_soul.up&active_enemies>=2&demonic_fury>450
         {spells.soulFire, 'player.hasBuff(spells.metamorphosis) and player.buffStacks(spells.moltenCore) and ( ( ( player.buffDuration(spells.darkSoul) > spells.soulFire.castTime ) and player.demonicFury >= 175 ) or ( target.timeToDie < player.buffDuration(spells.demonbolt) ) )'}, -- soul_fire,if=buff.metamorphosis.up&buff.molten_core.react&(((buff.dark_soul.remains>execute_time)&demonic_fury>=175)|(target.time_to_die<buff.demonbolt.remains))
 -- ERROR in 'soul_fire,if=buff.metamorphosis.up&buff.molten_core.react&target.health.pct<=25&(((demonic_fury-80)%800)>(buff.demonbolt.remains%(40*spell_haste)))&demonic_fury>=750': Unknown expression 'spell_haste'!
         {spells.touchOfChaos, 'player.hasBuff(spells.metamorphosis) and target.myDebuffDuration(spells.corruption) < 17.4 and player.demonicFury > 750'}, -- touch_of_chaos,cycle_targets=1,if=buff.metamorphosis.up&dot.corruption.remains<17.4&demonic_fury>750
@@ -43,23 +43,23 @@ kps.rotations.register("WARLOCK","DEMONOLOGY",
 -- ERROR in 'metamorphosis,if=(((demonic_fury-120)%800)>(buff.demonbolt.remains%(40*spell_haste)))&buff.demonbolt.remains>=10&dot.doom.remains<=dot.doom.duration*0.3': Unknown expression 'spell_haste'!
         {spells.metamorphosis}, -- cancel_metamorphosis
         {spells.impSwarm}, -- imp_swarm
-        {spells.hellfire, 'activeEnemies() >= 5'}, -- hellfire,interrupt=1,if=active_enemies>=5
+        {spells.hellfire, 'activeEnemies.count >= 5'}, -- hellfire,interrupt=1,if=active_enemies>=5
         {spells.soulFire, 'player.buffStacks(spells.moltenCore) and ( player.buffDuration(spells.darkSoul) < spells.shadowBolt.castTime or player.buffDuration(spells.darkSoul) > spells.soulFire.castTime )'}, -- soul_fire,if=buff.molten_core.react&(buff.dark_soul.remains<action.shadow_bolt.cast_time|buff.dark_soul.remains>cast_time)
         {spells.lifeTap, 'player.mana < 40 and not player.hasBuff(spells.darkSoul)'}, -- life_tap,if=mana.pct<40&buff.dark_soul.down
-        {spells.hellfire, 'activeEnemies() >= 4'}, -- hellfire,interrupt=1,if=active_enemies>=4
+        {spells.hellfire, 'activeEnemies.count >= 4'}, -- hellfire,interrupt=1,if=active_enemies>=4
         {spells.shadowBolt}, -- shadow_bolt
         {spells.hellfire}, -- hellfire,moving=1,interrupt=1
         {spells.lifeTap}, -- life_tap
     }},
     {spells.kiljaedensCunning, 'not spells.cataclysm.cooldown and player.hasBuff(spells.metamorphosis)'}, -- kiljaedens_cunning,if=!cooldown.cataclysm.remains&buff.metamorphosis.up
     {spells.cataclysm, 'player.hasBuff(spells.metamorphosis)'}, -- cataclysm,if=buff.metamorphosis.up
-    {spells.immolationAura, 'player.demonicFury > 450 and activeEnemies() >= 3 and not player.hasBuff(spells.immolationAura)'}, -- immolation_aura,if=demonic_fury>450&active_enemies>=3&buff.immolation_aura.down
+    {spells.immolationAura, 'player.demonicFury > 450 and activeEnemies.count >= 3 and not player.hasBuff(spells.immolationAura)'}, -- immolation_aura,if=demonic_fury>450&active_enemies>=3&buff.immolation_aura.down
 -- ERROR in 'doom,if=buff.metamorphosis.up&target.time_to_die>=30*spell_haste&remains<=(duration*0.3)&(remains<cooldown.cataclysm.remains|!talent.cataclysm.enabled)&trinket.stacking_proc.multistrike.react<10': Unknown expression 'spell_haste'!
     {spells.corruption, 'target.timeToDie >= 6 and target.myDebuffDuration(spells.corruption) <= ( 0.3 * target.myDebuffDurationMax(spells.corruption) ) and not player.hasBuff(spells.metamorphosis)'}, -- corruption,cycle_targets=1,if=target.time_to_die>=6&remains<=(0.3*duration)&buff.metamorphosis.down
 -- ERROR in 'cancel_metamorphosis,if=buff.metamorphosis.up&((demonic_fury<650&!glyph.dark_soul.enabled)|demonic_fury<450)&buff.dark_soul.down&(trinket.stacking_proc.multistrike.down&trinket.proc.any.down|demonic_fury<(800-cooldown.dark_soul.remains*(10%spell_haste)))&target.time_to_die>20': Unknown expression 'trinket.stacking_proc.multistrike.down'!
     {spells.metamorphosis, 'player.hasBuff(spells.metamorphosis) and spells.handOfGuldan.charges > 0 and target.myDebuffDuration(spells.shadowflame) < 1 + spells.shadowBolt.castTime and ( ( player.demonicFury < 100 and player.buffDuration(spells.darkSoul) > 10 ) or player.timeInCombat < 15 ) and not player.hasGlyph(spells.glyphOfDarkSoul)'}, -- cancel_metamorphosis,if=buff.metamorphosis.up&action.hand_of_guldan.charges>0&dot.shadowflame.remains<action.hand_of_guldan.travel_time+action.shadow_bolt.cast_time&((demonic_fury<100&buff.dark_soul.remains>10)|time<15)&!glyph.dark_soul.enabled
     {spells.metamorphosis, 'player.hasBuff(spells.metamorphosis) and spells.handOfGuldan.charges == 3 and ( not player.buffDuration(spells.darkSoul) > player.gcd or spells.metamorphosis.cooldown < player.gcd )'}, -- cancel_metamorphosis,if=buff.metamorphosis.up&action.hand_of_guldan.charges=3&(!buff.dark_soul.remains>gcd|action.metamorphosis.cooldown<gcd)
-    {spells.chaosWave, 'player.hasBuff(spells.metamorphosis) and ( player.hasBuff(spells.darkSoul) and activeEnemies() >= 2 or ( spells.chaosWave.charges == 3 or == 0 and spells.chaosWave.charges == 2 ) )'}, -- chaos_wave,if=buff.metamorphosis.up&(buff.dark_soul.up&active_enemies>=2|(charges=3|set_bonus.tier17_4pc=0&charges=2))
+    {spells.chaosWave, 'player.hasBuff(spells.metamorphosis) and ( player.hasBuff(spells.darkSoul) and activeEnemies.count >= 2 or ( spells.chaosWave.charges == 3 or == 0 and spells.chaosWave.charges == 2 ) )'}, -- chaos_wave,if=buff.metamorphosis.up&(buff.dark_soul.up&active_enemies>=2|(charges=3|set_bonus.tier17_4pc=0&charges=2))
 -- ERROR in 'soul_fire,if=buff.metamorphosis.up&buff.molten_core.react&(buff.dark_soul.remains>execute_time|target.health.pct<=25)&(((buff.molten_core.stack*execute_time>=trinket.stacking_proc.multistrike.remains-1|demonic_fury<=ceil((trinket.stacking_proc.multistrike.remains-buff.molten_core.stack*execute_time)*40)+80*buff.molten_core.stack)|target.health.pct<=25)&trinket.stacking_proc.multistrike.remains>=execute_time|trinket.stacking_proc.multistrike.down|!trinket.has_stacking_proc.multistrike)': Unknown expression 'trinket.stacking_proc.multistrike.remains'!
     {spells.touchOfChaos, 'player.hasBuff(spells.metamorphosis) and target.myDebuffDuration(spells.corruption) < 17.4 and player.demonicFury > 750'}, -- touch_of_chaos,cycle_targets=1,if=buff.metamorphosis.up&dot.corruption.remains<17.4&demonic_fury>750
     {spells.touchOfChaos, 'player.hasBuff(spells.metamorphosis)'}, -- touch_of_chaos,if=buff.metamorphosis.up
@@ -71,11 +71,11 @@ kps.rotations.register("WARLOCK","DEMONOLOGY",
     {spells.metamorphosis, 'player.demonicFury >= 950'}, -- metamorphosis,if=demonic_fury>=950
     {spells.metamorphosis}, -- cancel_metamorphosis
     {spells.impSwarm}, -- imp_swarm
-    {spells.hellfire, 'activeEnemies() >= 5'}, -- hellfire,interrupt=1,if=active_enemies>=5
+    {spells.hellfire, 'activeEnemies.count >= 5'}, -- hellfire,interrupt=1,if=active_enemies>=5
 -- ERROR in 'soul_fire,if=buff.molten_core.react&(buff.molten_core.stack>=7|target.health.pct<=25|(buff.dark_soul.remains&cooldown.metamorphosis.remains>buff.dark_soul.remains)|trinket.proc.any.remains>execute_time|trinket.stacking_proc.multistrike.remains>execute_time)&(buff.dark_soul.remains<action.shadow_bolt.cast_time|buff.dark_soul.remains>execute_time)': Unknown expression 'trinket.proc.any.remains'!
     {spells.soulFire, 'player.buffStacks(spells.moltenCore) and target.timeToDie < ( player.timeInCombat + target.timeToDie ) * 0.25 + spells.darkSoul.cooldown'}, -- soul_fire,if=buff.molten_core.react&target.time_to_die<(time+target.time_to_die)*0.25+cooldown.dark_soul.remains
     {spells.lifeTap, 'player.mana < 40 and not player.hasBuff(spells.darkSoul)'}, -- life_tap,if=mana.pct<40&buff.dark_soul.down
-    {spells.hellfire, 'activeEnemies() >= 4'}, -- hellfire,interrupt=1,if=active_enemies>=4
+    {spells.hellfire, 'activeEnemies.count >= 4'}, -- hellfire,interrupt=1,if=active_enemies>=4
     {spells.shadowBolt}, -- shadow_bolt
     {spells.hellfire}, -- hellfire,moving=1,interrupt=1
     {spells.lifeTap}, -- life_tap

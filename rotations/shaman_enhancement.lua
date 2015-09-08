@@ -17,7 +17,7 @@ kps.rotations.register("SHAMAN","ENHANCEMENT",
     {spells.liquidMagma, 'totem.duration(spells.searingTotem) > 10 or totem.duration(spells.magmaTotem) > 10 or totem.duration(spells.fireElementalTotem) > 10'}, -- liquid_magma,if=pet.searing_totem.remains>10|pet.magma_totem.remains>10|pet.fire_elemental_totem.remains>10
     {spells.ancestralSwiftness}, -- ancestral_swiftness
     {spells.ascendance}, -- ascendance
-    {{"nested"}, 'activeEnemies() == 1', { -- call_action_list,name=single,if=active_enemies=1
+    {{"nested"}, 'activeEnemies.count == 1', { -- call_action_list,name=single,if=active_enemies=1
         {spells.searingTotem, 'not totem.fire.isActive'}, -- searing_totem,if=!totem.fire.active
         {spells.unleashElements, '( player.hasTalent(6, 1) or == 1 )'}, -- unleash_elements,if=(talent.unleashed_fury.enabled|set_bonus.tier16_2pc_melee=1)
         {spells.elementalBlast, 'player.buffStacks(spells.maelstromWeapon) == 5'}, -- elemental_blast,if=buff.maelstrom_weapon.react=5
@@ -38,23 +38,23 @@ kps.rotations.register("SHAMAN","ENHANCEMENT",
         {spells.lightningBolt, '( player.buffStacks(spells.maelstromWeapon) >= 1 and not player.hasBuff(spells.ascendance) ) or player.hasBuff(spells.ancestralSwiftness)'}, -- lightning_bolt,if=(buff.maelstrom_weapon.react>=1&!buff.ascendance.up)|buff.ancestral_swiftness.up
         {spells.searingTotem, 'totem.duration(spells.searingTotem) <= 20 and not totem.isActive(spells.fireElementalTotem) and not player.hasBuff(spells.liquidMagma)'}, -- searing_totem,if=pet.searing_totem.remains<=20&!pet.fire_elemental_totem.active&!buff.liquid_magma.up
     }},
-    {{"nested"}, 'activeEnemies() > 1', { -- call_action_list,name=aoe,if=active_enemies>1
-        {spells.unleashElements, 'activeEnemies() >= 4 and target.hasMyDebuff(spells.flameShock) and ( spells.flameShock.cooldown > spells.fireNova.cooldown or spells.fireNova.cooldown == 0 )'}, -- unleash_elements,if=active_enemies>=4&dot.flame_shock.ticking&(cooldown.shock.remains>cooldown.fire_nova.remains|cooldown.fire_nova.remains=0)
+    {{"nested"}, 'activeEnemies.count > 1', { -- call_action_list,name=aoe,if=active_enemies>1
+        {spells.unleashElements, 'activeEnemies.count >= 4 and target.hasMyDebuff(spells.flameShock) and ( spells.flameShock.cooldown > spells.fireNova.cooldown or spells.fireNova.cooldown == 0 )'}, -- unleash_elements,if=active_enemies>=4&dot.flame_shock.ticking&(cooldown.shock.remains>cooldown.fire_nova.remains|cooldown.fire_nova.remains=0)
         {spells.fireNova, 'target.hasMyDebuff(spells.flameShock)'}, -- fire_nova,if=active_dot.flame_shock>=3
         {spells.magmaTotem, 'not totem.fire.isActive'}, -- magma_totem,if=!totem.fire.active
         {spells.lavaLash, 'target.hasMyDebuff(spells.flameShock) and target.hasMyDebuff(spells.flameShock)'}, -- lava_lash,if=dot.flame_shock.ticking&active_dot.flame_shock<active_enemies
         {spells.elementalBlast, 'not player.hasBuff(spells.unleashFlame) and ( player.buffStacks(spells.maelstromWeapon) >= 4 or player.hasBuff(spells.ancestralSwiftness) )'}, -- elemental_blast,if=!buff.unleash_flame.up&(buff.maelstrom_weapon.react>=4|buff.ancestral_swiftness.up)
-        {spells.chainLightning, 'player.buffStacks(spells.maelstromWeapon) == 5 and ( ( player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies() >= 3 ) or ( not player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies() >= 2 ) )'}, -- chain_lightning,if=buff.maelstrom_weapon.react=5&((glyph.chain_lightning.enabled&active_enemies>=3)|(!glyph.chain_lightning.enabled&active_enemies>=2))
-        {spells.unleashElements, 'activeEnemies() < 4'}, -- unleash_elements,if=active_enemies<4
+        {spells.chainLightning, 'player.buffStacks(spells.maelstromWeapon) == 5 and ( ( player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies.count >= 3 ) or ( not player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies.count >= 2 ) )'}, -- chain_lightning,if=buff.maelstrom_weapon.react=5&((glyph.chain_lightning.enabled&active_enemies>=3)|(!glyph.chain_lightning.enabled&active_enemies>=2))
+        {spells.unleashElements, 'activeEnemies.count < 4'}, -- unleash_elements,if=active_enemies<4
         {spells.flameShock, 'target.myDebuffDuration(spells.flameShock) <= 9 or not target.hasMyDebuff(spells.flameShock)'}, -- flame_shock,if=dot.flame_shock.remains<=9|!ticking
         {spells.windstrike, 'not player.hasBuff(spells.stormstrike)'}, -- windstrike,target=1,if=!debuff.stormstrike.up
         {spells.windstrike, 'not player.hasBuff(spells.stormstrike)'}, -- windstrike,target=2,if=!debuff.stormstrike.up
         {spells.windstrike, 'not player.hasBuff(spells.stormstrike)'}, -- windstrike,target=3,if=!debuff.stormstrike.up
         {spells.windstrike}, -- windstrike
         {spells.elementalBlast, 'not player.hasBuff(spells.unleashFlame) and player.buffStacks(spells.maelstromWeapon) >= 3'}, -- elemental_blast,if=!buff.unleash_flame.up&buff.maelstrom_weapon.react>=3
-        {spells.chainLightning, '( player.buffStacks(spells.maelstromWeapon) >= 3 or player.hasBuff(spells.ancestralSwiftness) ) and ( ( player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies() >= 4 ) or ( not player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies() >= 3 ) )'}, -- chain_lightning,if=(buff.maelstrom_weapon.react>=3|buff.ancestral_swiftness.up)&((glyph.chain_lightning.enabled&active_enemies>=4)|(!glyph.chain_lightning.enabled&active_enemies>=3))
+        {spells.chainLightning, '( player.buffStacks(spells.maelstromWeapon) >= 3 or player.hasBuff(spells.ancestralSwiftness) ) and ( ( player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies.count >= 4 ) or ( not player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies.count >= 3 ) )'}, -- chain_lightning,if=(buff.maelstrom_weapon.react>=3|buff.ancestral_swiftness.up)&((glyph.chain_lightning.enabled&active_enemies>=4)|(!glyph.chain_lightning.enabled&active_enemies>=3))
         {spells.magmaTotem, 'totem.duration(spells.magmaTotem) <= 20 and not totem.isActive(spells.fireElementalTotem) and not player.hasBuff(spells.liquidMagma)'}, -- magma_totem,if=pet.magma_totem.remains<=20&!pet.fire_elemental_totem.active&!buff.liquid_magma.up
-        {spells.lightningBolt, 'player.buffStacks(spells.maelstromWeapon) == 5 and player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies() < 3'}, -- lightning_bolt,if=buff.maelstrom_weapon.react=5&glyph.chain_lightning.enabled&active_enemies<3
+        {spells.lightningBolt, 'player.buffStacks(spells.maelstromWeapon) == 5 and player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies.count < 3'}, -- lightning_bolt,if=buff.maelstrom_weapon.react=5&glyph.chain_lightning.enabled&active_enemies<3
         {spells.stormstrike, 'not player.hasBuff(spells.stormstrike)'}, -- stormstrike,target=1,if=!debuff.stormstrike.up
         {spells.stormstrike, 'not player.hasBuff(spells.stormstrike)'}, -- stormstrike,target=2,if=!debuff.stormstrike.up
         {spells.stormstrike, 'not player.hasBuff(spells.stormstrike)'}, -- stormstrike,target=3,if=!debuff.stormstrike.up
@@ -62,8 +62,8 @@ kps.rotations.register("SHAMAN","ENHANCEMENT",
         {spells.lavaLash}, -- lava_lash
         {spells.fireNova, 'target.hasMyDebuff(spells.flameShock)'}, -- fire_nova,if=active_dot.flame_shock>=2
         {spells.elementalBlast, 'not player.hasBuff(spells.unleashFlame) and player.buffStacks(spells.maelstromWeapon) >= 1'}, -- elemental_blast,if=!buff.unleash_flame.up&buff.maelstrom_weapon.react>=1
-        {spells.chainLightning, '( player.buffStacks(spells.maelstromWeapon) >= 1 or player.hasBuff(spells.ancestralSwiftness) ) and ( ( player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies() >= 3 ) or ( not player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies() >= 2 ) )'}, -- chain_lightning,if=(buff.maelstrom_weapon.react>=1|buff.ancestral_swiftness.up)&((glyph.chain_lightning.enabled&active_enemies>=3)|(!glyph.chain_lightning.enabled&active_enemies>=2))
-        {spells.lightningBolt, '( player.buffStacks(spells.maelstromWeapon) >= 1 or player.hasBuff(spells.ancestralSwiftness) ) and player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies() < 3'}, -- lightning_bolt,if=(buff.maelstrom_weapon.react>=1|buff.ancestral_swiftness.up)&glyph.chain_lightning.enabled&active_enemies<3
+        {spells.chainLightning, '( player.buffStacks(spells.maelstromWeapon) >= 1 or player.hasBuff(spells.ancestralSwiftness) ) and ( ( player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies.count >= 3 ) or ( not player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies.count >= 2 ) )'}, -- chain_lightning,if=(buff.maelstrom_weapon.react>=1|buff.ancestral_swiftness.up)&((glyph.chain_lightning.enabled&active_enemies>=3)|(!glyph.chain_lightning.enabled&active_enemies>=2))
+        {spells.lightningBolt, '( player.buffStacks(spells.maelstromWeapon) >= 1 or player.hasBuff(spells.ancestralSwiftness) ) and player.hasGlyph(spells.glyphOfChainLightning) and activeEnemies.count < 3'}, -- lightning_bolt,if=(buff.maelstrom_weapon.react>=1|buff.ancestral_swiftness.up)&glyph.chain_lightning.enabled&active_enemies<3
         {spells.fireNova, 'target.hasMyDebuff(spells.flameShock)'}, -- fire_nova,if=active_dot.flame_shock>=1
     }},
 }

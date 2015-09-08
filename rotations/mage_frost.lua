@@ -25,24 +25,24 @@ kps.rotations.register("MAGE","FROST",
     {{"nested"}, 'target.timeToDie < 24', { -- call_action_list,name=cooldowns,if=target.time_to_die<24
         {spells.icyVeins}, -- icy_veins
     }},
-    {spells.waterJet, 'player.timeInCombat < 1 and activeEnemies() < 4 and not ( player.hasTalent(5, 3) and player.hasTalent(7, 2) )'}, -- water_jet,if=time<1&active_enemies<4&!(talent.ice_nova.enabled&talent.prismatic_crystal.enabled)
+    {spells.waterJet, 'player.timeInCombat < 1 and activeEnemies.count < 4 and not ( player.hasTalent(5, 3) and player.hasTalent(7, 2) )'}, -- water_jet,if=time<1&active_enemies<4&!(talent.ice_nova.enabled&talent.prismatic_crystal.enabled)
     {{"nested"}, 'player.hasTalent(7, 2) and ( spells.prismaticCrystal.cooldown <= player.gcd or pet.npcId == 76933 )', { -- call_action_list,name=crystal_sequence,if=talent.prismatic_crystal.enabled&(cooldown.prismatic_crystal.remains<=gcd.max|pet.prismatic_crystal.active)
-        {spells.frostBomb, 'activeEnemies() == 1 and target.npcId = 76933 and target.myDebuffDuration(spells.frostBomb) < 10'}, -- frost_bomb,if=active_enemies=1&current_target!=prismatic_crystal&remains<10
+        {spells.frostBomb, 'activeEnemies.count == 1 and target.npcId = 76933 and target.myDebuffDuration(spells.frostBomb) < 10'}, -- frost_bomb,if=active_enemies=1&current_target!=prismatic_crystal&remains<10
         {spells.prismaticCrystal}, -- prismatic_crystal
         {spells.frozenOrb}, -- frozen_orb
         {{"nested"}, 'True', { -- call_action_list,name=cooldowns
             {spells.icyVeins}, -- icy_veins
         }},
-        {spells.frostBomb, 'player.hasTalent(7, 2) and target.npcId == 76933 and activeEnemies() > 1 and not target.hasMyDebuff(spells.frostBomb)'}, -- frost_bomb,if=talent.prismatic_crystal.enabled&current_target=prismatic_crystal&active_enemies>1&!ticking
+        {spells.frostBomb, 'player.hasTalent(7, 2) and target.npcId == 76933 and activeEnemies.count > 1 and not target.hasMyDebuff(spells.frostBomb)'}, -- frost_bomb,if=talent.prismatic_crystal.enabled&current_target=prismatic_crystal&active_enemies>1&!ticking
         {spells.iceLance, 'player.buffStacks(spells.fingersOfFrost) == 2 or ( player.buffStacks(spells.fingersOfFrost) and target.hasMyDebuff(spells.frozenOrb) )'}, -- ice_lance,if=buff.fingers_of_frost.react=2|(buff.fingers_of_frost.react&active_dot.frozen_orb>=1)
         {spells.iceNova, 'spells.iceNova.charges == 2 or spells.prismaticCrystal.cooldown - 78 < player.gcd'}, -- ice_nova,if=charges=2|pet.prismatic_crystal.remains<gcd.max
         {spells.iceLance, 'player.buffStacks(spells.fingersOfFrost)'}, -- ice_lance,if=buff.fingers_of_frost.react
         {spells.frostfireBolt, 'player.buffStacks(spells.brainFreeze)'}, -- frostfire_bolt,if=buff.brain_freeze.react
         {spells.iceNova}, -- ice_nova
-        {spells.blizzard, 'activeEnemies() >= 5'}, -- blizzard,interrupt_if=cooldown.frozen_orb.up|(talent.frost_bomb.enabled&buff.fingers_of_frost.react=2),if=active_enemies>=5
+        {spells.blizzard, 'activeEnemies.count >= 5'}, -- blizzard,interrupt_if=cooldown.frozen_orb.up|(talent.frost_bomb.enabled&buff.fingers_of_frost.react=2),if=active_enemies>=5
         {spells.frostbolt}, -- frostbolt
     }},
-    {{"nested"}, 'activeEnemies() >= 4', { -- call_action_list,name=aoe,if=active_enemies>=4
+    {{"nested"}, 'activeEnemies.count >= 4', { -- call_action_list,name=aoe,if=active_enemies>=4
         {{"nested"}, 'True', { -- call_action_list,name=cooldowns
             {spells.icyVeins}, -- icy_veins
         }},

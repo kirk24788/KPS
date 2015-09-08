@@ -19,7 +19,7 @@ kps.rotations.register("MONK","BREWMASTER",
     {spells.invokeXuenTheWhiteTiger, 'player.hasTalent(6, 2) and target.timeToDie > 15 and player.buffDuration(spells.shuffle) >= 3 and not player.hasBuff(spells.serenity)'}, -- invoke_xuen,if=talent.invoke_xuen.enabled&target.time_to_die>15&buff.shuffle.remains>=3&buff.serenity.down
     {spells.serenity, 'player.hasTalent(7, 3) and spells.kegSmash.cooldown > 6'}, -- serenity,if=talent.serenity.enabled&cooldown.keg_smash.remains>6
     {spells.touchOfDeath, 'target.hp < 10 and spells.touchOfDeath.cooldown == 0 and ( ( not player.hasGlyph(spells.glyphOfTouchOfDeath) and player.chi >= 3 and target.timeToDie < 8 ) or ( player.hasGlyph(spells.glyphOfTouchOfDeath) and target.timeToDie < 5 ) )'}, -- touch_of_death,if=target.health.percent<10&cooldown.touch_of_death.remains=0&((!glyph.touch_of_death.enabled&chi>=3&target.time_to_die<8)|(glyph.touch_of_death.enabled&target.time_to_die<5))
-    {{"nested"}, 'activeEnemies() < 3', { -- call_action_list,name=st,if=active_enemies<3
+    {{"nested"}, 'activeEnemies.count < 3', { -- call_action_list,name=st,if=active_enemies<3
         {spells.purifyingBrew, 'player.staggerPercent >= 0.065'}, -- purifying_brew,if=stagger.heavy
         {spells.blackoutKick, 'not player.hasBuff(spells.shuffle)'}, -- blackout_kick,if=buff.shuffle.down
         {spells.purifyingBrew, 'player.hasBuff(spells.serenity)'}, -- purifying_brew,if=buff.serenity.up
@@ -39,7 +39,7 @@ kps.rotations.register("MONK","BREWMASTER",
         {spells.jab, 'player.chiMax - player.chi >= 1 and spells.kegSmash.cooldown >= player.gcd and spells.expelHarm.cooldown >= player.gcd and ( player.energy + ( player.energyRegen * ( spells.kegSmash.cooldown ) ) ) >= 80'}, -- jab,if=chi.max-chi>=1&cooldown.keg_smash.remains>=gcd&cooldown.expel_harm.remains>=gcd&(energy+(energy.regen*(cooldown.keg_smash.remains)))>=80
         {spells.tigerPalm}, -- tiger_palm
     }},
-    {{"nested"}, 'activeEnemies() >= 3', { -- call_action_list,name=aoe,if=active_enemies>=3
+    {{"nested"}, 'activeEnemies.count >= 3', { -- call_action_list,name=aoe,if=active_enemies>=3
         {spells.purifyingBrew, 'player.staggerPercent >= 0.065'}, -- purifying_brew,if=stagger.heavy
         {spells.blackoutKick, 'not player.hasBuff(spells.shuffle)'}, -- blackout_kick,if=buff.shuffle.down
         {spells.purifyingBrew, 'player.hasBuff(spells.serenity)'}, -- purifying_brew,if=buff.serenity.up
@@ -77,7 +77,7 @@ kps.rotations.register("MONK","BREWMASTER",
     {spells.invokeXuenTheWhiteTiger, 'player.hasTalent(6, 2) and target.timeToDie > 15 and player.buffDuration(spells.shuffle) >= 3 and not player.hasBuff(spells.serenity)'}, -- invoke_xuen,if=talent.invoke_xuen.enabled&target.time_to_die>15&buff.shuffle.remains>=3&buff.serenity.down
     {spells.serenity, 'player.hasTalent(7, 3) and spells.kegSmash.cooldown > 6'}, -- serenity,if=talent.serenity.enabled&cooldown.keg_smash.remains>6
     {spells.touchOfDeath, 'target.hp < 10 and spells.touchOfDeath.cooldown == 0 and ( ( not player.hasGlyph(spells.glyphOfTouchOfDeath) and player.chi >= 3 and target.timeToDie < 8 ) or ( player.hasGlyph(spells.glyphOfTouchOfDeath) and target.timeToDie < 5 ) )'}, -- touch_of_death,if=target.health.percent<10&cooldown.touch_of_death.remains=0&((!glyph.touch_of_death.enabled&chi>=3&target.time_to_die<8)|(glyph.touch_of_death.enabled&target.time_to_die<5))
-    {{"nested"}, 'activeEnemies() < 3', { -- call_action_list,name=st,if=active_enemies<3
+    {{"nested"}, 'activeEnemies.count < 3', { -- call_action_list,name=st,if=active_enemies<3
         {spells.purifyingBrew, 'player.staggerPercent >= 0.065'}, -- purifying_brew,if=stagger.heavy
         {spells.blackoutKick, 'not player.hasBuff(spells.shuffle)'}, -- blackout_kick,if=buff.shuffle.down
         {spells.purifyingBrew, 'player.hasBuff(spells.serenity)'}, -- purifying_brew,if=buff.serenity.up
@@ -97,7 +97,7 @@ kps.rotations.register("MONK","BREWMASTER",
         {spells.jab, 'player.chiMax - player.chi >= 1 and spells.kegSmash.cooldown >= player.gcd and spells.expelHarm.cooldown >= player.gcd and ( player.energy + ( player.energyRegen * ( spells.kegSmash.cooldown ) ) ) >= 80'}, -- jab,if=chi.max-chi>=1&cooldown.keg_smash.remains>=gcd&cooldown.expel_harm.remains>=gcd&(energy+(energy.regen*(cooldown.keg_smash.remains)))>=80
         {spells.tigerPalm}, -- tiger_palm
     }},
-    {{"nested"}, 'activeEnemies() >= 3', { -- call_action_list,name=aoe,if=active_enemies>=3
+    {{"nested"}, 'activeEnemies.count >= 3', { -- call_action_list,name=aoe,if=active_enemies>=3
         {spells.purifyingBrew, 'player.staggerPercent >= 0.065'}, -- purifying_brew,if=stagger.heavy
         {spells.blackoutKick, 'not player.hasBuff(spells.shuffle)'}, -- blackout_kick,if=buff.shuffle.down
         {spells.purifyingBrew, 'player.hasBuff(spells.serenity)'}, -- purifying_brew,if=buff.serenity.up

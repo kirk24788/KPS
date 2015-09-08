@@ -20,7 +20,7 @@ kps.rotations.register("ROGUE","SUBTLETY",
         {spells.rupture, '( not target.hasMyDebuff(spells.rupture) or target.myDebuffDuration(spells.rupture) < target.myDebuffDurationMax(spells.rupture) * 0.3 or ( player.buffDuration(spells.shadowReflection) > 8 and target.myDebuffDuration(spells.rupture) < 12 ) ) and target.timeToDie >= 8'}, -- rupture,cycle_targets=1,if=(!ticking|remains<duration*0.3|(buff.shadow_reflection.remains>8&dot.rupture.remains<12))&target.time_to_die>=8
         {spells.sliceAndDice, '( ( player.buffDuration(spells.sliceAndDice) < 10.8 and not player.hasBuff(spells.findWeakness) ) or player.buffDuration(spells.sliceAndDice) < 6 ) and player.buffDuration(spells.sliceAndDice) < target.timeToDie'}, -- slice_and_dice,if=((buff.slice_and_dice.remains<10.8&debuff.find_weakness.down)|buff.slice_and_dice.remains<6)&buff.slice_and_dice.remains<target.time_to_die
         {spells.deathFromAbove}, -- death_from_above
-        {spells.crimsonTempest, '( activeEnemies() >= 2 and not player.hasBuff(spells.findWeakness) ) or activeEnemies() >= 3 and ( spells.deathFromAbove.cooldown > 0 or not player.hasTalent(7, 3) )'}, -- crimson_tempest,if=(active_enemies>=2&debuff.find_weakness.down)|active_enemies>=3&(cooldown.death_from_above.remains>0|!talent.death_from_above.enabled)
+        {spells.crimsonTempest, '( activeEnemies.count >= 2 and not player.hasBuff(spells.findWeakness) ) or activeEnemies.count >= 3 and ( spells.deathFromAbove.cooldown > 0 or not player.hasTalent(7, 3) )'}, -- crimson_tempest,if=(active_enemies>=2&debuff.find_weakness.down)|active_enemies>=3&(cooldown.death_from_above.remains>0|!talent.death_from_above.enabled)
         {spells.eviscerate, '( player.energyTimeToMax <= spells.deathFromAbove.cooldown + spells.deathFromAbove.castTime ) or not player.hasTalent(7, 3)'}, -- eviscerate,if=(energy.time_to_max<=cooldown.death_from_above.remains+action.death_from_above.execute_time)|!talent.death_from_above.enabled
         {{"nested"}, 'True', { -- run_action_list,name=pool
             {spells.preparation, 'not player.hasBuff(spells.vanish) and spells.vanish.cooldown > 60'}, -- preparation,if=!buff.vanish.up&cooldown.vanish.remains>60
@@ -31,7 +31,7 @@ kps.rotations.register("ROGUE","SUBTLETY",
             {spells.preparation, 'not player.hasBuff(spells.vanish) and spells.vanish.cooldown > 60'}, -- preparation,if=!buff.vanish.up&cooldown.vanish.remains>60
         }},
         {spells.ambush}, -- ambush
-        {spells.fanOfKnives, 'activeEnemies() > 1'}, -- fan_of_knives,if=active_enemies>1
+        {spells.fanOfKnives, 'activeEnemies.count > 1'}, -- fan_of_knives,if=active_enemies>1
         {spells.backstab, 'player.hasBuff(spells.findWeakness) or player.hasAgiProc or player.hasProc'}, -- backstab,if=debuff.find_weakness.up|buff.archmages_greater_incandescence_agi.up|trinket.stat.any.up
         {spells.hemorrhage, '( target.myDebuffDuration(spells.hemorrhage) < target.myDebuffDurationMax(spells.hemorrhage) * 0.3 and target.timeToDie >= target.myDebuffDuration(spells.hemorrhage) + target.myDebuffDurationMax(spells.hemorrhage) + 8 and not player.hasBuff(spells.findWeakness) ) or not target.hasMyDebuff(spells.hemorrhage)'}, -- hemorrhage,if=(remains<duration*0.3&target.time_to_die>=remains+duration+8&debuff.find_weakness.down)|!ticking|position_front
         {spells.shurikenToss, 'player.energy < 65 and player.energyRegen < 16'}, -- shuriken_toss,if=energy<65&energy.regen<16
