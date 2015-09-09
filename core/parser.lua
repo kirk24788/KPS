@@ -160,8 +160,19 @@ local function fnParseSpell(spell)
 end
 
 local function fnParseTarget(target)
-    if type(spell) == "function" then
-        return target
+    if type(target) == "function" then
+        return function ()
+            local targetData = target()
+            if type(targetData) == "table" then
+                return targetData.unit
+            else
+                return targetData
+            end
+        end
+    elseif type(target) == "table" then
+        return function ()
+            return target.unit
+        end
     elseif target == nil then
         return function ()
             return "target"

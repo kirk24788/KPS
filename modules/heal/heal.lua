@@ -8,9 +8,8 @@ kps.Heal = {}
 kps.Heal.prototype = kps.utils.shallowCopy(kps.Unit.prototype)
 kps.Heal.metatable = {}
 
-function kps.Heal.new(unitFn)
-    local inst = kps.Unit.new(nil)
-    inst.unitFn = unitFn
+function kps.Heal.new(unit)
+    local inst = kps.Unit.new(unit)
     setmetatable(inst, kps.Heal.metatable)
     return inst
 end
@@ -20,7 +19,6 @@ kps.Heal.metatable.__index = function (table, key)
     if fn == nil then
         error("Unknown Heal-Property '" .. key .. "'!")
     end
-    table.unit = table.unitFn(table)
     return fn(table)
 end
 
