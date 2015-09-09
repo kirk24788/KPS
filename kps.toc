@@ -43,6 +43,8 @@ modules\player\player_stagger.lua
 modules\totem.lua
 modules\spell_id.lua
 modules\unlock\basic.lua
+modules\heal\heal.lua
+modules\heal\raid_status.lua
 rotations\deathknight.lua
 rotations\druid.lua
 rotations\hunter.lua

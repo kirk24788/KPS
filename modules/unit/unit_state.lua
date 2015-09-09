@@ -39,7 +39,3 @@ end
 function Unit.isDrinking(self)
     return Unit.hasBuff(self)(kps.Spell.fromId(431)) -- doesn't matter which drinking buff we're using, all of them have the same name!
 end
-
-function Unit.level(self)
-    return UnitLevel(self.unit)
-end
