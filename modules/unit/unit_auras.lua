@@ -10,7 +10,7 @@ local Unit = kps.Unit.prototype
 local hasBuff = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            return select(1,UnitBuff(unit,spell.name)) ~= nil
+            return spell~=nil and select(1,UnitBuff(unit,spell.name)) ~= nil
         end
         t[unit] = val
         return val

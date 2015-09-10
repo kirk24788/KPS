@@ -15,7 +15,7 @@ local borderTextureActive = "Interface\\AddOns\\KPS\\Media\\border_green.tga"
 
 local allToggleFrames = {}
 
-local function createToggleButton(id, parent, anchorOffset, texture)
+local function createToggleButton(id, parent, anchorOffset, texture, description)
     -- Create Frame
     local frame = CreateFrame("Button", "toggleKPS_"..id, parent)
     if anchorOffset == 0 then
@@ -77,10 +77,13 @@ local function createToggleButton(id, parent, anchorOffset, texture)
         frame:RegisterForClicks("LeftButtonUp")
         frame:SetScript("OnClick", function(self, button)
             kps[id] = not kps[id]
+            if description == nil then
+                description = "kps." .. id
+            end
             if kps[id] then
-                kps.write("kps." .. id, "enabled")
+                kps.write(description, "enabled")
             else
-                kps.write("kps." .. id, "disabled")
+                kps.write(description, "disabled")
             end
             frame.updateState()
         end)
@@ -108,16 +111,11 @@ end
 
 local toggleAnchor = createToggleButton("enabled", UIParent, 0, "Interface\\AddOns\\KPS\\Media\\kps.tga")
 local nextToggleOffset = 1
-function kps.gui.createToggle(id, texture)
-    local toggle = createToggleButton(id, toggleAnchor, (iconSize+iconOffset) * nextToggleOffset, texture)
+function kps.gui.createToggle(id, texture, description)
+    local toggle = createToggleButton(id, toggleAnchor, (iconSize+iconOffset) * nextToggleOffset, texture, description)
     nextToggleOffset = nextToggleOffset + 1
     return toggle
 end
-
-kps.gui.createToggle("multiTarget", "Interface\\Icons\\achievement_arena_5v5_3")
-kps.gui.createToggle("cooldowns", "Interface\\Icons\\Spell_Holy_BorrowedTime")
-kps.gui.createToggle("interrupt", "Interface\\Icons\\INV_Shield_05")
-kps.gui.createToggle("defensive", "Interface\\Icons\\Spell_Misc_EmotionHappy")
 
 function kps.gui.updateToggleStates()
     for _, frame in pairs(allToggleFrames) do
@@ -135,41 +133,47 @@ function kps.gui.show()
 end
 
 function kps.gui.updateTextureIcon(texture)
-	toggleAnchor.texture:SetTexture(texture)
+    toggleAnchor.texture:SetTexture(texture)
 end
 
 function kps.gui.updateBorderIcon()
-	if kps.enabled then
-		toggleAnchor.border:SetTexture(borderTexture)
-		kps.write("KPS disabled")
-	else
-		if InCombatLockdown() then
-			toggleAnchor.border:SetTexture(borderTextureFailed)
-		else
-			toggleAnchor.border:SetTexture(borderTextureActive)
-		end
-		kps.write("KPS enabled")
-	end
-	kps.enabled = not kps.enabled
+    if kps.enabled then
+        toggleAnchor.border:SetTexture(borderTexture)
+        kps.write("KPS disabled")
+    else
+        if InCombatLockdown() then
+            toggleAnchor.border:SetTexture(borderTextureFailed)
+        else
+            toggleAnchor.border:SetTexture(borderTextureActive)
+        end
+        kps.write("KPS enabled")
+    end
+    kps.enabled = not kps.enabled
 end
 
 toggleAnchor:SetScript("OnClick", function(self,button)
-	if button == "LeftButton" then
-		kps.gui.updateBorderIcon()
-	end
+    if button == "LeftButton" then
+        kps.gui.updateBorderIcon()
+    end
 end)
 
 function kps.gui.combatBorderIcon(status)
-	if status then
-		if kps.enabled then
-			toggleAnchor.border:SetTexture(borderTextureFailed)
-		end
-	else
-		if kps.enabled then
-			toggleAnchor.border:SetTexture(borderTextureActive)
-		else
-			toggleAnchor.border:SetTexture(borderTexture)
-		end
-	end
+    if status then
+        if kps.enabled then
+            toggleAnchor.border:SetTexture(borderTextureFailed)
+        end
+    else
+        if kps.enabled then
+            toggleAnchor.border:SetTexture(borderTextureActive)
+        else
+            toggleAnchor.border:SetTexture(borderTexture)
+        end
+    end
 end
+
+kps.gui.createToggle("multiTarget", "Interface\\Icons\\achievement_arena_5v5_3", "MultiTarget")
+kps.gui.createToggle("cooldowns", "Interface\\Icons\\Spell_Holy_BorrowedTime", "Cooldowns")
+kps.gui.createToggle("interrupt", "Interface\\Icons\\INV_Shield_05", "Interrupts")
+kps.gui.createToggle("defensive", "Interface\\Icons\\Spell_Misc_EmotionHappy", "Defensive")
+kps.gui.createToggle("autoTurn", "Interface\\Icons\\misc_arrowleft", "AutoTurn")
 

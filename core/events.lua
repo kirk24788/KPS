@@ -221,10 +221,20 @@ end)
 
 -- Enter Combat
 kps.events.register("PLAYER_REGEN_DISABLED", function()
-	kps.gui.combatBorderIcon(true)
+    kps.gui.combatBorderIcon(true)
 end)
 
 -- Leave Combat
 kps.events.register("PLAYER_REGEN_ENABLED", function()
-	kps.gui.combatBorderIcon(false)
+    kps.gui.combatBorderIcon(false)
 end)
+
+-- Hide Static PopUp
+local function hideStaticPopup(addon, eventBlocked)
+    if string.upper(addon) == "KPS" then
+        StaticPopup1:Hide()
+        LOG.debug("Addon Action Blocked: %s", eventBlocked)
+    end
+end
+kps.events.register("ADDON_ACTION_FORBIDDEN", hideStaticPopup)
+kps.events.register("ADDON_ACTION_BLOCKED", hideStaticPopup)

@@ -17,6 +17,7 @@ core\utils.lua
 core\lexer.lua
 core\parser.lua
 core\rotations.lua
+core\timers.lua
 modules\spell\spell.lua
 modules\spell\spells.lua
 modules\spell\spell_range.lua
@@ -41,6 +42,7 @@ modules\player\player_procs.lua
 modules\player\player_runes.lua
 modules\player\player_seals.lua
 modules\player\player_stagger.lua
+modules\auto_turn.lua
 modules\totem.lua
 modules\spell_id.lua
 modules\unlock\basic.lua
