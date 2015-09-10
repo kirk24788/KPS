@@ -6,6 +6,10 @@
 local spells = kps.spells.warlock
 local env = kps.env.warlock
 
+kps.runOnClass("WARLOCK", function ( )
+    kps.gui.createToggle("conserve", "Interface\\Icons\\spell_Mage_Flameorb", "Conserve")
+end)
+
 kps.rotations.register("WARLOCK","DESTRUCTION",
 {
     -- Deactivate Burning Rush if not moving for 1 second
@@ -18,8 +22,8 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
 
     -- Cooldowns
     {{"nested"}, 'kps.cooldowns', {
-        {spells.darkSoulInstability, 'spells.darkSoulInstability.cooldown == 0 and player.emberShards > 19'},
-        {spells.darkSoulInstability, 'spells.darkSoulInstability.charges == 2 and player.emberShards > 9'},
+        {spells.darkSoulInstability, 'not player.hasBuff(spells.darkSoulInstability) and spells.darkSoulInstability.cooldown == 0 and player.emberShards > 19'},
+        {spells.darkSoulInstability, 'player.hasBuff(spells.darkSoulInstability).charges == 2 and player.emberShards > 9'},
     }},
 
     -- Havoc + ChaosBolt at focus (or mouseover on ctrl)
@@ -28,12 +32,20 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
         {spells.havoc, 'isHavocUnit("focus") and not player.isMoving and player.emberShards >= 10 and focus.isAttackable', "focus"  },
         {spells.chaosBolt, 'not player.isMoving and player.burningEmbers > 0 and player.buffStacks(spells.havoc)>=3'},
     }},
-    -- Shadowburn
-    {spells.shadowburn, 'mouseover.hp < 0.20 and player.emberShards >= 10 and mouseover.myDebuffDuration(spells.shadowburn) <= 0.5', 'mouseover'},
-    {spells.shadowburn, 'target.hp < 0.20 and player.emberShards >= 35'},
-    {spells.shadowburn, 'target.hp < 0.20 and (player.hasMasteryProc or player.hasCritProc or player.hasIntProc)'},
-    {spells.shadowburn, 'target.hp < 0.20 and player.hasBuff(spells.darkSoulInstability)'},
-    {spells.shadowburn, 'target.hp < 0.05'},
+    -- Shadowburn/Chaos Bolt (Tier 18 - 4pc)
+    {spells.shadowburn, 'mouseover.hpTotal < 1500000 and target.hp < 0.20 and player.emberShards >= 10 and mouseover.myDebuffDuration(spells.shadowburn) <= 1', 'mouseover'},
+    {spells.shadowburn, 'target.hpTotal < 200000 and player.emberShards >= 10'},
+
+    {{"nested"}, 'not kps.conserve and target.isRaidBoss and player.emberShards >= 10', {
+        {spells.chaosBolt, 'target.hp < 0.20 and player.emberShards >= 10 and (player.hasMasteryProc or player.hasCritProc or player.hasIntProc)'},
+        {spells.chaosBolt, 'target.hp < 0.20 and player.emberShards >= 10 and player.hasBuff(spells.darkSoulInstability)'},
+    }},
+    {{"nested"}, 'not kps.conserve and not target.isRaidBoss and player.emberShards >= 10', {
+        {spells.shadowburn, 'target.hp < 0.20 and player.emberShards >= 35'},
+        {spells.shadowburn, 'target.hp < 0.20 and (player.hasMasteryProc or player.hasCritProc or player.hasIntProc)'},
+        {spells.shadowburn, 'target.hp < 0.20 and player.hasBuff(spells.darkSoulInstability)'},
+    }},
+
 
     -- Simple MultiTarget: FireAndBrimstone + default rotation
     {{"nested"}, 'kps.multiTarget and not keys.alt', {
@@ -50,7 +62,7 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
         {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 1.0 and not spells.immolate.isRecastAt("target")'},
         {spells.conflagrate, 'spells.conflagrate.charges >= 2'},
         -- don't waste chaotic infusion if havoc cooldown is about to come off!
-        {{"nested"}, 'not player.hasBuff(spells.chaoticInfusion) or spells.havoc.cooldown > 6 or spells.havoc.cooldown == 0 ', {
+        {{"nested"}, 'not kps.conserve and not player.hasBuff(spells.chaoticInfusion) or spells.havoc.cooldown > 6 or spells.havoc.cooldown == 0 ', {
             {spells.chaosBolt, 'player.emberShards >= 35'},
             {spells.chaosBolt, 'player.hasMasteryProc or player.hasCritProc or player.hasIntProc'},
             {spells.chaosBolt, 'player.hasBuff(spells.darkSoulInstability)'},

@@ -10,7 +10,9 @@ libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 libs\LibRangeCheck-2.0\LibRangeCheck-2.0.lua
 init.lua
 core\logger.lua
+core\classes.lua
 core\config.lua
+core\delayed_functions.lua
 core\kps.lua
 core\events.lua
 core\locale.lua
@@ -93,3 +95,4 @@ gui\gui.lua
 gui\toggle.lua
 gui\slashcmd.lua
 core\settings.lua
+core\finish.lua

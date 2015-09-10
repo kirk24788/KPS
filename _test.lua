@@ -9,7 +9,9 @@ Test-Runner for KPS. Used to test KPS Functionality.
 --LIB:libs\LibRangeCheck-2.0\LibRangeCheck-2.0.lua
 require("init")
 require("core.logger")
+require("core.classes")
 require("core.config")
+require("core.delayed_functions")
 require("core.kps")
 require("core.events")
 require("core.locale")
@@ -92,6 +94,7 @@ require("gui.gui")
 require("gui.toggle")
 require("gui.slashcmd")
 require("core.settings")
+require("core.finish")
 
 -- Self-Made Asserts
 function is(expected)
