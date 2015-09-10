@@ -91,6 +91,7 @@ require("rotations.warrior_protection")
 require("gui.gui")
 require("gui.toggle")
 require("gui.slashcmd")
+require("core.settings")
 
 -- Self-Made Asserts
 function is(expected)

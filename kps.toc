@@ -3,6 +3,7 @@
 ## Notes: Karnofsky Performance System
 ## SavedVariables: 
 ## Dependencies: 
+## SavedVariablesPerCharacter: KPS_SETTINGS
 
 libs\LibStub-1.0\LibStub.lua
 libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
@@ -91,3 +92,4 @@ rotations\warrior_protection.lua
 gui\gui.lua
 gui\toggle.lua
 gui\slashcmd.lua
+core\settings.lua
