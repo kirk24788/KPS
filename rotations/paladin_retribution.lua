@@ -8,6 +8,9 @@ local env = kps.env.paladin
 
 kps.rotations.register("PALADIN","RETRIBUTION",
 {
+    {{"nested"}, 'kps.cooldowns', {
+        {spells.avengingWrath},
+    }},
     {{"nested"}, 'activeEnemies.count < 4', {
         {spells.sealOfTruth, 'not player.hasSealOfTruth'},
         {spells.divineStorm, 'player.hasBuff(spells.empoweredDivineStorm) and player.hasBuff(spells.finalVerdict)'}, 
@@ -27,7 +30,6 @@ kps.rotations.register("PALADIN","RETRIBUTION",
         {spells.lightsHammer},
         {spells.hammerOfTheRighteous},
         {spells.exorcism},
-        {spells.avengingWrath, 'player.hasTalent(7, 2)'},
         {spells.hammerOfWrath, 'target.hp < 0.35 or player.hasBuff(spells.avengingWrath)'},
         {spells.judgment},
         {spells.finalVerdict, 'player.holyPower >= 3'},
