@@ -39,6 +39,7 @@ modules\player\player_eclipse.lua
 modules\player\player_powers.lua
 modules\player\player_procs.lua
 modules\player\player_runes.lua
+modules\player\player_seals.lua
 modules\player\player_stagger.lua
 modules\totem.lua
 modules\spell_id.lua

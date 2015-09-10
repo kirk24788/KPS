@@ -1,10 +1,39 @@
 --[[
 @module Paladin Retribution Rotation
-GENERATED FROM SIMCRAFT PROFILE 'paladin_retribution.simc'
+@author Kirk24788
 ]]
 local spells = kps.spells.paladin
 local env = kps.env.paladin
 
+
+kps.rotations.register("PALADIN","RETRIBUTION",
+{
+    {{"nested"}, 'activeEnemies.count < 4', {
+        {spells.sealOfTruth, 'not player.hasSealOfTruth'},
+        {spells.divineStorm, 'player.hasBuff(spells.empoweredDivineStorm) and player.hasBuff(spells.finalVerdict)'}, 
+        {spells.finalVerdict, 'player.holyPower == 5'},
+        {spells.executionSentence},
+        {spells.avengingWrath, 'player.hasTalent(7, 2)'},
+        {spells.hammerOfWrath, 'target.hp < 0.35 or player.hasBuff(spells.avengingWrath)'},
+        {spells.crusaderStrike},
+        {spells.judgment},
+        {spells.exorcism},
+        {spells.finalVerdict, 'player.holyPower >= 3'},
+    }},
+    {{"nested"}, 'activeEnemies.count >= 4', {
+        {spells.sealOfRighteousness, 'not player.hasSealOfRighteousness'},
+        {spells.divineStorm, 'player.hasBuff(spells.finalVerdict)'},  
+        {spells.finalVerdict, 'player.hasBuff(spells.finalVerdict) and player.holyPower == 5'},
+        {spells.lightsHammer},
+        {spells.hammerOfTheRighteous},
+        {spells.exorcism},
+        {spells.avengingWrath, 'player.hasTalent(7, 2)'},
+        {spells.hammerOfWrath, 'target.hp < 0.35 or player.hasBuff(spells.avengingWrath)'},
+        {spells.judgment},
+        {spells.finalVerdict, 'player.holyPower >= 3'},
+    }},
+}
+,"Icy-Veins")
 
 kps.rotations.register("PALADIN","RETRIBUTION",
 {

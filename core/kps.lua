@@ -1,5 +1,5 @@
 
-local LOG=kps.Logger(kps.LogLevel.DEBUG)
+local LOG=kps.Logger(kps.LogLevel.INFO)
 
 local prioritySpell = nil
 local priorityAction = nil
@@ -74,6 +74,7 @@ kps.combatStep = function ()
                 spell.cast(target)
             end
         else
+            LOG.debug("Casting %s for next cast.", spell.name)
             spell.cast(target)
         end
     end
