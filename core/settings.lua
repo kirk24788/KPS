@@ -16,6 +16,7 @@ kps.events.register("ADDON_LOADED", function(name)
             end
         end
         settingsLoaded = true
+        kps.gui.updateToggleStates()
     end
 end)
 

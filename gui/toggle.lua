@@ -96,9 +96,12 @@ local function createToggleButton(id, parent, anchorOffset, texture, description
             GameTooltip:Show()
         end)
     else
+        if description == nil then
+            description = "kps." .. id
+        end
         frame:SetScript("OnEnter", function(self)
             GameTooltip:SetOwner(self, "ANCHOR_TOP")
-            GameTooltip:SetText("kps."..id)
+            GameTooltip:SetText(description)
             GameTooltip:Show()
         end)
     end
