@@ -139,3 +139,7 @@ kps.RaidStatus.prototype.defaultTarget = kps.utils.cachedValue(function()
     return kps.RaidStatus.prototype.lowestInRaid()
 end)
 
+
+kps.env.heal = kps.RaidStatus.new()
+kps.heal = kps.env.heal
+

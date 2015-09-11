@@ -49,7 +49,6 @@ modules\auto_turn.lua
 modules\totem.lua
 modules\spell_id.lua
 modules\unlock\basic.lua
-modules\raid_status.lua
 rotations\deathknight.lua
 rotations\druid.lua
 rotations\hunter.lua
@@ -62,6 +61,7 @@ rotations\shaman.lua
 rotations\warlock.lua
 rotations\warrior.lua
 env.lua
+modules\raid_status.lua
 rotations\deathknight_blood.lua
 rotations\deathknight_frost.lua
 rotations\deathknight_unholy.lua

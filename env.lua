@@ -13,8 +13,6 @@ kps.env.focus = kps.Unit.new("focus")
 kps.env.focustarget = kps.Unit.new("focustarget")
 kps.env.mouseover = kps.Unit.new("mouseover")
 kps.env.activeEnemies = kps.ActiveEnemies.new()
---kps.env.heal = kps.RaidStatus.new()
---kps.heal = kps.env.heal
 
 --TODO: Clean UP!!! This code is a mess...
 
