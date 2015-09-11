@@ -139,6 +139,30 @@ kps.RaidStatus.prototype.defaultTarget = kps.utils.cachedValue(function()
     return kps.RaidStatus.prototype.lowestInRaid()
 end)
 
+kps.RaidStatus.prototype.defaultTank = kps.utils.cachedValue(function()
+    -- If we're below 20% - always heal us first!
+    if kps.env.player.hpIncoming < 0.2 then return kps["env"].player end
+    -- If the focus target is below 50% - take it (must be some reason there is a focus after all...)
+    if kps["env"].focus.isHealable and kps["env"].focus.hpIncoming < 0.5 then return kps["env"].focus end
+    -- MAYBE we also focused an enemy so we can heal it's target...
+    if not kps["env"].focus.isHealable and kps["env"].focustarget.isHealable and kps["env"].focustarget.hpIncoming < 0.5 then return kps["env"].focustarget end
+    -- Now do the same for target...
+    if kps["env"].target.isHealable and kps["env"].target.hpIncoming < 0.5 then return kps["env"].target end
+    if not kps["env"].target.isHealable and kps["env"].targettarget.isHealable and kps["env"].targettarget.hpIncoming < 0.5 then return kps["env"].targettarget end
+    -- Nothing selected - get lowest Tank if it is NOT the player and lower than 50%
+    return kps.RaidStatus.prototype.lowestTankInRaid()
+end)
+
+kps.RaidStatus.prototype.averageHpIncoming = kps.utils.cachedValue(function()
+    local hpIncTotal = 0
+    local hpIncCount = 0
+    for name, unit in pairs(raidStatus) do
+        hpIncTotal = hpIncTotal + unit.hpIncoming
+        hpIncCount = hpIncCount + 1
+    end
+    return hpIncTotal / hpIncCount
+end)
+
 
 kps.env.heal = kps.RaidStatus.new()
 kps.heal = kps.env.heal
