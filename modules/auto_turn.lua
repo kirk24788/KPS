@@ -35,7 +35,7 @@ local function disableTurning()
 end
 kps.events.registerOnUpdate(disableTurning)
 kps.events.register("UNIT_SPELLCAST_SUCCEEDED", function(...)
-      if jps.autoTurn then
+      if kps.autoTurn then
          local unitID = select(1,...)
          local spellID = select(5,...)
          if (unitID == "player") and spellID then 
