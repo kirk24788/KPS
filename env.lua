@@ -7,10 +7,14 @@ KPS Environment for use in Spell Rotations
 kps.env.player = kps.Player.new()
 kps.env.keys = kps.Keys.new()
 kps.env.target = kps.Unit.new("target")
+kps.env.targettarget = kps.Unit.new("targettarget")
 kps.env.pet = kps.Unit.new("pet")
 kps.env.focus = kps.Unit.new("focus")
+kps.env.focustarget = kps.Unit.new("focustarget")
 kps.env.mouseover = kps.Unit.new("mouseover")
 kps.env.activeEnemies = kps.ActiveEnemies.new()
+--kps.env.heal = kps.RaidStatus.new()
+--kps.heal = kps.env.heal
 
 --TODO: Clean UP!!! This code is a mess...
 

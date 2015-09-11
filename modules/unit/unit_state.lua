@@ -39,3 +39,20 @@ end
 function Unit.isDrinking(self)
     return Unit.hasBuff(self)(kps.Spell.fromId(431)) -- doesn't matter which drinking buff we're using, all of them have the same name!
 end
+
+function Unit.inVehicle(self)
+    return UnitInVehicle(self.unit)==true -- UnitInVehicle - 1 if the unit is in a vehicle, otherwise nil
+end
+
+function Unit.isHealable(self)
+    if GetUnitName("player") == GetUnitName(self.unit) then return true end
+    if not Unit.exists(self) 
+        or UnitCanAssist("player",self.unit)==false -- UnitCanAssist(unitToAssist, unitToBeAssisted) return 1 if the unitToAssist can assist the unitToBeAssisted, nil otherwise
+        or UnitIsFriend("player", self.unit)==false -- UnitIsFriend("unit","otherunit") return 1 if otherunit is friendly to unit, nil otherwise. 
+        or Unit.inVehicle(self)
+        or not select(1,UnitInRange(unit)) -- return FALSE when not in a party/raid reason why to be true for player GetUnitName("player") == GetUnitName(unit)
+        then 
+        return false 
+    end
+    return true
+end

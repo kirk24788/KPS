@@ -14,6 +14,25 @@ local oocRotations = {}
 local activeRotation = 1
 
 
+local kpsRotationDropdownHolder = CreateFrame("frame","kpsRotationDropdownHolder")
+kpsRotationDropdownHolder:SetWidth(150)
+kpsRotationDropdownHolder:SetHeight(60)
+kpsRotationDropdownHolder:SetPoint("CENTER",UIParent)
+kpsRotationDropdownHolder:EnableMouse(true)
+kpsRotationDropdownHolder:SetMovable(true)
+kpsRotationDropdownHolder:RegisterForDrag("LeftButton")
+kpsRotationDropdownHolder:SetScript("OnDragStart", function(self) self:StartMoving() end)
+kpsRotationDropdownHolder:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
+
+kpsDropDownRotationGUI = CreateFrame("FRAME", "KPS Rotation GUI", kpsRotationDropdownHolder, "UIDropDownMenuTemplate")
+kpsDropDownRotationGUI:ClearAllPoints()
+kpsDropDownRotationGUI:SetPoint("CENTER",10,10)
+local title = kpsDropDownRotationGUI:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+title:SetPoint("TOPLEFT", 20, 10) 
+title:SetText("KPS ROTATIONS")
+local RotationCount = 1
+
+
 local function addRotationToTable(rotations,rotation)
     for k,v in pairs(rotations) do
         if v.tooltip == rotation.tooltip then
@@ -104,23 +123,6 @@ end
 -- DROPDOWN ROTATIONS
 ---------------------------------
 
-local kpsRotationDropdownHolder = CreateFrame("frame","kpsRotationDropdownHolder")
-kpsRotationDropdownHolder:SetWidth(150)
-kpsRotationDropdownHolder:SetHeight(60)
-kpsRotationDropdownHolder:SetPoint("CENTER",UIParent)
-kpsRotationDropdownHolder:EnableMouse(true)
-kpsRotationDropdownHolder:SetMovable(true)
-kpsRotationDropdownHolder:RegisterForDrag("LeftButton")
-kpsRotationDropdownHolder:SetScript("OnDragStart", function(self) self:StartMoving() end)
-kpsRotationDropdownHolder:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
-
-kpsDropDownRotationGUI = CreateFrame("FRAME", "KPS Rotation GUI", kpsRotationDropdownHolder, "UIDropDownMenuTemplate")
-kpsDropDownRotationGUI:ClearAllPoints()
-kpsDropDownRotationGUI:SetPoint("CENTER",10,10)
-local title = kpsDropDownRotationGUI:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-title:SetPoint("TOPLEFT", 20, 10) 
-title:SetText("KPS ROTATIONS")
-local RotationCount = 1
 
 function GUIRotation_OnClick(self)
    UIDropDownMenu_SetSelectedID(kpsDropDownRotationGUI, self:GetID())

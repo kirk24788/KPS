@@ -113,7 +113,19 @@ end
 function UnitCanAttack( ... )
     return true
 end
+function UnitCanAssist( ... )
+    return true
+end
+function UnitIsFriend( ... )
+    return true
+end
+function UnitInVehicle( ... )
+    return nil
+end
 function UnitIsEnemy( ... )
+    return true
+end
+function UnitInRange( ... )
     return true
 end
 function RunMacroText( ... )
@@ -121,12 +133,15 @@ end
 function CreateFrame( ... )
     local frame = {}
     local texture = {}
+    local fontString = {}
     texture.SetPoint = function ( ... ) end
     texture.SetTexCoord = function ( ... ) end
     texture.SetTexture = function ( ... ) end
     texture.SetParent = function ( ... ) end
     texture.SetVertexColor = function ( ... ) end
     texture.SetParent = function ( ... ) end
+    fontString.SetPoint = function ( ... ) end 
+    fontString.SetText = function ( ... ) end 
 
     frame.SetScript = function ( ... ) end
     frame.RegisterEvent = function ( ... ) end
@@ -138,14 +153,35 @@ function CreateFrame( ... )
     frame.SetWidth = function ( ... ) end
     frame.SetHeight = function ( ... ) end
     frame.CreateTexture = function ( ... ) return texture end
+    frame.CreateFontString = function ( ... ) return fontString end
+    frame.ClearAllPoints = function ( ... ) end
     frame.RegisterForDrag = function ( ... ) end
     frame.RegisterForClicks = function ( ... ) end
     frame.Show = function ( ... ) end
+    frame.Hide = function ( ... ) end
     return frame
+end
+function UIDropDownMenu_Initialize( ... )
+end
+function UIDropDownMenu_SetSelectedID( ... )
+end
+function UIDropDownMenu_SetWidth( ... )
+end
+function UIDropDownMenu_SetButtonWidth( ... )
+end
+function UIDropDownMenu_JustifyText( ... )
 end
 function UnitAffectingCombat( ... )
     return 1
 end
+GameTooltip = {}
+function GameTooltip.HookScript( ... )
+end
+ItemRefTooltip = GameTooltip
+ItemRefShoppingTooltip1 = GameTooltip
+ItemRefShoppingTooltip2 = GameTooltip
+ShoppingTooltip1 = GameTooltip
+ShoppingTooltip2 = GameTooltip
 function hooksecurefunc( ... )
 end
 function IsMounted( ... )
@@ -182,5 +218,8 @@ function UnitGUID( ... )
     return "0x242345"
 end
 function LibStub( ... )
+    return {}
+end
+function GetSpellTexture( ... )
     return {}
 end

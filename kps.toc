@@ -49,8 +49,7 @@ modules\auto_turn.lua
 modules\totem.lua
 modules\spell_id.lua
 modules\unlock\basic.lua
-modules\heal\heal.lua
-modules\heal\raid_status.lua
+modules\raid_status.lua
 rotations\deathknight.lua
 rotations\druid.lua
 rotations\hunter.lua
@@ -69,6 +68,7 @@ rotations\deathknight_unholy.lua
 rotations\druid_balance.lua
 rotations\druid_feral.lua
 rotations\druid_guardian.lua
+rotations\druid_restoration.lua
 rotations\hunter_beastmaster.lua
 rotations\hunter_marksmanship.lua
 rotations\hunter_survival.lua
