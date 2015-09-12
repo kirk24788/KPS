@@ -28,37 +28,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 Copyright (C) 2015 Mario Mancino
 
 
-
-## Usage
-
-* coming soon
-
-
-
-## Documentation
-
-* `brew install coreutils`
-
-
-
-## Open Issues
-
-* dps class rotations
-* heal class support (maybe in a seperate addon...)
-* a lot more...
-
-
-
 ## Commands
 
-* coming soon
+ * `/kps` - Show enabled status.
+ * `/kps enable/disable/toggle` - Enable/Disable the addon.
+ * `/kps cooldowns/cds` - Toggle use of cooldowns.
+ * `/kps pew` - Spammable macro to do your best moves, if for some reason you don't want it fully automated.
+ * `/kps interrupt/int` - Toggle interrupting.
+ * `/kps multitarget/multi/aoe` - Toggle manual MultiTarget mode.
+ * `/kps defensive/def` - Toggle use of defensive cooldowns.
+ * `/kps help` - Show this help text.
 
 
 
 
-## Unsupported Builds and Classes
+## Builds and Classes
 
-All unsupported except warlock destruction
+All healing specs except for druid restoration are currently without a rotation. All DPS Specs have at least one rotation automatically generated
+from SimCraft - those might not be fully functional. 
+
+**Supported in 6.2.2:**
+
+ * Deathknight: Blood
+ * Druid: Restoration
+ * Paladin: Retribution
+ * Warlock: Destruction
 
 
 
@@ -82,5 +76,11 @@ If you don't have a Mac, you somehow have to provide these tools:
 Before creating a pull request, please run a `make test` in your KPS directory - only create the request if *ALL* tests
 are OK!
 
+### Code Guidelines
+* Use 4 spaces for indentation - *NO TABS!*
+
+
+### Open Issues
+* missing dps class rotations
 
 
