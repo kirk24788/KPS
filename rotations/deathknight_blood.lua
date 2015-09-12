@@ -1,63 +1,69 @@
 --[[
 @module Deathknight Blood Rotation
-GENERATED FROM SIMCRAFT PROFILE 'deathknight_blood.simc'
+@author Kirk24788
 ]]
 local spells = kps.spells.deathknight
 local env = kps.env.deathknight
 
+kps.runOnClass("DEATHKNIGHT", function ( )
+    kps.gui.createToggle("noPresence", "Interface\\Icons\\spell_Mage_Flameorb", "No Presence!")
+end)
 
 kps.rotations.register("DEATHKNIGHT","BLOOD",
 {
-    {spells.antimagicShell}, -- antimagic_shell
-    {spells.conversion, 'not player.hasBuff(spells.conversion) and player.runicPower > 50 and player.hp < 0.9'}, -- conversion,if=!buff.conversion.up&runic_power>50&health.pct<90
-    {spells.lichborne, 'player.hp < 0.9'}, -- lichborne,if=health.pct<90
-    {spells.deathStrike, 'kps.incomingDamage(5) >= player.hpMax * 0.65'}, -- death_strike,if=incoming_damage_5s>=health.max*0.65
-    {spells.armyOfTheDead, 'not player.hasBuff(spells.boneShield) and not player.hasBuff(spells.dancingRuneWeapon) and not player.hasBuff(spells.iceboundFortitude) and not player.hasBuff(spells.vampiricBlood)'}, -- army_of_the_dead,if=buff.bone_shield.down&buff.dancing_rune_weapon.down&buff.icebound_fortitude.down&buff.vampiric_blood.down
-    {spells.boneShield, 'not player.hasBuff(spells.armyOfTheDead) and not player.hasBuff(spells.boneShield) and not player.hasBuff(spells.dancingRuneWeapon) and not player.hasBuff(spells.iceboundFortitude) and not player.hasBuff(spells.vampiricBlood)'}, -- bone_shield,if=buff.army_of_the_dead.down&buff.bone_shield.down&buff.dancing_rune_weapon.down&buff.icebound_fortitude.down&buff.vampiric_blood.down
-    {spells.vampiricBlood, 'player.hp < 0.5'}, -- vampiric_blood,if=health.pct<50
-    {spells.iceboundFortitude, 'player.hp < 0.3 and not player.hasBuff(spells.armyOfTheDead) and not player.hasBuff(spells.dancingRuneWeapon) and not player.hasBuff(spells.boneShield) and not player.hasBuff(spells.vampiricBlood)'}, -- icebound_fortitude,if=health.pct<30&buff.army_of_the_dead.down&buff.dancing_rune_weapon.down&buff.bone_shield.down&buff.vampiric_blood.down
-    {spells.runeTap, 'player.hp < 0.5 and not player.hasBuff(spells.armyOfTheDead) and not player.hasBuff(spells.dancingRuneWeapon) and not player.hasBuff(spells.boneShield) and not player.hasBuff(spells.vampiricBlood) and not player.hasBuff(spells.iceboundFortitude)'}, -- rune_tap,if=health.pct<50&buff.army_of_the_dead.down&buff.dancing_rune_weapon.down&buff.bone_shield.down&buff.vampiric_blood.down&buff.icebound_fortitude.down
-    {spells.dancingRuneWeapon, 'player.hp < 0.8 and not player.hasBuff(spells.armyOfTheDead) and not player.hasBuff(spells.iceboundFortitude) and not player.hasBuff(spells.boneShield) and not player.hasBuff(spells.vampiricBlood)'}, -- dancing_rune_weapon,if=health.pct<80&buff.army_of_the_dead.down&buff.icebound_fortitude.down&buff.bone_shield.down&buff.vampiric_blood.down
-    {spells.deathPact, 'player.hp < 0.5'}, -- death_pact,if=health.pct<50
-    {spells.outbreak, '( not player.hasTalent(7, 1) and diseaseMinRemains() < 8 ) or not diseaseTicking(target)'}, -- outbreak,if=(!talent.necrotic_plague.enabled&disease.min_remains<8)|!disease.ticking
-    {spells.deathCoil, 'player.runicPower > 90'}, -- death_coil,if=runic_power>90
-    {spells.plagueStrike, '( not player.hasTalent(7, 1) and not target.hasMyDebuff(spells.bloodPlague) ) or ( player.hasTalent(7, 1) and not target.hasMyDebuff(spells.necroticPlague) )'}, -- plague_strike,if=(!talent.necrotic_plague.enabled&!dot.blood_plague.ticking)|(talent.necrotic_plague.enabled&!dot.necrotic_plague.ticking)
-    {spells.icyTouch, '( not player.hasTalent(7, 1) and not target.hasMyDebuff(spells.frostFever) ) or ( player.hasTalent(7, 1) and not target.hasMyDebuff(spells.necroticPlague) )'}, -- icy_touch,if=(!talent.necrotic_plague.enabled&!dot.frost_fever.ticking)|(talent.necrotic_plague.enabled&!dot.necrotic_plague.ticking)
-    {spells.defile}, -- defile
-    {spells.plagueLeech, '( ( not player.bloodRunes and not player.unholyRunes ) or ( not player.bloodRunes and not player.frostRunes ) or ( not player.unholyRunes and not player.frostRunes ) ) and spells.outbreak.cooldown <= player.gcd'}, -- plague_leech,if=((!blood&!unholy)|(!blood&!frost)|(!unholy&!frost))&cooldown.outbreak.remains<=gcd
-    {{"nested"}, 'player.hasTalent(4, 1)', { -- call_action_list,name=bt,if=talent.blood_tap.enabled
-        {spells.deathStrike, 'player.unholyRunes == 2 or player.frostRunes == 2'}, -- death_strike,if=unholy=2|frost=2
-        {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) >= 5 and not player.bloodRunes'}, -- blood_tap,if=buff.blood_charge.stack>=5&!blood
-        {spells.deathStrike, 'player.buffStacks(spells.bloodCharge) >= 10 and player.unholyRunes and player.frostRunes'}, -- death_strike,if=buff.blood_charge.stack>=10&unholy&frost
-        {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) >= 10 and not player.unholyRunes and not player.frostRunes'}, -- blood_tap,if=buff.blood_charge.stack>=10&!unholy&!frost
-        {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) >= 5 and ( not player.unholyRunes or not player.frostRunes )'}, -- blood_tap,if=buff.blood_charge.stack>=5&(!unholy|!frost)
-        {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) >= 5 and player.bloodDeathRunes and not player.unholyRunes and not player.frostRunes'}, -- blood_tap,if=buff.blood_charge.stack>=5&blood.death&!unholy&!frost
-        {spells.deathCoil, 'player.runicPower > 70'}, -- death_coil,if=runic_power>70
-        {spells.soulReaper, 'target.hp - 3 * ( target.hp % target.timeToDie ) <= 35 and ( player.bloodRunes == 2 or ( player.bloodRunes and not player.bloodDeathRunes ) )'}, -- soul_reaper,if=target.health.pct-3*(target.health.pct%target.time_to_die)<=35&(blood=2|(blood&!blood.death))
-        {spells.bloodBoil, 'player.bloodRunes == 2 or ( player.bloodRunes and not player.bloodDeathRunes )'}, -- blood_boil,if=blood=2|(blood&!blood.death)
+    -- Blood presence
+    {spells.bloodPresence, 'not kps.noPresence and not player.hasBuff(spells.bloodPresence)'},
+    {spells.hornOfWinter, 'not player.hasBuff(spells.hornOfWinter)'},
+
+
+    -- SHIFT: Death and Decay
+    {spells.deathAndDecay,'keys.shift'},
+
+    -- Def CD's
+    {{"nested"}, 'kps.defensive', {
+        {spells.lichborne, 'player.hp < 0.5 and player.runicPower >= 40 and player.hasTalent(2, 1)'},
+        {spells.deathCoil, 'player.hp < 0.9 and player.runicPower >= 40 and player.hasBuff(spells.lichborne)'},
+        {spells.runeTap, 'player.hp < 0.8 and not player.hasBuff(spells.runeTap)'},
+        {spells.iceboundFortitude, 'player.hp < 0.3'},
+        {spells.vampiricBlood, 'player.hp < 0.4'},
     }},
-    {{"nested"}, 'player.hasTalent(4, 2)', { -- call_action_list,name=re,if=talent.runic_empowerment.enabled
-        {spells.deathStrike, 'player.unholyRunes and player.frostRunes'}, -- death_strike,if=unholy&frost
-        {spells.deathCoil, 'player.runicPower > 70'}, -- death_coil,if=runic_power>70
-        {spells.soulReaper, 'target.hp - 3 * ( target.hp % target.timeToDie ) <= 35 and player.bloodRunes == 2'}, -- soul_reaper,if=target.health.pct-3*(target.health.pct%target.time_to_die)<=35&blood=2
-        {spells.bloodBoil, 'player.bloodRunes == 2'}, -- blood_boil,if=blood=2
+
+    -- CD's
+    {{"nested"}, 'kps.cooldowns', {
+        {spells.empowerRuneWeapon, 'target.distance <= 10 and player.allRunes <= 2 and player.bloodRunes <= 1 and player.frostRunes <= 1 and player.unholyRunes <= 1 and player.runicPower < 30'},
     }},
-    {{"nested"}, 'player.hasTalent(4, 3)', { -- call_action_list,name=rc,if=talent.runic_corruption.enabled
-        {spells.deathStrike, 'player.unholyRunes == 2 or player.frostRunes == 2'}, -- death_strike,if=unholy=2|frost=2
-        {spells.deathCoil, 'player.runicPower > 70'}, -- death_coil,if=runic_power>70
-        {spells.soulReaper, 'target.hp - 3 * ( target.hp % target.timeToDie ) <= 35 and player.bloodRunes >= 1'}, -- soul_reaper,if=target.health.pct-3*(target.health.pct%target.time_to_die)<=35&blood>=1
-        {spells.bloodBoil, 'player.bloodRunes == 2'}, -- blood_boil,if=blood=2
+
+    -- Interrupt Target
+    {{"nested"}, 'target.isInterruptable', {
+        {spells.mindFreeze},
+        {spells.strangulate, 'not spells.mindFreeze.isRecastAt("target")'},
+        {spells.asphyxiate, 'not spells.strangulate.isRecastAt("target")'},
     }},
-    {{"nested"}, 'not player.hasTalent(4, 1) and not player.hasTalent(4, 2) and not player.hasTalent(4, 3)', { -- call_action_list,name=nrt,if=!talent.blood_tap.enabled&!talent.runic_empowerment.enabled&!talent.runic_corruption.enabled
-        {spells.deathStrike, 'player.unholyRunes == 2 or player.frostRunes == 2'}, -- death_strike,if=unholy=2|frost=2
-        {spells.deathCoil, 'player.runicPower > 70'}, -- death_coil,if=runic_power>70
-        {spells.soulReaper, 'target.hp - 3 * ( target.hp % target.timeToDie ) <= 35 and player.bloodRunes >= 1'}, -- soul_reaper,if=target.health.pct-3*(target.health.pct%target.time_to_die)<=35&blood>=1
-        {spells.bloodBoil, 'player.bloodRunes >= 1'}, -- blood_boil,if=blood>=1
+
+    {spells.boneShield,'not player.hasBuff(spells.boneShield)'},
+
+    -- Diseases
+    {spells.unholyBlight,'target.myDebuffDuration(spells.frostFever) < 2'},
+    {spells.unholyBlight,'target.myDebuffDuration(spells.bloodPlague) < 2'},
+    {spells.outbreak,'target.myDebuffDuration(spells.frostFever) < 2'},
+    {spells.outbreak,'target.myDebuffDuration(spells.bloodPlague) < 2'},
+
+    -- Multi Target
+    {{"nested"}, 'activeEnemies.count >= 3', {
+        {spells.bloodBoil, 'target.distance <= 10'},
     }},
-    {spells.defile, 'player.buffStacks(spells.crimsonScourge)'}, -- defile,if=buff.crimson_scourge.react
-    {spells.deathAndDecay, 'player.buffStacks(spells.crimsonScourge)'}, -- death_and_decay,if=buff.crimson_scourge.react
-    {spells.bloodBoil, 'player.buffStacks(spells.crimsonScourge)'}, -- blood_boil,if=buff.crimson_scourge.react
-    {spells.deathCoil}, -- death_coil
-    {spells.empowerRuneWeapon, 'not player.bloodRunes and not player.unholyRunes and not player.frostRunes'}, -- empower_rune_weapon,if=!blood&!unholy&!frost
+
+    -- Rotation
+    {spells.deathStrike, 'player.hp < 0.7'},
+    {spells.deathStrike, 'player.buffDuration(spells.bloodShield) <= 4'},
+    {spells.soulReaper, 'player.hp <= 0.35'},
+    {spells.plagueStrike, 'not target.hasMyDebuff(spells.bloodPlague)'},
+    {spells.icyTouch, 'not target.hasMyDebuff(spells.frostFever)'},
+    {spells.deathStrike},
+
+    -- Death Siphon when we need a bit of healing. (talent based)
+    {spells.deathSiphon,'player.hp < 0.6'}, -- moved here, because we heal often more with Death Strike than Death Siphon
+    {spells.deathCoil,'player.runicPower >= 30 and not player.hasBuff(spells.lichborne)'},
+    {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) >= 5'},
 }
-,"deathknight_blood.simc")
+,"JPS")

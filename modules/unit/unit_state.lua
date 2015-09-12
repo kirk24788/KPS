@@ -56,3 +56,25 @@ function Unit.isHealable(self)
     end
     return true
 end
+
+function Unit.hasPet(self)
+    if self.unit == nil then return false end
+    if UnitExists(self.unit.."pet")==false then return false end
+    if UnitIsVisible(self.unit.."pet")==false then return false end
+    if UnitIsDeadOrGhost(self.unit.."pet")==true then return false end
+    return true
+end
+
+
+function Unit.isInterruptable(self)
+    if not kps.interrupt then return false end
+    if UnitCanAttack("player", self.unit)~=1 then return false end
+    if UnitIsEnemy("player",self.unit)~=1 then return false end
+    local targetSpell, _, _, _, _, _, _, _, spellInterruptable = UnitCastingInfo(self.unit)
+    local targetChannel, _, _, _, _, _, _, channelInterruptable = UnitChannelInfo(self.unit)
+    -- TODO: Blacklisted spells?
+    if (targetSpell and spellInterruptable == false) or (targetChannel and channelInterruptable) then
+        return true
+    end
+    return false
+end

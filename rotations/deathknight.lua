@@ -147,6 +147,7 @@ kps.spells.deathknight.runicStrikes = kps.Spell.fromId(165394)
 kps.spells.deathknight.necrosis = kps.Spell.fromId(165395)
 kps.spells.deathknight.darkSuccor = kps.Spell.fromId(178819)
 kps.spells.deathknight.bloodCharge = kps.Spell.fromId(114851)
+kps.spells.deathknight.bloodShield = kps.Spell.fromId(77535)
 
 kps.env.deathknight = {}
 

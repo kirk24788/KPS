@@ -64,6 +64,10 @@ function Player.unholyRunes(self)
     return runes(5,6)
 end
 
+function Player.allRunes(self)
+    return runes(1,2) + runes(3,4) + runes(5,6)
+end
+
 function Player.bloodDeathRunes(self)
     return death(1,2)
 end
