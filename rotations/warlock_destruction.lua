@@ -62,9 +62,9 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
         {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 1.0 and not spells.immolate.isRecastAt("target")'},
         {spells.conflagrate, 'spells.conflagrate.charges >= 2'},
         -- don't waste chaotic infusion if havoc cooldown is about to come off!
-        {{"nested"}, 'not kps.conserve and not player.hasBuff(spells.chaoticInfusion) or spells.havoc.cooldown > 6 or spells.havoc.cooldown == 0 ', {
+        {{"nested"}, 'not kps.conserve', {
             {spells.chaosBolt, 'player.emberShards >= 35'},
-            {spells.chaosBolt, 'player.hasMasteryProc or player.hasCritProc or player.hasIntProc'},
+            {spells.chaosBolt, 'spells.havoc.cooldown > 19 and player.hasMasteryProc or player.hasCritProc or player.hasIntProc'},
             {spells.chaosBolt, 'player.hasBuff(spells.darkSoulInstability)'},
         }},
         {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 4.5 and not spells.immolate.isRecastAt("target")'},
