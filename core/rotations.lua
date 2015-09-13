@@ -7,30 +7,10 @@ You could even outsource your rotations to a separate addon if you want to.
 ]]--
 
 kps.rotations = {}
-kps.toggleRotationName = {" "}
 
 local rotations = {}
 local oocRotations = {}
 local activeRotation = 1
-
-
-local kpsRotationDropdownHolder = CreateFrame("frame","kpsRotationDropdownHolder")
-kpsRotationDropdownHolder:SetWidth(150)
-kpsRotationDropdownHolder:SetHeight(60)
-kpsRotationDropdownHolder:SetPoint("CENTER",UIParent)
-kpsRotationDropdownHolder:EnableMouse(true)
-kpsRotationDropdownHolder:SetMovable(true)
-kpsRotationDropdownHolder:RegisterForDrag("LeftButton")
-kpsRotationDropdownHolder:SetScript("OnDragStart", function(self) self:StartMoving() end)
-kpsRotationDropdownHolder:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
-
-kpsDropDownRotationGUI = CreateFrame("FRAME", "KPS Rotation GUI", kpsRotationDropdownHolder, "UIDropDownMenuTemplate")
-kpsDropDownRotationGUI:ClearAllPoints()
-kpsDropDownRotationGUI:SetPoint("CENTER",10,10)
-local title = kpsDropDownRotationGUI:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-title:SetPoint("TOPLEFT", 20, 10) 
-title:SetText("KPS ROTATIONS")
-local RotationCount = 1
 
 
 local function addRotationToTable(rotations,rotation)
@@ -53,19 +33,21 @@ function kps.rotations.setActive(idx)
     local maxCount = tableCount(rotations, kps.classes.getCurrentKey())
     if idx < 1 or idx > maxCount then idx = 1 end
     activeRotation = idx
+    if kps.rotations.getActive() ~= nil then
+        kps.write("Changed your active Rotation to: "..kps.rotations.getActive().tooltip)
+    else 
+        kps.write("No Rotation for Your Class/Spec!")
+    end
 end
 
-function kps.rotations.getDropdown(rotations,key)
-    local maxCount = tableCount(rotations,key)
-	if maxCount > 1 then
-		for k,v in pairs(rotations[key]) do
-			kps.toggleRotationName[k] = v.tooltip
-		end
-		UIDropDownMenu_SetText(kpsDropDownRotationGUI, kps.toggleRotationName[activeRotation])
-		kpsRotationDropdownHolder:Show()
-	else  
-		kpsRotationDropdownHolder:Hide()
-	end
+--[[[ Internal function: Allows the DropDown to change the active rotation ]]--
+function kps.rotations.getRotations()
+    local key = kps.classes.getCurrentKey()
+    if not rotations[key] then rotations[key] = {} end
+    return rotations[key]
+end
+function kps.rotations.getRotationCount()
+    return tableCount(rotations, kps.classes.getCurrentKey())
 end
 
 function kps.rotations.getActive()
@@ -93,7 +75,6 @@ function kps.rotations.register(class,spec,table,tooltip)
         return rotation.getSpell()
     end
     addRotationToTable(rotations[key],rotation)
-    kps.rotations.getDropdown(rotations,key)
     kps.rotations.reset()
 end
 
@@ -119,34 +100,8 @@ function kps.rotations.print()
     end
 end
 
----------------------------------
--- DROPDOWN ROTATIONS
----------------------------------
 
 
-function GUIRotation_OnClick(self)
-   UIDropDownMenu_SetSelectedID(kpsDropDownRotationGUI, self:GetID())
-   RotationCount = self:GetID()
-   kps.rotations.setActive(self:GetID())
-   kps.write("Changed your active Rotation to: "..kps.toggleRotationName[RotationCount])
-end
-
-function GUIDropDown_Initialize(self, level)
-	local menuListGUI = {}
-	for _,rotation in pairs(kps.toggleRotationName) do table.insert(menuListGUI,rotation) end
-	
-	local infoGUI = UIDropDownMenu_CreateInfo()
-	for k,v in pairs(menuListGUI) do
-	  infoGUI = UIDropDownMenu_CreateInfo()
-	  infoGUI.text = v
-	  infoGUI.value = v
-	  infoGUI.func = GUIRotation_OnClick
-	  UIDropDownMenu_AddButton(infoGUI, level)
-	end
-end
-
-UIDropDownMenu_Initialize(kpsDropDownRotationGUI, GUIDropDown_Initialize)
-UIDropDownMenu_SetSelectedID(kpsDropDownRotationGUI, 1)
-UIDropDownMenu_SetWidth(kpsDropDownRotationGUI, 100);
-UIDropDownMenu_SetButtonWidth(kpsDropDownRotationGUI, 100)
-UIDropDownMenu_JustifyText(kpsDropDownRotationGUI, "LEFT")
+kps.events.register("ACTIVE_TALENT_GROUP_CHANGED", function ()
+    kps.rotations.reset()
+end)

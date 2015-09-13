@@ -1,7 +1,8 @@
 --[[[
 @module Test-Runner
 @description
-Test-Runner for KPS. Used to test KPS Functionality.
+Test-Runner for KPS. Used to test KPS Functionality and generate the kps.toc.
+If you want to hide a requirement, add spaces infront of the require statement.
 ]]--
     require("_wow")
 --LIB:libs\LibStub-1.0\LibStub.lua
@@ -20,6 +21,9 @@ require("core.lexer")
 require("core.parser")
 require("core.rotations")
 require("core.timers")
+require("gui.gui")
+require("gui.toggle")
+require("gui.slashcmd")
 require("modules.spell.spell")
 require("modules.spell.spells")
 require("modules.spell.spell_range")
@@ -90,9 +94,7 @@ require("rotations.warlock_destruction")
 require("rotations.warrior_arms")
 require("rotations.warrior_fury")
 require("rotations.warrior_protection")
-require("gui.gui")
-require("gui.toggle")
-require("gui.slashcmd")
+require("gui.rotation_dropdown")
 require("core.settings")
 require("core.finish")
 

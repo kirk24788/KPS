@@ -31,7 +31,7 @@ class_rotations: deathknight_rotations druid_rotations hunter_rotations mage_rot
 
 deathknight_rotations: deathknight_blood_rotation deathknight_frost_rotation deathknight_unholy_rotation
 deathknight_blood_rotation:
-	./utils/convertSimC.py -p simc/deathknight_blood.simc -c deathknight -s blood -o rotations/deathknight_blood.lua
+	#MANUAL ROTATION: ./utils/convertSimC.py -p simc/deathknight_blood.simc -c deathknight -s blood -o rotations/deathknight_blood.lua
 deathknight_frost_rotation:
 	./utils/convertSimC.py -p simc/deathknight_frost_1h.simc -c deathknight -s frost -o rotations/deathknight_frost.lua
 	./utils/convertSimC.py -p simc/deathknight_frost_2h.simc -c deathknight -s frost -a rotations/deathknight_frost.lua
@@ -74,7 +74,7 @@ paladin_rotations: paladin_protection_rotation paladin_retribution_rotation
 paladin_protection_rotation:
 	./utils/convertSimC.py -p simc/paladin_protection.simc -c paladin -s protection -o rotations/paladin_protection.lua
 paladin_retribution_rotation:
-	./utils/convertSimC.py -p simc/paladin_retribution.simc -c paladin -s retribution -o rotations/paladin_retribution.lua
+	#MANUAL ROTATION: ./utils/convertSimC.py -p simc/paladin_retribution.simc -c paladin -s retribution -o rotations/paladin_retribution.lua
 
 priest_rotations: priest_discipline_rotation priest_discipline_rotation priest_shadow_rotation
 priest_discipline_rotation:

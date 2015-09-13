@@ -4,6 +4,16 @@
 Definition of WoW Functions for testing without WoW.
 ]]--
 SlashCmdList = {}
+DEFAULT_CHAT_FRAME = {}
+DEFAULT_CHAT_FRAME.AddMessage = print
+function tostringall(...)
+    if select('#', ...) > 0 then
+        return tostring(...), tostringall(select(2, ...))
+    end
+end
+function strjoin( x )
+    return ""
+end
 function GetTime()
     return 121412
 end

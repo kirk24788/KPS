@@ -135,8 +135,12 @@ function kps.gui.show()
     toggleAnchor:Show()
 end
 
-function kps.gui.updateTextureIcon(texture)
-    toggleAnchor.texture:SetTexture(texture)
+local currentSpell = nil
+function kps.gui.updateSpellTexture(spell)
+    if (currentSpell ~= spell) then
+        toggleAnchor.texture:SetTexture(spell.icon)
+        currentSpell = spell
+    end
 end
 
 function kps.gui.updateBorderIcon()
@@ -160,7 +164,16 @@ toggleAnchor:SetScript("OnClick", function(self,button)
     end
 end)
 
-function kps.gui.combatBorderIcon(status)
+kps.gui.createToggle("multiTarget", "Interface\\Icons\\achievement_arena_5v5_3", "MultiTarget")
+kps.gui.createToggle("cooldowns", "Interface\\Icons\\Spell_Holy_BorrowedTime", "Cooldowns")
+kps.gui.createToggle("interrupt", "Interface\\Icons\\INV_Shield_05", "Interrupts")
+kps.gui.createToggle("defensive", "Interface\\Icons\\Spell_Misc_EmotionHappy", "Defensive")
+kps.gui.createToggle("autoTurn", "Interface\\Icons\\misc_arrowleft", "AutoTurn")
+
+
+
+-- Change Border on Enter/Leave Combat
+local function combatBorderIcon(status)
     if status then
         if kps.enabled then
             toggleAnchor.border:SetTexture(borderTextureFailed)
@@ -173,10 +186,9 @@ function kps.gui.combatBorderIcon(status)
         end
     end
 end
-
-kps.gui.createToggle("multiTarget", "Interface\\Icons\\achievement_arena_5v5_3", "MultiTarget")
-kps.gui.createToggle("cooldowns", "Interface\\Icons\\Spell_Holy_BorrowedTime", "Cooldowns")
-kps.gui.createToggle("interrupt", "Interface\\Icons\\INV_Shield_05", "Interrupts")
-kps.gui.createToggle("defensive", "Interface\\Icons\\Spell_Misc_EmotionHappy", "Defensive")
-kps.gui.createToggle("autoTurn", "Interface\\Icons\\misc_arrowleft", "AutoTurn")
-
+kps.events.register("PLAYER_REGEN_DISABLED", function()
+    combatBorderIcon(true)
+end)
+kps.events.register("PLAYER_REGEN_ENABLED", function()
+    combatBorderIcon(false)
+end)

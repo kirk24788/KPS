@@ -92,6 +92,7 @@ rotations\warrior_arms.lua
 rotations\warrior_fury.lua
 rotations\warrior_protection.lua
 gui\gui.lua
+gui\rotation_dropdown.lua
 gui\toggle.lua
 gui\slashcmd.lua
 core\settings.lua
