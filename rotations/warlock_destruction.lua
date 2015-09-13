@@ -45,14 +45,19 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
         {spells.shadowburn, 'target.hp < 0.20 and (player.hasMasteryProc or player.hasCritProc or player.hasIntProc)'},
         {spells.shadowburn, 'target.hp < 0.20 and player.hasBuff(spells.darkSoulInstability)'},
     }},
+    {{"nested"}, 'kps.conserve and player.emberShards >= 39', {
+        {spells.chaosBolt, 'target.isRaidBoss or target.hp >= 0.20'},
+        {spells.shadowburn, 'not target.isRaidBoss and target.hp < 0.20'},
+    }},
 
 
     -- Simple MultiTarget: FireAndBrimstone + default rotation
     {{"nested"}, 'kps.multiTarget and not keys.alt', {
         {spells.fireAndBrimstone, 'player.burningEmbers > 0 and not player.hasBuff(spells.fireAndBrimstone) and not spells.fireAndBrimstone.isRecastAt("target")' },
-        {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 1.0 and not spells.immolate.isRecastAt("target")'},
+        {spells.immolate, 'target.hpTotal > 1000000 and target.myDebuffDuration(spells.immolate) <= 1.0 and not spells.immolate.isRecastAt("target")'},
+        {spells.chaosBolt, 'player.emberShards >= 35'},
         {spells.conflagrate, 'spells.conflagrate.charges >= 2'},
-        {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 4.5 and not spells.immolate.isRecastAt("target")'},
+        {spells.immolate, 'target.hpTotal > 1000000 and target.myDebuffDuration(spells.immolate) <= 4.5 and not spells.immolate.isRecastAt("target")'},
         {spells.conflagrate},
         {spells.incinerate},
     }},
