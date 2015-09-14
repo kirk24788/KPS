@@ -37,8 +37,8 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
     {spells.shadowburn, 'target.hpTotal < 200000 and player.emberShards >= 10'},
 
     {{"nested"}, 'not kps.conserve and target.isRaidBoss and player.emberShards >= 10', {
-        {spells.chaosBolt, 'target.hp < 0.20 and player.emberShards >= 10 and (player.hasMasteryProc or player.hasCritProc or player.hasIntProc)'},
-        {spells.chaosBolt, 'target.hp < 0.20 and player.emberShards >= 10 and player.hasBuff(spells.darkSoulInstability)'},
+        {spells.chaosBolt, 'target.hp < 0.20 and (player.hasMasteryProc or player.hasCritProc or player.hasIntProc)'},
+        {spells.chaosBolt, 'target.hp < 0.20 and player.hasBuff(spells.darkSoulInstability)'},
     }},
     {{"nested"}, 'not kps.conserve and not target.isRaidBoss and player.emberShards >= 10', {
         {spells.shadowburn, 'target.hp < 0.20 and player.emberShards >= 35'},
@@ -69,7 +69,7 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
         -- don't waste chaotic infusion if havoc cooldown is about to come off!
         {{"nested"}, 'not kps.conserve', {
             {spells.chaosBolt, 'player.emberShards >= 35'},
-            {spells.chaosBolt, 'spells.havoc.cooldown > 19 and player.hasMasteryProc or player.hasCritProc or player.hasIntProc'},
+            {spells.chaosBolt, 'spells.havoc.cooldown > 12 and player.hasMasteryProc or player.hasCritProc or player.hasIntProc'},
             {spells.chaosBolt, 'player.hasBuff(spells.darkSoulInstability)'},
         }},
         {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 4.5 and not spells.immolate.isRecastAt("target")'},
