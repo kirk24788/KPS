@@ -6,7 +6,7 @@ local spells = kps.spells.deathknight
 local env = kps.env.deathknight
 
 kps.runOnClass("DEATHKNIGHT", function ( )
-    kps.gui.createToggle("noPresence", "Interface\\Icons\\spell_Mage_Flameorb", "No Presence!")
+    kps.gui.createToggle("noPresence", "Interface\\Icons\\Achievement_BG_killingblow_30", "No Presence!")
 end)
 
 kps.rotations.register("DEATHKNIGHT","BLOOD",
