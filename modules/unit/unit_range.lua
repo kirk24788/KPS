@@ -16,7 +16,7 @@ function Unit.distance(self)
 end
 
 --[[[
-@function `<UNIT>.distance` - returns the minimal approximated distance to the given unit.
+@function `<UNIT>.distanceMin` - returns the min. approximated distance to the given unit.
 ]]--
 function Unit.distanceMin(self)
     local minRange, maxRange = rc:GetRange(self.unit)
@@ -25,7 +25,7 @@ function Unit.distanceMin(self)
 end
 
 --[[[
-@function `<UNIT>.distance` - returns the maximal approximated distance to the given unit.
+@function `<UNIT>.distanceMax` - returns the max. approximated distance to the given unit.
 ]]--
 function Unit.distanceMax(self)
     local minRange, maxRange = rc:GetRange(self.unit)

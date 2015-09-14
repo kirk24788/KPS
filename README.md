@@ -105,6 +105,7 @@ Provides access to historical data on the incoming damage. This module is aimed
 at tank rotations, but might be useful for other classes too.
 
 Members:
+
  * `keys.incomingDamage(<TIME>)` - Returns the amount of damage which was done to the player over the last <TIME> seconds.
 
 
@@ -112,6 +113,7 @@ Members:
 Simple Module for checking if special keys are being pressed.
 
 Members:
+
  * `keys.shift` - SHIFT Key
  * `keys.alt` - ALT Key
  * `keys.ctrl` - CTRL Key
@@ -122,6 +124,7 @@ Helper functions for Raiders in Groups or Raids mainly aimed for healing rotatio
 for some DPS Rotations too. 
 
 Members:
+
  * `heal.count` - return the size of the current group
  * `heal.type` - return the group type - either 'group' or 'raid'
  * `heal.lowestTankInRaid` - Returns the lowest tank in the raid (based on _incoming_ HP!) - if none is found the player is returned.
@@ -152,6 +155,7 @@ Access to Totem data.
  * `totem.air`
 
 Members:
+
  * `<TOTEM>.isActive` - returns true if the given totem is active
  * `<TOTEM>.duration` - returns the duration left on the given totem
  * `<TOTEM>.name` - returns the totem name
@@ -167,6 +171,7 @@ Provides access to specific unit information. <UNIT> may be one of:
  * `mouseover`
 
 Members:
+
  * `<UNIT>.exists` - returns true if this unit exists
  * `<UNIT>.hasBuff(<SPELL>)` - return true if the unit has the given buff (i.e. `target.hasBuff(spells.renew)`)
  * `<UNIT>.hasDebuff(<SPELL>)` - returns true if the unit has the given debuff (i.e. `target.hasDebuff(spells.immolate)`)
@@ -195,10 +200,10 @@ Members:
  * `<UNIT>.mana` - returns the unit mana (in a range between 0.0 and 1.0).
  * `<UNIT>.manaTotal` - returns the current unit mana as an absolute value.
  * `<UNIT>.manaMax` - returns the maximum unit mana as an ansolute value.
- * `<UNIT>.comboPoints` - returns the number of combopioints on this unit _from_ the player.
+ * `<UNIT>.comboPoints` - returns the number of combo points _from_ the player _on_ this unit.
  * `<UNIT>.distance` - returns the approximated distance to the given unit (same as `<UNIT.distanceMax`).
- * `<UNIT>.distance` - returns the minimal approximated distance to the given unit.
- * `<UNIT>.distance` - returns the maximal approximated distance to the given unit.
+ * `<UNIT>.distanceMin` - returns the min. approximated distance to the given unit.
+ * `<UNIT>.distanceMax` - returns the max. approximated distance to the given unit.
  * `<UNIT>.isAttackable` - returns true if the given unit can be attacked by the player.
  * `<UNIT>.isMoving` - returns true if the given unit is currently moving.
  * `<UNIT>.isDead` - returns true if the unit is dead.

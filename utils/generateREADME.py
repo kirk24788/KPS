@@ -36,7 +36,7 @@ for module in modules:
     for start,end in sections:
         data = content[start+1:end]
         if data.startswith("@module"):
-            module_data = module_data + "\n\n####" + data[7:] + "\nMembers:\n"
+            module_data = module_data + "\n\n####" + data[7:] + "\nMembers:\n\n"
         elif data.startswith("@function"):
             module_data = module_data + " * " + data[10:]
 

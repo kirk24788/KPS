@@ -73,7 +73,7 @@ function Unit.manaMax(self)
 end
 
 --[[[
-@function `<UNIT>.comboPoints` - returns the number of combopioints on this unit _from_ the player.
+@function `<UNIT>.comboPoints` - returns the number of combo points _from_ the player _on_ this unit.
 ]]--
 function Unit.comboPoints(self)
     return GetComboPoints("player", self.unit)
