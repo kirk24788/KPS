@@ -1,4 +1,4 @@
---[[[
+--[[
 @module Functions: Player Auras
 @description
 Functions which handle player auras

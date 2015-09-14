@@ -1,12 +1,20 @@
 --[[[
 @module Unit Class
-@description
-Unit Class which encapsulates all information for wow units.
+Provides access to specific unit information. <UNIT> may be one of:
+ * `target`
+ * `targettarget`
+ * `pet`
+ * `focus`
+ * `focustarget`
+ * `mouseover`
 ]]--
 kps.Unit = {}
 kps.Unit.prototype = {}
 kps.Unit.metatable = {}
 
+--[[[
+@function `<UNIT>.exists` - returns true if this unit exists
+]]--
 function kps.Unit.prototype.exists(self)
     if self.unit == nil then return false end
     if UnitExists(self.unit)== false then return false end

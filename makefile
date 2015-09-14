@@ -9,6 +9,11 @@ toc:
 	./utils/generateTOC.py > kps.toc
 
 
+# README
+readme:
+	./utils/generateREADME.py > README.md
+
+
 # Test (requires coreutils!)
 test:
 	gtimeout 10 lua _test.lua

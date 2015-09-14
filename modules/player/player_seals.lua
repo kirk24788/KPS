@@ -1,4 +1,4 @@
---[[[
+--[[
 @module Functions: Player Seals
 @description
 Functions which handle player seals

@@ -1,7 +1,7 @@
 --[[[
-@module Raid Status
-@description
-Tank or Focus Class, sub-class of Unit, which represents the (lowest hp) tank or focus target.
+@module Heal/Raid Status
+Helper functions for Raiders in Groups or Raids mainly aimed for healing rotations, but might be useful
+for some DPS Rotations too. 
 ]]--
 
 local _raidStatus = {}
@@ -76,10 +76,16 @@ end
 
 
 
+--[[[
+@function `heal.count` - return the size of the current group
+]]--
 function kps.RaidStatus.prototype.count(self)
     return raidStatusSize
 end
 
+--[[[
+@function `heal.type` - return the group type - either 'group' or 'raid'
+]]--
 function kps.RaidStatus.prototype.type(self)
     return raidType
 end
@@ -110,7 +116,9 @@ kps.RaidStatus.prototype.lowestInRaid = kps.utils.cachedValue(function()
     return lowestUnit
 end)
 
--- Lowest Tank in Raid (Based on INCOMING HP!) - If none player is returned.
+--[[[
+@function `heal.lowestTankInRaid` - Returns the lowest tank in the raid (based on _incoming_ HP!) - if none is found the player is returned.
+]]--
 kps.RaidStatus.prototype.lowestTankInRaid = kps.utils.cachedValue(function()
     local lowestUnit = kps["env"].player
     local lowestHp = 2
@@ -123,6 +131,16 @@ kps.RaidStatus.prototype.lowestTankInRaid = kps.utils.cachedValue(function()
     return lowestUnit
 end)
 
+--[[[
+@function `heal.defaultTarget` - Returns the default healing target based on these rules:
+
+    * `player` if the player is below 20% hp incoming
+    * `focus` if the focus is below 50% hp incoming (if the focus is not healable, `focustarget` is checked instead)
+    * `target` if the target is below 50% hp incoming (if the target is not healable, `targettarget` is checked instead)
+    * lowest tank in raid which is below 50% hp incoming
+    * lowest raid member
+
+]]--
 kps.RaidStatus.prototype.defaultTarget = kps.utils.cachedValue(function()
     -- If we're below 20% - always heal us first!
     if kps.env.player.hpIncoming < 0.2 then return kps["env"].player end
@@ -139,6 +157,15 @@ kps.RaidStatus.prototype.defaultTarget = kps.utils.cachedValue(function()
     return kps.RaidStatus.prototype.lowestInRaid()
 end)
 
+--[[[
+@function `heal.defaultTank` - Returns the default tank based on these rules:
+
+    * `player` if the player is below 20% hp incoming
+    * `focus` if the focus is below 50% hp incoming (if the focus is not healable, `focustarget` is checked instead)
+    * `target` if the target is below 50% hp incoming (if the target is not healable, `targettarget` is checked instead)
+    * lowest tank in raid
+
+]]--
 kps.RaidStatus.prototype.defaultTank = kps.utils.cachedValue(function()
     -- If we're below 20% - always heal us first!
     if kps.env.player.hpIncoming < 0.2 then return kps["env"].player end
@@ -153,6 +180,9 @@ kps.RaidStatus.prototype.defaultTank = kps.utils.cachedValue(function()
     return kps.RaidStatus.prototype.lowestTankInRaid()
 end)
 
+--[[[
+@function `heal.averageHpIncoming` - Returns the average hp incoming for all raid members
+]]--
 kps.RaidStatus.prototype.averageHpIncoming = kps.utils.cachedValue(function()
     local hpIncTotal = 0
     local hpIncCount = 0

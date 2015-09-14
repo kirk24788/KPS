@@ -121,3 +121,9 @@ kps.rotations.register("DEATHKNIGHT","UNHOLY",
     }},
 }
 ,"deathknight_unholy.simc")
+
+
+kps.rotations.register("DEATHKNIGHT","UNHOLY",
+{
+}
+,"deathknight_unholy.simc")

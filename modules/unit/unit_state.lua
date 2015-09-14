@@ -1,12 +1,13 @@
---[[[
-@module Functions: Unit State
-@description
-Functions which handle unit state
+--[[
+Unit State: Functions which handle unit state
 ]]--
 
 local Unit = kps.Unit.prototype
 
 
+--[[[
+@function `<UNIT>.isAttackable` - returns true if the given unit can be attacked by the player.
+]]--
 function Unit.isAttackable(self)
     if not Unit.exists(self) then return false end
     --[[ TODO: PvP
@@ -28,22 +29,37 @@ function Unit.isAttackable(self)
     return true
 end
 
+--[[[
+@function `<UNIT>.isMoving` - returns true if the given unit is currently moving.
+]]--
 function Unit.isMoving(self)
     return GetUnitSpeed(self.unit) > 0
 end
 
+--[[[
+@function `<UNIT>.isDead` - returns true if the unit is dead.
+]]--
 function Unit.isDead(self)
     return UnitIsDeadOrGhost(self.unit)==1
 end
 
+--[[[
+@function `<UNIT>.isDrinking` - returns true if the given unit is currently eating/drinking.
+]]--
 function Unit.isDrinking(self)
     return Unit.hasBuff(self)(kps.Spell.fromId(431)) -- doesn't matter which drinking buff we're using, all of them have the same name!
 end
 
+--[[[
+@function `<UNIT>.inVehicle` - returns true if the given unit is inside a vehicle.
+]]--
 function Unit.inVehicle(self)
     return UnitInVehicle(self.unit)==true -- UnitInVehicle - 1 if the unit is in a vehicle, otherwise nil
 end
 
+--[[[
+@function `<UNIT>.isHealable` - returns true if the give unit is healable by the player.
+]]--
 function Unit.isHealable(self)
     if GetUnitName("player") == GetUnitName(self.unit) then return true end
     if not Unit.exists(self) 
@@ -57,24 +73,13 @@ function Unit.isHealable(self)
     return true
 end
 
+--[[[
+@function `<UNIT>.hasPet` - returns true if the given unit has a pet.
+]]--
 function Unit.hasPet(self)
     if self.unit == nil then return false end
     if UnitExists(self.unit.."pet")==false then return false end
     if UnitIsVisible(self.unit.."pet")==false then return false end
     if UnitIsDeadOrGhost(self.unit.."pet")==true then return false end
     return true
-end
-
-
-function Unit.isInterruptable(self)
-    if not kps.interrupt then return false end
-    if UnitCanAttack("player", self.unit)~=1 then return false end
-    if UnitIsEnemy("player",self.unit)~=1 then return false end
-    local targetSpell, _, _, _, _, _, _, _, spellInterruptable = UnitCastingInfo(self.unit)
-    local targetChannel, _, _, _, _, _, _, channelInterruptable = UnitChannelInfo(self.unit)
-    -- TODO: Blacklisted spells?
-    if (targetSpell and spellInterruptable == false) or (targetChannel and channelInterruptable) then
-        return true
-    end
-    return false
 end

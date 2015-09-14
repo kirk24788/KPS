@@ -1,4 +1,4 @@
---[[[
+--[[
 @module Functions: Player stagger
 @description
 Functions which handle player stagger.

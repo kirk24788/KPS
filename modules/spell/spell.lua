@@ -1,4 +1,4 @@
---[[[
+--[[
 @module Spell Class
 @description
 Spell Class.

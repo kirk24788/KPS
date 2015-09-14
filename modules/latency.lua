@@ -1,7 +1,5 @@
---[[[
-@module Latency
-@description
-Calculates Spell Latency.
+--[[
+Latency Calculation
 ]]--
 kps.latency = 0
 

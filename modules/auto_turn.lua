@@ -1,7 +1,5 @@
---[[[
-@module AutoTurn
-@description
-If enabled the player will always try to face the current target.
+--[[
+AutoTurn Module
 ]]--
 local LOG = kps.Logger(kps.LogLevel.INFO)
 

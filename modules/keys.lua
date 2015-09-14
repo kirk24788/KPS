@@ -1,18 +1,26 @@
 --[[[
 @module Keys
-@description
-Key status methods
+Simple Module for checking if special keys are being pressed.
 ]]--
 kps.Keys = {}
 kps.Keys.prototype = {}
 kps.Keys.metatable = {}
 
+--[[[
+@function `keys.shift` - SHIFT Key
+]]--
 function kps.Keys.prototype.shift(self)
     return IsShiftKeyDown()
 end
+--[[[
+@function `keys.alt` - ALT Key
+]]--
 function kps.Keys.prototype.alt(self)
     return IsAltKeyDown()
 end
+--[[[
+@function `keys.ctrl` - CTRL Key
+]]--
 function kps.Keys.prototype.ctrl(self)
     return IsControlKeyDown()
 end

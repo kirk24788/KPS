@@ -1,4 +1,4 @@
---[[[
+--[[
 @module Functions: Player powers
 @description
 Functions which handle player powers

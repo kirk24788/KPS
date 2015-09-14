@@ -1,4 +1,4 @@
---[[[
+--[[
 @module Player Class
 @description
 Player Class, sub-class of Unit, which encapsulates all information for the player.

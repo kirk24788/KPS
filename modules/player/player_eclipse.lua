@@ -1,4 +1,4 @@
---[[[
+--[[
 @module Functions: Player eclipse
 @description
 Functions which handle player eclipse energy

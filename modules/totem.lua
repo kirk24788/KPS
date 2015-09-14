@@ -1,21 +1,33 @@
 --[[[
 @module Totem Class
-@description
-Totem Class.
+Access to Totem data.
+<TOTEM> may be one of:
+ * `totem.fire`
+ * `totem.earth`
+ * `totem.water`
+ * `totem.air`
 ]]--
 kps.env.totem = {}
 local Totem = {}
 Totem.prototype = {}
 Totem.metatable = {}
-
+--[[[
+@function `<TOTEM>.isActive` - returns true if the given totem is active
+]]--
 function Totem.prototype.isActive(self)
     local haveTotem, totemName, startTime, duration = GetTotemInfo(self.id)
     return haveTotem
 end
+--[[[
+@function `<TOTEM>.duration` - returns the duration left on the given totem
+]]--
 function Totem.prototype.duration(self)
-    local haveTotem, totemName, startTime, duration = GetTotemInfo(self.id)
-    return duration - GetTime() - startTime
+    local haveTotem, totemName, startTime, maxDuration = GetTotemInfo(self.id)
+    return maxDuration - GetTime() - startTime
 end
+--[[[
+@function `<TOTEM>.name` - returns the totem name
+]]--
 function Totem.prototype.name(self)
     local haveTotem, totemName, startTime, duration = GetTotemInfo(self.id)
     return totemName
