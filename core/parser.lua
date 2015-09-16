@@ -15,6 +15,33 @@ parser.error = nil
     FUNCTIONS USED IN SPELL TABLE
   ]]
 
+local non_prefixable_type = {}
+non_prefixable_type["iden"] = true
+non_prefixable_type["number"] = true
+non_prefixable_type[")"] = true
+
+local function tokenize( str )
+    local tokens = {}
+    local i = 0
+    local prev_type = nil
+    local prefix = nil
+    for t,v in kps.lexer.lua(str) do
+        if (t == "+" or t == "-") and not non_prefixable_type[prev_type] then
+            prefix = t
+        else 
+            i = i+1
+            if prefix == "-" and t == "number" then
+                tokens[i] = {t,-1*v}
+            else 
+                tokens[i] = {t,v}
+            end
+            prefix = nil
+            prev_type = t
+        end
+    end
+    return tokens
+end
+
 
 local function AND(...)
     local functions = {...}
@@ -99,13 +126,7 @@ local function fnParseCondition(conditions)
             return conditions()
         end
     elseif type(conditions) == "string" and string.len(conditions) > 0 then
-        local tokens = {}
-        local i = 0
-
-        for t,v in kps.lexer.lua(conditions) do
-            i = i+1
-            tokens[i] = {t,v}
-        end
+        local tokens = tokenize(conditions)
         local retOK, fn  = pcall(parser.parse, tokens, 0)
         if not retOK then
             --TODO: syntax error in
@@ -840,13 +861,7 @@ end
 ---[[[ Internal Parsing function - DON'T USE !!! ]]--
 local function conditionParser(str)
     if type(str) == "function" then return str end
-    local tokens = {}
-    local i = 0
-
-    for t,v in kps.lexer.lua(str) do
-        i = i+1
-        tokens[i] = {t,v}
-    end
+    local tokens = tokenize(str)
     local retOK, fn  = pcall(parser.parse, tokens)
     if not retOK then
         return ERROR(str,fn)
