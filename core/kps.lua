@@ -85,7 +85,7 @@ hooksecurefunc("UseAction", function(...)
         local stype,id,_ = GetActionInfo(select(1, ...))
         if stype == "spell" then
             local spell = kps.Spell.fromId(id)
-            if prioritySpell ~= spell.name  and spell.isPrioritySpell then
+            if (prioritySpell ~= nil or prioritySpell.name ~= spell.name) and spell.isPrioritySpell then
                 prioritySpell = spell
                 LOG.warn("Set %s for next cast.", spell.name)
             end
