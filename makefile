@@ -45,7 +45,7 @@ deathknight_unholy_rotation:
 
 druid_rotations: druid_balance_rotation druid_feral_rotation druid_guardian_rotation
 druid_balance_rotation:
-	./utils/convertSimC.py -p simc/druid_balance.simc -c druid -s balance -o rotations/druid_balance.lua
+	#MANUAL ROTATION: ./utils/convertSimC.py -p simc/druid_balance.simc -c druid -s balance -o rotations/druid_balance.lua
 druid_feral_rotation:
 	./utils/convertSimC.py -p simc/druid_feral.simc -c druid -s feral -o rotations/druid_feral.lua
 druid_guardian_rotation:
