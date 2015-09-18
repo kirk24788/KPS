@@ -161,8 +161,88 @@ Members:
  * `<TOTEM>.name` - returns the totem name
 
 
+#### Player Class
+Provides access to specific player information. Since `player` extends the Unit Class all members of
+`UNIT` are also members of `player`.
+
+Members:
+
+ * `player.isMounted` - returns true if the player is mounted (exception: Nagrand Mounts do not count as mounted since you can cast while riding)
+ * `player.isFalling` - returns true if the player is currently falling.
+ * `player.hasTalent(<ROW>,<TALENT>)` - returns true if the player has the selected talent (row: 1-7, talent: 1-3).
+ * `player.hasGlyph(<GLYPH>)` - returns true if the player has the given gylph - glyphs can be accessed via the spells (e.g.: `player.hasGlyph(spells.glyphOfDeathGrip)`).
+ * `player.eclipseDirLunar` - returns true if the balance bar is currently going towards Lunar
+ * `player.eclipseDirSolar` - returns true if the balance bar is currently going towards Solar
+ * `player.eclipsePower` - returns current eclipse power - ranges from 100(solar) to -100(lunar)
+ * `player.eclipsePhase` - returns the current eclipse phase:
+    * 1: Lunar Up-cycle – going towards peak Lunar Eclipse. (8 sec, plus 2 sec of “peak”)
+    * 2: Lunar Down-cycle – going towards Solar Eclipse.
+    * 3: Solar Up-cycle – going towards peak Solar Eclipse. (2 sec of “peak, plus 8 sec.)
+    * 4: Solar Down-cycle – going towards Lunar Eclipse
+ * `player.eclipseSolar` - returns true if we're currently in solar phase
+ * `player.eclipseLunar` - returns true if we're currently in lunar phase
+ * `player.eclipsePhaseDuration` - returns the duration of each eclipse phase
+ * `player.eclipseMax` - time until the next solar or lunar max
+ * `player.eclipseLunarMax` - time until the next lunar max is reached
+ * `player.eclipseSolarMax` - time until the next solar max is reached
+ * `player.eclipseChange` - time until the eclipse energy hits 0
+ * `player.rage` - Rage
+ * `player.rageMax` - Max Rage
+ * `player.focus` - Focus
+ * `player.focusMax` - Max Focus
+ * `player.focusRegen` - Focus Regeneration per Second
+ * `player.focusTimeToMax` - Time until focus has completely regenerated
+ * `player.energy` - Energy
+ * `player.energyMax` - Max Energy
+ * `player.energyRegen` - Energy Regeneration per Second
+ * `player.energyTimeToMax` - Time until energy has completely regenerated
+ * `player.comboPoints` - Combo Points
+ * `player.runicPower` - Runic Power
+ * `player.soulShards` - Soul Shards
+ * `player.holyPower` - Holy Power
+ * `player.chi` - Chi
+ * `player.chiMax` - Chi Max
+ * `player.shadowOrbs` - Shadow Orbs
+ * `player.burningEmbers` - Burning Embers (0-4)
+ * `player.emberShards` - Ember Shards (0-40)
+ * `player.demonicFury` - Demonic Fury
+ * `player.hasProc` - returns true if the player has a proc (either mastery, crit, haste, int, strength or agility)
+ * `player.hasMasteryProc` - returns true if the player has a mastery proc
+ * `player.hasCritProc` - returns true if the player has a crit proc
+ * `player.hasHasteProc` - returns true if the player has a haste proc
+ * `player.hasIntProc` - returns true if the player has a int proc
+ * `player.hasStrProc` - returns true if the player has a strength proc
+ * `player.hasAgiProc` - returns true if the player has a agility proc
+ * `player.gcd` - returns the current global cooldown
+ * `player.bloodlust` - returns true if th player has bloodlus (or heroism, time warp...)
+ * `player.timeToNextHolyPower` - returns the time until the next holy power (including the gcd or cast time of the next power generating spell)
+ * `player.bloodRunes` - returns the number of blood runes (including blood death runes!)
+ * `player.frostRunes` - returns the number of frost runes (including frost death runes!)
+ * `player.unholyRunes` - returns the number of unholy runes (including unholy death runes!)
+ * `player.allRunes` - returns the total number of active runes
+ * `player.bloodDeathRunes` - returns the number of blood runes which currently are converted to death runes
+ * `player.frostDeathRunes` - returns the number of frost runes which currently are converted to death runes
+ * `player.unholyDeathRunes` - returns the number of unholy runes which currently are converted to death runes
+ * `player.bloodFraction` - returns the fraction of blood runes: 0.0 (no runes) to 2.0 (two runes)
+ * `player.frostFraction` - returns the fraction of frost runes: 0.0 (no runes) to 2.0 (two runes)
+ * `player.unholyFraction` - returns the fraction of unholy runes: 0.0 (no runes) to 2.0 (two runes)
+ * `player.bloodOrDeathRunes` - returns the number of blood or death runes
+ * `player.frostOrDeathRunes` - returns the number of frost or death runes
+ * `player.unholyOrDeathRunes` - returns the number of unholy or death runes
+ * `player.deathRunes` - returns the number of death runes
+ * `player.hasSealOfTruth` - returns if the player has the seal of truth
+ * `player.hasSealOfRighteousness` - returns if the player has the seal of righteousness
+ * `player.hasSealOfJustice` - returns if the player has the seal of justice
+ * `player.hasSealOfInsight` - returns if the player has the seal of insight
+ * `player.stagger` - returns the stagger left on the player
+ * `player.staggerTick` - returns the stagger damager per tick
+ * `player.staggerPercent` - returns the percentage of stagger to the current player health
+ * `player.staggerPercentTotal` - returns the percentage of stagger to the player max health
+
+
 #### Unit Class
 Provides access to specific unit information. <UNIT> may be one of:
+ * `player`
  * `target`
  * `targettarget`
  * `pet`
@@ -214,8 +294,26 @@ Members:
 
 
 ### Open Issues
-* change generated dps class rotations to manuel once or test them and remove errors.
-* missing healing class rotations
+ * `env.lua:17` - Clean UP!!! This code is a mess...
+ * `core/events.lua:187` - faceTarget
+ * `core/kps.lua:18` - Return a FUNCTION which uses Item!
+ * `core/logger.lua:33` - Check if DEFAULT_CHAT_FRAME:AddMessage() has any significant advantages
+ * `core/parser.lua:132` - syntax error in
+ * `core/parser.lua:139` - Error Handling!
+ * `core/parser.lua:917` - Error!!!
+ * `gui/toggle.lua:73` - Right-Click Action
+ * `libs/LibRangeCheck-2.0/LibRangeCheck-2.0.lua:31` - check if unit is valid, etc
+ * `modules/incoming_damage.lua:28` - Load on demand!
+ * `modules/player/player_auras.lua:22` - Implement a tracker for time in Combat in seconds
+ * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
+ * `modules/unit/unit_casting.lua:63` - Blacklisted spells?
+ * `modules/unit/unit_casting.lua:70` - Reimplement JPS Code
+ * `modules/unit/unit_powers.lua:47` - TimeToDie
+ * `modules/unit/unit_state.lua:13` - PvP
+ * `modules/unit/unit_state.lua:26` - if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
+ * `modules/unit/unit_state.lua:27` - Refactor!!!
+ * `rotations/mage.lua:208` - Implement pyroChain sequence
+
 
 
 

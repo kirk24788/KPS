@@ -1,7 +1,7 @@
---[[
+--[[[
 @module Player Class
-@description
-Player Class, sub-class of Unit, which encapsulates all information for the player.
+Provides access to specific player information. Since `player` extends the Unit Class all members of
+`UNIT` are also members of `player`.
 ]]--
 
 kps.Player = {}

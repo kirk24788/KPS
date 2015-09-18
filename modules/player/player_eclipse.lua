@@ -1,7 +1,5 @@
 --[[
-@module Functions: Player eclipse
-@description
-Functions which handle player eclipse energy
+Player eclipse: Functions which handle player eclipse energy
 ]]--
 
 
@@ -18,25 +16,35 @@ There are 4 total Eclipse phases, each Eclipse phase lasts 10 sec. (5 sec if you
 4.) Solar: Down-cycle – going towards Lunar Eclipse
 ]]
 
---TODO: Add an energy tracker to track wich phase we're in - either simple OR if registered only load on demand
 
-
--- ecliseDirLunar - Returns true if the balance bar is currently going towards Lunar
+--[[[
+@function `player.eclipseDirLunar` - returns true if the balance bar is currently going towards Lunar
+]]--
 function Player.eclipseDirLunar(self)
     return GetEclipseDirection() == "moon"
 end
 
--- ecliseDirSolar - Returns true if the balance bar is currently going towards Solar
+--[[[
+@function `player.eclipseDirSolar` - returns true if the balance bar is currently going towards Solar
+]]--
 function Player.eclipseDirSolar(self)
     return GetEclipseDirection() == "sun"
 end
 
--- eclipsePower - Balance bar position, ranges from 100(solar) to -100(lunar)
+--[[[
+@function `player.eclipsePower` - returns current eclipse power - ranges from 100(solar) to -100(lunar)
+]]--
 function Player.eclipsePower(self)
     return -1 * UnitPower("player", 8)
 end
 
--- eclipsePhase - Current Eclipse Phase (1-4).
+--[[[
+@function `player.eclipsePhase` - returns the current eclipse phase:
+    * 1: Lunar Up-cycle – going towards peak Lunar Eclipse. (8 sec, plus 2 sec of “peak”)
+    * 2: Lunar Down-cycle – going towards Solar Eclipse.
+    * 3: Solar Up-cycle – going towards peak Solar Eclipse. (2 sec of “peak, plus 8 sec.)
+    * 4: Solar Down-cycle – going towards Lunar Eclipse
+]]--
 function Player.eclipsePhase(self)
     if Player.eclipsePower(self) > 0 then
         if GetEclipseDirection() == "moon" then
@@ -52,14 +60,22 @@ function Player.eclipsePhase(self)
         end
     end
 end
+--[[[
+@function `player.eclipseSolar` - returns true if we're currently in solar phase
+]]--
 function Player.eclipseSolar(self)
     return Player.eclipsePhase(self) >= 3
 end
+--[[[
+@function `player.eclipseLunar` - returns true if we're currently in lunar phase
+]]--
 function Player.eclipseLunar(self)
     return Player.eclipsePhase(self) <= 2
 end
 
--- eclipsePhaseDuration - Duration of each eclipse duration
+--[[[
+@function `player.eclipsePhaseDuration` - returns the duration of each eclipse phase
+]]--
 function Player.eclipsePhaseDuration(self)
     if Player.hasTalent(self)(7,1) then
         return 5
@@ -68,7 +84,9 @@ function Player.eclipsePhaseDuration(self)
     end
 end
 
--- eclipseMax - Time until the next solar or lunar max.
+--[[[
+@function `player.eclipseMax` - time until the next solar or lunar max
+]]--
 local timeToMax = {}
 timeToMax[1] = {1.0,-1.0}
 timeToMax[2] = {1.0,1.0}
@@ -82,7 +100,9 @@ function Player.eclipseMax(self)
     return (duration*timeToMax[phase][1])+(duration*timeToMax[phase][2]*energyPct)
 end
 
--- eclipseLunarMax - Time until the next lunar max is reached
+--[[[
+@function `player.eclipseLunarMax` - time until the next lunar max is reached
+]]--
 local timeToLunarMax = {}
 timeToLunarMax[1] = {1.0,-1.0}
 timeToLunarMax[2] = {3.0,1.0}
@@ -96,7 +116,9 @@ function Player.eclipseLunarMax(self)
     return (duration*timeToLunarMax[phase][1])+(duration*timeToLunarMax[phase][2]*energyPct)
 end
 
---eclipseSolarMax - Time until the next solar max is reached
+--[[[
+@function `player.eclipseSolarMax` - time until the next solar max is reached
+]]--
 local timeToSolarMax = {}
 timeToSolarMax[1] = {3.0,-1.0}
 timeToSolarMax[2] = {1.0,1.0}
@@ -110,7 +132,9 @@ function Player.eclipseSolarMax(self)
     return (duration*timeToSolarMax[phase][1])+(duration*timeToSolarMax[phase][2]*energyPct)
 end
 
--- eclipseChange - Time until eclipse energy hits 0
+--[[[
+@function `player.eclipseChange` - time until the eclipse energy hits 0
+]]--
 local timeToChange = {}
 timeToChange[1] = {2.0,-1.0}
 timeToChange[2] = {0.0,1.0}

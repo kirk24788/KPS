@@ -67,7 +67,7 @@ function Unit.isInterruptable(self)
     return false
 end
 
---TODO:
+--TODO: Reimplement JPS Code
 
 local jps = {}
 

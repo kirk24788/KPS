@@ -103,7 +103,6 @@ Instead edit the apropriate files in the `utils` directory.
 %(modules)s
 
 ### Open Issues
-* change generated dps class rotations to manuel once or test them and remove errors.
-* missing healing class rotations
+%(issues)s
 
 

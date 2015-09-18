@@ -1,7 +1,5 @@
 --[[
-@module Functions: Player procs
-@description
-Functions which handle player procs
+Player procs: Functions which handle player procs
 ]]--
 
 local Player = kps.Player.prototype
@@ -94,36 +92,66 @@ kps.events.registerCombatLog("PLAYER_EQUIPMENT_CHANGED", recalcStatWatches)
 kps.events.registerCombatLog("UNIT_LEVEL", recalcStatWatches)
 
 
+--[[[
+@function `player.hasProc` - returns true if the player has a proc (either mastery, crit, haste, int, strength or agility)
+]]--
 function Player.hasProc(self)
     return Player.hasMasteryProc(self) or Player.hasCritProc(self) or Player.hasHasteProc(self) or Player.hasIntProc(self) or Player.hasStrProc(self) or Player.hasAgiProc(self)
 end
+--[[[
+@function `player.hasMasteryProc` - returns true if the player has a mastery proc
+]]--
 function Player.hasMasteryProc(self)
     return mastery.hasProc()
 end
+--[[[
+@function `player.hasCritProc` - returns true if the player has a crit proc
+]]--
 function Player.hasCritProc(self)
     return crit.hasProc()
 end
+--[[[
+@function `player.hasHasteProc` - returns true if the player has a haste proc
+]]--
 function Player.hasHasteProc(self)
     return haste.hasProc()
 end
+--[[[
+@function `player.hasIntProc` - returns true if the player has a int proc
+]]--
 function Player.hasIntProc(self)
     return int.hasProc()
 end
+--[[[
+@function `player.hasStrProc` - returns true if the player has a strength proc
+]]--
 function Player.hasStrProc(self)
     return str.hasProc()
 end
+--[[[
+@function `player.hasAgiProc` - returns true if the player has a agility proc
+]]--
 function Player.hasAgiProc(self)
     return agi.hasProc()
 end
+--[[[
+@function `player.gcd` - returns the current global cooldown
+]]--
 function Player.gcd(self)
     return kps.gcd
 end
+--[[[
+@function `player.bloodlust` - returns true if th player has bloodlus (or heroism, time warp...)
+]]--
 function Player.bloodlust(self)
     for _,spell in pairs(kps.spells.bloodlust) do
         if self.hasBuff(spell) then return true end
     end
     return false
 end
+--[[[
+@function `player.timeToNextHolyPower` - returns the time until the next holy power (including the gcd or cast time of the next power generating spell)
+]]--
 function Player.timeToNextHolyPower(self)
     local spec = GetSpecialization()
     -- Generic

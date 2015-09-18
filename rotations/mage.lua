@@ -205,7 +205,7 @@ function kps.env.mage.pyroChain()
         -- Kindling or Level 90 Combustion:
         --    actions.init_combust+=/start_pyro_chain,if=!talent.prismatic_crystal.enabled&!talent.meteor.enabled&((cooldown.combustion.remains<gcd.max*4&buff.pyroblast.up&buff.heating_up.up&action.fireball.in_flight)|(buff.pyromaniac.up&cooldown.combustion.remains<ceil(buff.pyromaniac.remains%gcd.max)*(gcd.max+talent.kindling.enabled)))
 
-        --TODO!!!
+        --TODO: Implement pyroChain sequence
         -- pyroChainStart = GetTime()
         return false
     else

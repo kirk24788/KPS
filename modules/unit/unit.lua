@@ -1,6 +1,7 @@
 --[[[
 @module Unit Class
 Provides access to specific unit information. <UNIT> may be one of:
+ * `player`
  * `target`
  * `targettarget`
  * `pet`
