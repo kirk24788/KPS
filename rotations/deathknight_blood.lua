@@ -34,7 +34,7 @@ kps.rotations.register("DEATHKNIGHT","BLOOD",
     }},
 
     -- Interrupt Target
-    {{"nested"}, 'target.isInterruptable', {
+    {{"nested"}, 'kps.interrupt and target.isInterruptable', {
         {spells.mindFreeze},
         {spells.strangulate, 'not spells.mindFreeze.isRecastAt("target")'},
         {spells.asphyxiate, 'not spells.strangulate.isRecastAt("target")'},
