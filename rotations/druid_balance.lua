@@ -19,12 +19,9 @@ kps.rotations.register("DRUID","BALANCE",
         {spells.wrath, 'player.eclipseSolar'},
         {spells.starfire},
     }},
-    --[[
     {{"nested"}, 'activeEnemies.count > 1', { 
         {spells.wrath, 'No Multitarget Rotation yet!'}
     }},
-]]
-
 }
 ,"Icy Veins")
 

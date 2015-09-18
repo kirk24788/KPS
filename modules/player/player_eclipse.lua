@@ -31,7 +31,7 @@ function Player.eclipseDirSolar(self)
     return GetEclipseDirection() == "sun"
 end
 
--- eclipsePower - Balance bar position, ranges from -100(solar) to 100(lunar)
+-- eclipsePower - Balance bar position, ranges from 100(solar) to -100(lunar)
 function Player.eclipsePower(self)
     return -1 * UnitPower("player", 8)
 end
