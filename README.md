@@ -45,13 +45,15 @@ Copyright (C) 2015 Mario Mancino
 ## Builds and Classes
 
 All healing specs except for druid restoration are currently without a rotation. All DPS Specs have at least one rotation automatically generated
-from SimCraft - those might not be fully functional. 
+from SimCraft - those might not be fully functional, but aren't tested. 
 
 **Supported in 6.2.2:**
 
  * Deathknight: Blood
  * Druid: Restoration
  * Paladin: Retribution
+ * Rogue: Assassination
+ * Rogue: Combat
  * Warlock: Destruction
 
 
@@ -238,6 +240,8 @@ Members:
  * `player.staggerTick` - returns the stagger damager per tick
  * `player.staggerPercent` - returns the percentage of stagger to the current player health
  * `player.staggerPercentTotal` - returns the percentage of stagger to the player max health
+ * `player.isBehind` - returns true if the player is behind the last target. Also returns true if the player never received an error - if you want to check if the player is in front *DON'T* use this function!
+ * `player.isInFront` - returns true if the player is in front of the last target. Also returns true if the player never received an error - if you want to check if the player is behind *DON'T* use this function!
 
 
 #### Unit Class

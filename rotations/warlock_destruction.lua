@@ -8,6 +8,7 @@ local env = kps.env.warlock
 
 kps.runOnClass("WARLOCK", function ( )
     kps.gui.createToggle("conserve", "Interface\\Icons\\spell_Mage_Flameorb", "Conserve")
+    kps.gui.createToggle("tier18", "Interface\\Icons\\Ability_Warlock_ChaosBolt", "Conserve")
 end)
 
 kps.rotations.register("WARLOCK","DESTRUCTION",
@@ -36,7 +37,11 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
     {spells.shadowburn, 'mouseover.hpTotal < 1500000 and target.hp < 0.20 and player.emberShards >= 10 and mouseover.myDebuffDuration(spells.shadowburn) <= 1', 'mouseover'},
     {spells.shadowburn, 'target.hpTotal < 200000 and player.emberShards >= 10'},
 
-    {{"nested"}, 'not kps.conserve and target.isRaidBoss and player.emberShards >= 10', {
+    {{"nested"}, 'not kps.tier18 and not kps.conserve and target.isRaidBoss and player.emberShards >= 10', {
+        {spells.shadowburn, 'target.hp < 0.20 and (player.hasMasteryProc or player.hasCritProc or player.hasIntProc)'},
+        {spells.shadowburn, 'target.hp < 0.20 and player.hasBuff(spells.darkSoulInstability)'},
+    }},
+    {{"nested"}, 'not kps.conserve and target.isRaidBoss and player.emberShards >= 10 and not keys.alt', {
         {spells.chaosBolt, 'target.hp < 0.20 and (player.hasMasteryProc or player.hasCritProc or player.hasIntProc)'},
         {spells.chaosBolt, 'target.hp < 0.20 and player.hasBuff(spells.darkSoulInstability)'},
     }},
@@ -51,18 +56,8 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
     }},
 
 
-    -- Simple MultiTarget: FireAndBrimstone + default rotation
-    {{"nested"}, 'kps.multiTarget and not keys.alt', {
-        {spells.fireAndBrimstone, 'player.burningEmbers > 0 and not player.hasBuff(spells.fireAndBrimstone) and not spells.fireAndBrimstone.isRecastAt("target")' },
-        {spells.immolate, 'target.hpTotal > 1000000 and target.myDebuffDuration(spells.immolate) <= 1.0 and not spells.immolate.isRecastAt("target")'},
-        {spells.chaosBolt, 'player.emberShards >= 35'},
-        {spells.conflagrate, 'spells.conflagrate.charges >= 2'},
-        {spells.immolate, 'target.hpTotal > 1000000 and target.myDebuffDuration(spells.immolate) <= 4.5 and not spells.immolate.isRecastAt("target")'},
-        {spells.conflagrate},
-        {spells.incinerate},
-    }},
     -- Simple SingleTarget
-    {{"nested"}, 'not kps.multiTarget and not keys.alt', {
+    {{"nested"}, '(not kps.multiTarget and not keys.alt) or player.emberShards  < 10', {
         { {"macro"}, 'player.hasBuff(spells.fireAndBrimstone)', "/cancelaura "..spells.fireAndBrimstone },
         {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 1.0 and not spells.immolate.isRecastAt("target")'},
         {spells.conflagrate, 'spells.conflagrate.charges >= 2'},
@@ -73,6 +68,16 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
             {spells.chaosBolt, 'player.hasBuff(spells.darkSoulInstability)'},
         }},
         {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 4.5 and not spells.immolate.isRecastAt("target")'},
+        {spells.conflagrate},
+        {spells.incinerate},
+    }},
+    -- Simple MultiTarget: FireAndBrimstone + default rotation
+    {{"nested"}, 'kps.multiTarget and not keys.alt', {
+        {spells.fireAndBrimstone, 'player.burningEmbers > 0 and not player.hasBuff(spells.fireAndBrimstone) and not spells.fireAndBrimstone.isRecastAt("target")' },
+        {spells.immolate, 'target.hpTotal > 1000000 and target.myDebuffDuration(spells.immolate) <= 1.0 and not spells.immolate.isRecastAt("target")'},
+        {spells.chaosBolt, 'player.emberShards >= 35'},
+        {spells.conflagrate, 'spells.conflagrate.charges >= 2'},
+        {spells.immolate, 'target.hpTotal > 1000000 and target.myDebuffDuration(spells.immolate) <= 4.5 and not spells.immolate.isRecastAt("target")'},
         {spells.conflagrate},
         {spells.incinerate},
     }},

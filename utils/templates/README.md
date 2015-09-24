@@ -45,13 +45,15 @@ Copyright (C) 2015 Mario Mancino
 ## Builds and Classes
 
 All healing specs except for druid restoration are currently without a rotation. All DPS Specs have at least one rotation automatically generated
-from SimCraft - those might not be fully functional. 
+from SimCraft - those might not be fully functional, but aren't tested. 
 
 **Supported in 6.2.2:**
 
  * Deathknight: Blood
  * Druid: Restoration
  * Paladin: Retribution
+ * Rogue: Assassination
+ * Rogue: Combat
  * Warlock: Destruction
 
 
