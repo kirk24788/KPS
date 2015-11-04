@@ -55,13 +55,12 @@ end
 @function `<UNIT>.isInterruptable` - returns true if the unit is currently casting (or channeling) a spell which can be interrupted.
 ]]--
 function Unit.isInterruptable(self)
-    if not kps.interrupt then return false end
-    if UnitCanAttack("player", self.unit)~=1 then return false end
-    if UnitIsEnemy("player",self.unit)~=1 then return false end
-    local targetSpell, _, _, _, _, _, _, _, spellInterruptable = UnitCastingInfo(self.unit)
-    local targetChannel, _, _, _, _, _, _, channelInterruptable = UnitChannelInfo(self.unit)
+    if UnitCanAttack("player", self.unit) == false then return false end
+    if UnitIsEnemy("player",self.unit) == false then return false end
+    local targetSpell, _, _, _, _, _, _, spellInterruptable = UnitCastingInfo(self.unit)
+    local targetChannel, _, _, _, _, _, channelInterruptable = UnitChannelInfo(self.unit)
     -- TODO: Blacklisted spells?
-    if (targetSpell and spellInterruptable == false) or (targetChannel and channelInterruptable) then
+    if (targetSpell and spellInterruptable) or (targetChannel and channelInterruptable) then
         return true
     end
     return false
