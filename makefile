@@ -106,7 +106,7 @@ shaman_enhancement_rotation:
 
 warlock_rotations: warlock_affliction_rotation warlock_demonology_rotation warlock_destruction_rotation
 warlock_affliction_rotation:
-	./utils/convertSimC.py -p simc/warlock_affliction.simc -c warlock -s affliction -o rotations/warlock_affliction.lua
+	#MANUAL ROTATION: ./utils/convertSimC.py -p simc/warlock_affliction.simc -c warlock -s affliction -o rotations/warlock_affliction.lua
 warlock_demonology_rotation:
 	./utils/convertSimC.py -p simc/warlock_demonology.simc -c warlock -s demonology -o rotations/warlock_demonology.lua
 warlock_destruction_rotation:

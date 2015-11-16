@@ -13,7 +13,7 @@ from config import SUPPORTED_SPECS
 
 LOG = logging.getLogger(__name__)
 
-ILLEGAL_KEY_STRINGS=[":","&#039;","'","-",","]
+ILLEGAL_KEY_STRINGS=[":","&#039;","'","-",",",u'\u2019']
 def clean_key(key):
     for illegal_string in ILLEGAL_KEY_STRINGS:
         key = key.replace(illegal_string, "")

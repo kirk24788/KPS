@@ -9,7 +9,8 @@ local env = kps.env.warlock
 
 kps.runOnClass("WARLOCK", function ( )
     kps.gui.createToggle("conserve", "Interface\\Icons\\spell_Mage_Flameorb", "Conserve")
-    kps.gui.createToggle("tier18", "Interface\\Icons\\Ability_Warlock_ChaosBolt", "Conserve")
+    kps.gui.createToggle("flamelicked", "Interface\\Icons\\Ability_Warrior_BloodNova", "Flamelicked")
+    kps.gui.createToggle("tier18", "Interface\\Icons\\Ability_Warlock_ChaosBolt", "Chaos Bolt @ 20%")
 end)
 
 kps.rotations.register("WARLOCK","DESTRUCTION",
@@ -21,6 +22,7 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
     {spells.rainOfFire, 'keys.shift and player.buffDuration(spells.rainOfFire) < 1.5 and player.isMoving' },
     {spells.rainOfFire, 'keys.shift and player.buffDuration(spells.rainOfFire) < 1.5 and kps.multiTarget' },
     {spells.rainOfFire, 'keys.shift and keys.ctrl' },
+
 
     -- Cooldowns
     {{"nested"}, 'kps.cooldowns', {
@@ -37,6 +39,12 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
     -- Shadowburn/Chaos Bolt (Tier 18 - 4pc)
     {spells.shadowburn, 'mouseover.hpTotal < 1500000 and target.hp < 0.20 and player.emberShards >= 10 and mouseover.myDebuffDuration(spells.shadowburn) <= 1', 'mouseover'},
     {spells.shadowburn, 'target.hpTotal < 200000 and player.emberShards >= 10'},
+
+    -- Flamelicked
+    {{"nested"}, 'kps.flamelicked', {
+        {spells.incinerate, 'target.myDebuffDuration(spells.flamelicked) < 5'},
+        {spells.incinerate, 'target.debuffStacks(spells.flamelicked) < 5'},
+    }},
 
     {{"nested"}, 'not kps.tier18 and not kps.conserve and target.isRaidBoss and player.emberShards >= 10', {
         {spells.shadowburn, 'target.hp < 0.20 and (player.hasMasteryProc or player.hasCritProc or player.hasIntProc)'},

@@ -46,6 +46,7 @@ ADDITIONAL_SPELLS = {
     "shaman": [157765,114074,115356],
     "warlock": [77801,157698,163512,104316,103964,104025,124915,89751,115831,115625,
                 170000, # Chaotic Infusion (Tier 17 4pc Bonus)
+                185229, # Flamelicked - Destruction Class Trinket
     ],"warrior": [],
 }
 
