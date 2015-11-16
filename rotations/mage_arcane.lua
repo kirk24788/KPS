@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Mage Arcane Rotation
-GENERATED FROM SIMCRAFT PROFILE 'mage_arcane.simc'
-]]
+@generated_from mage_arcane.simc
+@version 6.2.2
+]]--
 local spells = kps.spells.mage
 local env = kps.env.mage
 

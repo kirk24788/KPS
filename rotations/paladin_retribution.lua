@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Paladin Retribution Rotation
 @author Kirk24788
-]]
+@version 6.2.2
+]]--
 local spells = kps.spells.paladin
 local env = kps.env.paladin
 

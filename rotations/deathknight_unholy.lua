@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Deathknight Unholy Rotation
-GENERATED FROM SIMCRAFT PROFILE 'deathknight_unholy.simc'
-]]
+@generated_from deathknight_unholy.simc
+@version 6.1.0
+]]--
 local spells = kps.spells.deathknight
 local env = kps.env.deathknight
 
@@ -119,11 +120,5 @@ kps.rotations.register("DEATHKNIGHT","UNHOLY",
         {spells.icyTouch, 'spells.empowerRuneWeapon.cooldown == 0'}, -- icy_touch,if=cooldown.empower_rune_weapon.remains=0
         {spells.empowerRuneWeapon, 'player.bloodRunes < 1 and player.unholyRunes < 1 and player.frostRunes < 1'}, -- empower_rune_weapon,if=blood<1&unholy<1&frost<1
     }},
-}
-,"deathknight_unholy.simc")
-
-
-kps.rotations.register("DEATHKNIGHT","UNHOLY",
-{
 }
 ,"deathknight_unholy.simc")

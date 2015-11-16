@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Monk Windwalker Rotation
-GENERATED FROM SIMCRAFT PROFILE 'monk_windwalker_1h.simc'
-]]
+@generated_from monk_windwalker_1h.simc
+@version 6.2.2
+]]--
 local spells = kps.spells.monk
 local env = kps.env.monk
 

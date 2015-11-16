@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Deathknight Blood Rotation
 @author Kirk24788
-]]
+@version 6.2.2
+]]--
 local spells = kps.spells.deathknight
 local env = kps.env.deathknight
 

@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Rogue Assassination Rotation
-GENERATED FROM SIMCRAFT PROFILE 'rogue_assassination.simc'
-]]
+@generated_from rogue_assassination.simc
+@version 6.2.2
+]]--
 local spells = kps.spells.rogue
 local env = kps.env.rogue
 

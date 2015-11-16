@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 import os
 import re
+from config import INTERFACE_VERSION
 
 # ****************************************************************
 # * Checks Common Rotation Files for outdated and duplicate Spells
 # ****************************************************************
 
-INTERFACE_VERSION = 60200
 TITLE = "KPS Addon"
 NOTES = "Karnofsky Performance System"
 SAVED_VARIABLES = ""

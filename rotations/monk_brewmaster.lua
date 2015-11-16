@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Monk Brewmaster Rotation
-GENERATED FROM SIMCRAFT PROFILE 'monk_brewmaster_1h.simc'
-]]
+@generated_from monk_brewmaster_1h.simc
+@version 6.2.2
+]]--
 local spells = kps.spells.monk
 local env = kps.env.monk
 

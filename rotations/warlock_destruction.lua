@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Warlock Destruction Rotation
 @author Kirk24788
-]]
+@version 6.2.2
+]]--
 
 local spells = kps.spells.warlock
 local env = kps.env.warlock

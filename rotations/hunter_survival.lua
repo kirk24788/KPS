@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Hunter Survival Rotation
-GENERATED FROM SIMCRAFT PROFILE 'hunter_survival.simc'
-]]
+@generated_from hunter_survival.simc
+@version 6.2.2
+]]--
 local spells = kps.spells.hunter
 local env = kps.env.hunter
 

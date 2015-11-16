@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Paladin Protection Rotation
-GENERATED FROM SIMCRAFT PROFILE 'paladin_protection.simc'
-]]
+@generated_from paladin_protection.simc
+@version 6.2.2
+]]--
 local spells = kps.spells.paladin
 local env = kps.env.paladin
 

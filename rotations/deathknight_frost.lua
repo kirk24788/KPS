@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Deathknight Frost Rotation
-GENERATED FROM SIMCRAFT PROFILE 'deathknight_frost_1h.simc'
-]]
+@generated_from deathknight_frost_1h.simc
+@version 6.1.0
+]]--
 local spells = kps.spells.deathknight
 local env = kps.env.deathknight
 

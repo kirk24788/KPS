@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Warlock Demonology Rotation
-GENERATED FROM SIMCRAFT PROFILE 'warlock_demonology.simc'
-]]
+@generated_from warlock_demonology.simc
+@version 6.2.2
+]]--
 local spells = kps.spells.warlock
 local env = kps.env.warlock
 

@@ -8,6 +8,8 @@ import argparse
 import spells
 
 from kps import ParserError, lower_case, setup_logging_and_get_args
+from config import SUPPORTED_SPECS
+from config import WOW_VERSION
 
 LOG = logging.getLogger(__name__)
 
@@ -776,10 +778,11 @@ class SimCraftProfile(object):
 
     def __str__(self):
         if self.show_header:
-            header = """--[[
+            header = """--[[[
 @module %s %s Rotation
-GENERATED FROM SIMCRAFT PROFILE '%s'
-]]\n""" %(self.kps_class.title(), self.kps_spec.title(), os.path.basename(self.filename))
+@generated_from %s
+@version %s
+]]--\n""" %(self.kps_class.title(), self.kps_spec.title(), os.path.basename(self.filename), WOW_VERSION)
             header += "local spells = kps.spells.%s\n" % self.kps_class
             header += "local env = kps.env.%s\n\n" % self.kps_class
         else:
@@ -793,7 +796,7 @@ GENERATED FROM SIMCRAFT PROFILE '%s'
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='SimC 2 KPS Rotation Converter')
     parser.add_argument('-p','--simc-profile', dest="simc", help='SimC Profile', required=True)
-    parser.add_argument('-c','--kps-class', dest="kps_class", help='KPS Class', required=True, choices=spells.SUPPORTED_CLASSES)
+    parser.add_argument('-c','--kps-class', dest="kps_class", help='KPS Class', required=True, choices=SUPPORTED_SPECS.keys())
     parser.add_argument('-s','--kps-spec', dest="kps_spec", help='KPS Spec', required=True)
     parser.add_argument('-t','--title', help='KPS Rotation Title', default=None)
     group = parser.add_mutually_exclusive_group()

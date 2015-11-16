@@ -47,14 +47,28 @@ Copyright (C) 2015 Mario Mancino
 All healing specs except for druid restoration are currently without a rotation. All DPS Specs have at least one rotation automatically generated
 from SimCraft - those might not be fully functional, but aren't tested.
 
-**Supported in 6.2.2:**
+**Fully Supported in 6.2.2:**
 
- * Deathknight: Blood
- * Druid: Restoration
- * Paladin: Retribution
- * Rogue: Assassination
- * Rogue: Combat
- * Warlock: Destruction
+* Deathknight: Blood
+* Druid: Balance
+* Paladin: Retribution
+* Priest: Shadow
+* Warlock: Destruction
+
+**Automatically Generated Rotations:**
+_(Might not be fully functional)_
+
+* Deathknight: Frost (6.1.0), Unholy (6.1.0)
+* Druid: Feral (6.1.0), Guardian (6.1.0)
+* Hunter: Beastmaster (6.2.2), Marksmanship (6.2.2), Survival (6.2.2)
+* Mage: Arcane (6.2.2), Fire (6.2.2), Frost (6.2.2)
+* Monk: Brewmaster (6.2.2), Windwalker (6.2.2)
+* Paladin: Protection (6.2.2)
+* Priest: Discipline (6.2.2), Holy (6.2.2)
+* Rogue: Assassination (6.2.2), Combat (6.2.2), Subtlety (6.2.2)
+* Shaman: Elemental (6.2.2), Enhancement (6.2.2)
+* Warlock: Affliction (6.2.2), Demonology (6.2.2)
+* Warrior: Arms (6.2.2), Fury (6.2.2), Protection (6.2.2)
 
 
 

@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Warrior Fury Rotation
-GENERATED FROM SIMCRAFT PROFILE 'warrior_fury_1h.simc'
-]]
+@generated_from warrior_fury_1h.simc
+@version 6.2.2
+]]--
 local spells = kps.spells.warrior
 local env = kps.env.warrior
 

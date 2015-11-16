@@ -9,7 +9,7 @@ import os
 import re
 import urllib
 from kps import KpsError, camel_case
-
+from config import SUPPORTED_SPECS
 
 LOG = logging.getLogger(__name__)
 
@@ -22,19 +22,6 @@ def clean_key(key):
 def spell_key(spell_name):
     return camel_case(clean_key(spell_name))
 
-SUPPORTED_CLASSES=[
-        "deathknight",
-        "druid",
-        "hunter",
-        "mage",
-        "monk",
-        "paladin",
-        "priest",
-        "rogue",
-        "shaman",
-        "warlock",
-        "warrior",
-]
 
 class SpellError(KpsError):
     def __init__(self,msg):
@@ -100,7 +87,7 @@ class Spell(object):
 
 class PlayerSpells(dict):
     def __init__(self, class_name, validate=False, ignore_validation_errors=True):
-        if class_name not in SUPPORTED_CLASSES:
+        if class_name not in SUPPORTED_SPECS.keys():
             raise KpsError("Unknown class: '%s'" % class_name)
         self.class_name = class_name
         self.__player_spells = {}
@@ -140,7 +127,7 @@ class PlayerSpells(dict):
 
 class PlayerEnv(dict):
     def __init__(self, class_name, validate=False, ignore_validation_errors=True):
-        if class_name not in SUPPORTED_CLASSES:
+        if class_name not in SUPPORTED_SPECS.keys():
             raise KpsError("Unknown class: '%s'" % class_name)
         self.class_name = class_name
 

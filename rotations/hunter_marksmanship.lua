@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Hunter Marksmanship Rotation
-GENERATED FROM SIMCRAFT PROFILE 'hunter_marksmanship.simc'
-]]
+@generated_from hunter_marksmanship.simc
+@version 6.2.2
+]]--
 local spells = kps.spells.hunter
 local env = kps.env.hunter
 

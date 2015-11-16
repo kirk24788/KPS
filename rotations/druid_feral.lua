@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Druid Feral Rotation
-GENERATED FROM SIMCRAFT PROFILE 'druid_feral.simc'
-]]
+@generated_from druid_feral.simc
+@version 6.1.0
+]]--
 local spells = kps.spells.druid
 local env = kps.env.druid
 

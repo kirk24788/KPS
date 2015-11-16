@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Hunter Beastmaster Rotation
-GENERATED FROM SIMCRAFT PROFILE 'hunter_beastmaster.simc'
-]]
+@generated_from hunter_beastmaster.simc
+@version 6.2.2
+]]--
 local spells = kps.spells.hunter
 local env = kps.env.hunter
 

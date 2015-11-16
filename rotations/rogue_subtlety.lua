@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Rogue Subtlety Rotation
-GENERATED FROM SIMCRAFT PROFILE 'rogue_subtlety.simc'
-]]
+@generated_from rogue_subtlety.simc
+@version 6.2.2
+]]--
 local spells = kps.spells.rogue
 local env = kps.env.rogue
 

@@ -17,6 +17,7 @@ readme:
 # Test (requires coreutils!)
 test:
 	gtimeout 10 lua _test.lua
+	python _test.py
 
 # Rotations Directory (Spells & SimC Profiles)
 rotations: class_spells class_rotations
@@ -81,13 +82,13 @@ paladin_protection_rotation:
 paladin_retribution_rotation:
 	#MANUAL ROTATION: ./utils/convertSimC.py -p simc/paladin_retribution.simc -c paladin -s retribution -o rotations/paladin_retribution.lua
 
-priest_rotations: priest_discipline_rotation priest_discipline_rotation priest_shadow_rotation
+priest_rotations: priest_discipline_rotation priest_holy_rotation priest_shadow_rotation
 priest_discipline_rotation:
 	./utils/convertSimC.py -p simc/priest_discipline_dmg.simc -c priest -s discipline -o rotations/priest_discipline.lua
 priest_holy_rotation:
 	./utils/convertSimC.py -p simc/priest_holy_dmg.simc -c priest -s holy -o rotations/priest_holy.lua
 priest_shadow_rotation:
-	./utils/convertSimC.py -p simc/priest_shadow.simc -c priest -s shadow -o rotations/priest_shadow.lua
+	#MANUAL ROTATION: ./utils/convertSimC.py -p simc/priest_shadow.simc -c priest -s shadow -o rotations/priest_shadow.lua
 
 rogue_rotations: rogue_assassination_rotation rogue_combat_rotation rogue_subtlety_rotation
 rogue_assassination_rotation:

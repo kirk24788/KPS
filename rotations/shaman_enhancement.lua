@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Shaman Enhancement Rotation
-GENERATED FROM SIMCRAFT PROFILE 'shaman_enhancement.simc'
-]]
+@generated_from shaman_enhancement.simc
+@version 6.2.2
+]]--
 local spells = kps.spells.shaman
 local env = kps.env.shaman
 

@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Warlock Affliction Rotation
-GENERATED FROM SIMCRAFT PROFILE 'warlock_affliction.simc'
-]]
+@generated_from warlock_affliction.simc
+@version 6.2.2
+]]--
 local spells = kps.spells.warlock
 local env = kps.env.warlock
 

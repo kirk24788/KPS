@@ -11,6 +11,7 @@ import argparse
 import spells
 from kps import setup_logging_and_get_args
 from spells import spell_key, Spell
+from config import SUPPORTED_SPECS
 
 LOG = logging.getLogger(__name__)
 DEFAULT_CACHE_AGE_IN_SECONDS = 5 * 60 * 60
@@ -254,7 +255,7 @@ kps.spells.%s = {}
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Loads Class Spells from Wowhead')
-    parser.add_argument('-c','--class', dest='class_name', help='Set the class to scan', required=True, choices=spells.SUPPORTED_CLASSES)
+    parser.add_argument('-c','--class', dest='class_name', help='Set the class to scan', required=True, choices=SUPPORTED_SPECS.keys())
     parser.add_argument('-a','--cache-age', dest='cache_age', help='Set the max cache age in seconds (by default the class data is cached)', required=False, default=DEFAULT_CACHE_AGE_IN_SECONDS)
     parser.add_argument('-s','--summarize', help='List all found spells and show which one were filtered', required=False, action="store_true")
     parser.add_argument('-o','--output', help='Output file (omit to print to stdout)', default=None)

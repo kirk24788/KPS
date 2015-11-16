@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Druid Guardian Rotation
-GENERATED FROM SIMCRAFT PROFILE 'druid_guardian.simc'
-]]
+@generated_from druid_guardian.simc
+@version 6.1.0
+]]--
 local spells = kps.spells.druid
 local env = kps.env.druid
 

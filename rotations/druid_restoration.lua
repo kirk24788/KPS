@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Druid Restoration Rotation
 @author Kirk24788
-]]
+@version 6.2.2
+]]--
 local spells = kps.spells.druid
 local env = kps.env.druid
 

@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Warrior Protection Rotation
-GENERATED FROM SIMCRAFT PROFILE 'warrior_protection.simc'
-]]
+@generated_from warrior_protection.simc
+@version 6.2.2
+]]--
 local spells = kps.spells.warrior
 local env = kps.env.warrior
 

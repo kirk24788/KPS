@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Rogue Combat Rotation
-GENERATED FROM SIMCRAFT PROFILE 'rogue_combat.simc'
-]]
+@generated_from rogue_combat.simc
+@version 6.2.2
+]]--
 local spells = kps.spells.rogue
 local env = kps.env.rogue
 

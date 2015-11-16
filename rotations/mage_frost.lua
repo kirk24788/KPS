@@ -1,7 +1,8 @@
---[[
+--[[[
 @module Mage Frost Rotation
-GENERATED FROM SIMCRAFT PROFILE 'mage_frost.simc'
-]]
+@generated_from mage_frost.simc
+@version 6.2.2
+]]--
 local spells = kps.spells.mage
 local env = kps.env.mage
 
