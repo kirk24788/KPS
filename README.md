@@ -82,6 +82,8 @@ If you don't have a Mac, you somehow have to provide these tools:
 3. Make any changes and run a `make test` in your KPS directory - only create the pull request if *ALL* tests
 are OK!
 
+4. Run `make readme` to update the current issues in the `README.md`.
+
 4. Commit and Push your changes
 
         $ git commit -am "My new feature"
