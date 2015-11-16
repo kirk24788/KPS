@@ -53,7 +53,7 @@ from SimCraft - those might not be fully functional, but aren't tested.
 * Druid: Balance
 * Paladin: Retribution
 * Priest: Shadow
-* Warlock: Destruction
+* Warlock: Affliction, Destruction
 
 **Automatically Generated Rotations:**
 _(Might not be fully functional)_
@@ -67,7 +67,7 @@ _(Might not be fully functional)_
 * Priest: Discipline (6.2.2), Holy (6.2.2)
 * Rogue: Assassination (6.2.2), Combat (6.2.2), Subtlety (6.2.2)
 * Shaman: Elemental (6.2.2), Enhancement (6.2.2)
-* Warlock: Affliction (6.2.2), Demonology (6.2.2)
+* Warlock: Demonology (6.2.2)
 * Warrior: Arms (6.2.2), Fury (6.2.2), Protection (6.2.2)
 
 
