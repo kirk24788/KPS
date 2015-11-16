@@ -45,7 +45,7 @@ Copyright (C) 2015 Mario Mancino
 ## Builds and Classes
 
 All healing specs except for druid restoration are currently without a rotation. All DPS Specs have at least one rotation automatically generated
-from SimCraft - those might not be fully functional, but aren't tested. 
+from SimCraft - those might not be fully functional, but aren't tested.
 
 **Supported in 6.2.2:**
 
@@ -73,8 +73,21 @@ If you don't have a Mac, you somehow have to provide these tools:
 * make
 
 ### Pull Requests
-Before creating a pull request, please run a `make test` in your KPS directory - only create the request if *ALL* tests
+1. [Fork it!](https://github.com/kirk24788/KPS/fork)
+
+2. Create a branch for your changes
+
+        $ git checkout -b my_new_feature
+
+3. Make any changes and run a `make test` in your KPS directory - only create the pull request if *ALL* tests
 are OK!
+
+4. Commit and Push your changes
+
+        $ git commit -am "My new feature"
+        $ git push origin my_new_feature
+
+5. Open a [Pull Request](http://github.com/kirk24788/KPS/pulls)
 
 ### Code Guidelines
 * Use 4 spaces for indentation - *NO TABS!*
