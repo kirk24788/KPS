@@ -98,10 +98,10 @@ local inRange = setmetatable({}, {
         local val = function (unit)
             if unit == nil then unit = "target" end
             local inRange = IsSpellInRange(self.name, unit)
-			if inRange == nil then
-				local spellbook,index = getSpellBookEntry(self.name)
-				inRange = IsSpellInRange(index, spellbook, unit)
-			end
+            if inRange == nil then
+                local spellbook,index = getSpellBookEntry(self.name)
+                inRange = IsSpellInRange(index, spellbook, unit)
+            end
             if inRange == 0 then return false end
             return true
         end
