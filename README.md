@@ -273,6 +273,29 @@ Members:
  * `player.isInFront` - returns true if the player is in front of the last target. Also returns true if the player never received an error - if you want to check if the player is behind *DON'T* use this function!
 
 
+#### Spell Class
+Provides access to specific spell information and provide an localization-independant access to WoW spells.
+
+Members:
+
+ * `<SPELL>.spellbookType` - returns the spellbook type - either 'spell' for a player spell or 'pet' for a pet spell
+ * `<SPELL>.spellbookIndex` - returns the index of this spell in the spellbook
+ * `<SPELL>.isKnown` - returns true if this spell is known to the player
+ * `<SPELL>.hasRange` - returns true if this spell has a range
+ * `<SPELL>.inRange(<UNIT-STRING>)` - returns true if this spell is in range of the given unit (e.g.: `spells.immolate.inRange("target")`).
+ * `<SPELL>.charges` - returns the current charges left of this spell if it has charges or 0 if this spell has no charges
+ * `<SPELL>.castTime` - returns the total cast time of this spell
+ * `<SPELL>.cooldown` - returns the current cooldown of this spell 
+ * `<SPELL>.cooldownTotal` - returns the cooldown in seconds the spell has if casted - this is NOT the current cooldown of the spell! 
+ * `<SPELL>.isRecastAt(<UNIT-STRING>)` - returns true if this was last casted spell and the last targetted unit was the given unit (e.g.: `spell.immolate.isRecastAt("target")`). 
+ * `<SPELL>.needsSelect` - returns true this is an AoE spell which needs to be targetted on the ground.
+ * `<SPELL>.isBattleRez` - returns true if this spell is one of the batlle rez spells.
+ * `<SPELL>.isPrioritySpell` - returns true if this is one of the user-casted spells which should be ignored for the spell queue. (internal use only!)
+ * `<SPELL>.canBeCastAt(<UNIT-STRING>)` - returns true if the spell can be cast at the given unit (e.g.: `spell.immolate.canBeCastAt("focus")`). A spell can be cast if the target unit exists, the player has enough resources, the spell is not on cooldown and the target is in range.
+ * `<SPELL>.lastCasted(<DURATION>)` - returns true if the spell was last casted within the given duration (e.g.: `spell.immolate.lastCasted(2)`).
+ * `<SPELL>.tickTime` - returns the tick interval time of this spell - only useful for DoT's
+
+
 #### Unit Class
 Provides access to specific unit information. <UNIT> may be one of:
  * `player`

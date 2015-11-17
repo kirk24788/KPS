@@ -1,7 +1,6 @@
---[[
+--[[[
 @module Spell Class
-@description
-Spell Class.
+Provides access to specific spell information and provide an localization-independant access to WoW spells.
 ]]--
 
 
@@ -30,6 +29,7 @@ local castAt = setmetatable({}, {
             kps.gcd = gcd
             kps.lastCast = self
             kps.lastTargetGUID = UnitGUID(target)
+            self.lastCast = GetTime()
         end
         t[self] = val
         return val

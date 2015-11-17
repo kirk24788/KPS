@@ -38,6 +38,9 @@ end
 
 
 
+--[[[
+@function `<SPELL>.spellbookType` - returns the spellbook type - either 'spell' for a player spell or 'pet' for a pet spell
+]]--
 function Spell.spellbookType(self)
     if rawget(self,"_spellbookType") == nil then
         local spellbookType, spellbookIndex, slotType = getSpellBookEntry(self.name)
@@ -48,6 +51,9 @@ function Spell.spellbookType(self)
     return self._spellbookType
 end
 
+--[[[
+@function `<SPELL>.spellbookIndex` - returns the index of this spell in the spellbook
+]]--
 function Spell.spellbookIndex(self)
     if rawget(self,"_spellbookType") == nil then
         local spellbookType, spellbookIndex, slotType = getSpellBookEntry(self.name)
@@ -58,6 +64,9 @@ function Spell.spellbookIndex(self)
     return self._spellbookIndex
 end
 
+--[[[
+@function `<SPELL>.isKnown` - returns true if this spell is known to the player
+]]--
 -- isKnown might change after levelup!!!
 local isKnown = {}
 kps.events.register("PLAYER_LEVEL_UP", function(level)
@@ -71,6 +80,9 @@ function Spell.isKnown(self)
     return isKnown[self.id]
 end
 
+--[[[
+@function `<SPELL>.hasRange` - returns true if this spell has a range
+]]--
 function Spell.hasRange(self)
     if rawget(self,"_hasRange") == nil then
         self._hasRange = spellHasRange(self)
@@ -78,6 +90,9 @@ function Spell.hasRange(self)
     return self._hasRange
 end
 
+--[[[
+@function `<SPELL>.inRange(<UNIT-STRING>)` - returns true if this spell is in range of the given unit (e.g.: `spells.immolate.inRange("target")`).
+]]--
 local inRange = setmetatable({}, {
     __index = function(t, self)
         local val = function (unit)
