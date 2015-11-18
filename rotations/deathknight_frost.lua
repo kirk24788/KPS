@@ -10,7 +10,7 @@ local env = kps.env.deathknight
 kps.rotations.register("DEATHKNIGHT","FROST",
 {
     {spells.deathsAdvance, 'player.isMoving'}, -- deaths_advance,if=movement.remains>2
-    {spells.antimagicShell}, -- antimagic_shell,damage=100000
+    --{spells.antimagicShell}, -- antimagic_shell,damage=100000 never should use ams on cd ??? maybe add a check for shadowDmgTicking
     {spells.pillarOfFrost}, -- pillar_of_frost
     {spells.empowerRuneWeapon, 'target.timeToDie <= 60 and player.hasStrProc'}, -- empower_rune_weapon,if=target.time_to_die<=60&buff.potion.up
     {{"nested"}, 'activeEnemies.count >= 3', { -- run_action_list,name=aoe,if=active_enemies>=3
