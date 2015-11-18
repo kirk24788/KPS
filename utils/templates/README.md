@@ -1,4 +1,7 @@
 # KPS
+[![Build Status](https://travis-ci.org/kirk24788/KPS.svg?branch=master)](https://travis-ci.org/kirk24788/KPS)
+
+
 _JUST ANOTHER PLUA ADDON FOR WORLD OF WARCRAFT_
 
 This addon in combination with enabled protected LUA will help you get the most
@@ -7,7 +10,7 @@ to clean up the codebase which has grown a lot in the last 4 years.
 
 The main goal is to have a clean and fast codebase to allow further development.
 
-*Huge thanks to jhtordeux for his contributions to KPS!*
+*Huge thanks to htordeux and pcmd for their contributions to KPS!*
 
 *Thanks to jp-ganis, htordeux, nishikazuhiro, hax mcgee, pcmd
 and many more for all their contributions to the original JPS!*

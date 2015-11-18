@@ -14,10 +14,16 @@ readme:
 	./utils/generateREADME.py > README.md
 
 lua_timeout = which timeout && timeout 10 lua $(1) || gtimeout 10 lua $(1)
+check_unchanged = make $(1) && (test -z "$$(git status --porcelain)" && echo "make goal '$(1)' OK!") || (echo "make goal '$(1)' FAILED - modified files:" && echo "$$(git status --porcelain)" && exit 1)
+
 # Test (requires coreutils on OSX or timeout on linux!)
 test:
 	$(call lua_timeout,_test.lua)
 	python _test.py
+	$(call check_unchanged,readme)
+	$(call check_unchanged,class_rotations)
+	$(call check_unchanged,global_spells)
+	$(call check_unchanged,class_spells)
 
 # Rotations Directory (Spells & SimC Profiles)
 rotations: class_spells class_rotations
