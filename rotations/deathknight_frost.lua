@@ -12,7 +12,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
     {spells.deathsAdvance, 'player.isMoving'}, -- deaths_advance,if=movement.remains>2
     --{spells.antimagicShell}, -- antimagic_shell,damage=100000 never should use ams on cd ??? maybe add a check for shadowDmgTicking
     {spells.pillarOfFrost}, -- pillar_of_frost
-    {spells.empowerRuneWeapon, 'target.timeToDie <= 60 and player.hasStrProc'}, -- empower_rune_weapon,if=target.time_to_die<=60&buff.potion.up
+    {spells.empowerRuneWeapon, 'target.timeToDie <= 60 and player.hasStrProc and kps.cooldowns'}, -- empower_rune_weapon,if=target.time_to_die<=60&buff.potion.up
     {{"nested"}, 'activeEnemies.count >= 3', { -- run_action_list,name=aoe,if=active_enemies>=3
         {spells.unholyBlight}, -- unholy_blight
 -- ERROR in 'blood_boil,if=dot.blood_plague.ticking&(!talent.unholy_blight.enabled|cooldown.unholy_blight.remains<49),line_cd=28': Unknown expression 'line_cd'!
@@ -26,7 +26,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
             {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) >= 5'}, -- blood_tap
             {spells.plagueLeech}, -- plague_leech
             {spells.plagueStrike, 'player.unholyRunes == 1'}, -- plague_strike,if=unholy=1
-            {spells.empowerRuneWeapon}, -- empower_rune_weapon
+            {spells.empowerRuneWeapon, 'kps.cooldowns'}, -- empower_rune_weapon
         }},
         {spells.howlingBlast}, -- howling_blast
         {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) > 10'}, -- blood_tap,if=buff.blood_charge.stack>10
@@ -37,7 +37,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
         {spells.frostStrike, 'not player.hasTalent(7, 3) or spells.breathOfSindragosa.cooldown >= 10'}, -- frost_strike,if=!talent.breath_of_sindragosa.enabled|cooldown.breath_of_sindragosa.remains>=10
         {spells.plagueLeech, 'target.hasMyDebuff(spells.bloodPlague) and target.hasMyDebuff(spells.frostFever)'}, -- plague_leech
         {spells.plagueStrike, 'player.unholyRunes == 1'}, -- plague_strike,if=unholy=1
-        {spells.empowerRuneWeapon}, -- empower_rune_weapon
+        {spells.empowerRuneWeapon, 'kps.cooldowns'}, -- empower_rune_weapon
     }},
     {{"nested"}, 'activeEnemies.count < 3', { -- run_action_list,name=single_target,if=active_enemies<3
         {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) > 10 and ( player.runicPower > 76 or ( player.runicPower >= 20 and player.buffStacks(spells.killingMachine) ) )'}, -- blood_tap,if=buff.blood_charge.stack>10&(runic_power>76|(runic_power>=20&buff.killing_machine.react))
