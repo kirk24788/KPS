@@ -57,7 +57,7 @@ def read_rotation_data():
         class_name = class_name_lower.title()
         for spec_name_lower in spec_names:
             spec_name = spec_name_lower.title()
-            meta = parse_rotation_meta(class_name, spec_name)
+            meta = parse_rotation_meta(class_name_lower, spec_name_lower)
             if "generated_from" in meta.keys():
                 if class_name not in generated.keys():
                     generated[class_name] = []
@@ -78,14 +78,14 @@ def read_rotation_data():
             spec_names = sorted(fully_supported[class_name])
             rotation_data = "%s* %s: %s\n" % (rotation_data, class_name, ", ".join(spec_names))
         rotation_data = rotation_data + "\n"
-        
+
     if len(outdated.keys()) > 0:
         rotation_data = rotation_data + "**Outdated Rotations:**\n\n"
         for class_name in sorted(outdated.keys()):
             spec_names = sorted(outdated[class_name])
             rotation_data = "%s* %s: %s\n" % (rotation_data, class_name, ", ".join(spec_names))
         rotation_data = rotation_data + "\n"
-        
+
     if len(generated.keys()) > 0:
         rotation_data = rotation_data + "**Automatically Generated Rotations:**\n_(Might not be fully functional)_\n\n"
         for class_name in sorted(generated.keys()):
