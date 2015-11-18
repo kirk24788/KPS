@@ -153,48 +153,6 @@ Members:
  * `keys.ctrl` - CTRL Key
 
 
-#### Heal/Raid Status
-Helper functions for Raiders in Groups or Raids mainly aimed for healing rotations, but might be useful
-for some DPS Rotations too. 
-
-Members:
-
- * `heal.count` - return the size of the current group
- * `heal.type` - return the group type - either 'group' or 'raid'
- * `heal.lowestTankInRaid` - Returns the lowest tank in the raid (based on _incoming_ HP!) - if none is found the player is returned.
- * `heal.defaultTarget` - Returns the default healing target based on these rules:
-
-    * `player` if the player is below 20% hp incoming
-    * `focus` if the focus is below 50% hp incoming (if the focus is not healable, `focustarget` is checked instead)
-    * `target` if the target is below 50% hp incoming (if the target is not healable, `targettarget` is checked instead)
-    * lowest tank in raid which is below 50% hp incoming
-    * lowest raid member
-
- * `heal.defaultTank` - Returns the default tank based on these rules:
-
-    * `player` if the player is below 20% hp incoming
-    * `focus` if the focus is below 50% hp incoming (if the focus is not healable, `focustarget` is checked instead)
-    * `target` if the target is below 50% hp incoming (if the target is not healable, `targettarget` is checked instead)
-    * lowest tank in raid
-
- * `heal.averageHpIncoming` - Returns the average hp incoming for all raid members
-
-
-#### Totem Class
-Access to Totem data.
-<TOTEM> may be one of:
- * `totem.fire`
- * `totem.earth`
- * `totem.water`
- * `totem.air`
-
-Members:
-
- * `<TOTEM>.isActive` - returns true if the given totem is active
- * `<TOTEM>.duration` - returns the duration left on the given totem
- * `<TOTEM>.name` - returns the totem name
-
-
 #### Player Class
 Provides access to specific player information. Since `player` extends the Unit Class all members of
 `UNIT` are also members of `player`.
@@ -276,6 +234,33 @@ Members:
  * `player.isInFront` - returns true if the player is in front of the last target. Also returns true if the player never received an error - if you want to check if the player is behind *DON'T* use this function!
 
 
+#### Heal/Raid Status
+Helper functions for Raiders in Groups or Raids mainly aimed for healing rotations, but might be useful
+for some DPS Rotations too. 
+
+Members:
+
+ * `heal.count` - return the size of the current group
+ * `heal.type` - return the group type - either 'group' or 'raid'
+ * `heal.lowestTankInRaid` - Returns the lowest tank in the raid (based on _incoming_ HP!) - if none is found the player is returned.
+ * `heal.defaultTarget` - Returns the default healing target based on these rules:
+
+    * `player` if the player is below 20% hp incoming
+    * `focus` if the focus is below 50% hp incoming (if the focus is not healable, `focustarget` is checked instead)
+    * `target` if the target is below 50% hp incoming (if the target is not healable, `targettarget` is checked instead)
+    * lowest tank in raid which is below 50% hp incoming
+    * lowest raid member
+
+ * `heal.defaultTank` - Returns the default tank based on these rules:
+
+    * `player` if the player is below 20% hp incoming
+    * `focus` if the focus is below 50% hp incoming (if the focus is not healable, `focustarget` is checked instead)
+    * `target` if the target is below 50% hp incoming (if the target is not healable, `targettarget` is checked instead)
+    * lowest tank in raid
+
+ * `heal.averageHpIncoming` - Returns the average hp incoming for all raid members
+
+
 #### Spell Class
 Provides access to specific spell information and provide an localization-independant access to WoW spells.
 
@@ -297,6 +282,21 @@ Members:
  * `<SPELL>.canBeCastAt(<UNIT-STRING>)` - returns true if the spell can be cast at the given unit (e.g.: `spell.immolate.canBeCastAt("focus")`). A spell can be cast if the target unit exists, the player has enough resources, the spell is not on cooldown and the target is in range.
  * `<SPELL>.lastCasted(<DURATION>)` - returns true if the spell was last casted within the given duration (e.g.: `spell.immolate.lastCasted(2)`).
  * `<SPELL>.tickTime` - returns the tick interval time of this spell - only useful for DoT's
+
+
+#### Totem Class
+Access to Totem data.
+<TOTEM> may be one of:
+ * `totem.fire`
+ * `totem.earth`
+ * `totem.water`
+ * `totem.air`
+
+Members:
+
+ * `<TOTEM>.isActive` - returns true if the given totem is active
+ * `<TOTEM>.duration` - returns the duration left on the given totem
+ * `<TOTEM>.name` - returns the totem name
 
 
 #### Unit Class
@@ -353,13 +353,13 @@ Members:
 
 
 ### Open Issues
- * `env.lua:17` - Clean UP!!! This code is a mess...
  * `core/events.lua:187` - faceTarget
  * `core/kps.lua:18` - Return a FUNCTION which uses Item!
  * `core/logger.lua:33` - Check if DEFAULT_CHAT_FRAME:AddMessage() has any significant advantages
  * `core/parser.lua:132` - syntax error in
  * `core/parser.lua:139` - Error Handling!
  * `core/parser.lua:917` - Error!!!
+ * `env.lua:17` - Clean UP!!! This code is a mess...
  * `gui/toggle.lua:73` - Right-Click Action
  * `libs/LibRangeCheck-2.0/LibRangeCheck-2.0.lua:31` - check if unit is valid, etc
  * `modules/incoming_damage.lua:28` - Load on demand!

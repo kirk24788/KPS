@@ -20,8 +20,7 @@ def read_module_data():
     os.path.walk("./modules",load_files, modules)
 
     module_data = ""
-
-    for module in modules:
+    for module in sorted(modules):
         content = open(module).read()
         offset = 0
         sections = []
@@ -99,7 +98,7 @@ def read_open_issues():
     os.path.walk(".",load_files, files)
     files = [f for f in files if f.endswith(".lua")]
     todos = ""
-    for f in files:
+    for f in sorted(files):
         content = open(f).read()
         line_count = 1
         for line in content.split("\n"):
