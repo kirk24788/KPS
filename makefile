@@ -13,10 +13,10 @@ toc:
 readme:
 	./utils/generateREADME.py > README.md
 
-
-# Test (requires coreutils!)
+lua_timeout = which timeout && timeout 10 lua $(1) || gtimeout 10 lua $(1)
+# Test (requires coreutils on OSX or timeout on linux!)
 test:
-	gtimeout 10 lua _test.lua
+	$(call lua_timeout,_test.lua)
 	python _test.py
 
 # Rotations Directory (Spells & SimC Profiles)
