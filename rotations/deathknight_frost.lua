@@ -52,7 +52,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
             {spells.obliterate, 'player.unholyRunes > 0 and player.runicPower < 76'}, -- obliterate,if=unholy>0&runic_power<76
             {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) >= 5'}, -- blood_tap,if=buff.blood_charge.stack>=5
             {spells.plagueLeech, 'target.hasMyDebuff(spells.bloodPlague) and target.hasMyDebuff(spells.frostFever)'}, -- plague_leech
-            {spells.empowerRuneWeapon}, -- empower_rune_weapon
+            {spells.empowerRuneWeapon, 'kps.cooldowns'}, -- empower_rune_weapon
         }},
         {spells.defile, 'player.hasTalent(7, 2) and spells.defile.inRange("target")'}, -- defile
         {spells.bloodTap, 'player.hasTalent(7, 2) and spells.defile.cooldown == 0'}, -- blood_tap,if=talent.defile.enabled&cooldown.defile.remains=0
@@ -72,7 +72,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
         {spells.howlingBlast, 'not ( target.hp - 3 * ( target.hp % target.timeToDie ) <= 35 and spells.soulReaper.cooldown < 3 ) or player.deathRunes + player.frostRunes >= 2'}, -- howling_blast,if=!(target.health.pct-3*(target.health.pct%target.time_to_die)<=35&cooldown.soul_reaper.remains<3)|death+frost>=2
         {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) >= 5'}, -- blood_tap
         {spells.plagueLeech,'target.hasMyDebuff(spells.bloodPlague) and target.hasMyDebuff(spells.frostFever)'}, -- plague_leech
-        {spells.empowerRuneWeapon}, -- empower_rune_weapon
+        {spells.empowerRuneWeapon, 'kps.cooldowns'}, -- empower_rune_weapon
     }},
 }
 ,"deathknight_frost_1h.simc")
@@ -83,7 +83,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
     {spells.deathsAdvance, 'player.isMoving'}, -- deaths_advance,if=movement.remains>2
     {spells.antimagicShell}, -- antimagic_shell,damage=100000
     {spells.pillarOfFrost}, -- pillar_of_frost
-    {spells.empowerRuneWeapon, 'target.timeToDie <= 60 and player.hasStrProc'}, -- empower_rune_weapon,if=target.time_to_die<=60&buff.potion.up
+    {spells.empowerRuneWeapon, 'target.timeToDie <= 60 and player.hasStrProc and kps.cooldowns'}, -- empower_rune_weapon,if=target.time_to_die<=60&buff.potion.up
     {{"nested"}, 'activeEnemies.count >= 4', { -- run_action_list,name=aoe,if=active_enemies>=4
         {spells.unholyBlight}, -- unholy_blight
 -- ERROR in 'blood_boil,if=dot.blood_plague.ticking&(!talent.unholy_blight.enabled|cooldown.unholy_blight.remains<49),line_cd=28': Unknown expression 'line_cd'!
@@ -97,7 +97,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
             {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) >= 5'}, -- blood_tap
             {spells.plagueLeech, 'target.hasMyDebuff(spells.bloodPlague) and target.hasMyDebuff(spells.frostFever)'}, -- plague_leech
             {spells.plagueStrike, 'player.unholyRunes == 1'}, -- plague_strike,if=unholy=1
-            {spells.empowerRuneWeapon}, -- empower_rune_weapon
+            {spells.empowerRuneWeapon, 'kps.cooldowns'}, -- empower_rune_weapon
         }},
         {spells.howlingBlast}, -- howling_blast
         {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) > 10'}, -- blood_tap,if=buff.blood_charge.stack>10
@@ -108,7 +108,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
         {spells.frostStrike, 'not player.hasTalent(7, 3) or spells.breathOfSindragosa.cooldown >= 10'}, -- frost_strike,if=!talent.breath_of_sindragosa.enabled|cooldown.breath_of_sindragosa.remains>=10
         {spells.plagueLeech, 'target.hasMyDebuff(spells.bloodPlague) and target.hasMyDebuff(spells.frostFever)'}, -- plague_leech
         {spells.plagueStrike, 'player.unholyRunes == 1'}, -- plague_strike,if=unholy=1
-        {spells.empowerRuneWeapon}, -- empower_rune_weapon
+        {spells.empowerRuneWeapon, 'kps.cooldowns'}, -- empower_rune_weapon
     }},
     {{"nested"}, 'activeEnemies.count < 4', { -- run_action_list,name=single_target,if=active_enemies<4
         {spells.plagueLeech, 'diseaseMinRemains() < 1'}, -- plague_leech,if=disease.min_remains<1
@@ -149,7 +149,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
         {spells.bloodTap, '( player.buffStacks(spells.bloodCharge) > 10 and player.runicPower >= 20 ) or ( player.bloodFraction >= 1.4 or player.unholyFraction >= 1.6 or player.frostFraction >= 1.6 )'}, -- blood_tap,if=(buff.blood_charge.stack>10&runic_power>=20)|(blood.frac>=1.4|unholy.frac>=1.6|frost.frac>=1.6)
         {spells.frostStrike, 'not player.buffStacks(spells.killingMachine)'}, -- frost_strike,if=!buff.killing_machine.react
         {spells.plagueLeech, '( player.bloodFraction <= 0.95 and player.unholyFraction <= 0.95 ) or ( player.frostFraction <= 0.95 and player.unholyFraction <= 0.95 ) or ( player.frostFraction <= 0.95 and player.bloodFraction <= 0.95 )'}, -- plague_leech,if=(blood.frac<=0.95&unholy.frac<=0.95)|(frost.frac<=0.95&unholy.frac<=0.95)|(frost.frac<=0.95&blood.frac<=0.95)
-        {spells.empowerRuneWeapon}, -- empower_rune_weapon
+        {spells.empowerRuneWeapon, 'kps.cooldowns'}, -- empower_rune_weapon
     }},
 }
 ,"deathknight_frost_2h.simc")
