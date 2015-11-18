@@ -1,7 +1,7 @@
 --[[[
 @module Druid Guardian Rotation
 @generated_from druid_guardian.simc
-@version 6.1.0
+@version 6.2.2
 ]]--
 local spells = kps.spells.druid
 local env = kps.env.druid

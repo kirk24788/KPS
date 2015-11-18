@@ -148,6 +148,13 @@ kps.spells.warrior.unquenchableThirst = kps.Spell.fromId(169683)
 kps.spells.warrior.unyieldingStrikes = kps.Spell.fromId(169685)
 kps.spells.warrior.shieldBarrier = kps.Spell.fromId(174926)
 kps.spells.warrior.siegebreaker = kps.Spell.fromId(176289)
+kps.spells.warrior.tactician = kps.Spell.fromId(1000202)
+kps.spells.warrior.masteryColossalMight = kps.Spell.fromId(1000203)
+kps.spells.warrior.titanicMight = kps.Spell.fromId(1000204)
+kps.spells.warrior.frenzy = kps.Spell.fromId(1000210)
+kps.spells.warrior.ignorePain = kps.Spell.fromId(1000218)
+kps.spells.warrior.shieldDiscipline = kps.Spell.fromId(1000221)
+kps.spells.warrior.rampage = kps.Spell.fromId(1000222)
 
 kps.env.warrior = {}
 

@@ -1,7 +1,7 @@
 --[[[
 @module Druid Feral Rotation
 @generated_from druid_feral.simc
-@version 6.1.0
+@version 6.2.2
 ]]--
 local spells = kps.spells.druid
 local env = kps.env.druid

@@ -1,5 +1,8 @@
 .PHONY: all
 
+lua_timeout = which timeout && timeout 10 lua $(1) || gtimeout 10 lua $(1)
+check_unchanged = make $(1) && (test -z "$$(git status --porcelain)" && echo "make target '$(1)' OK!") || (echo "make target '$(1)' FAILED - modified files:" && echo "$$(git status --porcelain)" && exit 1)
+
 # ALL
 all: toc global_spells rotations
 
@@ -13,13 +16,11 @@ toc:
 readme:
 	./utils/generateREADME.py > README.md
 
-lua_timeout = which timeout && timeout 10 lua $(1) || gtimeout 10 lua $(1)
-check_unchanged = make $(1) && (test -z "$$(git status --porcelain)" && echo "make goal '$(1)' OK!") || (echo "make goal '$(1)' FAILED - modified files:" && echo "$$(git status --porcelain)" && exit 1)
-
 # Test (requires coreutils on OSX or timeout on linux!)
 test:
 	$(call lua_timeout,_test.lua)
 	python _test.py
+	$(call check_unchanged,toc)
 	$(call check_unchanged,readme)
 	$(call check_unchanged,class_rotations)
 	$(call check_unchanged,global_spells)
@@ -41,7 +42,8 @@ class_spells: deathknight_spells druid_spells hunter_spells mage_spells monk_spe
 # Rotations for each class
 class_rotations: deathknight_rotations druid_rotations hunter_rotations mage_rotations monk_rotations paladin_rotations priest_rotations rogue_rotations shaman_rotations warlock_rotations warrior_rotations
 
-deathknight_rotations: deathknight_blood_rotation deathknight_frost_rotation deathknight_unholy_rotation
+# deathknight_frost_rotation excluded from run - must be called manually
+deathknight_rotations: deathknight_blood_rotation deathknight_unholy_rotation
 deathknight_blood_rotation:
 	#MANUAL ROTATION: ./utils/convertSimC.py -p simc/deathknight_blood.simc -c deathknight -s blood -o rotations/deathknight_blood.lua
 deathknight_frost_rotation:
@@ -96,11 +98,12 @@ priest_holy_rotation:
 priest_shadow_rotation:
 	#MANUAL ROTATION: ./utils/convertSimC.py -p simc/priest_shadow.simc -c priest -s shadow -o rotations/priest_shadow.lua
 
-rogue_rotations: rogue_assassination_rotation rogue_combat_rotation rogue_subtlety_rotation
+# rogue_assassination_rotation rogue_combat_rotation excluded from run - must be called manually
+rogue_rotations: rogue_subtlety_rotation
 rogue_assassination_rotation:
-	./utils/convertSimC.py -p simc/rogue_assassination.simc -c rogue -s assassination -o rotations/rogue_assassination.lua
+	#CHANGED ROTATION: ./utils/convertSimC.py -p simc/rogue_assassination.simc -c rogue -s assassination -o rotations/rogue_assassination.lua
 rogue_combat_rotation:
-	./utils/convertSimC.py -p simc/rogue_combat.simc -c rogue -s combat -o rotations/rogue_combat.lua
+	#CHANGED ROTATION: ./utils/convertSimC.py -p simc/rogue_combat.simc -c rogue -s combat -o rotations/rogue_combat.lua
 rogue_subtlety_rotation:
 	./utils/convertSimC.py -p simc/rogue_subtlety.simc -c rogue -s subtlety -o rotations/rogue_subtlety.lua
 

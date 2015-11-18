@@ -59,6 +59,7 @@ spells.group("ae","Spells which require a select (cast ond ground) - usually AE 
 spells.ae.add_all_spells([109248,30283,88685,724,32375,43265,62618,2120,115180,114158,73921,88747, 82939, 82941, 60192, 115313, 115460, 114192, 6544, 33395, 116011, 115315, 152108,61882])
 spells.ae.add_spell(5740,"Channeled") # Rain of Fire (Channeled)
 spells.ae.add_spell(104233,"Instant") # Rain of Fire (Instant)
+spells.ae.add_spell(152280) # Defile
 
 # User-Priorized Spells to ignore
 spells.group("ignore","User-Priorized Spells to ignore")

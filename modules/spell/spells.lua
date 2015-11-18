@@ -23,7 +23,6 @@ kps.spells.ae.holyWordSanctuary = kps.Spell.fromId(88685) -- Holy Word: Sanctuar
 kps.spells.ae.lightwell = kps.Spell.fromId(724) -- Lightwell
 kps.spells.ae.massDispel = kps.Spell.fromId(32375) -- Mass Dispel
 kps.spells.ae.deathAndDecay = kps.Spell.fromId(43265) -- Death and Decay
-kps.spells.ae.defile = kps.Spell.fromId(152280) -- Defile
 kps.spells.ae.powerWordBarrier = kps.Spell.fromId(62618) -- Power Word: Barrier
 kps.spells.ae.flamestrike = kps.Spell.fromId(2120) -- Flamestrike
 kps.spells.ae.dizzyingHaze = kps.Spell.fromId(115180) -- Dizzying Haze
@@ -44,6 +43,7 @@ kps.spells.ae.cataclysm = kps.Spell.fromId(152108) -- Cataclysm
 kps.spells.ae.earthquake = kps.Spell.fromId(61882) -- Earthquake
 kps.spells.ae.rainOfFireChanneled = kps.Spell.fromId(5740) -- Rain of Fire (Channeled)
 kps.spells.ae.rainOfFireInstant = kps.Spell.fromId(104233) -- Rain of Fire (Instant)
+kps.spells.ae.defile = kps.Spell.fromId(152280) -- Defile
 
 
 -- Crowd Control Spells

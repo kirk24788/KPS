@@ -1,7 +1,7 @@
 --[[[
 @module Deathknight Unholy Rotation
 @generated_from deathknight_unholy.simc
-@version 6.1.0
+@version 6.2.2
 ]]--
 local spells = kps.spells.deathknight
 local env = kps.env.deathknight

@@ -52,7 +52,7 @@ from SimCraft - those might not be fully functional, but aren't tested.
 
 **Fully Supported in 6.2.2:**
 
-* Deathknight: Blood
+* Deathknight: Blood, Frost
 * Druid: Balance
 * Paladin: Retribution
 * Priest: Shadow
@@ -61,8 +61,8 @@ from SimCraft - those might not be fully functional, but aren't tested.
 **Automatically Generated Rotations:**
 _(Might not be fully functional)_
 
-* Deathknight: Frost (6.1.0), Unholy (6.1.0)
-* Druid: Feral (6.1.0), Guardian (6.1.0)
+* Deathknight: Unholy (6.2.2)
+* Druid: Feral (6.2.2), Guardian (6.2.2)
 * Hunter: Beastmaster (6.2.2), Marksmanship (6.2.2), Survival (6.2.2)
 * Mage: Arcane (6.2.2), Fire (6.2.2), Frost (6.2.2)
 * Monk: Brewmaster (6.2.2), Windwalker (6.2.2)
@@ -371,7 +371,7 @@ Members:
  * `modules/unit/unit_state.lua:13` - PvP
  * `modules/unit/unit_state.lua:26` - if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
  * `modules/unit/unit_state.lua:27` - Refactor!!!
- * `rotations/mage.lua:208` - Implement pyroChain sequence
+ * `rotations/mage.lua:214` - Implement pyroChain sequence
 
 
 
