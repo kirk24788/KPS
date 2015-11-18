@@ -5,8 +5,8 @@ sudo: false
 
 before_install:
   - pip install hererocks
-  - hererocks base -r^ --lua=5.2
-  - export PATH=$PATH:$PWD/base/bin # Add directory with all installed binaries to PATH
+  - hererocks /tmp/base -r^ --lua=5.2
+  - export PATH=$PATH:/tmp/base/bin # Add directory with all installed binaries to PATH
 
 script:
   - make test
