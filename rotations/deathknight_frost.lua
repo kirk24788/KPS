@@ -23,7 +23,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
             {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) > 10'}, -- blood_tap,if=buff.blood_charge.stack>10
             {spells.deathAndDecay, 'player.unholyRunes == 1'}, -- death_and_decay,if=unholy=1
             {spells.plagueStrike, 'player.unholyRunes == 2'}, -- plague_strike,if=unholy=2
-            {spells.bloodTap}, -- blood_tap
+            {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) >= 5'}, -- blood_tap
             {spells.plagueLeech}, -- plague_leech
             {spells.plagueStrike, 'player.unholyRunes == 1'}, -- plague_strike,if=unholy=1
             {spells.empowerRuneWeapon}, -- empower_rune_weapon
@@ -33,7 +33,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
         {spells.frostStrike, 'player.runicPower > 88'}, -- frost_strike,if=runic_power>88
         {spells.deathAndDecay, 'player.unholyRunes == 1'}, -- death_and_decay,if=unholy=1
         {spells.plagueStrike, 'player.unholyRunes == 2'}, -- plague_strike,if=unholy=2
-        {spells.bloodTap}, -- blood_tap
+        {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) >= 5'}, -- blood_tap
         {spells.frostStrike, 'not player.hasTalent(7, 3) or spells.breathOfSindragosa.cooldown >= 10'}, -- frost_strike,if=!talent.breath_of_sindragosa.enabled|cooldown.breath_of_sindragosa.remains>=10
         {spells.plagueLeech}, -- plague_leech
         {spells.plagueStrike, 'player.unholyRunes == 1'}, -- plague_strike,if=unholy=1
@@ -70,7 +70,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
         {spells.frostStrike, 'player.runicPower > 76'}, -- frost_strike,if=runic_power>76
         {spells.obliterate, 'player.unholyRunes > 0 and not player.buffStacks(spells.killingMachine)'}, -- obliterate,if=unholy>0&!buff.killing_machine.react
         {spells.howlingBlast, 'not ( target.hp - 3 * ( target.hp % target.timeToDie ) <= 35 and spells.soulReaper.cooldown < 3 ) or player.deathRunes + player.frostRunes >= 2'}, -- howling_blast,if=!(target.health.pct-3*(target.health.pct%target.time_to_die)<=35&cooldown.soul_reaper.remains<3)|death+frost>=2
-        {spells.bloodTap}, -- blood_tap
+        {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) >= 5'}, -- blood_tap
         {spells.plagueLeech}, -- plague_leech
         {spells.empowerRuneWeapon}, -- empower_rune_weapon
     }},
@@ -94,7 +94,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
             {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) > 10'}, -- blood_tap,if=buff.blood_charge.stack>10
             {spells.deathAndDecay, 'player.unholyRunes == 1'}, -- death_and_decay,if=unholy=1
             {spells.plagueStrike, 'player.unholyRunes == 2'}, -- plague_strike,if=unholy=2
-            {spells.bloodTap}, -- blood_tap
+            {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) >= 5'}, -- blood_tap
             {spells.plagueLeech}, -- plague_leech
             {spells.plagueStrike, 'player.unholyRunes == 1'}, -- plague_strike,if=unholy=1
             {spells.empowerRuneWeapon}, -- empower_rune_weapon
@@ -104,7 +104,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
         {spells.frostStrike, 'player.runicPower > 88'}, -- frost_strike,if=runic_power>88
         {spells.deathAndDecay, 'player.unholyRunes == 1'}, -- death_and_decay,if=unholy=1
         {spells.plagueStrike, 'player.unholyRunes == 2'}, -- plague_strike,if=unholy=2
-        {spells.bloodTap}, -- blood_tap
+        {spells.bloodTap, 'player.buffStacks(spells.bloodCharge) >= 5'}, -- blood_tap
         {spells.frostStrike, 'not player.hasTalent(7, 3) or spells.breathOfSindragosa.cooldown >= 10'}, -- frost_strike,if=!talent.breath_of_sindragosa.enabled|cooldown.breath_of_sindragosa.remains>=10
         {spells.plagueLeech}, -- plague_leech
         {spells.plagueStrike, 'player.unholyRunes == 1'}, -- plague_strike,if=unholy=1
