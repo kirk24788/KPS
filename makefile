@@ -20,6 +20,8 @@ readme:
 test:
 	$(call lua_timeout,_test.lua)
 	python _test.py
+
+integration_test:
 	$(call check_unchanged,toc)
 	$(call check_unchanged,readme)
 	$(call check_unchanged,class_rotations)
