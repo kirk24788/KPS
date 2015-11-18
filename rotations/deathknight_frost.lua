@@ -66,7 +66,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
         {spells.howlingBlast, 'player.hasTalent(7, 1) and not target.hasMyDebuff(spells.necroticPlague)'}, -- howling_blast,if=talent.necrotic_plague.enabled&!dot.necrotic_plague.ticking
         {spells.plagueStrike, 'not player.hasTalent(7, 1) and not target.hasMyDebuff(spells.bloodPlague) and player.unholyRunes > 0'}, -- plague_strike,if=!talent.necrotic_plague.enabled&!dot.blood_plague.ticking&unholy>0
         {spells.howlingBlast, 'player.buffStacks(spells.rime)'}, -- howling_blast,if=buff.rime.react
-        {spells.frostStrike, '== 1 and ( player.runicPower >= 50 and ( spells.pillarOfFrost.cooldown < 5 ) )'}, -- frost_strike,if=set_bonus.tier17_2pc=1&(runic_power>=50&(cooldown.pillar_of_frost.remains<5))
+        {spells.frostStrike, 'player.runicPower >= 50 and spells.pillarOfFrost.cooldown < 5'}, -- frost_strike,if=set_bonus.tier17_2pc=1&(runic_power>=50&(cooldown.pillar_of_frost.remains<5))
         {spells.frostStrike, 'player.runicPower > 76'}, -- frost_strike,if=runic_power>76
         {spells.obliterate, 'player.unholyRunes > 0 and not player.buffStacks(spells.killingMachine)'}, -- obliterate,if=unholy>0&!buff.killing_machine.react
         {spells.howlingBlast, 'not ( target.hp - 3 * ( target.hp % target.timeToDie ) <= 35 and spells.soulReaper.cooldown < 3 ) or player.deathRunes + player.frostRunes >= 2'}, -- howling_blast,if=!(target.health.pct-3*(target.health.pct%target.time_to_die)<=35&cooldown.soul_reaper.remains<3)|death+frost>=2
