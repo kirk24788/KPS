@@ -16,7 +16,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
     {{"nested"}, 'activeEnemies.count >= 3', { -- run_action_list,name=aoe,if=active_enemies>=3
         {spells.unholyBlight}, -- unholy_blight
 -- ERROR in 'blood_boil,if=dot.blood_plague.ticking&(!talent.unholy_blight.enabled|cooldown.unholy_blight.remains<49),line_cd=28': Unknown expression 'line_cd'!
-        {spells.defile}, -- defile
+        {spells.defile, 'player.hasTalent(7, 2) and spells.defile.inRange("target")'}, -- defile
         {spells.breathOfSindragosa, 'player.runicPower > 75'}, -- breath_of_sindragosa,if=runic_power>75
         {{"nested"}, 'target.hasMyDebuff(spells.breathOfSindragosa)', { -- run_action_list,name=bos_aoe,if=dot.breath_of_sindragosa.ticking
             {spells.howlingBlast}, -- howling_blast
@@ -54,7 +54,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
             {spells.plagueLeech}, -- plague_leech
             {spells.empowerRuneWeapon}, -- empower_rune_weapon
         }},
-        {spells.defile}, -- defile
+        {spells.defile, 'player.hasTalent(7, 2) and spells.defile.inRange("target")'}, -- defile
         {spells.bloodTap, 'player.hasTalent(7, 2) and spells.defile.cooldown == 0'}, -- blood_tap,if=talent.defile.enabled&cooldown.defile.remains=0
         {spells.howlingBlast, 'player.hasTalent(7, 3) and spells.breathOfSindragosa.cooldown < 7 and player.runicPower < 88'}, -- howling_blast,if=talent.breath_of_sindragosa.enabled&cooldown.breath_of_sindragosa.remains<7&runic_power<88
         {spells.obliterate, 'player.hasTalent(7, 3) and spells.breathOfSindragosa.cooldown < 3 and player.runicPower < 76'}, -- obliterate,if=talent.breath_of_sindragosa.enabled&cooldown.breath_of_sindragosa.remains<3&runic_power<76
@@ -87,7 +87,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
     {{"nested"}, 'activeEnemies.count >= 4', { -- run_action_list,name=aoe,if=active_enemies>=4
         {spells.unholyBlight}, -- unholy_blight
 -- ERROR in 'blood_boil,if=dot.blood_plague.ticking&(!talent.unholy_blight.enabled|cooldown.unholy_blight.remains<49),line_cd=28': Unknown expression 'line_cd'!
-        {spells.defile}, -- defile
+        {spells.defile, 'player.hasTalent(7, 2) and spells.defile.inRange("target")'}, -- defile
         {spells.breathOfSindragosa, 'player.runicPower > 75'}, -- breath_of_sindragosa,if=runic_power>75
         {{"nested"}, 'target.hasMyDebuff(spells.breathOfSindragosa)', { -- run_action_list,name=bos_aoe,if=dot.breath_of_sindragosa.ticking
             {spells.howlingBlast}, -- howling_blast
@@ -114,7 +114,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
         {spells.plagueLeech, 'diseaseMinRemains() < 1'}, -- plague_leech,if=disease.min_remains<1
         {spells.soulReaper, 'target.hp - 3 * ( target.hp % target.timeToDie ) <= 35'}, -- soul_reaper,if=target.health.pct-3*(target.health.pct%target.time_to_die)<=35
         {spells.bloodTap, '( target.hp - 3 * ( target.hp % target.timeToDie ) <= 35 and spells.soulReaper.cooldown == 0 )'}, -- blood_tap,if=(target.health.pct-3*(target.health.pct%target.time_to_die)<=35&cooldown.soul_reaper.remains=0)
-        {spells.defile}, -- defile
+        {spells.defile, 'player.hasTalent(7, 2) and spells.defile.inRange("target")'}, -- defile
         {spells.bloodTap, 'player.hasTalent(7, 2) and spells.defile.cooldown == 0'}, -- blood_tap,if=talent.defile.enabled&cooldown.defile.remains=0
         {spells.howlingBlast, 'player.buffStacks(spells.rime) and diseaseMinRemains() > 5 and player.buffStacks(spells.killingMachine)'}, -- howling_blast,if=buff.rime.react&disease.min_remains>5&buff.killing_machine.react
         {spells.obliterate, 'player.buffStacks(spells.killingMachine)'}, -- obliterate,if=buff.killing_machine.react
