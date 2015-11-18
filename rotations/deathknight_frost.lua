@@ -55,7 +55,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
             {spells.empowerRuneWeapon, 'kps.cooldowns'}, -- empower_rune_weapon
         }},
         {spells.defile, 'player.hasTalent(7, 2) and keys.shift'}, -- defile
-        {spells.bloodTap, 'player.hasTalent(7, 2) and spells.defile.cooldown == 0'}, -- blood_tap,if=talent.defile.enabled&cooldown.defile.remains=0
+        {spells.bloodTap, 'player.hasTalent(7, 2) and spells.defile.cooldown == 0 and player.buffStacks(spells.bloodCharge) >= 5'}, -- blood_tap,if=talent.defile.enabled&cooldown.defile.remains=0
         {spells.howlingBlast, 'player.hasTalent(7, 3) and spells.breathOfSindragosa.cooldown < 7 and player.runicPower < 88'}, -- howling_blast,if=talent.breath_of_sindragosa.enabled&cooldown.breath_of_sindragosa.remains<7&runic_power<88
         {spells.obliterate, 'player.hasTalent(7, 3) and spells.breathOfSindragosa.cooldown < 3 and player.runicPower < 76'}, -- obliterate,if=talent.breath_of_sindragosa.enabled&cooldown.breath_of_sindragosa.remains<3&runic_power<76
         {spells.frostStrike, 'player.buffStacks(spells.killingMachine) or player.runicPower > 88'}, -- frost_strike,if=buff.killing_machine.react|runic_power>88
