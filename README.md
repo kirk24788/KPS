@@ -161,6 +161,7 @@ Members:
 
  * `player.isMounted` - returns true if the player is mounted (exception: Nagrand Mounts do not count as mounted since you can cast while riding)
  * `player.isFalling` - returns true if the player is currently falling.
+ * `player.timeInCombat` - returns number of seconds in combat
  * `player.hasTalent(<ROW>,<TALENT>)` - returns true if the player has the selected talent (row: 1-7, talent: 1-3).
  * `player.hasGlyph(<GLYPH>)` - returns true if the player has the given gylph - glyphs can be accessed via the spells (e.g.: `player.hasGlyph(spells.glyphOfDeathGrip)`).
  * `player.eclipseDirLunar` - returns true if the balance bar is currently going towards Lunar
@@ -353,17 +354,14 @@ Members:
 
 
 ### Open Issues
- * `core/events.lua:187` - faceTarget
- * `core/kps.lua:18` - Return a FUNCTION which uses Item!
+ * `core/kps.lua:22` - Return a FUNCTION which uses Item!
  * `core/logger.lua:33` - Check if DEFAULT_CHAT_FRAME:AddMessage() has any significant advantages
  * `core/parser.lua:132` - syntax error in
  * `core/parser.lua:139` - Error Handling!
- * `core/parser.lua:917` - Error!!!
  * `env.lua:17` - Clean UP!!! This code is a mess...
  * `gui/toggle.lua:73` - Right-Click Action
  * `libs/LibRangeCheck-2.0/LibRangeCheck-2.0.lua:31` - check if unit is valid, etc
  * `modules/incoming_damage.lua:28` - Load on demand!
- * `modules/player/player_auras.lua:22` - Implement a tracker for time in Combat in seconds
  * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
  * `modules/unit/unit_casting.lua:62` - Blacklisted spells?
  * `modules/unit/unit_casting.lua:69` - Reimplement JPS Code

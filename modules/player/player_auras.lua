@@ -18,10 +18,30 @@ function Player.isFalling(self)
     return IsFalling()
 end
 
-function Player.timeInCombat(self)
-    -- TODO: Implement a tracker for time in Combat in seconds
-    return 10
+local combatEnterTime = 0
+--[[[
+@function `player.timeInCombat` - returns number of seconds in combat
+]]--
+function kps.Player.prototype.timeInCombat(self)
+    if combatEnterTime == 0 then return 0 end
+    return GetTime() - combatEnterTime
 end
+
+-- Combat Timer
+--/script print(kps.env.player.timeInCombat)
+kps.events.register("PLAYER_REGEN_DISABLED", function()
+    combatEnterTime = GetTime()
+end)
+kps.events.register("PLAYER_ENTER_COMBAT", function()
+    if combatEnterTime == 0 then combatEnterTime = GetTime() end
+end)
+kps.events.register("PLAYER_LEAVE_COMBAT", function()
+    if not InCombatLockdown() then combatEnterTime = 0 end
+end)
+kps.events.register("PLAYER_REGEN_ENABLED", function()
+    combatEnterTime = 0
+end)
+
 
 --[[[
 @function `player.hasTalent(<ROW>,<TALENT>)` - returns true if the player has the selected talent (row: 1-7, talent: 1-3).

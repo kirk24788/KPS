@@ -160,7 +160,7 @@ function eventLoop.attachUpdateHandler()
             for _,fn in pairs(updateTable) do
                 local status, error = pcall(fn)
                 if not status then
-                     LOG.error("Error %s on OnUpdate function %s", error, fn)
+                     --LOG.error("Error %s on OnUpdate function %s", error, fn)
                 end
             end
             self.TimeSinceLastUpdate = 0
@@ -184,14 +184,6 @@ function eventLoop.attachEventHandler()
             end
             if enableProfiling then endProfileMemory(event) end
         end
-        --[[TODO: faceTarget
-        -- Execute this code everytime
-        if jps.checkTimer("FacingBug") > 0 and jps.checkTimer("Facing") == 0 then
-            TurnLeftStop()
-            TurnRightStop()
-            CameraOrSelectOrMoveStop()
-        end
-        ]]
     end)
 end
 
@@ -228,3 +220,11 @@ local function hideStaticPopup(addon, eventBlocked)
 end
 kps.events.register("ADDON_ACTION_FORBIDDEN", hideStaticPopup)
 kps.events.register("ADDON_ACTION_BLOCKED", hideStaticPopup)
+
+kps.events.register("PLAYER_ENTER_COMBAT", function()
+    kps.autoAttackEnabled = true
+end)
+kps.events.register("PLAYER_LEAVE_COMBAT", function()
+    kps.autoAttackEnabled = false
+end)
+

@@ -1,6 +1,10 @@
 
 local LOG=kps.Logger(kps.LogLevel.INFO)
 
+local castSequenceIndex = 1
+local castSequence = nil
+local castSequenceStartTime = 0
+local castSequenceTarget = 0
 local prioritySpell = nil
 local priorityAction = nil
 local priorityMacro = nil
@@ -41,7 +45,7 @@ end
 
 kps.combatStep = function ()
     -- Check for combat
-    if not InCombatLockdown() then return end
+    if not InCombatLockdown() and not kps.autoAttackEnabled then return end
 
     -- Check for rotation
     if not kps.rotations.getActive() then
@@ -55,27 +59,47 @@ kps.combatStep = function ()
     if (player.isMounted and not kps.config.dismountInCombat) or player.isDead or player.isDrinking then
         return
     end
-    local spell, target = kps.rotations.getActive().getSpell()
 
-    if spell ~= nil and not player.isCasting then
-        if priorityMacro ~= nil then
-            kps.runMacro(priorityMacro)
-            priorityMacro = nil
-        elseif priorityAction ~= nil then
-            priorityAction()
-            priorityAction = nil
-        elseif prioritySpell ~= nil then
-            if prioritySpell.canBeCastAt("target") then
-                prioritySpell.cast()
-                LOG.warn("Priority Spell %s was casted.", prioritySpell)
-                prioritySpell = nil
-            else
-                if prioritySpell.cooldown > 3 then prioritySpell = nil end
-                spell.cast(target)
+    if castSequence ~= nil then
+        if castSequence[castSequenceIndex] ~= nil and (castSequenceStartTime + kps.maxCastSequenceLength > GetTime()) then
+            local spell = castSequence[castSequenceIndex]()
+            if spell.canBeCastAt(castSequenceTarget) then
+                LOG.debug("Cast-Sequence: %s. %s", castSequenceIndex, spell)
+                spell.cast(castSequenceTarget)
+                castSequenceIndex = castSequenceIndex + 1
             end
         else
-            LOG.debug("Casting %s for next cast.", spell.name)
-            spell.cast(target)
+            castSequenceIndex = nil
+            castSequence = nil
+        end
+    else
+        local spell, target = kps.rotations.getActive().getSpell()
+        if spell ~= nil and not player.isCasting then
+            if priorityMacro ~= nil then
+                kps.runMacro(priorityMacro)
+                priorityMacro = nil
+            elseif priorityAction ~= nil then
+                priorityAction()
+                priorityAction = nil
+            elseif prioritySpell ~= nil then
+                if prioritySpell.canBeCastAt("target") then
+                    prioritySpell.cast()
+                    LOG.warn("Priority Spell %s was casted.", prioritySpell)
+                    prioritySpell = nil
+                else
+                    if prioritySpell.cooldown > 3 then prioritySpell = nil end
+                    spell.cast(target)
+                end
+            elseif spell.id == nil then
+                LOG.debug("Starting Cast-Sequence...")
+                castSequenceIndex = 1
+                castSequence = spell
+                castSequenceStartTime = GetTime()
+                castSequenceTarget = target
+            else
+                LOG.debug("Casting %s for next cast.", spell.name)
+                spell.cast(target)
+            end
         end
     end
 end

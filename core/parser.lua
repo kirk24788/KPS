@@ -28,11 +28,11 @@ local function tokenize( str )
     for t,v in kps.lexer.lua(str) do
         if (t == "+" or t == "-") and not non_prefixable_type[prev_type] then
             prefix = t
-        else 
+        else
             i = i+1
             if prefix == "-" and t == "number" then
                 tokens[i] = {t,-1*v}
-            else 
+            else
                 tokens[i] = {t,v}
             end
             prefix = nil
@@ -205,6 +205,16 @@ local function fnParseTarget(target)
     end
 end
 
+local function fnParseCastSequence(spellList)
+    parsedSpellList = {}
+    for _, spell in pairs(spellList) do
+        table.insert(parsedSpellList, fnParseSpell(spell))
+    end
+    return function ( )
+        return parsedSpellList
+    end
+end
+
 local function fnParseDefault(spell, condition, target)
     local spellFn = fnParseSpell(spell)
     local conditionFn = fnParseCondition(condition)
@@ -217,8 +227,12 @@ local function fnParseDefault(spell, condition, target)
         end
         local spell = spellFn()
         local target = targetFn()
-        if conditionFn() and spell.canBeCastAt(target) then
-            return spell, target
+        if conditionFn() then
+            if type(spell) == "table" then
+                return spell, target
+            elseif spell.canBeCastAt(target) then
+                return spell, target
+            end
         end
         return nil, nil
     end
@@ -278,7 +292,7 @@ function parser.debugTokenList(fn, tokens)
         for i,e in pairs(tokens) do
             if type(e) == "function" then
                 s = s.."fn"..str(e)
-            else 
+            else
                 local t,v = unpack(e)
                 s = s.."["..tostring(t)..":"..tostring(v).."] "
             end
@@ -308,7 +322,7 @@ function parser.parseBrackets(tokens, bracketLevel)
                 error("Too many closing brackets!")
             end
             --return parser.parseAnd(parsedBrackets)
-            if parameterList then 
+            if parameterList then
                 return parser.parseParameterList(parsedBrackets)
             else
                 return parser.parseAnd(parsedBrackets)
@@ -357,7 +371,7 @@ local function AND(operands)
     end
     local o1 = parser.popFn(operands)
     local o2 = AND(operands)
-    
+
     return function()
         return o1() and o2()
     end
@@ -385,7 +399,7 @@ local function OR(operands)
     end
     local o1 = parser.popFn(operands)
     local o2 = OR(operands)
-    
+
     return function()
         return o1() or o2()
     end
@@ -906,15 +920,16 @@ local function compileTable(hydraTable)
         -- spell is a sub-table - check which one
         elseif type(spellTable[1]) == "table" and spellTable[1].name == nil then
             local conditionFn = fnParseCondition(spellTable[2])
-            -- macro sub-table
+            -- macro sub-table: { {"macro"}, condition(Fn), "MACRO_TEXT" }
             if spellTable[1][1] == "macro" then
                 table.insert(compiledTable, fnParseMacro(spellTable[3],conditionFn) )
-            -- nested sub-table
+            -- nested sub-table: { {"nested"}, condition(Fn), { nested spell table } }
             elseif spellTable[1][1] == "nested" then
                 compiledSubTable = compileTable(spellTable[3])
                 table.insert(compiledTable, fnParseSpellTable(compiledSubTable, conditionFn))
             else
-                --TODO: Error!!!
+                -- cast sequence: { {spell_1, spell_2, ...}, [[, condition(Fn)[, target(Fn)]]}
+                table.insert(compiledTable, fnParseDefault(fnParseCastSequence(spellTable[1]), spellTable[2], spellTable[3]))
             end
         -- default: {spell(Fn)[[, condition(Fn)[, target(Fn)]]}
         else
