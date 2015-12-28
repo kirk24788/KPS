@@ -206,7 +206,7 @@ local function fnParseTarget(target)
 end
 
 local function fnParseCastSequence(spellList)
-    parsedSpellList = {}
+    local parsedSpellList = {}
     for _, spell in pairs(spellList) do
         table.insert(parsedSpellList, fnParseSpell(spell))
     end
@@ -228,7 +228,7 @@ local function fnParseDefault(spell, condition, target)
         local spell = spellFn()
         local target = targetFn()
         if conditionFn() then
-            if type(spell) == "table" then
+            if spell.id == nil then -- Cast Sequence!
                 return spell, target
             elseif spell.canBeCastAt(target) then
                 return spell, target

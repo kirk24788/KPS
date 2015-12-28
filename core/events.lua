@@ -160,7 +160,7 @@ function eventLoop.attachUpdateHandler()
             for _,fn in pairs(updateTable) do
                 local status, error = pcall(fn)
                 if not status then
-                     --LOG.error("Error %s on OnUpdate function %s", error, fn)
+                    LOG.error("Error %s on OnUpdate function %s", error, fn)
                 end
             end
             self.TimeSinceLastUpdate = 0
