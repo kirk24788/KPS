@@ -12,16 +12,21 @@ kps.env.pet = kps.Unit.new("pet")
 kps.env.focus = kps.Unit.new("focus")
 kps.env.focustarget = kps.Unit.new("focustarget")
 kps.env.mouseover = kps.Unit.new("mouseover")
-kps.env.activeEnemies = kps.ActiveEnemies.new()
+kps.env.boss1 = kps.Unit.new("boss1")
+kps.env.boss2 = kps.Unit.new("boss2")
+kps.env.boss3 = kps.Unit.new("boss3")
+kps.env.boss4 = kps.Unit.new("boss4")
+
+kps.env.activeEnemies = kps.BasicActiveEnemies.new()
+
+kps.events.registerOnUpdate(function()
+    if kps.enabled then
+        kps.combatStep()
+    end
+end)
 
 --TODO: Clean UP!!! This code is a mess...
 
-
-kps.events.registerOnUpdate(function()
-      if kps.enabled then
-        kps.combatStep()
-      end
-end)
 
 function kps.env.min(a,b)
     if a < b then

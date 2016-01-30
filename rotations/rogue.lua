@@ -130,10 +130,6 @@ kps.spells.rogue.glyphOfElusiveness = kps.Spell.fromId(159635)
 kps.spells.rogue.glyphOfEnergyFlows = kps.Spell.fromId(159636)
 kps.spells.rogue.glyphOfDisappearance = kps.Spell.fromId(159638)
 kps.spells.rogue.masterPoisoner = kps.Spell.fromId(165390)
-kps.spells.rogue.elaboratePlanning = kps.Spell.fromId(1000295)
-kps.spells.rogue.shadowstrike = kps.Spell.fromId(1000304)
-kps.spells.rogue.nightblade = kps.Spell.fromId(1000306)
-kps.spells.rogue.shadowTechniques = kps.Spell.fromId(1000309)
 kps.spells.rogue.deepInsight = kps.Spell.fromId(84747)
 
 kps.env.rogue = {}

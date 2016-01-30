@@ -29,6 +29,7 @@ modules\spell\spell_ticktime.lua
 modules\incoming_damage.lua
 modules\keys.lua
 modules\latency.lua
+modules\unlock\keymoon.lua
 modules\unlock\basic.lua
 modules\unit\unit.lua
 modules\unit\unit_auras.lua

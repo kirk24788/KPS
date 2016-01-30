@@ -4,12 +4,12 @@
 Basic Unlock - Dummy Functions for access to enhanced unlock features. Prevents errors if no advanced unlock is present.
 ]]--
 
-kps.ActiveEnemies = {}
-kps.ActiveEnemies.prototype = {}
-kps.ActiveEnemies.metatable = {}
+kps.BasicActiveEnemies = {}
+kps.BasicActiveEnemies.prototype = {}
+kps.BasicActiveEnemies.metatable = {}
 
 
-function kps.ActiveEnemies.prototype.count(self)
+function kps.BasicActiveEnemies.prototype.count(self)
     if kps.multiTarget then
         return 6
     else
@@ -17,16 +17,32 @@ function kps.ActiveEnemies.prototype.count(self)
     end
 end
 
-function kps.ActiveEnemies.new()
+function kps.BasicActiveEnemies.new()
     local inst = {}
-    setmetatable(inst, kps.ActiveEnemies.metatable)
+    setmetatable(inst, kps.BasicActiveEnemies.metatable)
     return inst
 end
 
-kps.ActiveEnemies.metatable.__index = function (table, key)
-    local fn = kps.ActiveEnemies.prototype[key]
+local keymoonActiveEnemies = kps.KeymoonActiveEnemies.new()
+local unlockerStatus = nil
+kps.BasicActiveEnemies.metatable.__index = function (table, key)
+    if KM_TIME ~= nil and KM_TIME>(GetTime()-15) then
+        if unlockerStatus ~= 1 then
+            kps.write("Keymoon Unlocker detected!")
+            unlockerStatus = 1
+        end
+        return keymoonActiveEnemies[key]
+    else
+        if unlockerStatus ~= nil then
+            kps.write("Fallback to Basic Unlocker!")
+            unlockerStatus = nil
+        end
+    end
+
+
+    local fn = kps.BasicActiveEnemies.prototype[key]
     if fn == nil then
-        error("Unknown Keys-Property '" .. ActiveEnemies .. "'!")
+        error("Unknown Keys-Property '" .. key .. "'!")
     end
     return fn(table)
 end

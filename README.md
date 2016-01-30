@@ -358,7 +358,7 @@ Members:
  * `core/logger.lua:33` - Check if DEFAULT_CHAT_FRAME:AddMessage() has any significant advantages
  * `core/parser.lua:132` - syntax error in
  * `core/parser.lua:139` - Error Handling!
- * `env.lua:17` - Clean UP!!! This code is a mess...
+ * `env.lua:28` - Clean UP!!! This code is a mess...
  * `gui/toggle.lua:73` - Right-Click Action
  * `libs/LibRangeCheck-2.0/LibRangeCheck-2.0.lua:31` - check if unit is valid, etc
  * `modules/incoming_damage.lua:28` - Load on demand!
@@ -369,7 +369,7 @@ Members:
  * `modules/unit/unit_state.lua:13` - PvP
  * `modules/unit/unit_state.lua:26` - if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
  * `modules/unit/unit_state.lua:27` - Refactor!!!
- * `rotations/mage.lua:214` - Implement pyroChain sequence
+ * `rotations/mage.lua:208` - Implement pyroChain sequence
 
 
 
