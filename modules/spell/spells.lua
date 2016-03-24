@@ -29,9 +29,6 @@ kps.spells.ae.dizzyingHaze = kps.Spell.fromId(115180) -- Dizzying Haze
 kps.spells.ae.lightsHammer = kps.Spell.fromId(114158) -- Light&#039;s Hammer
 kps.spells.ae.healingRain = kps.Spell.fromId(73921) -- Healing Rain
 kps.spells.ae.wildMushroom = kps.Spell.fromId(88747) -- Wild Mushroom
-kps.spells.ae.explosiveTrap = kps.Spell.fromId(82939) -- Explosive Trap
-kps.spells.ae.iceTrap = kps.Spell.fromId(82941) -- Ice Trap
-kps.spells.ae.freezingTrap = kps.Spell.fromId(60192) -- Freezing Trap
 kps.spells.ae.summonJadeSerpentStatue = kps.Spell.fromId(115313) -- Summon Jade Serpent Statue
 kps.spells.ae.detonateChi = kps.Spell.fromId(115460) -- Detonate Chi
 kps.spells.ae.mockingBanner = kps.Spell.fromId(114192) -- Mocking Banner
@@ -43,6 +40,9 @@ kps.spells.ae.cataclysm = kps.Spell.fromId(152108) -- Cataclysm
 kps.spells.ae.earthquake = kps.Spell.fromId(61882) -- Earthquake
 kps.spells.ae.rainOfFireChanneled = kps.Spell.fromId(5740) -- Rain of Fire (Channeled)
 kps.spells.ae.rainOfFireInstant = kps.Spell.fromId(104233) -- Rain of Fire (Instant)
+kps.spells.ae.explosiveTrap = kps.Spell.fromId(13813) -- Explosive Trap
+kps.spells.ae.iceTrap = kps.Spell.fromId(13809) -- Ice Trap
+kps.spells.ae.freezingTrap = kps.Spell.fromId(1499) -- Freezing Trap
 kps.spells.ae.defile = kps.Spell.fromId(152280) -- Defile
 
 
