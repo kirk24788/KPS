@@ -10,25 +10,25 @@ local env = kps.env.druid
 kps.rotations.register("DRUID","GUARDIAN",
 {
     {spells.skullBash}, -- skull_bash
-    {spells.savageDefense, 'not player.hasBuff(spells.barkskin)'}, -- savage_defense,if=buff.barkskin.down
+-- ERROR in 'savage_defense,if=buff.barkskin.down': Spell 'savageDefense' unknown!
     {spells.barkskin, 'not player.hasBuff(spells.bristlingFur)'}, -- barkskin,if=buff.bristling_fur.down
-    {spells.bristlingFur, 'not player.hasBuff(spells.barkskin) and not player.hasBuff(spells.savageDefense)'}, -- bristling_fur,if=buff.barkskin.down&buff.savage_defense.down
-    {spells.maul, 'player.buffStacks(spells.toothAndClaw) and kps.incomingDamage(1)'}, -- maul,if=buff.tooth_and_claw.react&incoming_damage_1s
+-- ERROR in 'bristling_fur,if=buff.barkskin.down&buff.savage_defense.down': Spell 'kps.spells.druid.savageDefense' unknown (in expression: 'buff.savage_defense.down')!
+-- ERROR in 'maul,if=buff.tooth_and_claw.react&incoming_damage_1s': Spell 'kps.spells.druid.toothAndClaw' unknown (in expression: 'buff.tooth_and_claw.react')!
     {spells.berserk, 'player.buffDuration(spells.pulverize) > 10'}, -- berserk,if=buff.pulverize.remains>10
     {spells.frenziedRegeneration, 'player.rage >= 80'}, -- frenzied_regeneration,if=rage>=80
     {spells.cenarionWard}, -- cenarion_ward
     {spells.renewal, 'player.hp < 0.3'}, -- renewal,if=health.pct<30
-    {spells.heartOfTheWild}, -- heart_of_the_wild
-    {spells.rejuvenation, 'player.hasBuff(spells.heartOfTheWild) and target.myDebuffDuration(spells.rejuvenation) <= 3.6'}, -- rejuvenation,if=buff.heart_of_the_wild.up&remains<=3.6
-    {spells.naturesVigil}, -- natures_vigil
-    {spells.healingTouch, 'player.buffStacks(spells.dreamOfCenarius) and player.hp < 0.3'}, -- healing_touch,if=buff.dream_of_cenarius.react&health.pct<30
+-- ERROR in 'heart_of_the_wild': Spell 'heartOfTheWild' unknown!
+-- ERROR in 'rejuvenation,if=buff.heart_of_the_wild.up&remains<=3.6': Spell 'kps.spells.druid.heartOfTheWild' unknown (in expression: 'buff.heart_of_the_wild.up')!
+-- ERROR in 'natures_vigil': Spell 'naturesVigil' unknown!
+-- ERROR in 'healing_touch,if=buff.dream_of_cenarius.react&health.pct<30': Spell 'kps.spells.druid.dreamOfCenarius' unknown (in expression: 'buff.dream_of_cenarius.react')!
     {spells.pulverize, 'player.buffDuration(spells.pulverize) <= 3.6'}, -- pulverize,if=buff.pulverize.remains<=3.6
-    {spells.lacerate, 'player.hasTalent(7, 2) and player.buffDuration(spells.pulverize) <= ( 3 - target.debuffStacks(spells.lacerate) ) * player.gcd and not player.hasBuff(spells.berserk)'}, -- lacerate,if=talent.pulverize.enabled&buff.pulverize.remains<=(3-dot.lacerate.stack)*gcd&buff.berserk.down
+-- ERROR in 'lacerate,if=talent.pulverize.enabled&buff.pulverize.remains<=(3-dot.lacerate.stack)*gcd&buff.berserk.down': Spell 'lacerate' unknown!
     {spells.incarnation}, -- incarnation
-    {spells.lacerate, 'not target.hasMyDebuff(spells.lacerate)'}, -- lacerate,if=!ticking
+-- ERROR in 'lacerate,if=!ticking': Spell 'lacerate' unknown!
     {spells.thrash, 'not target.hasMyDebuff(spells.thrash)'}, -- thrash_bear,if=!ticking
     {spells.mangle}, -- mangle
     {spells.thrash, 'target.myDebuffDuration(spells.thrash) <= 4.8'}, -- thrash_bear,if=remains<=4.8
-    {spells.lacerate}, -- lacerate
+-- ERROR in 'lacerate': Spell 'lacerate' unknown!
 }
 ,"druid_guardian.simc")

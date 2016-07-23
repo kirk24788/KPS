@@ -50,13 +50,17 @@ Copyright (C) 2015 Mario Mancino
 All healing specs except for druid restoration are currently without a rotation. All DPS Specs have at least one rotation automatically generated
 from SimCraft - those might not be fully functional, but aren't tested.
 
-**Fully Supported in 6.2.2:**
+**Fully Supported in 7.0.3:**
 
-* Deathknight: Blood, Frost
-* Druid: Balance
-* Paladin: Retribution
-* Priest: Shadow
-* Warlock: Affliction, Destruction
+* Warlock: Destruction
+
+**Outdated Rotations:**
+
+* Deathknight: Frost (6.2.2)
+* Druid: Balance (6.2.2)
+* Paladin: Retribution (6.2.2)
+* Priest: Shadow (6.2.2)
+* Warlock: Affliction (6.2.2)
 
 **Automatically Generated Rotations:**
 _(Might not be fully functional)_
@@ -369,7 +373,7 @@ Members:
  * `modules/unit/unit_state.lua:13` - PvP
  * `modules/unit/unit_state.lua:26` - if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
  * `modules/unit/unit_state.lua:27` - Refactor!!!
- * `rotations/mage.lua:208` - Implement pyroChain sequence
+ * `rotations/mage.lua:254` - Implement pyroChain sequence
 
 
 

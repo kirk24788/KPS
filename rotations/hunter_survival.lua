@@ -18,12 +18,9 @@ kps.rotations.register("HUNTER","SURVIVAL",
         {spells.explosiveTrap, 'target.myDebuffDuration(spells.explosiveTrap) <= 5'}, -- explosive_trap,if=dot.explosive_trap.remains<=5
         {spells.aMurderOfCrows}, -- a_murder_of_crows
         {spells.direBeast}, -- dire_beast
-        {spells.multishot, 'player.buffStacks(spells.thrillOfTheHunt) and player.focus > 50 and (player.focusMax-player.focus) or target.myDebuffDuration(spells.serpentSting) <= 5 or target.timeToDie < 4.5'}, -- multishot,if=buff.thrill_of_the_hunt.react&focus>50&cast_regen<=focus.deficit|dot.serpent_sting.remains<=5|target.time_to_die<4.5
-        {spells.glaiveToss}, -- glaive_toss
-        {spells.powershot}, -- powershot
+-- ERROR in 'multishot,if=buff.thrill_of_the_hunt.react&focus>50&cast_regen<=focus.deficit|dot.serpent_sting.remains<=5|target.time_to_die<4.5': Spell 'kps.spells.hunter.thrillOfTheHunt' unknown (in expression: 'buff.thrill_of_the_hunt.react')!
 -- ERROR in 'cobra_shot,if=buff.pre_steady_focus.up&buff.steady_focus.remains<5&focus+14+cast_regen<80': Spell 'kps.spells.hunter.preSteadyFocus' unknown (in expression: 'buff.pre_steady_focus.up')!
         {spells.multishot, 'player.focus >= 70 or player.hasTalent(7, 2)'}, -- multishot,if=focus>=70|talent.focusing_shot.enabled
-        {spells.focusingShot}, -- focusing_shot
         {spells.cobraShot}, -- cobra_shot
     }},
     {spells.aMurderOfCrows}, -- a_murder_of_crows
@@ -33,16 +30,16 @@ kps.rotations.register("HUNTER","SURVIVAL",
     {spells.explosiveShot}, -- explosive_shot
 -- ERROR in 'cobra_shot,if=buff.pre_steady_focus.up': Spell 'kps.spells.hunter.preSteadyFocus' unknown (in expression: 'buff.pre_steady_focus.up')!
     {spells.direBeast}, -- dire_beast
-    {spells.arcaneShot, '( player.buffStacks(spells.thrillOfTheHunt) and player.focus > 35 ) or target.timeToDie < 4.5'}, -- arcane_shot,if=(buff.thrill_of_the_hunt.react&focus>35)|target.time_to_die<4.5
-    {spells.glaiveToss}, -- glaive_toss
-    {spells.powershot}, -- powershot
+-- ERROR in 'arcane_shot,if=(buff.thrill_of_the_hunt.react&focus>35)|target.time_to_die<4.5': Spell 'kps.spells.hunter.thrillOfTheHunt' unknown (in expression: 'buff.thrill_of_the_hunt.react')!
+-- ERROR in 'glaive_toss': Spell 'glaiveToss' unknown!
+-- ERROR in 'powershot': Spell 'powershot' unknown!
     {spells.barrage}, -- barrage
     {spells.explosiveTrap, 'not player.hasAgiProc and not player.hasProc'}, -- explosive_trap,if=!trinket.proc.any.react&!trinket.stacking_proc.any.react
 -- ERROR in 'arcane_shot,if=talent.steady_focus.enabled&!talent.focusing_shot.enabled&focus.deficit<action.cobra_shot.cast_regen*2+28': Unknown expression 'action.cobra_shot.'!
     {spells.cobraShot, 'player.hasTalent(4, 1) and player.buffDuration(spells.steadyFocus) < 5'}, -- cobra_shot,if=talent.steady_focus.enabled&buff.steady_focus.remains<5
-    {spells.focusingShot, 'player.hasTalent(4, 1) and player.buffDuration(spells.steadyFocus) <= spells.focusingShot.castTime and (player.focusMax-player.focus) >'}, -- focusing_shot,if=talent.steady_focus.enabled&buff.steady_focus.remains<=cast_time&focus.deficit>cast_regen
+-- ERROR in 'focusing_shot,if=talent.steady_focus.enabled&buff.steady_focus.remains<=cast_time&focus.deficit>cast_regen': Spell 'focusingShot' unknown!
     {spells.arcaneShot, 'player.focus >= 70 or player.hasTalent(7, 2) or ( player.hasTalent(4, 1) and player.focus >= 50 )'}, -- arcane_shot,if=focus>=70|talent.focusing_shot.enabled|(talent.steady_focus.enabled&focus>=50)
-    {spells.focusingShot}, -- focusing_shot
+-- ERROR in 'focusing_shot': Spell 'focusingShot' unknown!
     {spells.cobraShot}, -- cobra_shot
 }
 ,"hunter_survival.simc")

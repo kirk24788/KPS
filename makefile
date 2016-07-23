@@ -31,7 +31,7 @@ integration_test:
 	$(call check_unchanged,class_spells)
 
 # Rotations Directory (Spells & SimC Profiles)
-rotations: class_spells class_rotations
+rotations: class_spells # Rotations disabled for now: class_rotations
 
 # Global Spells
 global_spells:

@@ -35,18 +35,18 @@ THOTTBOT_IDS = {
 }
 
 ADDITIONAL_SPELLS = {
-    "deathknight": [114851, 77535],
-    "druid": [164545,164547,171743,171744,117679,135201],
-    "hunter": [168980],
+    "deathknight": [77535],
+    "druid": [164545,164547,117679,135201],
+    "hunter": [],
     "mage": [166872,145254,48107,166868,101166,135029],
-    "monk": [115307,121286,116768,118864,159407,145008,125359],
-    "paladin": [114637,117809,156989,156988,144595,156990,166831,174718],
-    "priest": [179337,167254],
-    "rogue": [84747],
-    "shaman": [157765,114074,115356],
-    "warlock": [77801,157698,163512,104316,103964,104025,124915,89751,115831,115625,
-                170000, # Chaotic Infusion (Tier 17 4pc Bonus)
+    "monk": [116768,159407,145008],
+    "paladin": [117809,156989,156988,156990,166831],
+    "priest": [179337],
+    "rogue": [],
+    "shaman": [114074,115356],
+    "warlock": [104316,89751,115831,115625,
                 185229, # Flamelicked - Destruction Class Trinket
+                111859, # Grimmoire: Imp
     ],"warrior": [],
 }
 
@@ -250,8 +250,11 @@ kps.spells.%s = {}
         if not is_filtered(spell)[0]:
             s += "kps.spells.%s.%s = kps.Spell.fromId(%s)\n" % (class_name,spell_key(spell["name"][1:]),spell["id"])
     for spell_id in ADDITIONAL_SPELLS[class_name]:
-        spell = Spell(spell_id)
-        s += "kps.spells.%s.%s = kps.Spell.fromId(%s)\n" % (class_name, spell.key, spell.id)
+        try:
+            spell = Spell(spell_id)
+            s += "kps.spells.%s.%s = kps.Spell.fromId(%s)\n" % (class_name, spell.key, spell.id)
+        except:
+            LOG.error("ERROR: Spell-ID %s not found for %s", spell_id, class_name)
     return s + "\nkps.env." + class_name + " = {}\n" + ENV_FUNCTIONS[class_name] + "\n"
 
 if __name__ == "__main__":

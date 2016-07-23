@@ -1,101 +1,57 @@
 --[[[
 @module Warlock Destruction Rotation
 @author Kirk24788
-@version 6.2.2
+@version 7.0.3
 ]]--
 
 local spells = kps.spells.warlock
 local env = kps.env.warlock
 
-kps.runOnClass("WARLOCK", function ( )
-    kps.gui.createToggle("conserve", "Interface\\Icons\\spell_Mage_Flameorb", "Conserve")
-    kps.gui.createToggle("flamelicked", "Interface\\Icons\\Ability_Warrior_BloodNova", "Flamelicked")
-    kps.gui.createToggle("tier18", "Interface\\Icons\\Ability_Warlock_ChaosBolt", "Chaos Bolt @ 20%")
-end)
+
+--kps.runOnClass("WARLOCK", function ( )
+--    kps.gui.createToggle("conserve", "Interface\\Icons\\spell_Mage_Flameorb", "Conserve")
+--end)
 
 kps.rotations.register("WARLOCK","DESTRUCTION",
 {
     -- Deactivate Burning Rush if not moving for 1 second
     env.deactivateBurningRushIfNotMoving(1),
 
-    -- Rain of Fire on shift (only when moving or multiTarget), force cast with ctrl-shift
-    {spells.rainOfFire, 'keys.shift and player.buffDuration(spells.rainOfFire) < 1.5 and player.isMoving' },
-    {spells.rainOfFire, 'keys.shift and player.buffDuration(spells.rainOfFire) < 1.5 and activeEnemies.count >= 3' },
-    {spells.rainOfFire, 'keys.shift and keys.ctrl' },
+    -- Apply  Havoc if a secondary target is present.
+    {spells.havoc, 'isHavocUnit("mouseover") and keys.ctrl', "mouseover" },
+    {spells.havoc, 'isHavocUnit("focus") and focus.isAttackable', "focus"  },
 
+    -- Maintain Immolate on your main target(s).
+    {spells.immolate, 'focus.myDebuffDuration(spells.immolate) <= 1.0 and not spells.immolate.isRecastAt("focus")', "focus"},
+    {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 1.0 and not spells.immolate.isRecastAt("target")'},
 
-    -- Cooldowns
-    {{"nested"}, 'kps.cooldowns', {
-        {spells.darkSoulInstability, 'not player.hasBuff(spells.darkSoulInstability) and spells.darkSoulInstability.cooldown == 0 and player.emberShards > 19'},
-        {spells.darkSoulInstability, 'player.hasBuff(spells.darkSoulInstability).charges == 2 and player.emberShards > 9'},
-    }},
+    -- Cast Conflagrate  immediately following a fresh application of Immolate.
+    {spells.conflagrate, 'spells.immolate.isRecastAt("target")'},
 
-    -- Havoc + ChaosBolt at focus (or mouseover on ctrl)
-    {{"nested"}, 'not keys.alt', {
-        {spells.havoc, 'isHavocUnit("mouseover") and keys.ctrl', "mouseover" },
-        {spells.havoc, 'isHavocUnit("focus") and not player.isMoving and player.emberShards >= 10 and focus.isAttackable', "focus"  },
-        {spells.chaosBolt, 'not player.isMoving and player.burningEmbers > 0 and player.buffStacks(spells.havoc)>=3'},
-    }},
-    -- Shadowburn/Chaos Bolt (Tier 18 - 4pc)
-    {spells.shadowburn, 'mouseover.hpTotal < 1500000 and target.hp < 0.20 and player.emberShards >= 10 and mouseover.myDebuffDuration(spells.shadowburn) <= 1', 'mouseover'},
-    {spells.shadowburn, 'target.hpTotal < 200000 and player.emberShards >= 10'},
+    -- Cast Chaos Bolt if you have 5 Soul Shards.
+    {spells.chaosBolt, 'player.soulShards >= 5'},
 
-    -- Flamelicked
-    {{"nested"}, 'kps.flamelicked', {
-        {spells.incinerate, 'target.myDebuffDuration(spells.flamelicked) < 5'},
-        {spells.incinerate, 'target.debuffStacks(spells.flamelicked) < 5'},
-    }},
+    -- Cast Shadowburn (if talented) if the target will die within 5 seconds.
+    -- Has to be done manually - and probably isn't selected anyways
 
-    {{"nested"}, 'not kps.tier18 and not kps.conserve and target.isRaidBoss and player.emberShards >= 10 and target.myDebuffDuration(spells.shadowburn) <= 1', {
-        {spells.shadowburn, 'target.hp < 0.20 and (player.hasMasteryProc or player.hasCritProc or player.hasIntProc)'},
-        {spells.shadowburn, 'target.hp < 0.20 and player.hasBuff(spells.darkSoulInstability)'},
-    }},
-    {{"nested"}, 'not kps.conserve and target.isRaidBoss and player.emberShards >= 10 and not keys.alt and target.myDebuffDuration(spells.shadowburn) <= 1', {
-        {spells.chaosBolt, 'target.hp < 0.20 and (player.hasMasteryProc or player.hasCritProc or player.hasIntProc)'},
-        {spells.chaosBolt, 'target.hp < 0.20 and player.hasBuff(spells.darkSoulInstability)'},
-    }},
-    {{"nested"}, 'not kps.conserve and not target.isRaidBoss and player.emberShards >= 10 and target.myDebuffDuration(spells.shadowburn) <= 2', {
-        {spells.shadowburn, 'target.hp < 0.20 and player.emberShards >= 35'},
-        {spells.shadowburn, 'target.hp < 0.20 and (player.hasMasteryProc or player.hasCritProc or player.hasIntProc)'},
-        {spells.shadowburn, 'target.hp < 0.20 and player.hasBuff(spells.darkSoulInstability)'},
-    }},
-    {{"nested"}, 'kps.conserve and player.emberShards >= 35', {
-        {spells.chaosBolt, 'target.isRaidBoss or target.hp >= 0.20'},
-        {spells.shadowburn, 'not target.isRaidBoss and target.hp < 0.20'},
-    }},
+    -- Cast Summon Doomguard on cooldown.
+    {spells.summonDoomguard, 'kps.cooldowns'},
 
+    -- Cast Grimoire: Imp on cooldown.
+    {spells.grimoireImp, 'kps.cooldowns'},
 
-    -- Simple SingleTarget
-    {{"nested"}, '(activeEnemies.count < 4 and not keys.alt) or player.emberShards  < 10', {
-        { {"macro"}, 'player.hasBuff(spells.fireAndBrimstone)', "/cancelaura "..spells.fireAndBrimstone },
-        {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 1.0 and not spells.immolate.isRecastAt("target")'},
-        {spells.conflagrate, 'spells.conflagrate.charges >= 2'},
-        -- don't waste chaotic infusion if havoc cooldown is about to come off!
-        {{"nested"}, 'not kps.conserve', {
-            {spells.chaosBolt, 'player.emberShards >= 35'},
-            {spells.chaosBolt, 'spells.havoc.cooldown > 12 and player.hasMasteryProc or player.hasCritProc or player.hasIntProc'},
-            {spells.chaosBolt, 'player.hasBuff(spells.darkSoulInstability)'},
-        }},
-        {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 4.5 and not spells.immolate.isRecastAt("target")'},
-        {spells.conflagrate},
-        {spells.incinerate},
-    }},
-    -- Simple MultiTarget: FireAndBrimstone + default rotation
-    {{"nested"}, '(activeEnemies.count >= 4 and kps.multiTarget) and not keys.alt', {
-        {spells.fireAndBrimstone, 'player.burningEmbers > 0 and not player.hasBuff(spells.fireAndBrimstone) and not spells.fireAndBrimstone.isRecastAt("target")' },
-        {spells.conflagrate, 'spells.conflagrate.charges >= 2'},
-        {spells.chaosBolt, 'player.emberShards >= 35'},
-        {spells.immolate, 'target.hpTotal > 1000000 and target.myDebuffDuration(spells.immolate) <= 1.0 and not spells.immolate.isRecastAt("target") and player.emberShards >= 23'},
-     --   {spells.immolate, 'target.hpTotal > 1000000 and target.myDebuffDuration(spells.immolate) <= 4.5 and not spells.immolate.isRecastAt("target")'},
-        {spells.conflagrate},
-        {spells.incinerate},
-    }},
-    -- Alt-Key modifier to stop Casting
-    {{"nested"}, 'keys.alt', {
-        kps.stopCasting,
-        {spells.shadowburn, 'target.hp < 0.20 and player.emberShards >= 35'},
-        {spells.conflagrate},
-    }},
+    -- Cast Rain of Fire on large groups of stacked targets.
+    {spells.rainOfFire, 'keys.shift and player.soulShards >=3 and player.buffDuration(spells.rainOfFire) < 1.5 and player.isMoving' },
+    {spells.rainOfFire, 'keys.shift and player.soulShards >=3 and player.buffDuration(spells.rainOfFire) < 1.5 and activeEnemies.count >= 3' },
+    {spells.rainOfFire, 'keys.shift and player.soulShards >=3 and keys.ctrl' },
 
+    -- Cast Conflagrate to generate Soul Shards.
+    {spells.conflagrate},
+
+    -- Cast Chaos Bolt to maintain Eradication Icon Eradication.
+    {spells.chaosBolt, 'player.soulShards >= 2 and not target.debuffDuration(spells.eradication) <= 0.0'},
+
+    -- Cast Conflagrate to generate Soul Shards.
+    {spells.incinerate},
 }
-,"Destruction 6.2")
+,"Destruction 7.0.3")
