@@ -47,11 +47,8 @@ end)
 @function `player.hasTalent(<ROW>,<TALENT>)` - returns true if the player has the selected talent (row: 1-7, talent: 1-3).
 ]]--
 local function hasTalent(row, talent)
-    local isFree, talentIDSelected = GetTalentRowSelectionInfo(row)
-    local talentID = select(1, GetTalentInfo(row, talent, GetActiveSpecGroup()))
-    if isFree == true then return false end
-    if talentID == talentIDSelected then return true end
-    return false
+    local _, talentRowSelected =  GetTalentTierInfo(row,1)
+    return talent == talentRowSelected
 end
 function Player.hasTalent(self)
     return hasTalent
