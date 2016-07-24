@@ -52,7 +52,7 @@ from SimCraft - those might not be fully functional, but aren't tested.
 
 **Fully Supported in 7.0.3:**
 
-* Warlock: Destruction
+* Warlock: Affliction, Destruction
 
 **Outdated Rotations:**
 
@@ -60,7 +60,6 @@ from SimCraft - those might not be fully functional, but aren't tested.
 * Druid: Balance (6.2.2)
 * Paladin: Retribution (6.2.2)
 * Priest: Shadow (6.2.2)
-* Warlock: Affliction (6.2.2)
 
 **Automatically Generated Rotations:**
 _(Might not be fully functional)_

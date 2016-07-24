@@ -47,6 +47,9 @@ ADDITIONAL_SPELLS = {
     "warlock": [104316,89751,115831,115625,
                 185229, # Flamelicked - Destruction Class Trinket
                 111859, # Grimmoire: Imp
+                111897, # Grimmoire: Felhunter
+                63106, # Siphon Life
+                216457, # Shard Instability
     ],"warrior": [],
 }
 
@@ -198,6 +201,8 @@ def extract_json_from_html(html_data):
     start_pos = html_data.find("data: [", start_pos) + 6
     end_pos = html_data.find(";", start_pos) - 2
     json_data = html_data[start_pos:end_pos]
+    # Fix for Warrior
+    json_data = json_data.replace(""""rank":"Honor Talent"28,""", """"rank":"Honor Talent",""")
     return json.loads(json_data)
 
 _ALREADY_SEEN = []

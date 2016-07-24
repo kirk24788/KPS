@@ -165,6 +165,9 @@ kps.spells.warlock.wrathstorm = kps.Spell.fromId(115831)
 kps.spells.warlock.mortalCleave = kps.Spell.fromId(115625)
 kps.spells.warlock.flamelicked = kps.Spell.fromId(185229)
 kps.spells.warlock.grimoireImp = kps.Spell.fromId(111859)
+kps.spells.warlock.grimoireFelhunter = kps.Spell.fromId(111897)
+kps.spells.warlock.siphonLife = kps.Spell.fromId(63106)
+kps.spells.warlock.shardInstability = kps.Spell.fromId(216457)
 
 kps.env.warlock = {}
 

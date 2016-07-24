@@ -1,7 +1,7 @@
 --[[[
 @module Warlock Affliction Rotation
 @author Kirk24788
-@version 6.2.2
+@version 7.0.3
 ]]--
 local spells = kps.spells.warlock
 local env = kps.env.warlock
@@ -12,61 +12,49 @@ kps.rotations.register("WARLOCK","AFFLICTION",
     -- Deactivate Burning Rush if not moving for 1 second
     env.deactivateBurningRushIfNotMoving(1),
 
-    -- Cooldowns
+    -- Maintain Agony (on up to 3 targets, including Soul Effigy) at all times.
+    {spells.agony, 'target.myDebuffDuration(spells.agony) <= 7.2'},
+    {spells.agony, 'focus.myDebuffDuration(spells.agony) <= 7.2', 'focus'},
+    {spells.agony, 'mouseover.myDebuffDuration(spells.agony) <= 7.2', 'mouseover'},
+
+    -- Cast Unstable Affliction if you reach 5 Soul Shards.
+    {spells.unstableAffliction, 'player.soulShards >= 5 or player.hasBuff(spells.shardInstability)'},
+
+    -- Maintain Corruption (on up to 3 targets, including Soul Effigy) at all times.
+    {spells.corruption, 'not target.hasDebuff(spells.corruption)'},
+    {spells.corruption, 'not focus.hasDebuff(spells.corruption)', 'focus'},
+    {spells.corruption, 'not mouseover.hasDebuff(spells.corruption)', 'mouseover'},
+
+    -- Place your Soul Effigy if absent.
     {{"nested"}, 'kps.cooldowns', {
-        {spells.darkSoulMisery, 'not player.hasBuff(spells.darkSoulMisery) and spells.darkSoulMisery.cooldown == 0 and player.soulShards >= 2'},
-        {spells.darkSoulMisery, 'player.hasBuff(spells.darkSoulMisery).charges == 2 and player.soulShards >= 1'},
+        {spells.soulEffigy, 'not focus.name == "Soul Effigy" and not target.name == "Soul Effigy" and not spells.soulEffigy.isRecastAt("target")'},
+        { {"macro"}, 'not focus.name == "Soul Effigy" and not target.name == "Soul Effigy"', '/target Soul Effigy' },
+        { {"macro"}, 'not focus.name == "Soul Effigy"', "/focus" },
+        { {"macro"}, 'focus.name == "Soul Effigy" and target.name == "Soul Effigy"', '/targetlasttarget' },
     }},
 
+    -- Maintain Siphon Life (on up to 3 targets, including Soul Effigy) at all times.
+    {spells.siphonLife, 'target.myDebuffDuration(spells.siphonLife) <= 5.4'},
+    {spells.siphonLife, 'focus.myDebuffDuration(spells.siphonLife) <= 5.4', 'focus'},
+    {spells.siphonLife, 'mouseover.myDebuffDuration(spells.siphonLife) <= 5.4', 'mouseover'},
 
-    {{"nested"}, 'not kps.multiTarget', {
-        {{spells.soulburn, spells.haunt, spells.soulburn, spells.soulSwap}, 'player.timeInCombat < 2 and player.soulShards>=4 and target.isRaidBoss'},
-        {spells.agony, 'target.myDebuffDuration(spells.agony) <= 7.2'},
-        {spells.corruption, 'target.myDebuffDuration(spells.corruption) <= 5.4'},
-        {spells.unstableAffliction, 'target.myDebuffDuration(spells.unstableAffliction) <= 4.2'},
+    -- Cast Summon Doomguard on cooldown.
+    {spells.summonDoomguard, 'kps.cooldowns'},
 
-        {spells.agony, 'focus.myDebuffDuration(spells.agony) <= 7.2', 'focus'},
-        {spells.corruption, 'focus.myDebuffDuration(spells.corruption) <= 5.4', 'focus'},
-        {spells.unstableAffliction, 'focus.myDebuffDuration(spells.unstableAffliction) <= 4.2', 'focus'},
+    -- Cast Grimoire: Felhunter on cooldown.
+    {spells.grimoireFelhunter, 'kps.cooldowns'},
 
-        {spells.agony, 'mouseover.myDebuffDuration(spells.agony) <= 7.2', 'mouseover'},
-        {spells.corruption, 'mouseover.myDebuffDuration(spells.corruption) <= 5.4', 'mouseover'},
-        {spells.unstableAffliction, 'mouseover.myDebuffDuration(spells.unstableAffliction) <= 4.2', 'mouseover'},
+    -- Cast Unstable Affliction as a Soul Shard dump.
+    -- If you are talented into Absolute Corruption Icon Absolute Corruption, you should build up your Soul Shards then cast Unstable Affliction Icon Unstable Affliction several times in a row to compound the damage. It is most advantageous to do this during procs, such as trinkets or weapon enchant.
+    {spells.unstableAffliction, 'player.hasProc'},
 
-        {spells.agony, 'boss1.myDebuffDuration(spells.agony) <= 7.2 and not kps.conserve', 'boss1'},
-        {spells.corruption, 'boss1.myDebuffDuration(spells.corruption) <= 5.4 and not kps.conserve', 'boss1'},
-        {spells.unstableAffliction, 'boss1.myDebuffDuration(spells.unstableAffliction) <= 4.2 and not kps.conserve', 'boss1'},
+    -- Cast Seed of Corruption to apply Corruption Icon Corruption if there are 4 or more targets present and stacked.
+    -- Do this manually for now
 
-        {spells.agony, 'boss2.myDebuffDuration(spells.agony) <= 7.2 and not kps.conserve', 'boss2'},
-        {spells.corruption, 'boss2.myDebuffDuration(spells.corruption) <= 5.4 and not kps.conserve', 'boss2'},
-        {spells.unstableAffliction, 'boss2.myDebuffDuration(spells.unstableAffliction) <= 4.2 and not kps.conserve', 'boss2'},
+    -- Cast Life Tap when you have to move, providing your DoTs are all fully refreshed.
+    {spells.lifeTap, 'player.mana < 0.4'},
 
-        {spells.agony, 'boss3.myDebuffDuration(spells.agony) <= 7.2 and not kps.conserve', 'boss3'},
-        {spells.corruption, 'boss3.myDebuffDuration(spells.corruption) <= 5.4 and not kps.conserve', 'boss3'},
-        {spells.unstableAffliction, 'boss3.myDebuffDuration(spells.unstableAffliction) <= 4.2 and not kps.conserve', 'boss3'},
-
-        {spells.agony, 'boss4.myDebuffDuration(spells.agony) <= 7.2 and not kps.conserve', 'boss4'},
-        {spells.corruption, 'boss4.myDebuffDuration(spells.corruption) <= 5.4 and not kps.conserve', 'boss4'},
-        {spells.unstableAffliction, 'boss4.myDebuffDuration(spells.unstableAffliction) <= 4.2 and not kps.conserve', 'boss4'},
-
-        --{spells.haunt, '(target.myDebuffDuration(spells.haunt) <= 0.5 or player.souldShards>=4) and (player.hasProc or player.hasBuff(spells.darkSoulMisery) or player.soulShards >= 3)'},
-        {{spells.soulburn, spells.haunt}, 'not player.hasBuff(spells.soulburn) and player.soulShards>=2 and player.buffDuration(spells.hauntingSpirits) < 9'},
-        {spells.haunt, 'not spells.haunt.isRecastAt("target") and (player.hasProc or player.hasBuff(spells.darkSoulMisery)) and player.soulShards >= 3'},
-        {spells.haunt, 'not spells.haunt.isRecastAt("target") and player.soulShards >= 4'},
-        {spells.lifeTap, 'player.mana < 0.4 and not player.hasBuff(spells.darkSoulMisery)'},
-        {spells.drainSoul}, -- drain_soul,interrupt=1,chain=1
-    }},
-
-    {{"nested"}, 'kps.multiTarget', {
-        {{spells.soulburn, spells.seedOfCorruption}, 'not player.hasBuff(spells.soulburn) and player.soulShards>=2 and target.myDebuffDuration(spells.corruption) <= 3.0'},
-        {spells.corruption, 'target.myDebuffDuration(spells.corruption) <= 3.0 and target.hpTotal > 350000'},
-        {spells.agony, 'target.myDebuffDuration(spells.agony) <= 5.2 and target.hpTotal > 350000'},
-        --{spells.corruption, 'focus.myDebuffDuration(spells.corruption) <= 3.0', 'focus'},
-        --{spells.agony, 'focus.myDebuffDuration(spells.agony) <= 5.2', 'focus'},
-        --{spells.corruption, 'mouseover.myDebuffDuration(spells.corruption) <= 3.0', 'mouseover'},
-        --{spells.agony, 'mouseover.myDebuffDuration(spells.agony) <= 5.2', 'mouseover'},
-        {spells.lifeTap, 'player.mana < 0.4 and not player.hasBuff(spells.darkSoulMisery)'},
-        {spells.seedOfCorruption},
-    }},
+    -- Cast Drain Life/Drain Soul Icon Drain Soul as a filler.
+    {spells.drainLife},
 }
 ,"Icy Veins")
