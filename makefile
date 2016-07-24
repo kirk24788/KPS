@@ -1,6 +1,6 @@
 .PHONY: all
 
-lua_timeout = which timeout && timeout 10 lua $(1) || gtimeout 10 lua $(1)
+lua_timeout = utils/timeout.py 10 lua $(1)
 check_unchanged = make $(1) && (test -z "$$(git status --porcelain)" && echo "make target '$(1)' OK!") || (echo "make target '$(1)' FAILED - modified files:" && echo "$$(git status --porcelain)" && echo "Diff:" && git diff && exit 1)
 grep_tabs = test -z "$$(grep -nR $$'\t' * | grep -vE '^($(1))')" && echo "OK: No Tabs detected in files!" || (echo "ERROR: Detected Tabs in:" echo "$$(grep -nR $$'\t' * | grep -vE '^($(1))')" && exit 1)
 
@@ -26,7 +26,7 @@ test:
 integration_test:
 	$(call check_unchanged,toc)
 	$(call check_unchanged,readme)
-	$(call check_unchanged,class_rotations)
+#	$(call check_unchanged,class_rotations)
 	$(call check_unchanged,global_spells)
 	$(call check_unchanged,class_spells)
 

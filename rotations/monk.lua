@@ -169,7 +169,7 @@ kps.spells.monk.glyphOfCracklingOxLightning = kps.Spell.fromId(219510)
 kps.spells.monk.glyphOfCracklingCraneLightning = kps.Spell.fromId(219513)
 kps.spells.monk.glyphOfYulonsGrace = kps.Spell.fromId(219557)
 kps.spells.monk.cycloneStrikes = kps.Spell.fromId(220357)
-kps.spells.monk.blackoutKick! = kps.Spell.fromId(116768)
+kps.spells.monk.blackoutKick = kps.Spell.fromId(116768)
 kps.spells.monk.comboBreakerChiExplosion = kps.Spell.fromId(159407)
 kps.spells.monk.comboBreakerEnergize = kps.Spell.fromId(145008)
 

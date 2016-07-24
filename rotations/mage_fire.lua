@@ -9,4 +9,4 @@ local env = kps.env.mage
 
 kps.rotations.register("MAGE","FIRE",
 {
-}
+})
