@@ -10,7 +10,7 @@ kps.Keys.metatable = {}
 @function `keys.shift` - SHIFT Key
 ]]--
 function kps.Keys.prototype.shift(self)
-    return IsShiftKeyDown()
+    return IsShiftKeyDown() and not GetCurrentKeyBoardFocus()
 end
 --[[[
 @function `keys.alt` - ALT Key
