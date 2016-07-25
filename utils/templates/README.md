@@ -56,13 +56,11 @@ from SimCraft - those might not be fully functional, but aren't tested.
 If you want to help developing this AddOn, you are welcome, but there a few rules to make sure KPS is maintable.
 
 ### Prerequisites
-If you don't have it yet please install Brew (http://brew.sh) and run `brew install coreutils` in a terminal to
-make sure you have gtimeout (required for automated testing).
+If you don't have it yet please install Brew (http://brew.sh).
 You also have to install the Command Line Utils to for `make` and of course you need to have LUA installed (also available via brew!).
 
 If you don't have a Mac, you somehow have to provide these tools:
 
-* gtimeout (gnu timeout)
 * python (at least 2.6)
 * make
 

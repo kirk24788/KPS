@@ -57,125 +57,6 @@ SPELL_BLACKLIST = [
     "Leather Specialization",
 ]
 
-ENV_FUNCTIONS = {
-    "deathknight": """
-function kps.env.deathknight.diseaseMinRemains(unit)
-    minTimeLeft = min(unit.myDebuffDuration(kps.spells.deathknight.bloodPlague),
-                      unit.myDebuffDuration(kps.spells.deathknight.frostFever))
-    if kps.env.player.hasTalent(7, 1) then -- Necrotic Plague Talent
-        return min(minTimeLeft, unit.myDebuffDuration(kps.spells.deathknight.necroticPlague))
-    else
-        return minTimeLeft
-    end
-end
-
-function kps.env.deathknight.diseaseMaxRemains(unit)
-    maxTimeLeft = max(unit.myDebuffDuration(kps.spells.deathknight.bloodPlague),
-                      unit.myDebuffDuration(kps.spells.deathknight.frostFever))
-    if kps.env.player.hasTalent(7, 1) then -- Necrotic Plague Talent
-        return max(maxTimeLeft, unit.myDebuffDuration(kps.spells.deathknight.necroticPlague))
-    else
-        return maxTimeLeft
-    end
-end
-
-function kps.env.deathknight.diseaseTicking(unit)
-    return kps.env.deathknight.diseaseMinRemains(unit) > 0
-end
-
-function kps.env.deathknight.diseaseMaxTicking(unit)
-    return kps.env.deathknight.diseaseMaxRemains(unit) > 0
-end""",
-    "druid": """""",
-    "hunter": """""",
-    "mage": """
-local burnPhase = false
-function kps.env.mage.burnPhase()
-    if not burnPhase then
-        -- At the start of the fight and whenever Evocation Icon Evocation is about to come off cooldown, you need to start the Burn Phase
-        -- and burn your Mana. Before doing so, make sure that you have 3 charges of Arcane Missiles and 4 stacks of Arcane Charge.
-        burnPhase = kps.env.player.timeInCombat < 5 or kps.spells.mage.evocation.cooldown < 2
-    else
-        burnPhase = kps.env.player.mana > 0.35
-    end
-    return burnPhase
-end
-
-local incantersFlowDirection = 0
-local incantersFlowLastStacks = 0
-function kps.env.mage.incantersFlowDirection()
-    local stack = select(4, UnitBuff("player", GetSpellInfo(116267)))
-    if stack < incantersFlowLastStacks then
-        incantersFlowDirection = -1
-        incantersFlowLastStacks = stack
-    elseif stack > incantersFlowLastStacks then
-        incantersFlowDirection = 1
-        incantersFlowLastStacks = stack
-    end
-    return encantersFlowDirection
-end
-
-local pyroChain = false
-local pyroChainEnd = 0
-function kps.env.mage.pyroChain()
-    if not pyroChain then
-        -- Combustion sequence initialization
-        -- This sequence lists the requirements for preparing a Combustion combo with each talent choice
-        -- Meteor Combustion:
-        --    actions.init_combust=start_pyro_chain,if=talent.meteor.enabled&cooldown.meteor.up&((cooldown.combustion.remains<gcd.max*3&buff.pyroblast.up&(buff.heating_up.up^action.fireball.in_flight))|(buff.pyromaniac.up&(cooldown.combustion.remains<ceil(buff.pyromaniac.remains%gcd.max)*gcd.max)))
-        -- Prismatic Crystal Combustion without 2T17:
-        --    actions.init_combust+=/start_pyro_chain,if=talent.prismatic_crystal.enabled&!set_bonus.tier17_2pc&cooldown.prismatic_crystal.up&((cooldown.combustion.remains<gcd.max*2&buff.pyroblast.up&(buff.heating_up.up^action.fireball.in_flight))|(buff.pyromaniac.up&(cooldown.combustion.remains<ceil(buff.pyromaniac.remains%gcd.max)*gcd.max)))
-        -- Prismatic Crystal Combustion with 2T17:
-        --    actions.init_combust+=/start_pyro_chain,if=talent.prismatic_crystal.enabled&set_bonus.tier17_2pc&cooldown.prismatic_crystal.up&cooldown.combustion.remains<gcd.max*2&buff.pyroblast.up&(buff.heating_up.up^action.fireball.in_flight)
-        -- Unglyphed Combustions between Prismatic Crystals:
-        --    actions.init_combust+=/start_pyro_chain,if=talent.prismatic_crystal.enabled&!glyph.combustion.enabled&cooldown.prismatic_crystal.remains>20&((cooldown.combustion.remains<gcd.max*2&buff.pyroblast.up&buff.heating_up.up&action.fireball.in_flight)|(buff.pyromaniac.up&(cooldown.combustion.remains<ceil(buff.pyromaniac.remains%gcd.max)*gcd.max)))
-        -- Kindling or Level 90 Combustion:
-        --    actions.init_combust+=/start_pyro_chain,if=!talent.prismatic_crystal.enabled&!talent.meteor.enabled&((cooldown.combustion.remains<gcd.max*4&buff.pyroblast.up&buff.heating_up.up&action.fireball.in_flight)|(buff.pyromaniac.up&cooldown.combustion.remains<ceil(buff.pyromaniac.remains%gcd.max)*(gcd.max+talent.kindling.enabled)))
-
-        --TODO: Implement pyroChain sequence
-        -- pyroChainStart = GetTime()
-        return false
-    else
-        -- actions=stop_pyro_chain,if=prev_off_gcd.combustion
-        pyroChain = kps.env.player.mana > 0.35
-    end
-    return pyroChain
-end
-function kps.env.mage.pyroChainDuration()
-    local duration = pyroChainEnd - GetTime()
-    if duration < 0 then return 0 else return duration end
-end
-""",
-    "monk": """""",
-    "paladin": """""",
-    "priest": """""",
-    "rogue": """""",
-    "shaman": """""",
-    "warlock": """
-function kps.env.warlock.isHavocUnit(unit)
-    if not UnitExists(unit) then  return false end
-    if UnitIsUnit("target",unit) then return false end
-    return true
-end
-local burningRushLastMovement = 0
-function kps.env.warlock.deactivateBurningRushIfNotMoving(seconds)
-    return function ()
-        if not seconds then seconds = 0 end
-        local player = kps.env.player
-        if player.isMoving or not player.hasBuff(kps.spells.warlock.burningRush) then
-            burningRushLastMovement = GetTime()
-        else
-            local nonMovingDuration = GetTime() - burningRushLastMovement
-            if nonMovingDuration >= seconds then
-                RunMacroText("/cancelaura " .. kps.spells.warlock.burningRush)
-            end
-        end
-    end
-end
-""",
-    "warrior": """""",
-}
-
 def load_html_page(class_id, cache_age):
     cache_file = "/tmp/_tb_ext_%s.cache" % class_id
     try:
@@ -244,12 +125,11 @@ def generate_lua(spells, class_name):
     s = """--[[[
 @module %s
 @description
-%s Spells and Environment Functions.
+%s Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
 kps.spells.%s = {}
-
 """ % (class_name.title(), class_name.title(), class_name)
     for spell in spells:
         if not is_filtered(spell)[0]:
@@ -260,7 +140,7 @@ kps.spells.%s = {}
             s += "kps.spells.%s.%s = kps.Spell.fromId(%s)\n" % (class_name, spell.key, spell.id)
         except:
             LOG.error("ERROR: Spell-ID %s not found for %s", spell_id, class_name)
-    return s + "\nkps.env." + class_name + " = {}\n" + ENV_FUNCTIONS[class_name] + "\n"
+    return s
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Loads Class Spells from Wowhead')

@@ -51,6 +51,17 @@ modules\auto_turn.lua
 modules\totem.lua
 modules\spell_id.lua
 modules\unlock\basic.lua
+rotations\deathknight_spells.lua
+rotations\druid_spells.lua
+rotations\hunter_spells.lua
+rotations\mage_spells.lua
+rotations\monk_spells.lua
+rotations\paladin_spells.lua
+rotations\priest_spells.lua
+rotations\rogue_spells.lua
+rotations\shaman_spells.lua
+rotations\warlock_spells.lua
+rotations\warrior_spells.lua
 rotations\deathknight.lua
 rotations\druid.lua
 rotations\hunter.lua

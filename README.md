@@ -82,13 +82,11 @@ _(Might not be fully functional)_
 If you want to help developing this AddOn, you are welcome, but there a few rules to make sure KPS is maintable.
 
 ### Prerequisites
-If you don't have it yet please install Brew (http://brew.sh) and run `brew install coreutils` in a terminal to
-make sure you have gtimeout (required for automated testing).
+If you don't have it yet please install Brew (http://brew.sh).
 You also have to install the Command Line Utils to for `make` and of course you need to have LUA installed (also available via brew!).
 
 If you don't have a Mac, you somehow have to provide these tools:
 
-* gtimeout (gnu timeout)
 * python (at least 2.6)
 * make
 
@@ -372,7 +370,7 @@ Members:
  * `modules/unit/unit_state.lua:13` - PvP
  * `modules/unit/unit_state.lua:26` - if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
  * `modules/unit/unit_state.lua:27` - Refactor!!!
- * `rotations/mage.lua:254` - Implement pyroChain sequence
+ * `rotations/mage.lua:52` - Implement pyroChain sequence
 
 
 

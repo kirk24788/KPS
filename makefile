@@ -39,7 +39,7 @@ global_spells:
 
 # Rotation Spells for each class
 class_spells: deathknight_spells druid_spells hunter_spells mage_spells monk_spells paladin_spells priest_spells rogue_spells shaman_spells warlock_spells warrior_spells
-%_spells: rotations/%.lua
+%_spells: rotations/%_spells.lua
 	./utils/printClassSpells.py -c $(subst _spells,,$@) -o $<
 
 
