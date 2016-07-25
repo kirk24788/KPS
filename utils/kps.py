@@ -56,7 +56,12 @@ def parse_rotation_meta(class_name, spec_name):
     for line in comment_data.split("\n"):
         line_stripped = line.strip()
         if line_stripped != "":
-            meta_key, meta_data = line_stripped.split(" ", 1)
+            parts = line_stripped.split(" ", 1)
+            if len(parts) == 2:
+                meta_key, meta_data = parts
+            else:
+                meta_key = parts[0]
+                meta_data = ""
             if meta_key[0] == "@":
                 last_meta_key = meta_key
             else:

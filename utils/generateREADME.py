@@ -49,6 +49,7 @@ def read_rotation_data():
 
 
     fully_supported = {}
+    untested_supported = {}
     outdated = {}
     generated = {}
 
@@ -62,9 +63,14 @@ def read_rotation_data():
                     generated[class_name] = []
                 generated[class_name].append("%s (%s)" % (spec_name, meta["version"] ))
             elif meta["version"] == WOW_VERSION:
-                if class_name not in fully_supported.keys():
-                    fully_supported[class_name] = []
-                fully_supported[class_name].append(spec_name)
+                if "untested" in meta.keys():
+                    if class_name not in untested_supported.keys():
+                        untested_supported[class_name] = []
+                    untested_supported[class_name].append(spec_name)
+                else:
+                    if class_name not in fully_supported.keys():
+                        fully_supported[class_name] = []
+                    fully_supported[class_name].append(spec_name)
             else:
                 if class_name not in fully_supported.keys():
                     outdated[class_name] = []
@@ -75,6 +81,13 @@ def read_rotation_data():
     else:
         for class_name in sorted(fully_supported.keys()):
             spec_names = sorted(fully_supported[class_name])
+            rotation_data = "%s* %s: %s\n" % (rotation_data, class_name, ", ".join(spec_names))
+        rotation_data = rotation_data + "\n"
+
+    if len(untested_supported.keys()) > 0:
+        rotation_data = rotation_data + "**Untested Rotations in %s:**\n\n" % WOW_VERSION
+        for class_name in sorted(untested_supported.keys()):
+            spec_names = sorted(untested_supported[class_name])
             rotation_data = "%s* %s: %s\n" % (rotation_data, class_name, ", ".join(spec_names))
         rotation_data = rotation_data + "\n"
 
