@@ -152,7 +152,7 @@ kps.RaidStatus.prototype.defaultTarget = kps.utils.cachedValue(function()
     if kps["env"].target.isHealable and kps["env"].target.hpIncoming < 0.5 then return kps["env"].target end
     if not kps["env"].target.isHealable and kps["env"].targettarget.isHealable and kps["env"].targettarget.hpIncoming < 0.5 then return kps["env"].targettarget end
     -- Nothing selected - get lowest Tank if it is NOT the player and lower than 50%
-    if kps.RaidStatus.prototype.lowestTankInRaid().unit ~= "player" and kps.RaidStatus.prototype.lowestTankInRaid().hpInc < 0.5 then return  kps.RaidStatus.prototype.lowestTankInRaid() end
+    if kps.RaidStatus.prototype.lowestTankInRaid().unit ~= "player" and kps.RaidStatus.prototype.lowestTankInRaid().hpIncoming < 0.5 then return  kps.RaidStatus.prototype.lowestTankInRaid() end
     -- Neither player, not focus/target nor tank are critical - heal lowest raid member
     return kps.RaidStatus.prototype.lowestInRaid()
 end)
