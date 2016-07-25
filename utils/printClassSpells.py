@@ -48,6 +48,7 @@ ADDITIONAL_SPELLS = {
                 185229, # Flamelicked - Destruction Class Trinket
                 111859, # Grimmoire: Imp
                 111897, # Grimmoire: Felhunter
+                111898, # Grimmoire: Felguard
                 63106, # Siphon Life
                 216457, # Shard Instability
     ],"warrior": [],
