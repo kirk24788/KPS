@@ -46,10 +46,9 @@ class_spells: deathknight_spells druid_spells hunter_spells mage_spells monk_spe
 # Rotations for each class
 class_rotations: deathknight_rotations druid_rotations hunter_rotations mage_rotations monk_rotations paladin_rotations priest_rotations rogue_rotations shaman_rotations warlock_rotations warrior_rotations
 
-# deathknight_frost_rotation excluded from run - must be called manually
-deathknight_rotations: deathknight_blood_rotation deathknight_unholy_rotation
+deathknight_rotations: deathknight_blood_rotation deathknight_frost_rotation deathknight_unholy_rotation
 deathknight_blood_rotation:
-	#MANUAL ROTATION: ./utils/convertSimC.py -p simc/deathknight_blood.simc -c deathknight -s blood -o rotations/deathknight_blood.lua
+	./utils/convertSimC.py -p simc/deathknight_blood.simc -c deathknight -s blood -o rotations/deathknight_blood.lua
 deathknight_frost_rotation:
 	./utils/convertSimC.py -p simc/deathknight_frost_1h.simc -c deathknight -s frost -o rotations/deathknight_frost.lua
 	./utils/convertSimC.py -p simc/deathknight_frost_2h.simc -c deathknight -s frost -a rotations/deathknight_frost.lua
@@ -58,7 +57,7 @@ deathknight_unholy_rotation:
 
 druid_rotations: druid_balance_rotation druid_feral_rotation druid_guardian_rotation
 druid_balance_rotation:
-	#MANUAL ROTATION: ./utils/convertSimC.py -p simc/druid_balance.simc -c druid -s balance -o rotations/druid_balance.lua
+	./utils/convertSimC.py -p simc/druid_balance.simc -c druid -s balance -o rotations/druid_balance.lua
 druid_feral_rotation:
 	./utils/convertSimC.py -p simc/druid_feral.simc -c druid -s feral -o rotations/druid_feral.lua
 druid_guardian_rotation:
@@ -92,7 +91,7 @@ paladin_rotations: paladin_protection_rotation paladin_retribution_rotation
 paladin_protection_rotation:
 	./utils/convertSimC.py -p simc/paladin_protection.simc -c paladin -s protection -o rotations/paladin_protection.lua
 paladin_retribution_rotation:
-	#MANUAL ROTATION: ./utils/convertSimC.py -p simc/paladin_retribution.simc -c paladin -s retribution -o rotations/paladin_retribution.lua
+	./utils/convertSimC.py -p simc/paladin_retribution.simc -c paladin -s retribution -o rotations/paladin_retribution.lua
 
 priest_rotations: priest_discipline_rotation priest_holy_rotation priest_shadow_rotation
 priest_discipline_rotation:
@@ -100,14 +99,14 @@ priest_discipline_rotation:
 priest_holy_rotation:
 	./utils/convertSimC.py -p simc/priest_holy_dmg.simc -c priest -s holy -o rotations/priest_holy.lua
 priest_shadow_rotation:
-	#MANUAL ROTATION: ./utils/convertSimC.py -p simc/priest_shadow.simc -c priest -s shadow -o rotations/priest_shadow.lua
+	./utils/convertSimC.py -p simc/priest_shadow.simc -c priest -s shadow -o rotations/priest_shadow.lua
 
 # rogue_assassination_rotation rogue_combat_rotation excluded from run - must be called manually
 rogue_rotations: rogue_subtlety_rotation
 rogue_assassination_rotation:
-	#CHANGED ROTATION: ./utils/convertSimC.py -p simc/rogue_assassination.simc -c rogue -s assassination -o rotations/rogue_assassination.lua
+	./utils/convertSimC.py -p simc/rogue_assassination.simc -c rogue -s assassination -o rotations/rogue_assassination.lua
 rogue_combat_rotation:
-	#CHANGED ROTATION: ./utils/convertSimC.py -p simc/rogue_combat.simc -c rogue -s combat -o rotations/rogue_combat.lua
+	./utils/convertSimC.py -p simc/rogue_combat.simc -c rogue -s combat -o rotations/rogue_combat.lua
 rogue_subtlety_rotation:
 	./utils/convertSimC.py -p simc/rogue_subtlety.simc -c rogue -s subtlety -o rotations/rogue_subtlety.lua
 
@@ -119,11 +118,11 @@ shaman_enhancement_rotation:
 
 warlock_rotations: warlock_affliction_rotation warlock_demonology_rotation warlock_destruction_rotation
 warlock_affliction_rotation:
-	#MANUAL ROTATION: ./utils/convertSimC.py -p simc/warlock_affliction.simc -c warlock -s affliction -o rotations/warlock_affliction.lua
+	./utils/convertSimC.py -p simc/warlock_affliction.simc -c warlock -s affliction -o rotations/warlock_affliction.lua
 warlock_demonology_rotation:
 	./utils/convertSimC.py -p simc/warlock_demonology.simc -c warlock -s demonology -o rotations/warlock_demonology.lua
 warlock_destruction_rotation:
-	#MANUAL ROTATION: ./utils/convertSimC.py -p simc/warlock_destruction.simc -c warlock -s destruction -o rotations/warlock_destruction.lua
+	./utils/convertSimC.py -p simc/warlock_destruction.simc -c warlock -s destruction -o rotations/warlock_destruction.lua
 
 warrior_rotations: warrior_arms_rotation warrior_fury_rotation warrior_protection_rotation
 warrior_arms_rotation:

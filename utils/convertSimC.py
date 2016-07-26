@@ -7,7 +7,7 @@ import logging
 import argparse
 import spells
 
-from kps import ParserError, lower_case, setup_logging_and_get_args
+from kps import ParserError, lower_case, setup_logging_and_get_args, parse_rotation_meta
 from config import SUPPORTED_SPECS
 from config import WOW_VERSION
 
@@ -803,13 +803,18 @@ if __name__ == "__main__":
     group.add_argument('-o','--output', help='Output file (omit to print to stdout)', default=None)
     group.add_argument('-a','--append', help='Append file (omit to print to stdout)', default=None)
     args = setup_logging_and_get_args(parser)
-    simc = SimCraftProfile(args.simc, args.kps_class, args.kps_spec, args.title)
-    if args.output:
-        open(args.output,"w").write(str(simc))
-    elif args.append:
-        simc.show_header = False
-        open(args.append,"a").write(str(simc))
+    meta = parse_rotation_meta(args.kps_class, args.kps_spec)
+    if "generated" in meta.keys():
+        simc = SimCraftProfile(args.simc, args.kps_class, args.kps_spec, args.title)
+        if args.output:
+            open(args.output,"w").write(str(simc))
+        elif args.append:
+            simc.show_header = False
+            open(args.append,"a").write(str(simc))
+        else:
+            print simc
     else:
-        print simc
+        LOG.info("Skipping %s:%s - Manual rotation" % (args.kps_class, args.kps_spec))
+
 
 
