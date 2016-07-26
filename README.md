@@ -269,6 +269,14 @@ Members:
 #### Spell Class
 Provides access to specific spell information and provide an localization-independant access to WoW spells.
 
+Assuming you want to cast `mySpell`, then `<SPELL>` may be one of:
+
+ * `spells.mySpell`: If you are in a rotation *condition* - you can also use this short notation within your rotation spells, if you have previously defined spells like so (which is by default the first line in every class rotation):
+   ```
+      local spells = kps.spells.warlock
+   ```
+ * `kps.spells.warlock.mySpell`: This is the fully qualified spell, you can always use this if you're unsure or if you want to access other classes spells
+
 Members:
 
  * `<SPELL>.spellbookType` - returns the spellbook type - either 'spell' for a player spell or 'pet' for a pet spell
