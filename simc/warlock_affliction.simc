@@ -1,12 +1,9 @@
-warlock="Warlock_Affliction_T17N"
+warlock="Warlock_Affliction_T18N"
 level=100
-race=gnome
+race=troll
 role=spell
 position=back
-talents=0000111
-talent_override=grimoire_of_service,if=talent.demonic_servitude.enabled
-talent_override=soulburn_haunt,if=enemies=2
-talent_override=cataclysm,if=enemies>2
+talents=2203011
 spec=affliction
 
 # This default action priority list is automatically created based on your character.
@@ -18,72 +15,71 @@ spec=affliction
 # Executed before combat begins. Accepts non-harmful actions only.
 
 actions.precombat=flask,type=greater_draenic_intellect_flask
-actions.precombat+=/food,type=sleeper_sushi
-actions.precombat+=/dark_intent,if=!aura.spell_power_multiplier.up
-actions.precombat+=/summon_pet,if=!talent.demonic_servitude.enabled&(!talent.grimoire_of_sacrifice.enabled|buff.grimoire_of_sacrifice.down)
-actions.precombat+=/summon_doomguard,if=talent.demonic_servitude.enabled&active_enemies<9
-actions.precombat+=/summon_infernal,if=talent.demonic_servitude.enabled&active_enemies>=9
+actions.precombat+=/food,type=felmouth_frenzy
+actions.precombat+=/summon_pet,if=!talent.grimoire_of_supremacy.enabled&(!talent.grimoire_of_sacrifice.enabled|buff.demonic_power.down)
+actions.precombat+=/summon_doomguard,if=talent.grimoire_of_supremacy.enabled&active_enemies<3
+actions.precombat+=/summon_infernal,if=talent.grimoire_of_supremacy.enabled&active_enemies>=3
 actions.precombat+=/snapshot_stats
-actions.precombat+=/grimoire_of_sacrifice,if=talent.grimoire_of_sacrifice.enabled&!talent.demonic_servitude.enabled
+actions.precombat+=/grimoire_of_sacrifice,if=talent.grimoire_of_sacrifice.enabled
 actions.precombat+=/potion,name=draenic_intellect
+actions.precombat+=/mana_tap,if=talent.mana_tap.enabled&!buff.mana_tap.remains
 
 # Executed every time the actor is available.
 
-actions=potion,name=draenic_intellect,if=target.time_to_die<=25|buff.dark_soul.remains>10|(glyph.dark_soul.enabled&buff.dark_soul.remains)
+actions=soul_effigy,if=!pet.soul_effigy.active
+actions+=/agony,if=remains<=tick_time+gcd
+actions+=/agony,target=soul_effigy,if=remains<=tick_time+gcd
+actions+=/service_pet
+actions+=/summon_doomguard,if=!talent.grimoire_of_supremacy.enabled&spell_targets.infernal_awakening<3
+actions+=/summon_infernal,if=!talent.grimoire_of_supremacy.enabled&spell_targets.infernal_awakening>=3
 actions+=/berserking
 actions+=/blood_fury
 actions+=/arcane_torrent
-actions+=/mannoroths_fury
-actions+=/dark_soul,if=!talent.archimondes_darkness.enabled|(talent.archimondes_darkness.enabled&(charges=2|target.time_to_die<40|((trinket.proc.any.react|trinket.stacking_proc.any.react)&(!talent.grimoire_of_service.enabled|!talent.demonic_servitude.enabled|pet.service_doomguard.active|recharge_time<=cooldown.service_pet.remains))))
-actions+=/service_pet,if=talent.grimoire_of_service.enabled&(target.time_to_die>120|target.time_to_die<=25|(buff.dark_soul.remains&target.health.pct<20))
-actions+=/summon_doomguard,if=!talent.demonic_servitude.enabled&active_enemies<9
-actions+=/summon_infernal,if=!talent.demonic_servitude.enabled&active_enemies>=9
-actions+=/kiljaedens_cunning,if=(talent.cataclysm.enabled&!cooldown.cataclysm.remains)
-actions+=/kiljaedens_cunning,moving=1,if=!talent.cataclysm.enabled
-actions+=/cataclysm
-actions+=/soulburn,cycle_targets=1,if=!talent.soulburn_haunt.enabled&active_enemies>2&dot.corruption.remains<=dot.corruption.duration*0.3
-actions+=/seed_of_corruption,cycle_targets=1,if=!talent.soulburn_haunt.enabled&active_enemies>2&!dot.seed_of_corruption.remains&buff.soulburn.remains
-actions+=/haunt,if=shard_react&!talent.soulburn_haunt.enabled&!in_flight_to_target&(dot.haunt.remains<duration*0.3+cast_time+travel_time|soul_shard=4)&(trinket.proc.any.react|trinket.stacking_proc.any.react>6|buff.dark_soul.up|soul_shard>2|soul_shard*14<=target.time_to_die)
-actions+=/soulburn,if=shard_react&talent.soulburn_haunt.enabled&buff.soulburn.down&(buff.haunting_spirits.remains<=buff.haunting_spirits.duration*0.3)
-actions+=/haunt,if=shard_react&talent.soulburn_haunt.enabled&!in_flight_to_target&((buff.soulburn.up&((buff.haunting_spirits.remains<=buff.haunting_spirits.duration*0.3&dot.haunt.remains<=dot.haunt.duration*0.3)|buff.haunting_spirits.down)))
-actions+=/haunt,if=shard_react&talent.soulburn_haunt.enabled&!in_flight_to_target&buff.haunting_spirits.remains>=buff.haunting_spirits.duration*0.5&(dot.haunt.remains<duration*0.3+cast_time+travel_time|soul_shard=4)&(trinket.proc.any.react|trinket.stacking_proc.any.react>6|buff.dark_soul.up|soul_shard>2|soul_shard*14<=target.time_to_die)
-actions+=/agony,cycle_targets=1,if=target.time_to_die>16&remains<=(duration*0.3)&((talent.cataclysm.enabled&remains<=(cooldown.cataclysm.remains+action.cataclysm.cast_time))|!talent.cataclysm.enabled)
-actions+=/unstable_affliction,cycle_targets=1,if=target.time_to_die>10&remains<=(duration*0.3)
-actions+=/seed_of_corruption,cycle_targets=1,if=!talent.soulburn_haunt.enabled&active_enemies>3&!dot.seed_of_corruption.ticking
-actions+=/corruption,cycle_targets=1,if=target.time_to_die>12&remains<=(duration*0.3)
-actions+=/seed_of_corruption,cycle_targets=1,if=active_enemies>3&!dot.seed_of_corruption.ticking
-actions+=/life_tap,if=mana.pct<40&buff.dark_soul.down
-actions+=/drain_soul,interrupt=1,chain=1
-actions+=/agony,cycle_targets=1,moving=1,if=mana.pct>50
+actions+=/soul_harvest
+actions+=/corruption,if=remains<=tick_time+gcd
+actions+=/siphon_life,if=remains<=tick_time+gcd
+actions+=/corruption,target=soul_effigy,if=remains<=tick_time+gcd
+actions+=/siphon_life,target=soul_effigy,if=remains<=tick_time+gcd
+actions+=/mana_tap,if=buff.mana_tap.remains<=buff.mana_tap.duration*0.3&target.time_to_die>buff.mana_tap.duration*0.3
+actions+=/phantom_singularity
+actions+=/unstable_affliction,if=(soul_shard>=4|buff.shard_instability.remains|buff.instability.remains|buff.soul_harvest.remains)
+actions+=/agony,if=remains<=duration*0.3
+actions+=/agony,target=soul_effigy,if=remains<=duration*0.3
+actions+=/corruption,if=remains<=duration*0.3
+actions+=/haunt
+actions+=/siphon_life,if=remains<=duration*0.3
+actions+=/corruption,target=soul_effigy,if=remains<=duration*0.3
+actions+=/siphon_life,target=soul_effigy,if=remains<=duration*0.3
+actions+=/life_tap,if=mana.pct<=10
+actions+=/drain_soul,chain=1,interrupt=1
+actions+=/drain_life,chain=1,interrupt=1
 actions+=/life_tap
 
-head=shadow_councils_hood,id=115586
-neck=gruuls_lip_ring,id=113872,enchant_id=5318
-shoulders=hexweave_mantle,id=114809,bonus_id=118/559
-back=runefrenzy_greatcloak,id=113937,enchant_id=5311
-chest=shadow_councils_robes,id=115588
-wrists=hexweave_bracers,id=114814,bonus_id=119/559
-hands=shadow_councils_gloves,id=115585
-waist=seeking_ember_girdle,id=113941
-legs=shadow_councils_leggings,id=115587
-feet=hexweave_slippers,id=114815,bonus_id=118/559
-finger1=ukuroggs_corrupted_seal,id=113975,enchant_id=5325
-finger2=timeless_solium_band_of_the_archmage,id=118296,enchant_id=5325
-trinket1=darmacs_unstable_talisman,id=113948
-trinket2=blackiron_micro_crucible,id=113984
-main_hand=infernoflame_staff,id=113869,enchant_id=5337
+head=deathrattle_mask,id=124162
+neck=vial_of_immiscible_liquid,id=124212,enchant_id=5318
+shoulders=mantle_of_the_eredar_lord,id=124176
+back=cloak_of_hideous_unity,id=124138,enchant_id=5311
+chest=deathrattle_robe,id=124173
+wrists=contemptuous_wristguards,id=124186
+hands=deathrattle_gloves,id=124156
+waist=sash_of_unending_anguish,id=124181
+legs=deathrattle_leggings,id=124167
+feet=dessicated_soulrender_slippers,id=124150
+finger1=spellbound_runic_band_of_the_allseeing_eye,id=118306,enchant_id=5325
+finger2=loathful_encrusted_band,id=124192,enchant_id=5325
+trinket1=fragment_of_the_dark_star,id=124522
+trinket2=chipped_soul_prism,id=124545
+main_hand=edict_of_argus,id=124382,enchant_id=5337
 
 # Gear Summary
-# gear_ilvl=670.67
-# gear_stamina=3589
-# gear_intellect=3008
-# gear_spell_power=1389
-# gear_crit_rating=263
-# gear_haste_rating=1568
-# gear_mastery_rating=1354
-# gear_armor=727
-# gear_multistrike_rating=162
-# gear_versatility_rating=78
-# set_bonus=tier17_2pc=1
-# set_bonus=tier17_4pc=1
+# gear_ilvl=700.67
+# gear_stamina=4705
+# gear_intellect=5202
+# gear_crit_rating=1005
+# gear_haste_rating=2190
+# gear_mastery_rating=1839
+# gear_versatility_rating=343
+# gear_armor=885
+# set_bonus=tier18_2pc=1
+# set_bonus=tier18_4pc=1
 default_pet=felhunter

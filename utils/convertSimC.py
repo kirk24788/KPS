@@ -553,7 +553,7 @@ class Condition(object):
             spell = _convert_spell(m.group(1), self.profile)
             spell_key = "kps.spells.%s.%s" % (self.player_spells.class_name, spell)
             if spell not in self.player_spells.keys():
-                raise ParserError("Spell '%s' unknown (in expression: '%s')!" % (cd_key, expression))
+                raise ParserError("Spell '%s' unknown (in expression: '%s')!" % (spell_key, expression))
             return "spells.%s.isRecastAt(\"target\")" % spell
 
         m = re.search(r"prev_off_gcd\.(.*)", expression)
@@ -561,7 +561,7 @@ class Condition(object):
             spell = _convert_spell(m.group(1), self.profile)
             spell_key = "kps.spells.%s.%s" % (self.player_spells.class_name, spell)
             if spell not in self.player_spells.keys():
-                raise ParserError("Spell '%s' unknown (in expression: '%s')!" % (cd_key, expression))
+                raise ParserError("Spell '%s' unknown (in expression: '%s')!" % (spell_key, expression))
             return "spells.%s.isRecastAt(\"target\")" % spell
 
         m = re.search(r"totem\.(.*)\.(remains|active)", expression)
@@ -804,7 +804,7 @@ if __name__ == "__main__":
     group.add_argument('-a','--append', help='Append file (omit to print to stdout)', default=None)
     args = setup_logging_and_get_args(parser)
     meta = parse_rotation_meta(args.kps_class, args.kps_spec)
-    if "generated" in meta.keys():
+    if "generated_from" in meta.keys():
         simc = SimCraftProfile(args.simc, args.kps_class, args.kps_spec, args.title)
         if args.output:
             open(args.output,"w").write(str(simc))

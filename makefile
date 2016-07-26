@@ -84,8 +84,7 @@ monk_brewmaster_rotation:
 	./utils/convertSimC.py -p simc/monk_brewmaster_1h.simc -c monk -s brewmaster -o rotations/monk_brewmaster.lua
 	./utils/convertSimC.py -p simc/monk_brewmaster_2h.simc -c monk -s brewmaster -a rotations/monk_brewmaster.lua
 monk_windwalker_rotation:
-	./utils/convertSimC.py -p simc/monk_windwalker_1h.simc -c monk -s windwalker -o rotations/monk_windwalker.lua
-	./utils/convertSimC.py -p simc/monk_windwalker_2h.simc -c monk -s windwalker -a rotations/monk_windwalker.lua
+	./utils/convertSimC.py -p simc/monk_windwalker.simc -c monk -s windwalker -a rotations/monk_windwalker.lua
 
 paladin_rotations: paladin_protection_rotation paladin_retribution_rotation
 paladin_protection_rotation:
@@ -101,12 +100,11 @@ priest_holy_rotation:
 priest_shadow_rotation:
 	./utils/convertSimC.py -p simc/priest_shadow.simc -c priest -s shadow -o rotations/priest_shadow.lua
 
-# rogue_assassination_rotation rogue_combat_rotation excluded from run - must be called manually
-rogue_rotations: rogue_subtlety_rotation
+rogue_rotations: rogue_assassination_rotation rogue_subtlety_rotation rogue_subtlety_rotation
 rogue_assassination_rotation:
 	./utils/convertSimC.py -p simc/rogue_assassination.simc -c rogue -s assassination -o rotations/rogue_assassination.lua
-rogue_combat_rotation:
-	./utils/convertSimC.py -p simc/rogue_combat.simc -c rogue -s combat -o rotations/rogue_combat.lua
+rogue_outlaw_rotation:
+	./utils/convertSimC.py -p simc/rogue_outlaw.simc -c rogue -s outlaw -o rotations/rogue_outlaw.lua
 rogue_subtlety_rotation:
 	./utils/convertSimC.py -p simc/rogue_subtlety.simc -c rogue -s subtlety -o rotations/rogue_subtlety.lua
 
@@ -132,5 +130,3 @@ warrior_fury_rotation:
 	./utils/convertSimC.py -p simc/warrior_fury_2h.simc -c warrior -s fury -a rotations/warrior_fury.lua
 warrior_protection_rotation:
 	./utils/convertSimC.py -p simc/warrior_protection.simc -c warrior -s protection -o rotations/warrior_protection.lua
-	./utils/convertSimC.py -p simc/warrior_gladiator.simc -c warrior -s protection -a rotations/warrior_protection.lua
-

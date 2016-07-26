@@ -1,7 +1,7 @@
 --[[[
 @module Priest Holy Rotation
 @generated_from priest_holy_dmg.simc
-@version 6.2.2
+@version 7.0.3
 ]]--
 local spells = kps.spells.priest
 local env = kps.env.priest

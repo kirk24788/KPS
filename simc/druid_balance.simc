@@ -1,9 +1,9 @@
-druid="Druid_Balance_T17N"
+druid="Druid_Balance_T18N"
 level=100
 race=troll
 role=spell
 position=back
-talents=0101001
+talents=0001001
 spec=balance
 
 # This default action priority list is automatically created based on your character.
@@ -16,76 +16,98 @@ spec=balance
 
 actions.precombat=flask,type=greater_draenic_intellect_flask
 actions.precombat+=/food,type=sleeper_sushi
-actions.precombat+=/mark_of_the_wild,if=!aura.str_agi_int.up
 actions.precombat+=/moonkin_form
+actions.precombat+=/blessing_of_elune
 # Snapshot raid buffed stats before combat begins and pre-potting is done.
 actions.precombat+=/snapshot_stats
 actions.precombat+=/potion,name=draenic_intellect
-actions.precombat+=/incarnation
-actions.precombat+=/starfire
+actions.precombat+=/new_moon
 
 # Executed every time the actor is available.
 
-actions=potion,name=draenic_intellect,if=buff.celestial_alignment.up
-actions+=/blood_fury,if=buff.celestial_alignment.up
-actions+=/berserking,if=buff.celestial_alignment.up
-actions+=/arcane_torrent,if=buff.celestial_alignment.up
-actions+=/force_of_nature,if=trinket.stat.intellect.up|charges=3|target.time_to_die<21
-actions+=/call_action_list,name=single_target,if=active_enemies=1
-actions+=/call_action_list,name=aoe,if=active_enemies>1
+actions=potion,name=draenic_intellect,if=buff.celestial_alignment.up|buff.incarnation.up
+actions+=/blood_fury,if=buff.celestial_alignment.up|buff.incarnation.up
+actions+=/berserking,if=buff.celestial_alignment.up|buff.incarnation.up
+actions+=/arcane_torrent,if=buff.celestial_alignment.up|buff.incarnation.up
+actions+=/call_action_list,name=fury_of_elune,if=talent.fury_of_elune.enabled&cooldown.fury_of_elue.remains<target.time_to_die
+actions+=/new_moon,if=(charges=2&recharge_time<5)|charges=3
+actions+=/half_moon,if=(charges=2&recharge_time<5)|charges=3|(target.time_to_die<15&charges=2)
+actions+=/full_moon,if=(charges=2&recharge_time<5)|charges=3|target.time_to_die<15
+actions+=/stellar_flare,if=remains<7.2
+actions+=/moonfire,if=(talent.natures_balance.enabled&remains<3)|(remains<6.6&!talent.natures_balance.enabled)
+actions+=/sunfire,if=(talent.natures_balance.enabled&remains<3)|(remains<5.4&!talent.natures_balance.enabled)
+actions+=/astral_communion,if=astral_power.deficit>=75
+actions+=/incarnation,if=astral_power>=40
+actions+=/celestial_alignment,if=astral_power>=40
+actions+=/solar_wrath,if=buff.solar_empowerment.stack=3
+actions+=/lunar_strike,if=buff.lunar_empowerment.stack=3
+actions+=/call_action_list,name=celestial_alignment_phase,if=buff.celestial_alignment.up|buff.incarnation.up
+actions+=/call_action_list,name=single_target
 
-actions.single_target=starsurge,if=buff.lunar_empowerment.down&eclipse_energy>20
-actions.single_target+=/starsurge,if=buff.solar_empowerment.down&eclipse_energy<-40
-actions.single_target+=/starsurge,if=(charges=2&recharge_time<6)|charges=3
-actions.single_target+=/celestial_alignment,if=eclipse_energy>40
-actions.single_target+=/incarnation,if=eclipse_energy>0
-actions.single_target+=/sunfire,if=remains<7|(buff.solar_peak.up&!talent.balance_of_power.enabled)
-actions.single_target+=/stellar_flare,if=remains<7
-actions.single_target+=/moonfire,if=!talent.balance_of_power.enabled&(buff.lunar_peak.up&remains<eclipse_change+20|remains<4|(buff.celestial_alignment.up&buff.celestial_alignment.remains<=2&remains<eclipse_change+20))
-actions.single_target+=/moonfire,if=talent.balance_of_power.enabled&(remains<4|(buff.celestial_alignment.up&buff.celestial_alignment.remains<=2&remains<eclipse_change+20))
-actions.single_target+=/wrath,if=(eclipse_energy<=0&eclipse_change>cast_time)|(eclipse_energy>0&cast_time>eclipse_change)
-actions.single_target+=/starfire,if=(eclipse_energy>=0&eclipse_change>cast_time)|(eclipse_energy<0&cast_time>eclipse_change)
-actions.single_target+=/wrath
+actions.fury_of_elune=incarnation,if=astral_power>=95&cooldown.fury_of_elune.remains<=gcd
+actions.fury_of_elune+=/fury_of_elune,if=astral_power>=95
+actions.fury_of_elune+=/new_moon,if=((charges=2&recharge_time<5)|charges=3)&&(buff.fury_of_elune_up.up|(cooldown.fury_of_elune.remains>gcd*3&astral_power<=90))
+actions.fury_of_elune+=/half_moon,if=((charges=2&recharge_time<5)|charges=3)&&(buff.fury_of_elune_up.up|(cooldown.fury_of_elune.remains>gcd*3&astral_power<=80))
+actions.fury_of_elune+=/full_moon,if=((charges=2&recharge_time<5)|charges=3)&&(buff.fury_of_elune_up.up|(cooldown.fury_of_elune.remains>gcd*3&astral_power<=60))
+actions.fury_of_elune+=/astral_communion,if=buff.fury_of_elune_up.up&astral_power<=25
+actions.fury_of_elune+=/warrior_of_elune,if=buff.fury_of_elune_up.up|(cooldown.fury_of_elune.remains>=35&buff.lunar_empowerment.up)
+actions.fury_of_elune+=/lunar_strike,if=buff.warrior_of_elune.up&(astral_power<=90|(astral_power<=85&buff.incarnation.up))
+actions.fury_of_elune+=/new_moon,if=astral_power<=90&buff.fury_of_elune_up.up
+actions.fury_of_elune+=/half_moon,if=astral_power<=80&buff.fury_of_elune_up.up&astral_power>cast_time*12
+actions.fury_of_elune+=/full_moon,if=astral_power<=60&buff.fury_of_elune_up.up&astral_power>cast_time*12
+actions.fury_of_elune+=/moonfire,if=buff.fury_of_elune_up.down&remains<=6.6
+actions.fury_of_elune+=/sunfire,if=buff.fury_of_elune_up.down&remains<=5.4
+actions.fury_of_elune+=/stellar_flare,if=remains<7.2
+actions.fury_of_elune+=/starsurge,if=buff.fury_of_elune_up.down&((astral_power>=92&cooldown.fury_of_elune.remains>gcd*3)|(cooldown.warrior_of_elune.remains<=5&cooldown.fury_of_elune.remains>=35&buff.lunar_empowerment.stack<2))
+actions.fury_of_elune+=/solar_wrath,if=buff.solar_empowerment.up
+actions.fury_of_elune+=/lunar_strike,if=buff.lunar_empowerment.stack=3|(buff.lunar_empowerment.remains<5&buff.lunar_empowerment.up)
+actions.fury_of_elune+=/solar_wrath
 
-actions.aoe=celestial_alignment,if=lunar_max<8|target.time_to_die<20
-actions.aoe+=/incarnation,if=buff.celestial_alignment.up
-actions.aoe+=/sunfire,cycle_targets=1,if=remains<8
-actions.aoe+=/starfall,if=!buff.starfall.up&active_enemies>2
-actions.aoe+=/starsurge,if=(charges=2&recharge_time<6)|charges=3
-actions.aoe+=/moonfire,cycle_targets=1,if=remains<12
-actions.aoe+=/stellar_flare,cycle_targets=1,if=remains<7
-actions.aoe+=/starsurge,if=buff.lunar_empowerment.down&eclipse_energy>20&active_enemies=2
-actions.aoe+=/starsurge,if=buff.solar_empowerment.down&eclipse_energy<-40&active_enemies=2
-actions.aoe+=/wrath,if=(eclipse_energy<=0&eclipse_change>cast_time)|(eclipse_energy>0&cast_time>eclipse_change)
-actions.aoe+=/starfire,if=(eclipse_energy>=0&eclipse_change>cast_time)|(eclipse_energy<0&cast_time>eclipse_change)
-actions.aoe+=/wrath
+actions.celestial_alignment_phase=starsurge
+actions.celestial_alignment_phase+=/warrior_of_elune,if=buff.lunar_empowerment.stack>=2&((astral_power<=70&buff.blessing_of_elune.down)|(astral_power<=58&buff.blessing_of_elune.up))
+actions.celestial_alignment_phase+=/lunar_strike,if=buff.warrior_of_elune.up
+actions.celestial_alignment_phase+=/solar_wrath,if=buff.solar_empowerment.up
+actions.celestial_alignment_phase+=/lunar_strike,if=buff.lunar_empowerment.up
+actions.celestial_alignment_phase+=/solar_wrath,if=talent.natures_balance.enabled&dot.sunfire_dmg.remains<5&cast_time<dot.sunfire_dmg.remains
+actions.celestial_alignment_phase+=/lunar_strike,if=talent.natures_balance.enabled&dot.moonfire_dmg.remains<5&cast_time<dot.moonfire_dmg.remains
+actions.celestial_alignment_phase+=/solar_wrath
 
-head=living_wood_headpiece,id=115542
-neck=gruuls_lip_ring,id=113872,enchant=gift_of_critical_strike
-shoulders=living_wood_spaulders,id=115544
-back=runefrenzy_greatcloak,id=113937,enchant=gift_of_critical_strike
-chest=living_wood_raiment,id=115540
-wrists=bracers_of_shattered_stalactites,id=113935
-hands=toothbreaker_grips,id=113876
-waist=conductors_multipocket_girdle,id=113964
-legs=living_wood_legguards,id=115543
-feet=ironflecked_sandals,id=119340
-finger1=timeless_solium_band_of_the_archmage,id=118296,enchant=gift_of_critical_strike
-finger2=aryus_puzzle_ring,id=118864,enchant=gift_of_critical_strike
-trinket1=goren_soul_repository,id=119194
-trinket2=darmacs_unstable_talisman,id=113948
-main_hand=blackhand_doomstaff,id=113988,enchant=mark_of_the_thunderlord
+actions.single_target=new_moon,if=astral_power<=90
+actions.single_target+=/half_moon,if=astral_power<=80
+actions.single_target+=/full_moon,if=astral_power<=60
+actions.single_target+=/starsurge
+actions.single_target+=/warrior_of_elune,if=buff.lunar_empowerment.stack>=2&((astral_power<=80&buff.blessing_of_elune.down)|(astral_power<=72&buff.blessing_of_elune.up))
+actions.single_target+=/lunar_strike,if=buff.warrior_of_elune.up
+actions.single_target+=/solar_wrath,if=buff.solar_empowerment.up
+actions.single_target+=/lunar_strike,if=buff.lunar_empowerment.up
+actions.single_target+=/solar_wrath,if=talent.natures_balance.enabled&dot.sunfire_dmg.remains<5&cast_time<dot.sunfire_dmg.remains
+actions.single_target+=/lunar_strike,if=talent.natures_balance.enabled&dot.moonfire_dmg.remains<5&cast_time<dot.moonfire_dmg.remains
+actions.single_target+=/solar_wrath
+
+head=oathclaw_helm,id=124261
+neck=vial_of_immiscible_liquid,id=124212,enchant=75haste
+shoulders=oathclaw_mantle,id=124272
+back=shawl_of_sanguinary_ritual,id=124137,enchant=100haste
+chest=oathclaw_vestment,id=124246
+wrists=manacles_of_the_multitudes,id=124280
+hands=felfinger_runegloves,id=124254
+waist=waistwrap_of_banishment,id=124276
+legs=oathclaw_leggings,id=124267
+feet=oppressors_merciless_treads,id=124251
+finger1=spellbound_runic_band_of_the_allseeing_eye,id=118306,enchant=50haste
+finger2=loathful_encrusted_band,id=124192,enchant=50haste
+trinket1=iron_reaver_piston,id=124227
+trinket2=chipped_soul_prism,id=124545
+main_hand=edict_of_argus,id=124382,enchant_id=5384
 
 # Gear Summary
-# gear_ilvl=670.33
-# gear_stamina=3581
-# gear_intellect=2950
-# gear_spell_power=1389
-# gear_crit_rating=1051
-# gear_haste_rating=705
-# gear_mastery_rating=1062
-# gear_armor=972
-# gear_multistrike_rating=419
-# gear_versatility_rating=163
-# set_bonus=tier17_2pc=1
-# set_bonus=tier17_4pc=1
+# gear_ilvl=700.00
+# gear_stamina=4725
+# gear_intellect=5409
+# gear_crit_rating=1510
+# gear_haste_rating=1942
+# gear_mastery_rating=1986
+# gear_versatility_rating=343
+# gear_armor=1165
+# set_bonus=tier18_2pc=1
+# set_bonus=tier18_4pc=1

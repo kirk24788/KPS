@@ -1,7 +1,7 @@
 --[[[
 @module Druid Guardian Rotation
 @generated_from druid_guardian.simc
-@version 6.2.2
+@version 7.0.3
 ]]--
 local spells = kps.spells.druid
 local env = kps.env.druid
@@ -10,25 +10,21 @@ local env = kps.env.druid
 kps.rotations.register("DRUID","GUARDIAN",
 {
     {spells.skullBash}, -- skull_bash
--- ERROR in 'savage_defense,if=buff.barkskin.down': Spell 'savageDefense' unknown!
-    {spells.barkskin, 'not player.hasBuff(spells.bristlingFur)'}, -- barkskin,if=buff.bristling_fur.down
--- ERROR in 'bristling_fur,if=buff.barkskin.down&buff.savage_defense.down': Spell 'kps.spells.druid.savageDefense' unknown (in expression: 'buff.savage_defense.down')!
--- ERROR in 'maul,if=buff.tooth_and_claw.react&incoming_damage_1s': Spell 'kps.spells.druid.toothAndClaw' unknown (in expression: 'buff.tooth_and_claw.react')!
-    {spells.berserk, 'player.buffDuration(spells.pulverize) > 10'}, -- berserk,if=buff.pulverize.remains>10
-    {spells.frenziedRegeneration, 'player.rage >= 80'}, -- frenzied_regeneration,if=rage>=80
-    {spells.cenarionWard}, -- cenarion_ward
-    {spells.renewal, 'player.hp < 0.3'}, -- renewal,if=health.pct<30
--- ERROR in 'heart_of_the_wild': Spell 'heartOfTheWild' unknown!
--- ERROR in 'rejuvenation,if=buff.heart_of_the_wild.up&remains<=3.6': Spell 'kps.spells.druid.heartOfTheWild' unknown (in expression: 'buff.heart_of_the_wild.up')!
--- ERROR in 'natures_vigil': Spell 'naturesVigil' unknown!
--- ERROR in 'healing_touch,if=buff.dream_of_cenarius.react&health.pct<30': Spell 'kps.spells.druid.dreamOfCenarius' unknown (in expression: 'buff.dream_of_cenarius.react')!
-    {spells.pulverize, 'player.buffDuration(spells.pulverize) <= 3.6'}, -- pulverize,if=buff.pulverize.remains<=3.6
--- ERROR in 'lacerate,if=talent.pulverize.enabled&buff.pulverize.remains<=(3-dot.lacerate.stack)*gcd&buff.berserk.down': Spell 'lacerate' unknown!
-    {spells.incarnation}, -- incarnation
--- ERROR in 'lacerate,if=!ticking': Spell 'lacerate' unknown!
-    {spells.thrash, 'not target.hasMyDebuff(spells.thrash)'}, -- thrash_bear,if=!ticking
+    {spells.barkskin}, -- barkskin
+    {spells.bristlingFur, 'player.buffDuration(spells.ironfur) < 2 and player.rage < 40'}, -- bristling_fur,if=buff.ironfur.remains<2&rage<40
+-- ERROR in 'ironfur,if=buff.ironfur.down|rage.deficit<25': Unknown expression 'rage.deficit'!
+-- ERROR in 'frenzied_regeneration,if=!ticking&incoming_damage_6s%health.max>0.25+(2-charges_fractional)*0.15': Unknown expression 'incoming_damage_6s'!
+    {spells.pulverize, 'not player.hasBuff(spells.pulverize)'}, -- pulverize,cycle_targets=1,if=buff.pulverize.down
     {spells.mangle}, -- mangle
-    {spells.thrash, 'target.myDebuffDuration(spells.thrash) <= 4.8'}, -- thrash_bear,if=remains<=4.8
--- ERROR in 'lacerate': Spell 'lacerate' unknown!
+    {spells.pulverize, 'player.buffDuration(spells.pulverize) < player.gcd'}, -- pulverize,cycle_targets=1,if=buff.pulverize.remains<gcd
+    {spells.lunarBeam}, -- lunar_beam
+    {spells.incarnation}, -- incarnation
+    {spells.thrash, 'activeEnemies.count >= 2'}, -- thrash_bear,if=active_enemies>=2
+    {spells.pulverize, 'player.buffDuration(spells.pulverize) < 3.6'}, -- pulverize,cycle_targets=1,if=buff.pulverize.remains<3.6
+    {spells.thrash, 'player.hasTalent(7, 2) and player.buffDuration(spells.pulverize) < 3.6'}, -- thrash_bear,if=talent.pulverize.enabled&buff.pulverize.remains<3.6
+    {spells.moonfire, 'not target.hasMyDebuff(spells.moonfire)'}, -- moonfire,cycle_targets=1,if=!ticking
+    {spells.moonfire, 'target.myDebuffDuration(spells.moonfire) < 3.6'}, -- moonfire,cycle_targets=1,if=remains<3.6
+    {spells.moonfire, 'target.myDebuffDuration(spells.moonfire) < 7.2'}, -- moonfire,cycle_targets=1,if=remains<7.2
+    {spells.moonfire}, -- moonfire
 }
 ,"druid_guardian.simc")

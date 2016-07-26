@@ -96,7 +96,7 @@ require("rotations.priest_discipline")
 require("rotations.priest_holy")
 require("rotations.priest_shadow")
 require("rotations.rogue_assassination")
-require("rotations.rogue_combat")
+require("rotations.rogue_outlaw")
 require("rotations.rogue_subtlety")
 require("rotations.warlock_affliction")
 require("rotations.warlock_demonology")
@@ -171,7 +171,7 @@ _testCondition("2 * 3 + 2 == 8")
 print("Testing Parameter List Values...")
 local parameterListValues = 0
 kps.env.testMe = function (a,b)
-    parameterListValues = a + b 
+    parameterListValues = a + b
     return true
 end
 local spellTable = kps.parser.parseSpellTable({{kps.spells.warlock.rainOfFire, "kps.env.testMe(1,2)"}})

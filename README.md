@@ -60,7 +60,7 @@ from SimCraft - those might not be fully functional, but aren't tested.
 
 **Outdated Rotations:**
 
-* Deathknight: Frost (6.2.2)
+* Deathknight: Blood (6.2.2)
 * Druid: Balance (6.2.2)
 * Paladin: Retribution (6.2.2)
 * Priest: Shadow (6.2.2)
@@ -68,16 +68,16 @@ from SimCraft - those might not be fully functional, but aren't tested.
 **Automatically Generated Rotations:**
 _(Might not be fully functional)_
 
-* Deathknight: Unholy (6.2.2)
-* Druid: Feral (6.2.2), Guardian (6.2.2)
-* Hunter: Beastmaster (6.2.2), Marksmanship (6.2.2), Survival (6.2.2)
-* Mage: Arcane (6.2.2), Fire (6.2.2), Frost (6.2.2)
-* Monk: Brewmaster (6.2.2), Windwalker (6.2.2)
-* Paladin: Protection (6.2.2)
-* Priest: Discipline (6.2.2), Holy (6.2.2)
-* Rogue: Assassination (6.2.2), Combat (6.2.2), Subtlety (6.2.2)
-* Shaman: Elemental (6.2.2), Enhancement (6.2.2)
-* Warrior: Arms (6.2.2), Fury (6.2.2), Protection (6.2.2)
+* Deathknight: Frost (7.0.3), Unholy (7.0.3)
+* Druid: Feral (7.0.3), Guardian (7.0.3)
+* Hunter: Beastmaster (7.0.3), Marksmanship (7.0.3), Survival (7.0.3)
+* Mage: Arcane (7.0.3), Fire (7.0.3), Frost (7.0.3)
+* Monk: Brewmaster (7.0.3), Windwalker (6.2.2)
+* Paladin: Protection (7.0.3)
+* Priest: Discipline (7.0.3), Holy (7.0.3)
+* Rogue: Assassination (7.0.3), Outlaw (7.0.3), Subtlety (7.0.3)
+* Shaman: Elemental (7.0.3), Enhancement (7.0.3)
+* Warrior: Arms (7.0.3), Fury (7.0.3), Protection (7.0.3)
 
 
 

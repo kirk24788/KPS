@@ -1,7 +1,7 @@
 --[[[
 @module Druid Feral Rotation
 @generated_from druid_feral.simc
-@version 6.2.2
+@version 7.0.3
 ]]--
 local spells = kps.spells.druid
 local env = kps.env.druid
@@ -15,34 +15,36 @@ kps.rotations.register("DRUID","FERAL",
     {spells.dash, 'target.distance and not player.hasBuff(spells.displacerBeast) and not player.hasBuff(spells.wildCharge)'}, -- dash,if=movement.distance&buff.displacer_beast.down&buff.wild_charge_movement.down
     {spells.rake, 'player.hasBuff(spells.prowl) or player.hasBuff(spells.shadowmeld)'}, -- rake,if=buff.prowl.up|buff.shadowmeld.up
     {spells.skullBash}, -- skull_bash
-    {spells.forceOfNature, 'spells.forceOfNature.charges == 3 or player.hasProc or target.timeToDie < 20'}, -- force_of_nature,if=charges=3|trinket.proc.all.react|target.time_to_die<20
-    {spells.berserk, '( ( player.hasBuff(spells.tigersFury) ) or ( player.energyTimeToMax < 2 ) ) and ( player.hasBuff(spells.incarnationKingOfTheJungle) or not player.hasTalent(4, 2) )'}, -- berserk,if=((!t18_class_trinket&buff.tigers_fury.up)|(t18_class_trinket&energy.time_to_max<2))&(buff.king_of_the_jungle.up|!talent.incarnation_king_of_the_jungle.enabled)
-    {spells.tigersFury, '( spells.berserk.cooldown ) and ( ( not player.buffStacks(spells.omenOfClarity) and player.energyMax - player.energy >= 60 ) or player.energyMax - player.energy >= 80 )'}, -- tigers_fury,if=(!t18_class_trinket|cooldown.berserk.remains)&((!buff.omen_of_clarity.react&energy.max-energy>=60)|energy.max-energy>=80)
-    {spells.incarnation, 'spells.berserk.cooldown < 10 and player.energyTimeToMax > 1'}, -- incarnation,if=!t18_class_trinket&cooldown.berserk.remains<10&energy.time_to_max>1
-    {spells.incarnation, 'spells.berserk.cooldown < 1 and player.energyTimeToMax < 3'}, -- incarnation,if=t18_class_trinket&cooldown.berserk.remains<1&energy.time_to_max<3
+-- ERROR in 'elunes_guidance,if=combo_points=0&(!artifact.ashamanes_bite.enabled|!dot.ashamanes_rip.ticking)': Unknown expression 'artifact.ashamanes_bite.enabled'!
+    {spells.berserk, 'player.hasBuff(spells.tigersFury)'}, -- berserk,if=buff.tigers_fury.up
+    {spells.incarnation, 'spells.tigersFury.cooldown < player.gcd'}, -- incarnation,if=cooldown.tigers_fury.remains<gcd
+-- ERROR in 'tigers_fury,if=(!buff.clearcasting.react&energy.deficit>=60)|energy.deficit>=80|(t18_class_trinket&buff.berserk.up&buff.tigers_fury.down)': Unknown expression 'energy.deficit'!
+-- ERROR in 'tigers_fury,if=talent.sabertooth.enabled&time<10&combo_points=5': Unknown Talent 'sabertooth' for 'druid'!
+    {spells.incarnation, 'player.energyTimeToMax > 1'}, -- incarnation,if=energy.time_to_max>1
     {spells.ferociousBite, 'target.hasMyDebuff(spells.rip) and target.myDebuffDuration(spells.rip) < 3 and target.hp < 25'}, -- ferocious_bite,cycle_targets=1,if=dot.rip.ticking&dot.rip.remains<3&target.health.pct<25
-    {spells.healingTouch, 'player.hasTalent(7, 2) and player.hasBuff(spells.predatorySwiftness) and ( target.comboPoints >= 4 or player.buffDuration(spells.predatorySwiftness) < 1.5 )'}, -- healing_touch,if=talent.bloodtalons.enabled&buff.predatory_swiftness.up&(combo_points>=4|buff.predatory_swiftness.remains<1.5)
+    {spells.healingTouch, 'player.hasTalent(7, 2) and player.hasBuff(spells.predatorySwiftness) and ( ( target.comboPoints >= 4 and not ) or target.comboPoints == 5 or player.buffDuration(spells.predatorySwiftness) < 1.5 )'}, -- healing_touch,if=talent.bloodtalons.enabled&buff.predatory_swiftness.up&((combo_points>=4&!set_bonus.tier18_4pc)|combo_points=5|buff.predatory_swiftness.remains<1.5)
     {spells.savageRoar, 'not player.hasBuff(spells.savageRoar)'}, -- savage_roar,if=buff.savage_roar.down
-    {spells.thrash, 'target.myDebuffDuration(spells.thrash) < 4.5 and ( activeEnemies.count >= 2 and or activeEnemies.count >= 4 )'}, -- thrash_cat,cycle_targets=1,if=remains<4.5&(active_enemies>=2&set_bonus.tier17_2pc|active_enemies>=4)
+    {spells.thrash, 'player.buffStacks(spells.clearcasting) and target.myDebuffDuration(spells.thrash) <= target.myDebuffDurationMax(spells.thrash) * 0.3 and target.comboPoints + player.buffStacks(spells.bloodtalons) = 6'}, -- thrash_cat,if=set_bonus.tier18_4pc&buff.clearcasting.react&remains<=duration*0.3&combo_points+buff.bloodtalons.stack!=6
+-- ERROR in 'thrash_cat,cycle_targets=1,if=remains<=duration*0.3&(spell_targets.thrash_cat>=2&set_bonus.tier17_2pc|spell_targets.thrash_cat>=4)': Unknown expression 'spell_targets.thrash_cat'!
     {{"nested"}, 'target.comboPoints == 5', { -- call_action_list,name=finisher,if=combo_points=5
-        {spells.rip, 'target.myDebuffDuration(spells.rip) < 2 and target.timeToDie - target.myDebuffDuration(spells.rip) > 18 and ( target.hp > 25 or not target.hasMyDebuff(spells.rip) )'}, -- rip,cycle_targets=1,if=remains<2&target.time_to_die-remains>18&(target.health.pct>25|!dot.rip.ticking)
-        {spells.ferociousBite, 'target.hp < 25 and target.hasMyDebuff(spells.rip)'}, -- ferocious_bite,cycle_targets=1,max_energy=1,if=target.health.pct<25&dot.rip.ticking
-        {spells.rip, 'target.myDebuffDuration(spells.rip) < 7.2 and 1>1 and target.timeToDie - target.myDebuffDuration(spells.rip) > 18'}, -- rip,cycle_targets=1,if=remains<7.2&persistent_multiplier>dot.rip.pmultiplier&target.time_to_die-remains>18
-        {spells.rip, 'target.myDebuffDuration(spells.rip) < 7.2 and 1=1 and ( player.energyTimeToMax <= 1 or not player.hasTalent(7, 2) ) and target.timeToDie - target.myDebuffDuration(spells.rip) > 18'}, -- rip,cycle_targets=1,if=remains<7.2&persistent_multiplier=dot.rip.pmultiplier&(energy.time_to_max<=1|!talent.bloodtalons.enabled)&target.time_to_die-remains>18
-        {spells.savageRoar, '( ( player.energy > 60 ) or player.energyTimeToMax <= 1 or player.hasBuff(spells.berserk) or spells.tigersFury.cooldown < 3 ) and player.buffDuration(spells.savageRoar) < 12.6'}, -- savage_roar,if=((energy>60&set_bonus.tier18_4pc)|energy.time_to_max<=1|buff.berserk.up|cooldown.tigers_fury.remains<3)&buff.savage_roar.remains<12.6
-        {spells.ferociousBite, '( ( player.energy > 60 ) or player.energyTimeToMax <= 1 or player.hasBuff(spells.berserk) or spells.tigersFury.cooldown < 3 )'}, -- ferocious_bite,max_energy=1,if=((energy>60&set_bonus.tier18_4pc)|energy.time_to_max<=1|buff.berserk.up|cooldown.tigers_fury.remains<3)
+        {spells.rip, 'target.myDebuffDuration(spells.rip) <= target.myDebuffDurationMax(spells.rip) * 0.3 and ( target.hp > 25 or not target.hasMyDebuff(spells.rip) )'}, -- rip,cycle_targets=1,if=remains<=duration*0.3&(target.health.pct>25|!dot.rip.ticking)
+-- ERROR in 'savage_roar,if=buff.savage_roar.remains<=7.2&(target.health.pct<25|energy.time_to_max<1|buff.berserk.up|buff.incarnation.up|dot.rake.remains<1.5|buff.elunes_guidance.up|cooldown.tigers_fury.remains<3|(talent.moment_of_clarity.enabled&buff.clearcasting.react))': Unknown Talent 'momentOfClarity' for 'druid'!
+-- ERROR in 'ferocious_bite,max_energy=1,cycle_targets=1,if=(target.health.pct<25|talent.sabertooth.enabled)&(cooldown.tigers_fury.remains<3|energy.time_to_max<1|buff.berserk.up|buff.incarnation.up|dot.rake.remains<1.5|buff.elunes_guidance.up|(talent.moment_of_clarity.enabled&buff.clearcasting.react))': Unknown Talent 'sabertooth' for 'druid'!
+        {spells.ferociousBite, 'player.hasBuff(spells.berserk) or player.hasBuff(spells.incarnation) or spells.tigersFury.cooldown < 3 or player.hasBuff(spells.elunesGuidance)'}, -- ferocious_bite,max_energy=1,if=buff.berserk.up|buff.incarnation.up|cooldown.tigers_fury.remains<3|buff.elunes_guidance.up
+        {spells.ferociousBite, 'player.energyTimeToMax < 1'}, -- ferocious_bite,max_energy=1,if=energy.time_to_max<1
     }},
     {spells.savageRoar, 'player.buffDuration(spells.savageRoar) < player.gcd'}, -- savage_roar,if=buff.savage_roar.remains<gcd
     {{"nested"}, 'target.comboPoints < 5', { -- call_action_list,name=maintain,if=combo_points<5
-        {spells.rake, 'target.myDebuffDuration(spells.rake) < 3 and ( ( target.timeToDie - target.myDebuffDuration(spells.rake) > 3 and activeEnemies.count < 3 ) or target.timeToDie - target.myDebuffDuration(spells.rake) > 6 )'}, -- rake,cycle_targets=1,if=remains<3&((target.time_to_die-remains>3&active_enemies<3)|target.time_to_die-remains>6)
-        {spells.rake, 'target.myDebuffDuration(spells.rake) < 4.5 and ( 1 >= 1 or ( player.hasTalent(7, 2) and ( player.hasBuff(spells.bloodtalons) or not player.hasBuff(spells.predatorySwiftness) ) ) ) and ( ( target.timeToDie - target.myDebuffDuration(spells.rake) > 3 and activeEnemies.count < 3 ) or target.timeToDie - target.myDebuffDuration(spells.rake) > 6 )'}, -- rake,cycle_targets=1,if=remains<4.5&(persistent_multiplier>=dot.rake.pmultiplier|(talent.bloodtalons.enabled&(buff.bloodtalons.up|!buff.predatory_swiftness.up)))&((target.time_to_die-remains>3&active_enemies<3)|target.time_to_die-remains>6)
-        {spells.moonfire, 'target.myDebuffDuration(spells.moonfire) < 4.2 and activeEnemies.count <= 5 and target.timeToDie - target.myDebuffDuration(spells.moonfire) > spells.moonfire.tickTime * 5'}, -- moonfire_cat,cycle_targets=1,if=remains<4.2&active_enemies<=5&target.time_to_die-remains>tick_time*5
-        {spells.rake, '1>1 and activeEnemies.count == 1 and ( ( target.timeToDie - target.myDebuffDuration(spells.rake) > 3 and activeEnemies.count < 3 ) or target.timeToDie - target.myDebuffDuration(spells.rake) > 6 )'}, -- rake,cycle_targets=1,if=persistent_multiplier>dot.rake.pmultiplier&active_enemies=1&((target.time_to_die-remains>3&active_enemies<3)|target.time_to_die-remains>6)
+-- ERROR in 'rake,cycle_targets=1,if=remains<=tick_time&((target.time_to_die-remains>3&spell_targets.swipe_cat<3)|target.time_to_die-remains>6)': Unknown expression 'spell_targets.swipe_cat'!
+-- ERROR in 'rake,cycle_targets=1,if=remains<=duration*0.3&(persistent_multiplier>=dot.rake.pmultiplier|(talent.bloodtalons.enabled&(buff.bloodtalons.up|!buff.predatory_swiftness.up)))&((target.time_to_die-remains>3&spell_targets.swipe_cat<3)|target.time_to_die-remains>6)': Unknown expression 'spell_targets.swipe_cat'!
+-- ERROR in 'moonfire_cat,cycle_targets=1,if=remains<=4.2&spell_targets.swipe_cat<=5&target.time_to_die-remains>tick_time*5': Unknown expression 'spell_targets.swipe_cat'!
     }},
-    {spells.thrash, 'target.myDebuffDuration(spells.thrash) < 4.5 and activeEnemies.count >= 2'}, -- thrash_cat,cycle_targets=1,if=remains<4.5&active_enemies>=2
+-- ERROR in 'thrash_cat,cycle_targets=1,if=remains<=duration*0.3&spell_targets.thrash_cat>=2': Unknown expression 'spell_targets.thrash_cat'!
     {{"nested"}, 'target.comboPoints < 5', { -- call_action_list,name=generator,if=combo_points<5
-        {spells.swipe, 'activeEnemies.count >= 3'}, -- swipe,if=active_enemies>=3
-        {spells.shred, 'activeEnemies.count < 3'}, -- shred,if=active_enemies<3
+-- ERROR in 'brutal_slash,if=spell_targets.brutal_slash>desired_targets': Unknown expression 'spell_targets.brutal_slash'!
+-- ERROR in 'brutal_slash,if=active_enemies>=2&raid_event.adds.exists&raid_event.adds.in>(1+max_charges-charges_fractional)*15': Unknown expression 'max_charges'!
+        {spells.brutalSlash, 'activeEnemies.count >= 2 and not activeEnemies.count and ( spells.brutalSlash.charges > 2.66 and player.timeInCombat > 10 )'}, -- brutal_slash,if=active_enemies>=2&!raid_event.adds.exists&(charges_fractional>2.66&time>10)
+-- ERROR in 'shred,if=spell_targets.swipe_cat<=3|talent.brutal_slash.enabled': Unknown expression 'spell_targets.swipe_cat'!
     }},
 }
 ,"druid_feral.simc")

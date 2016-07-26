@@ -1,7 +1,7 @@
 --[[[
 @module Rogue Subtlety Rotation
 @generated_from rogue_subtlety.simc
-@version 6.2.2
+@version 7.0.3
 ]]--
 local spells = kps.spells.rogue
 local env = kps.env.rogue
@@ -9,51 +9,27 @@ local env = kps.env.rogue
 
 kps.rotations.register("ROGUE","SUBTLETY",
 {
-    {spells.kick}, -- kick
-    {spells.shadowReflection, 'player.hasBuff(spells.shadowDance) or player.timeInCombat < 2'}, -- shadow_reflection,if=buff.shadow_dance.up|time<2
-    {spells.premeditation, 'target.comboPoints < 4'}, -- premeditation,if=combo_points<4
-    {spells.vanish, '== 1 and player.timeInCombat < 1'}, -- vanish,if=set_bonus.tier18_4pc=1&time<1
-    {spells.shadowDance, 'player.energy >= 110 and not player.hasBuff(spells.stealth) and not player.hasBuff(spells.vanish) and not player.hasBuff(spells.findWeakness) or ( player.bloodlust and ( target.hasMyDebuff(spells.hemorrhage) or target.hasMyDebuff(spells.garrote) or target.hasMyDebuff(spells.rupture) ) )'}, -- shadow_dance,if=energy>=110&buff.stealth.down&buff.vanish.down&debuff.find_weakness.down|(buff.bloodlust.up&(dot.hemorrhage.ticking|dot.garrote.ticking|dot.rupture.ticking))
-    {spells.vanish, 'player.hasTalent(1, 3) and player.energy >= 45 and player.energy <= 75 and target.comboPoints < 4 - player.hasTalent(6, 3) and not player.hasBuff(spells.shadowDance) and not player.hasBuff(spells.masterOfSubtlety) and not player.hasBuff(spells.findWeakness)'}, -- vanish,if=talent.shadow_focus.enabled&energy>=45&energy<=75&combo_points<4-talent.anticipation.enabled&buff.shadow_dance.down&buff.master_of_subtlety.down&debuff.find_weakness.down
-    {spells.vanish, 'player.hasTalent(1, 2) and player.energy >= 100 and target.comboPoints < 4 - player.hasTalent(6, 3) and not player.hasBuff(spells.shadowDance)'}, -- vanish,if=talent.subterfuge.enabled&energy>=100&combo_points<4-talent.anticipation.enabled&buff.shadow_dance.down
-    {spells.markedForDeath, 'target.comboPoints == 0'}, -- marked_for_death,if=combo_points=0
-    {{"nested"}, 'target.comboPoints == 5 and player.buffDuration(spells.findWeakness) and player.buffDuration(spells.shadowReflection)', { -- run_action_list,name=finisher,if=combo_points=5&debuff.find_weakness.remains&buff.shadow_reflection.remains
-        {spells.rupture, '( not target.hasMyDebuff(spells.rupture) or target.myDebuffDuration(spells.rupture) < target.myDebuffDurationMax(spells.rupture) * 0.3 or ( player.buffDuration(spells.shadowReflection) > 8 and target.myDebuffDuration(spells.rupture) < 12 ) )'}, -- rupture,cycle_targets=1,if=(!ticking|remains<duration*0.3|(buff.shadow_reflection.remains>8&dot.rupture.remains<12))
-        {spells.sliceAndDice, '( ( player.buffDuration(spells.sliceAndDice) < 10.8 and not player.hasBuff(spells.findWeakness) ) or player.buffDuration(spells.sliceAndDice) < 6 ) and player.buffDuration(spells.sliceAndDice) < target.timeToDie'}, -- slice_and_dice,if=((buff.slice_and_dice.remains<10.8&debuff.find_weakness.down)|buff.slice_and_dice.remains<6)&buff.slice_and_dice.remains<target.time_to_die
+-- ERROR in 'shadow_blades,if=!buff.shadow_blades.up&energy.deficit<20&(buff.shadow_dance.up|buff.vanish.up|buff.stealth.up)': Unknown expression 'energy.deficit'!
+-- ERROR in 'goremaws_bite,if=(combo_points.max-combo_points>=2&energy.deficit>55&time<10)|(combo_points.max-combo_points>=4&energy.deficit>45)|target.time_to_die<8': Unknown expression 'combo_points.max'!
+-- ERROR in 'symbols_of_death,if=buff.symbols_of_death.remains<target.time_to_die-4&buff.symbols_of_death.remains<=10.5&buff.shadowmeld.down': Spell 'kps.spells.rogue.shadowmeld' unknown (in expression: 'buff.shadowmeld.down')!
+-- ERROR in 'shuriken_storm,if=buff.stealth.up&talent.premeditation.enabled&combo_points.max-combo_points>=3&spell_targets.shuriken_storm>=7': Unknown Talent 'premeditation' for 'rogue'!
+-- ERROR in 'shuriken_storm,if=buff.stealth.up&!buff.death.up&combo_points.max-combo_points>=2&((!talent.premeditation.enabled&spell_targets.shuriken_storm>=4)|spell_targets.shuriken_storm>=8)': Spell 'kps.spells.rogue.death' unknown (in expression: 'buff.death.up')!
+-- ERROR in 'shadowstrike,if=combo_points.max-combo_points>=2': Unknown expression 'combo_points.max'!
+-- ERROR in 'vanish,if=(energy.deficit<talent.master_of_shadows.enabled*30&combo_points.max-combo_points>=3&cooldown.shadow_dance.charges<2)|target.time_to_die<8': Unknown expression 'energy.deficit'!
+-- ERROR in 'shadow_dance,if=combo_points.max-combo_points>=2&((cooldown.vanish.remains&buff.symbols_of_death.remains<=10.5&energy.deficit<talent.master_of_shadows.enabled*30)|cooldown.shadow_dance.charges>=2|target.time_to_die<25)': Unknown expression 'combo_points.max'!
+-- ERROR in 'enveloping_shadows,if=buff.enveloping_shadows.remains<target.time_to_die&((buff.enveloping_shadows.remains<=10.8+talent.deeper_strategem.enabled*1.8&combo_points>=5+talent.deeper_strategem.enabled)|buff.enveloping_shadows.remains<=6)': Unknown Talent 'deeperStrategem' for 'rogue'!
+-- ERROR in 'marked_for_death,cycle_targets=1,target_if=min:target.time_to_die,if=combo_points.deficit>=4+talent.deeper_strategem.enabled': Unknown expression 'combo_points.deficit'!
+    {{"nested"}, 'target.comboPoints >= 5', { -- run_action_list,name=finisher,if=combo_points>=5
+-- ERROR in 'death_from_above,if=spell_targets.death_from_above>=10': Unknown expression 'spell_targets.death_from_above'!
+        {spells.nightblade, 'not target.hasMyDebuff(spells.nightblade) or target.myDebuffDuration(spells.nightblade) < target.myDebuffDurationMax(spells.nightblade) * 0.3'}, -- nightblade,if=!dot.nightblade.ticking|dot.nightblade.remains<duration*0.3
+        {spells.nightblade, 'target.hasMyDebuff(spells.nightblade) and target.timeToDie > 6 and ( not target.hasMyDebuff(spells.nightblade) or target.myDebuffDuration(spells.nightblade) < target.myDebuffDurationMax(spells.nightblade) * 0.3 )'}, -- nightblade,cycle_targets=1,target_if=max:target.time_to_die,if=active_dot.nightblade<6&target.time_to_die>6&(!dot.nightblade.ticking|dot.nightblade.remains<duration*0.3)
         {spells.deathFromAbove}, -- death_from_above
--- ERROR in 'crimson_tempest,if=(spell_targets.crimson_tempest>=2&debuff.find_weakness.down)|spell_targets.crimson_tempest>=3&(cooldown.death_from_above.remains>0|!talent.death_from_above.enabled)': Unknown expression 'spell_targets.crimson_tempest'!
-        {spells.eviscerate, '( player.energyTimeToMax <= spells.deathFromAbove.cooldown + spells.deathFromAbove.castTime ) or not player.hasTalent(7, 3)'}, -- eviscerate,if=(energy.time_to_max<=cooldown.death_from_above.remains+action.death_from_above.execute_time)|!talent.death_from_above.enabled
-        {{"nested"}, 'True', { -- run_action_list,name=pool
-            {spells.preparation, 'not player.hasBuff(spells.vanish) and spells.vanish.cooldown > 60'}, -- preparation,if=!buff.vanish.up&cooldown.vanish.remains>60
-        }},
+        {spells.eviscerate}, -- eviscerate
     }},
-    {spells.ambush, 'player.hasTalent(6, 3) and target.comboPoints + player.buffStacks(spells.anticipation) < 8 and player.timeInCombat > 2'}, -- ambush,if=talent.anticipation.enabled&combo_points+anticipation_charges<8&time>2
-    {{"nested"}, 'target.comboPoints == 5', { -- run_action_list,name=finisher,if=combo_points=5
-        {spells.rupture, '( not target.hasMyDebuff(spells.rupture) or target.myDebuffDuration(spells.rupture) < target.myDebuffDurationMax(spells.rupture) * 0.3 or ( player.buffDuration(spells.shadowReflection) > 8 and target.myDebuffDuration(spells.rupture) < 12 ) )'}, -- rupture,cycle_targets=1,if=(!ticking|remains<duration*0.3|(buff.shadow_reflection.remains>8&dot.rupture.remains<12))
-        {spells.sliceAndDice, '( ( player.buffDuration(spells.sliceAndDice) < 10.8 and not player.hasBuff(spells.findWeakness) ) or player.buffDuration(spells.sliceAndDice) < 6 ) and player.buffDuration(spells.sliceAndDice) < target.timeToDie'}, -- slice_and_dice,if=((buff.slice_and_dice.remains<10.8&debuff.find_weakness.down)|buff.slice_and_dice.remains<6)&buff.slice_and_dice.remains<target.time_to_die
-        {spells.deathFromAbove}, -- death_from_above
--- ERROR in 'crimson_tempest,if=(spell_targets.crimson_tempest>=2&debuff.find_weakness.down)|spell_targets.crimson_tempest>=3&(cooldown.death_from_above.remains>0|!talent.death_from_above.enabled)': Unknown expression 'spell_targets.crimson_tempest'!
-        {spells.eviscerate, '( player.energyTimeToMax <= spells.deathFromAbove.cooldown + spells.deathFromAbove.castTime ) or not player.hasTalent(7, 3)'}, -- eviscerate,if=(energy.time_to_max<=cooldown.death_from_above.remains+action.death_from_above.execute_time)|!talent.death_from_above.enabled
-        {{"nested"}, 'True', { -- run_action_list,name=pool
-            {spells.preparation, 'not player.hasBuff(spells.vanish) and spells.vanish.cooldown > 60'}, -- preparation,if=!buff.vanish.up&cooldown.vanish.remains>60
-        }},
-    }},
-    {{"nested"}, 'target.comboPoints < 4 or ( player.hasTalent(6, 3) and player.buffStacks(spells.anticipation) < 3 and not player.hasBuff(spells.findWeakness) )', { -- run_action_list,name=generator,if=combo_points<4|(talent.anticipation.enabled&anticipation_charges<3&debuff.find_weakness.down)
-        {{"nested"}, 'not player.hasBuff(spells.masterOfSubtlety) and not player.hasBuff(spells.shadowDance) and not player.hasBuff(spells.findWeakness) and ( player.energy + * 50 + spells.shadowDance.cooldown * player.energyRegen <= player.energyMax or player.energy + 15 + spells.vanish.cooldown * player.energyRegen <= player.energyMax )', { -- run_action_list,name=pool,if=buff.master_of_subtlety.down&buff.shadow_dance.down&debuff.find_weakness.down&(energy+set_bonus.tier17_2pc*50+cooldown.shadow_dance.remains*energy.regen<=energy.max|energy+15+cooldown.vanish.remains*energy.regen<=energy.max)
-            {spells.preparation, 'not player.hasBuff(spells.vanish) and spells.vanish.cooldown > 60'}, -- preparation,if=!buff.vanish.up&cooldown.vanish.remains>60
-        }},
-        {spells.ambush}, -- ambush
--- ERROR in 'fan_of_knives,if=spell_targets.fan_of_knives>2': Unknown expression 'spell_targets.fan_of_knives'!
-        {spells.backstab, 'player.hasBuff(spells.findWeakness) or player.hasAgiProc or player.hasProc'}, -- backstab,if=debuff.find_weakness.up|buff.archmages_greater_incandescence_agi.up|trinket.stat.any.up
-        {spells.shurikenToss, 'player.energy < 65 and player.energyRegen < 16'}, -- shuriken_toss,if=energy<65&energy.regen<16
-        {spells.backstab, 'player.energyTimeToMax <= player.gcd * 2'}, -- backstab,if=energy.time_to_max<=gcd*2
-        {spells.hemorrhage, 'player.energyTimeToMax <= player.gcd * 1.5'}, -- hemorrhage,if=energy.time_to_max<=gcd*1.5&position_front
-        {{"nested"}, 'True', { -- run_action_list,name=pool
-            {spells.preparation, 'not player.hasBuff(spells.vanish) and spells.vanish.cooldown > 60'}, -- preparation,if=!buff.vanish.up&cooldown.vanish.remains>60
-        }},
-    }},
-    {{"nested"}, 'True', { -- run_action_list,name=pool
-        {spells.preparation, 'not player.hasBuff(spells.vanish) and spells.vanish.cooldown > 60'}, -- preparation,if=!buff.vanish.up&cooldown.vanish.remains>60
+    {{"nested"}, 'target.comboPoints < 5', { -- run_action_list,name=generator,if=combo_points<5
+-- ERROR in 'shuriken_storm,if=spell_targets.shuriken_storm>=2': Unknown expression 'spell_targets.shuriken_storm'!
+        {spells.gloomblade, 'player.energyTimeToMax < 2.5'}, -- gloomblade,if=energy.time_to_max<2.5
+        {spells.backstab, 'player.energyTimeToMax < 2.5'}, -- backstab,if=energy.time_to_max<2.5
     }},
 }
 ,"rogue_subtlety.simc")

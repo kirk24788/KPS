@@ -1,9 +1,9 @@
-deathknight="Death_Knight_Frost_1h_T17N"
+deathknight="Death_Knight_Frost_1h_T18N"
 level=100
-race=orc
+race=blood_elf
 role=attack
 position=back
-talents=2001002
+talents=1130023
 spec=frost
 
 # This default action priority list is automatically created based on your character.
@@ -15,115 +15,77 @@ spec=frost
 # Executed before combat begins. Accepts non-harmful actions only.
 
 actions.precombat=flask,type=greater_draenic_strength_flask
-actions.precombat+=/food,type=sleeper_sushi
-actions.precombat+=/horn_of_winter
-actions.precombat+=/frost_presence
+actions.precombat+=/food,type=pickled_eel
 # Snapshot raid buffed stats before combat begins and pre-potting is done.
 actions.precombat+=/snapshot_stats
-actions.precombat+=/army_of_the_dead
 actions.precombat+=/potion,name=draenic_strength
-actions.precombat+=/pillar_of_frost
 
 # Executed every time the actor is available.
 
 actions=auto_attack
-actions+=/deaths_advance,if=movement.remains>2
-actions+=/antimagic_shell,damage=100000
-actions+=/pillar_of_frost
-actions+=/potion,name=draenic_strength,if=target.time_to_die<=30|(target.time_to_die<=60&buff.pillar_of_frost.up)
-actions+=/empower_rune_weapon,if=target.time_to_die<=60&buff.potion.up
-actions+=/blood_fury
+actions+=/arcane_torrent,if=runic_power.deficit>20
+actions+=/blood_fury,if=!talent.breath_of_sindragosa.enabled|dot.breath_of_sindragosa.ticking
 actions+=/berserking
-actions+=/arcane_torrent
-actions+=/use_item,slot=trinket2
-actions+=/run_action_list,name=aoe,if=active_enemies>=3
-actions+=/run_action_list,name=single_target,if=active_enemies<3
+actions+=/potion,name=draenic_strength,if=cooldown.pillar_of_frost.remains<5&cooldown.thorasus_the_stone_heart_of_draenor.remains<10
+actions+=/pillar_of_frost
+actions+=/sindragosas_fury
+actions+=/obliteration
+actions+=/breath_of_sindragosa,if=runic_power>=80
+actions+=/run_action_list,name=bos,if=dot.breath_of_sindragosa.ticking
+actions+=/call_action_list,name=generic
 
-actions.aoe=unholy_blight
-actions.aoe+=/blood_boil,if=dot.blood_plague.ticking&(!talent.unholy_blight.enabled|cooldown.unholy_blight.remains<49),line_cd=28
-actions.aoe+=/defile
-actions.aoe+=/breath_of_sindragosa,if=runic_power>75
-actions.aoe+=/run_action_list,name=bos_aoe,if=dot.breath_of_sindragosa.ticking
-actions.aoe+=/howling_blast
-actions.aoe+=/blood_tap,if=buff.blood_charge.stack>10
-actions.aoe+=/frost_strike,if=runic_power>88
-actions.aoe+=/death_and_decay,if=unholy=1
-actions.aoe+=/plague_strike,if=unholy=2
-actions.aoe+=/blood_tap
-actions.aoe+=/frost_strike,if=!talent.breath_of_sindragosa.enabled|cooldown.breath_of_sindragosa.remains>=10
-actions.aoe+=/plague_leech
-actions.aoe+=/plague_strike,if=unholy=1
-actions.aoe+=/empower_rune_weapon
+actions.bos=call_action_list,name=core
+actions.bos+=/howling_blast,target_if=!dot.frost_fever.ticking
+actions.bos+=/horn_of_winter
+actions.bos+=/empower_rune_weapon
+actions.bos+=/hungering_rune_weapon
+actions.bos+=/howling_blast,if=buff.rime.react
 
-actions.single_target=blood_tap,if=buff.blood_charge.stack>10&(runic_power>76|(runic_power>=20&buff.killing_machine.react))
-actions.single_target+=/soul_reaper,if=target.health.pct-3*(target.health.pct%target.time_to_die)<=35
-actions.single_target+=/blood_tap,if=(target.health.pct-3*(target.health.pct%target.time_to_die)<=35&cooldown.soul_reaper.remains=0)
-actions.single_target+=/breath_of_sindragosa,if=runic_power>75
-actions.single_target+=/run_action_list,name=bos_st,if=dot.breath_of_sindragosa.ticking
-actions.single_target+=/defile
-actions.single_target+=/blood_tap,if=talent.defile.enabled&cooldown.defile.remains=0
-actions.single_target+=/howling_blast,if=talent.breath_of_sindragosa.enabled&cooldown.breath_of_sindragosa.remains<7&runic_power<88
-actions.single_target+=/obliterate,if=talent.breath_of_sindragosa.enabled&cooldown.breath_of_sindragosa.remains<3&runic_power<76
-actions.single_target+=/frost_strike,if=buff.killing_machine.react|runic_power>88
-actions.single_target+=/frost_strike,if=cooldown.antimagic_shell.remains<1&runic_power>=50&!buff.antimagic_shell.up
-actions.single_target+=/howling_blast,if=death>1|frost>1
-actions.single_target+=/unholy_blight,if=!disease.ticking
-actions.single_target+=/howling_blast,if=!talent.necrotic_plague.enabled&!dot.frost_fever.ticking
-actions.single_target+=/howling_blast,if=talent.necrotic_plague.enabled&!dot.necrotic_plague.ticking
-actions.single_target+=/plague_strike,if=!talent.necrotic_plague.enabled&!dot.blood_plague.ticking&unholy>0
-actions.single_target+=/howling_blast,if=buff.rime.react
-actions.single_target+=/frost_strike,if=set_bonus.tier17_2pc=1&(runic_power>=50&(cooldown.pillar_of_frost.remains<5))
-actions.single_target+=/frost_strike,if=runic_power>76
-actions.single_target+=/obliterate,if=unholy>0&!buff.killing_machine.react
-actions.single_target+=/howling_blast,if=!(target.health.pct-3*(target.health.pct%target.time_to_die)<=35&cooldown.soul_reaper.remains<3)|death+frost>=2
-actions.single_target+=/blood_tap
-actions.single_target+=/plague_leech
-actions.single_target+=/empower_rune_weapon
+actions.generic=howling_blast,target_if=!dot.frost_fever.ticking
+actions.generic+=/howling_blast,if=buff.rime.react
+actions.generic+=/frost_strike,if=runic_power>=80
+actions.generic+=/call_action_list,name=core
+actions.generic+=/frost_strike,if=talent.breath_of_sindragosa.enabled&cooldown.breath_of_sindragosa.remains>15
+actions.generic+=/frost_strike,if=!talent.breath_of_sindragosa.enabled
+actions.generic+=/horn_of_winter,if=talent.breath_of_sindragosa.enabled&cooldown.breath_of_sindragosa.remains>15
+actions.generic+=/empower_rune_weapon,if=talent.breath_of_sindragosa.enabled&cooldown.breath_of_sindragosa.remains>15
+actions.generic+=/hungering_rune_weapon,if=talent.breath_of_sindragosa.enabled&cooldown.breath_of_sindragosa.remains>15
+actions.generic+=/horn_of_winter,if=!talent.breath_of_sindragosa.enabled
+actions.generic+=/empower_rune_weapon,if=!talent.breath_of_sindragosa.enabled
+actions.generic+=/hungering_rune_weapon,if=!talent.breath_of_sindragosa.enabled
 
-actions.bos_aoe=howling_blast
-actions.bos_aoe+=/blood_tap,if=buff.blood_charge.stack>10
-actions.bos_aoe+=/death_and_decay,if=unholy=1
-actions.bos_aoe+=/plague_strike,if=unholy=2
-actions.bos_aoe+=/blood_tap
-actions.bos_aoe+=/plague_leech
-actions.bos_aoe+=/plague_strike,if=unholy=1
-actions.bos_aoe+=/empower_rune_weapon
+actions.core=glacial_advance
+actions.core+=/frostscythe,if=buff.killing_machine.react|spell_targets.frostscythe>=4
+actions.core+=/obliterate,if=buff.killing_machine.react
+actions.core+=/remorseless_winter,if=spell_targets.remorseless_winter>=2
+actions.core+=/obliterate
+actions.core+=/frostscythe,if=talent.frozen_pulse.enabled
+actions.core+=/howling_blast,if=talent.frozen_pulse.enabled
 
-actions.bos_st=obliterate,if=buff.killing_machine.react
-actions.bos_st+=/blood_tap,if=buff.killing_machine.react&buff.blood_charge.stack>=5
-actions.bos_st+=/plague_leech,if=buff.killing_machine.react
-actions.bos_st+=/howling_blast,if=runic_power<88
-actions.bos_st+=/obliterate,if=unholy>0&runic_power<76
-actions.bos_st+=/blood_tap,if=buff.blood_charge.stack>=5
-actions.bos_st+=/plague_leech
-actions.bos_st+=/empower_rune_weapon
-
-head=ogreskull_boneplate_greathelm,id=115539
-neck=thogars_serrated_chain,id=113959,enchant=gift_of_mastery
-shoulders=ogreskull_boneplate_pauldrons,id=115536
-back=cloak_of_sanguine_terror,id=113972,enchant=gift_of_mastery
-chest=ogreskull_boneplate_breastplate,id=115537
-wrists=bracers_of_martial_perfection,id=113871
-hands=gauntlets_of_dramatic_blows,id=113906
-waist=ironcrushers_collar,id=113950
-legs=ogreskull_boneplate_greaves,id=115535
-feet=sabatons_of_fractal_earth,id=113936
-finger1=timeless_solium_band_of_brutality,id=118295,enchant=gift_of_mastery
-finger2=seal_of_the_savage_howl,id=113940,enchant=gift_of_mastery
-trinket1=horn_of_screaming_spirits,id=119193
-trinket2=vial_of_convulsive_shadows,id=113969
-main_hand=taners_terrible_spine,id=113862,enchant=rune_of_the_fallen_crusader
-off_hand=kromogs_brutal_fist,id=113927,enchant=rune_of_razorice
+head=demongaze_helm,id=124332
+neck=corrupted_talonguard_pendant,id=124218,enchant=gift_of_mastery
+shoulders=demongaze_pauldrons,id=124344
+back=soulbinders_greatcloak,id=124143,enchant=gift_of_mastery
+chest=demongaze_chestplate,id=124317
+wrists=breachscarred_wristplates,id=124353
+hands=gauntlets_of_derision,id=124326
+waist=girdle_of_demonic_wrath,id=124350
+legs=demongaze_legplates,id=124338
+feet=treads_of_the_defiler,id=124322
+finger1=spellbound_runic_band_of_elemental_power,id=118305,enchant=gift_of_mastery
+finger2=congealed_globule_loop,id=124197,enchant=gift_of_mastery
+trinket1=empty_drinking_horn,id=124238
+trinket2=discordant_chorus,id=124237
+main_hand=fiendsbreath_warmace,id=124374,enchant=rune_of_razorice
+off_hand=fiendsbreath_warmace,id=124374,enchant=rune_of_the_fallen_crusader
 
 # Gear Summary
-# gear_ilvl=670.63
-# gear_strength=2973
-# gear_stamina=3537
-# gear_crit_rating=620
-# gear_haste_rating=335
-# gear_mastery_rating=1249
-# gear_armor=2082
-# gear_multistrike_rating=968
-# gear_versatility_rating=201
-# set_bonus=tier17_2pc=1
-# set_bonus=tier17_4pc=1
+# gear_ilvl=698.75
+# gear_strength=3616
+# gear_stamina=4574
+# gear_crit_rating=653
+# gear_haste_rating=1576
+# gear_mastery_rating=2102
+# gear_armor=2264
+# set_bonus=tier18_2pc=1
+# set_bonus=tier18_4pc=1

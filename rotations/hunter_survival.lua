@@ -1,7 +1,7 @@
 --[[[
 @module Hunter Survival Rotation
 @generated_from hunter_survival.simc
-@version 6.2.2
+@version 7.0.3
 ]]--
 local spells = kps.spells.hunter
 local env = kps.env.hunter
@@ -9,37 +9,22 @@ local env = kps.env.hunter
 
 kps.rotations.register("HUNTER","SURVIVAL",
 {
-    {{"nested"}, 'activeEnemies.count > 1', { -- call_action_list,name=aoe,if=active_enemies>1
-        {spells.stampede, 'player.hasAgiProc or (  and ( player.hasAgiProc or player.hasProc or player.hasAgiProc ) )'}, -- stampede,if=buff.potion.up|(cooldown.potion.remains&(buff.archmages_greater_incandescence_agi.up|trinket.stat.any.up|buff.archmages_incandescence_agi.up))
-        {spells.explosiveShot, 'player.buffStacks(spells.lockAndLoad) and ( not player.hasTalent(6, 3) or spells.barrage.cooldown > 0 )'}, -- explosive_shot,if=buff.lock_and_load.react&(!talent.barrage.enabled|cooldown.barrage.remains>0)
-        {spells.barrage}, -- barrage
-        {spells.blackArrow, 'not target.hasMyDebuff(spells.blackArrow)'}, -- black_arrow,if=!ticking
-        {spells.explosiveShot, 'activeEnemies.count < 5'}, -- explosive_shot,if=active_enemies<5
-        {spells.explosiveTrap, 'target.myDebuffDuration(spells.explosiveTrap) <= 5'}, -- explosive_trap,if=dot.explosive_trap.remains<=5
-        {spells.aMurderOfCrows}, -- a_murder_of_crows
-        {spells.direBeast}, -- dire_beast
--- ERROR in 'multishot,if=buff.thrill_of_the_hunt.react&focus>50&cast_regen<=focus.deficit|dot.serpent_sting.remains<=5|target.time_to_die<4.5': Spell 'kps.spells.hunter.thrillOfTheHunt' unknown (in expression: 'buff.thrill_of_the_hunt.react')!
--- ERROR in 'cobra_shot,if=buff.pre_steady_focus.up&buff.steady_focus.remains<5&focus+14+cast_regen<80': Spell 'kps.spells.hunter.preSteadyFocus' unknown (in expression: 'buff.pre_steady_focus.up')!
-        {spells.multishot, 'player.focus >= 70 or player.hasTalent(7, 2)'}, -- multishot,if=focus>=70|talent.focusing_shot.enabled
-        {spells.cobraShot}, -- cobra_shot
-    }},
+    {spells.explosiveTrap}, -- explosive_trap
+    {spells.dragonsfireGrenade}, -- dragonsfire_grenade
+-- ERROR in 'carve,if=talent.serpent_sting.enabled&active_enemies>=3&(!dot.serpent_sting.ticking|dot.serpent_sting.remains<=gcd.max)': Unknown Talent 'serpentSting' for 'hunter'!
+-- ERROR in 'raptor_strike,cycle_targets=1,if=talent.serpent_sting.enabled&active_enemies<=2&(!dot.serpent_sting.ticking|dot.serpent_sting.remains<=gcd.max)|talent.way_of_the_moknathal.enabled&(buff.moknathal_tactics.remains<gcd.max|buff.moknathal_tactics.down)': Unknown Talent 'serpentSting' for 'hunter'!
+    {spells.aspectOfTheEagle}, -- aspect_of_the_eagle
+-- ERROR in 'fury_of_the_eagle,if=buff.mongoose_fury.up&buff.mongoose_fury.remains<=gcd.max*2': Spell 'kps.spells.hunter.mongooseFury' unknown (in expression: 'buff.mongoose_fury.up')!
+-- ERROR in 'mongoose_bite,if=buff.mongoose_fury.up|cooldown.fury_of_the_eagle.remains<5|charges=3': Spell 'kps.spells.hunter.mongooseFury' unknown (in expression: 'buff.mongoose_fury.up')!
+    {spells.steelTrap}, -- steel_trap
     {spells.aMurderOfCrows}, -- a_murder_of_crows
-    {spells.stampede, 'player.hasAgiProc or (  and ( player.hasAgiProc or player.hasProc ) ) or target.timeToDie <= 45'}, -- stampede,if=buff.potion.up|(cooldown.potion.remains&(buff.archmages_greater_incandescence_agi.up|trinket.stat.any.up))|target.time_to_die<=45
-    {spells.blackArrow, 'target.myDebuffDuration(spells.blackArrow) < player.gcd * 1.5'}, -- black_arrow,if=remains<gcd*1.5
-    {spells.arcaneShot, '( player.hasAgiProc and  < 4 ) or target.myDebuffDuration(spells.serpentSting) <= 3'}, -- arcane_shot,if=(trinket.proc.any.react&trinket.proc.any.remains<4)|dot.serpent_sting.remains<=3
-    {spells.explosiveShot}, -- explosive_shot
--- ERROR in 'cobra_shot,if=buff.pre_steady_focus.up': Spell 'kps.spells.hunter.preSteadyFocus' unknown (in expression: 'buff.pre_steady_focus.up')!
-    {spells.direBeast}, -- dire_beast
--- ERROR in 'arcane_shot,if=(buff.thrill_of_the_hunt.react&focus>35)|target.time_to_die<4.5': Spell 'kps.spells.hunter.thrillOfTheHunt' unknown (in expression: 'buff.thrill_of_the_hunt.react')!
--- ERROR in 'glaive_toss': Spell 'glaiveToss' unknown!
--- ERROR in 'powershot': Spell 'powershot' unknown!
-    {spells.barrage}, -- barrage
-    {spells.explosiveTrap, 'not player.hasAgiProc and not player.hasProc'}, -- explosive_trap,if=!trinket.proc.any.react&!trinket.stacking_proc.any.react
--- ERROR in 'arcane_shot,if=talent.steady_focus.enabled&!talent.focusing_shot.enabled&focus.deficit<action.cobra_shot.cast_regen*2+28': Unknown expression 'action.cobra_shot.'!
-    {spells.cobraShot, 'player.hasTalent(4, 1) and player.buffDuration(spells.steadyFocus) < 5'}, -- cobra_shot,if=talent.steady_focus.enabled&buff.steady_focus.remains<5
--- ERROR in 'focusing_shot,if=talent.steady_focus.enabled&buff.steady_focus.remains<=cast_time&focus.deficit>cast_regen': Spell 'focusingShot' unknown!
-    {spells.arcaneShot, 'player.focus >= 70 or player.hasTalent(7, 2) or ( player.hasTalent(4, 1) and player.focus >= 50 )'}, -- arcane_shot,if=focus>=70|talent.focusing_shot.enabled|(talent.steady_focus.enabled&focus>=50)
--- ERROR in 'focusing_shot': Spell 'focusingShot' unknown!
-    {spells.cobraShot}, -- cobra_shot
+    {spells.lacerate, 'target.hasMyDebuff(spells.lacerate) and target.myDebuffDuration(spells.lacerate) <= 3 or target.timeToDie >= 5'}, -- lacerate,if=dot.lacerate.ticking&dot.lacerate.remains<=3|target.time_to_die>=5
+-- ERROR in 'snake_hunter,if=action.mongoose_bite.charges<=1&buff.mongoose_fury.remains>gcd.max*4': Spell 'kps.spells.hunter.mongooseFury' unknown (in expression: 'buff.mongoose_fury.remains')!
+-- ERROR in 'flanking_strike,if=talent.way_of_the_moknathal.enabled&(focus>=55&buff.moknathal_tactics.remains>=3)|focus>=55': Unknown Talent 'wayOfTheMoknathal' for 'hunter'!
+-- ERROR in 'butchery,if=spell_targets.butchery>=2': Unknown expression 'spell_targets.butchery'!
+-- ERROR in 'carve,if=spell_targets.carve>=4': Unknown expression 'spell_targets.carve'!
+    {spells.spittingCobra}, -- spitting_cobra
+    {spells.throwingAxes}, -- throwing_axes
+    {spells.raptorStrike, 'player.focus > 75 - spells.flankingStrike.cooldown * player.focusRegen'}, -- raptor_strike,if=focus>75-cooldown.flanking_strike.remains*focus.regen
 }
 ,"hunter_survival.simc")

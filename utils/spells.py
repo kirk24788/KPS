@@ -98,7 +98,7 @@ class PlayerSpells(dict):
             else:
                 spell_ids_found[spell_id] = currentLine
                 return 0
-        file_name = os.path.dirname(os.path.abspath(__file__)) + "/../rotations/" + class_name + ".lua"
+        file_name = os.path.dirname(os.path.abspath(__file__)) + "/../rotations/" + class_name + "_spells.lua"
         LOG.info("Parsing PlayerSpells in '%s'", file_name)
         line_nr = 0
         try:

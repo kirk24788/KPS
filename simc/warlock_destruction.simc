@@ -1,14 +1,9 @@
-warlock="Warlock_Destruction_T17N"
+warlock="Warlock_Destruction_T18N"
 level=100
-race=dwarf
+race=troll
 role=spell
 position=back
-talents=0000311
-talent_override=charred_remains,if=enemies>=4
-talent_override=cataclysm,if=enemies>1&enemies<4
-talent_override=grimoire_of_sacrifice,if=enemies>1&enemies<4|(enemies=1&talent.charred_remains.enabled)
-talent_override=grimoire_of_supremacy,if=(enemies>=4&!talent.demonic_servitude.enabled)|(enemies=1&talent.cataclysm.enabled)
-talent_override=grimoire_of_service,if=talent.demonic_servitude.enabled
+talents=2301033
 spec=destruction
 
 # This default action priority list is automatically created based on your character.
@@ -20,100 +15,71 @@ spec=destruction
 # Executed before combat begins. Accepts non-harmful actions only.
 
 actions.precombat=flask,type=greater_draenic_intellect_flask
-actions.precombat+=/food,type=pickled_eel
-actions.precombat+=/dark_intent,if=!aura.spell_power_multiplier.up
-actions.precombat+=/summon_pet,if=!talent.demonic_servitude.enabled&(!talent.grimoire_of_sacrifice.enabled|buff.grimoire_of_sacrifice.down)
-actions.precombat+=/summon_doomguard,if=talent.demonic_servitude.enabled&active_enemies<9
-actions.precombat+=/summon_infernal,if=talent.demonic_servitude.enabled&active_enemies>=9
+actions.precombat+=/food,type=frosty_stew
+actions.precombat+=/summon_pet,if=!talent.grimoire_of_supremacy.enabled&(!talent.grimoire_of_sacrifice.enabled|buff.demonic_power.down)
+actions.precombat+=/summon_doomguard,if=talent.grimoire_of_supremacy.enabled&active_enemies<3
+actions.precombat+=/summon_infernal,if=talent.grimoire_of_supremacy.enabled&active_enemies>=3
 actions.precombat+=/snapshot_stats
-actions.precombat+=/grimoire_of_sacrifice,if=talent.grimoire_of_sacrifice.enabled&!talent.demonic_servitude.enabled
+actions.precombat+=/grimoire_of_sacrifice,if=talent.grimoire_of_sacrifice.enabled
 actions.precombat+=/potion,name=draenic_intellect
+actions.precombat+=/mana_tap,if=talent.mana_tap.enabled&!buff.mana_tap.remains
 actions.precombat+=/incinerate
 
 # Executed every time the actor is available.
 
-actions=potion,name=draenic_intellect,if=target.time_to_die<=25|buff.dark_soul.remains>10|(glyph.dark_soul.enabled&buff.dark_soul.remains)
+actions=immolate,if=remains<=tick_time
+actions+=/immolate,if=talent.roaring_blaze.enabled&remains<=duration&!debuff.roaring_blaze.remains&(action.conflagrate.charges=2|(action.conflagrate.charges>=1&action.conflagrate.recharge_time<cast_time+gcd))
 actions+=/berserking
 actions+=/blood_fury
 actions+=/arcane_torrent
-actions+=/mannoroths_fury
-actions+=/dark_soul,if=!talent.archimondes_darkness.enabled|(talent.archimondes_darkness.enabled&(charges=2|target.time_to_die<40|((trinket.proc.any.react|trinket.stacking_proc.any.react)&(!talent.grimoire_of_service.enabled|!talent.demonic_servitude.enabled|pet.service_doomguard.active|recharge_time<=cooldown.service_pet.remains))))
-actions+=/service_pet,if=talent.grimoire_of_service.enabled&(target.time_to_die>120|target.time_to_die<=25|(buff.dark_soul.remains&target.health.pct<20))
-actions+=/summon_doomguard,if=!talent.demonic_servitude.enabled&active_enemies<9
-actions+=/summon_infernal,if=!talent.demonic_servitude.enabled&active_enemies>=9
-actions+=/run_action_list,name=single_target,if=active_enemies<6&(!talent.charred_remains.enabled|active_enemies<4)
-actions+=/run_action_list,name=aoe,if=active_enemies>=6|(talent.charred_remains.enabled&active_enemies>=4)
+actions+=/conflagrate,if=talent.roaring_blaze.enabled&(charges=2|(action.conflagrate.charges>=1&action.conflagrate.recharge_time<gcd))
+actions+=/conflagrate,if=talent.roaring_blaze.enabled&prev_gcd.conflagrate
+actions+=/conflagrate,if=talent.roaring_blaze.enabled&debuff.roaring_blaze.stack=2
+actions+=/conflagrate,if=talent.roaring_blaze.enabled&debuff.roaring_blaze.stack=3&buff.bloodlust.remains
+actions+=/conflagrate,if=!talent.roaring_blaze.enabled&buff.conflagration_of_chaos.remains<=action.chaos_bolt.cast_time
+actions+=/conflagrate,if=!talent.roaring_blaze.enabled&(charges=1&recharge_time<action.chaos_bolt.cast_time|charges=2)&soul_shard<5
+actions+=/service_pet
+actions+=/summon_infernal,if=artifact.lord_of_flames.rank>0&!buff.lord_of_flames.remains
+actions+=/summon_doomguard,if=!talent.grimoire_of_supremacy.enabled&spell_targets.infernal_awakening<3
+actions+=/summon_infernal,if=!talent.grimoire_of_supremacy.enabled&spell_targets.infernal_awakening>=3
+actions+=/soul_harvest
+actions+=/channel_demonfire,if=dot.immolate.remains>cast_time
+actions+=/chaos_bolt,if=soul_shard>3
+actions+=/dimensional_rift
+actions+=/mana_tap,if=buff.mana_tap.remains<=buff.mana_tap.duration*0.3&target.time_to_die>buff.mana_tap.duration*0.3
+actions+=/chaos_bolt
+actions+=/cataclysm
+actions+=/conflagrate,if=!talent.roaring_blaze.enabled
+actions+=/immolate,if=!talent.roaring_blaze.enabled&remains<=duration*0.3
+actions+=/life_tap,if=talent.mana_tap.enabled&mana.pct<=10
+actions+=/incinerate
+actions+=/life_tap
 
-actions.single_target=havoc,target=2
-actions.single_target+=/shadowburn,if=talent.charred_remains.enabled&target.time_to_die<10
-actions.single_target+=/kiljaedens_cunning,if=(talent.cataclysm.enabled&!cooldown.cataclysm.remains)
-actions.single_target+=/kiljaedens_cunning,moving=1,if=!talent.cataclysm.enabled
-actions.single_target+=/cataclysm,if=active_enemies>1
-actions.single_target+=/fire_and_brimstone,if=buff.fire_and_brimstone.down&dot.immolate.remains<=action.immolate.cast_time&(cooldown.cataclysm.remains>action.immolate.cast_time|!talent.cataclysm.enabled)&active_enemies>4
-actions.single_target+=/immolate,cycle_targets=1,if=remains<=cast_time&(cooldown.cataclysm.remains>cast_time|!talent.cataclysm.enabled)
-actions.single_target+=/cancel_buff,name=fire_and_brimstone,if=buff.fire_and_brimstone.up&dot.immolate.remains>(dot.immolate.duration*0.3)
-actions.single_target+=/shadowburn,if=buff.havoc.remains
-actions.single_target+=/chaos_bolt,if=buff.havoc.remains>cast_time&buff.havoc.stack>=3
-actions.single_target+=/conflagrate,if=charges=2
-actions.single_target+=/cataclysm
-actions.single_target+=/rain_of_fire,if=remains<=tick_time&(active_enemies>4|(buff.mannoroths_fury.up&active_enemies>2))
-actions.single_target+=/chaos_bolt,if=talent.charred_remains.enabled&active_enemies>1&target.health.pct>20
-actions.single_target+=/chaos_bolt,if=talent.charred_remains.enabled&buff.backdraft.stack<3&burning_ember>=2.5
-actions.single_target+=/chaos_bolt,if=buff.backdraft.stack<3&(burning_ember>=3.5|buff.dark_soul.up|target.time_to_die<20)
-actions.single_target+=/chaos_bolt,if=buff.backdraft.stack<3&set_bonus.tier17_2pc=1&burning_ember>=2.5
-actions.single_target+=/chaos_bolt,if=buff.backdraft.stack<3&buff.archmages_greater_incandescence_int.react&buff.archmages_greater_incandescence_int.remains>cast_time
-actions.single_target+=/chaos_bolt,if=buff.backdraft.stack<3&trinket.proc.intellect.react&trinket.proc.intellect.remains>cast_time
-actions.single_target+=/chaos_bolt,if=buff.backdraft.stack<3&trinket.proc.crit.react&trinket.proc.crit.remains>cast_time
-actions.single_target+=/chaos_bolt,if=buff.backdraft.stack<3&trinket.stacking_proc.multistrike.react>=8&trinket.stacking_proc.multistrike.remains>=cast_time
-actions.single_target+=/chaos_bolt,if=buff.backdraft.stack<3&trinket.proc.multistrike.react&trinket.proc.multistrike.remains>cast_time
-actions.single_target+=/chaos_bolt,if=buff.backdraft.stack<3&trinket.proc.versatility.react&trinket.proc.versatility.remains>cast_time
-actions.single_target+=/chaos_bolt,if=buff.backdraft.stack<3&trinket.proc.mastery.react&trinket.proc.mastery.remains>cast_time
-actions.single_target+=/fire_and_brimstone,if=buff.fire_and_brimstone.down&dot.immolate.remains<=(dot.immolate.duration*0.3)&active_enemies>4
-actions.single_target+=/immolate,cycle_targets=1,if=remains<=(duration*0.3)
-actions.single_target+=/conflagrate,if=buff.backdraft.stack=0
-actions.single_target+=/incinerate
-
-actions.aoe=rain_of_fire,if=!talent.charred_remains.enabled&remains<=tick_time
-actions.aoe+=/havoc,target=2,if=(!talent.charred_remains.enabled|buff.fire_and_brimstone.down)
-actions.aoe+=/shadowburn,if=!talent.charred_remains.enabled&buff.havoc.remains
-actions.aoe+=/chaos_bolt,if=!talent.charred_remains.enabled&buff.havoc.remains>cast_time&buff.havoc.stack>=3
-actions.aoe+=/kiljaedens_cunning,if=(talent.cataclysm.enabled&!cooldown.cataclysm.remains)
-actions.aoe+=/kiljaedens_cunning,moving=1,if=!talent.cataclysm.enabled
-actions.aoe+=/cataclysm
-actions.aoe+=/fire_and_brimstone,if=buff.fire_and_brimstone.down
-actions.aoe+=/immolate,if=buff.fire_and_brimstone.up&!dot.immolate.ticking
-actions.aoe+=/conflagrate,if=buff.fire_and_brimstone.up&charges=2
-actions.aoe+=/immolate,if=buff.fire_and_brimstone.up&dot.immolate.remains<=(dot.immolate.duration*0.3)
-actions.aoe+=/chaos_bolt,if=talent.charred_remains.enabled&buff.fire_and_brimstone.up
-actions.aoe+=/incinerate
-
-head=shadow_councils_hood,id=115586
-neck=gruuls_lip_ring,id=113872,enchant_id=5319
-shoulders=shadow_councils_mantle,id=115589
-back=runefrenzy_greatcloak,id=113937,enchant_id=5312
-chest=shadow_councils_robes,id=115588
-wrists=bracers_of_enkindled_power,id=113956
-hands=shadow_councils_gloves,id=115585
-waist=seeking_ember_girdle,id=113941
-legs=turret_mechanics_legwraps,id=113970
-feet=cavedwellers_climbers,id=113864
-finger1=timeless_solium_band_of_the_archmage,id=118296,enchant_id=5326
-finger2=ukuroggs_corrupted_seal,id=113975,enchant_id=5326
-trinket1=darmacs_unstable_talisman,id=113948
-trinket2=goren_soul_repository,id=119194
-main_hand=blackhand_doomstaff,id=113988,enchant_id=5384
+head=demon_princes_ascendant_crown,id=124159
+neck=vial_of_immiscible_liquid,id=124212,enchant=75crit
+shoulders=deathrattle_shoulderpads,id=124179
+back=spellcloak_of_suramar,id=127972,enchant=100crit
+chest=deathrattle_robe,id=124173
+wrists=contemptuous_wristguards,id=124186
+hands=deathrattle_gloves,id=124156
+waist=demonbuckle_sash_of_argus,id=124200
+legs=deathrattle_leggings,id=124167
+feet=bloody_daggerheeled_pumps,id=124149
+finger1=spellbound_runic_band_of_the_allseeing_eye,id=118306,enchant=50crit
+finger2=loathful_encrusted_band,id=124192,enchant=50crit
+trinket1=desecrated_shadowmoon_insignia,id=124228
+trinket2=fragment_of_the_dark_star,id=124522
+main_hand=edict_of_argus,id=124382,enchant_id=5384
 
 # Gear Summary
-# gear_ilvl=670.67
-# gear_stamina=3589
-# gear_intellect=2956
-# gear_spell_power=1389
-# gear_crit_rating=944
-# gear_haste_rating=747
-# gear_mastery_rating=1520
-# gear_armor=727
-# gear_multistrike_rating=106
-# gear_versatility_rating=78
-# set_bonus=tier17_2pc=1
-# set_bonus=tier17_4pc=1
-default_pet=felhunter
+# gear_ilvl=700.67
+# gear_stamina=4762
+# gear_intellect=5006
+# gear_crit_rating=1396
+# gear_haste_rating=1035
+# gear_mastery_rating=2022
+# gear_versatility_rating=292
+# gear_armor=895
+# set_bonus=tier18_2pc=1
+# set_bonus=tier18_4pc=1
+default_pet=imp

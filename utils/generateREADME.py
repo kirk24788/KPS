@@ -72,7 +72,7 @@ def read_rotation_data():
                         fully_supported[class_name] = []
                     fully_supported[class_name].append(spec_name)
             else:
-                if class_name not in fully_supported.keys():
+                if class_name not in outdated.keys():
                     outdated[class_name] = []
                 outdated[class_name].append("%s (%s)" % (spec_name, meta["version"] ))
     rotation_data = "**Fully Supported in %s:**\n\n" % WOW_VERSION

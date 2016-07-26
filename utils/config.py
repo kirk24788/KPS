@@ -9,7 +9,7 @@ SUPPORTED_SPECS={
     "monk": ["brewmaster", "windwalker"],
     "paladin": ["protection", "retribution"],
     "priest": ["discipline", "holy", "shadow"],
-    "rogue": ["assassination", "combat", "subtlety"],
+    "rogue": ["assassination", "outlaw", "subtlety"],
     "shaman": ["elemental", "enhancement"],
     "warlock": ["affliction", "demonology", "destruction"],
     "warrior": ["arms", "fury", "protection"],
