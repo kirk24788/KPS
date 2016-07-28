@@ -52,11 +52,7 @@ from SimCraft - those might not be fully functional, but aren't tested.
 
 **Fully Supported in 7.0.3:**
 
-* Warlock: Affliction, Destruction
-
-**Untested Rotations in 7.0.3:**
-
-* Warlock: Demonology
+* Warlock: Affliction, Demonology, Destruction
 
 **Outdated Rotations:**
 

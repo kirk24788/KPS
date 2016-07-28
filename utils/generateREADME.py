@@ -47,7 +47,6 @@ def parse_rotation_info(filename):
 def read_rotation_data():
     rotations = []
 
-
     fully_supported = {}
     untested_supported = {}
     outdated = {}

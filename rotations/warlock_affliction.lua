@@ -7,6 +7,17 @@ local spells = kps.spells.warlock
 local env = kps.env.warlock
 
 
+--[[
+Suggested Talents:
+Level 15: Writhe in Agony
+Level 30: Absolute Corruption
+Level 45: Demon Skin
+Level 60: Siphon Life
+Level 75: Burning Rush
+Level 90: Grimoire of Service
+Level 100: Soul Effigy
+]]--
+
 kps.rotations.register("WARLOCK","AFFLICTION",
 {
     -- Deactivate Burning Rush if not moving for 1 second

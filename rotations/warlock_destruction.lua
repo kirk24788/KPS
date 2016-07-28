@@ -7,10 +7,16 @@
 local spells = kps.spells.warlock
 local env = kps.env.warlock
 
-
---kps.runOnClass("WARLOCK", function ( )
---    kps.gui.createToggle("conserve", "Interface\\Icons\\spell_Mage_Flameorb", "Conserve")
---end)
+--[[
+Suggested Talents:
+Level 15: Roaring Blaze
+Level 30: Reverse Entropy
+Level 45: Demon Skin
+Level 60: Eradication
+Level 75: Burning Rush
+Level 90: Grimoire of Service
+Level 100: Soul Conduit
+]]--
 
 kps.rotations.register("WARLOCK","DESTRUCTION",
 {
