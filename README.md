@@ -52,6 +52,7 @@ from SimCraft - those might not be fully functional, but aren't tested.
 
 **Fully Supported in 7.0.3:**
 
+* Rogue: Outlaw
 * Warlock: Affliction, Demonology, Destruction
 
 **Outdated Rotations:**
@@ -71,7 +72,7 @@ _(Might not be fully functional)_
 * Monk: Brewmaster (7.0.3), Windwalker (6.2.2)
 * Paladin: Protection (7.0.3)
 * Priest: Discipline (7.0.3), Holy (7.0.3)
-* Rogue: Assassination (7.0.3), Outlaw (7.0.3), Subtlety (7.0.3)
+* Rogue: Assassination (7.0.3), Subtlety (7.0.3)
 * Shaman: Elemental (7.0.3), Enhancement (7.0.3)
 * Warrior: Arms (7.0.3), Fury (7.0.3), Protection (7.0.3)
 

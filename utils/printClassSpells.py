@@ -42,8 +42,14 @@ ADDITIONAL_SPELLS = {
     "monk": [116768,159407,145008],
     "paladin": [117809,156989,156988,156990,166831],
     "priest": [179337],
-    "rogue": [],
-    "shaman": [114074,115356],
+    "rogue": [193359, # True Bearing
+              193357, # Shark Infested Waters
+              199603, # Jolly Roger
+              193358, # Grand Melee
+              193356, # Broadsides
+              199600, # Buried Treasure
+              195627, # Opportunity
+    ],"shaman": [114074,115356],
     "warlock": [104316,89751,115831,115625,
                 185229, # Flamelicked - Destruction Class Trinket
                 111859, # Grimmoire: Imp

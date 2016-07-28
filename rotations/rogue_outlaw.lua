@@ -1,25 +1,54 @@
 --[[[
 @module Rogue Outlaw Rotation
-@generated_from rogue_outlaw.simc
+@author kirk24788
 @version 7.0.3
 ]]--
 local spells = kps.spells.rogue
 local env = kps.env.rogue
 
+--[[
+Suggested Talents:
+Level 15: Swordmaster
+Level 30: Grappling Hook
+Level 45: Vigor
+Level 60: Iron Stomach
+Level 75: Dirty Tricks
+Level 90: Cannonball Barrage
+Level 100: Marked for Death
+]]--
+
 
 kps.rotations.register("ROGUE","OUTLAW",
 {
--- ERROR in 'blade_flurry,if=(spell_targets.blade_flurry>=2&!buff.blade_flurry.up)|(spell_targets.blade_flurry<2&buff.blade_flurry.up)': Unknown expression 'spell_targets.blade_flurry'!
-    {spells.adrenalineRush, 'not player.hasBuff(spells.adrenalineRush)'}, -- adrenaline_rush,if=!buff.adrenaline_rush.up
-    {spells.ambush}, -- ambush
--- ERROR in 'vanish,if=combo_points.deficit>=2&energy>60': Unknown expression 'combo_points.deficit'!
-    {spells.sliceAndDice, 'target.comboPoints >= 5 and player.buffDuration(spells.sliceAndDice) < target.timeToDie and player.buffDuration(spells.sliceAndDice) < 6'}, -- slice_and_dice,if=combo_points>=5&buff.slice_and_dice.remains<target.time_to_die&buff.slice_and_dice.remains<6
--- ERROR in 'roll_the_bones,if=combo_points>=5&buff.roll_the_bones.remains<target.time_to_die&(buff.roll_the_bones.remains<3|buff.roll_the_bones.remains<duration*0.3%rtb_buffs|(!buff.shark_infested_waters.up&rtb_buffs<2))': Unknown expression 'rtb_buffs'!
-    {spells.killingSpree, 'player.energyTimeToMax > 5 or player.energy < 15'}, -- killing_spree,if=energy.time_to_max>5|energy<15
--- ERROR in 'cannonball_barrage,if=spell_targets.cannonball_barrage>=1': Unknown expression 'spell_targets.cannonball_barrage'!
--- ERROR in 'curse_of_the_dreadblades,if=combo_points.deficit>=4': Unknown expression 'combo_points.deficit'!
--- ERROR in 'marked_for_death,cycle_targets=1,target_if=min:target.time_to_die,if=combo_points.deficit>=4+talent.deeper_strategem.enabled': Unknown expression 'combo_points.deficit'!
--- ERROR in 'call_action_list,name=finisher,if=combo_points>=5+talent.deeper_strategem.enabled': Unknown Talent 'deeperStrategem' for 'rogue'!
--- ERROR in 'call_action_list,name=generator,if=combo_points<5+talent.deeper_strategem.enabled': Unknown Talent 'deeperStrategem' for 'rogue'!
+    -- 1. Activate Blade Flurry if more than one target is present and stacked.
+    {spells.bladeFlurry, 'activeEnemies.count > 1 and not player.hasBuff(spells.bladeFlurry)'},
+    {spells.bladeFlurry, 'activeEnemies.count <= 1 and player.hasBuff(spells.bladeFlurry)'},
+
+    -- 2. If Adrenaline Rush is off cooldown
+    {{"nested"}, 'spells.adrenalineRush.cooldown <= 0', {
+        -- activate Adrenaline Rush Icon Adrenaline Rush if you have the True Bearing Icon True Bearing buff from Roll the Bones Icon Roll the Bones;
+        {spells.adrenalineRush, 'player.hasBuff(spells.trueBearing)'},
+        --if you do not have True Bearing Icon True Bearing, cast Roll the Bones until you obtain it or 2-3 favorable buffs, then activate Adrenaline Rush Icon Adrenaline Rush.
+        {spells.adrenalineRush, 'rollTheBonesBuffCount(3)'},
+        {spells.rollTheBones, 'target.comboPoints >= 1'},
+    }},
+
+    -- 3. Cast Marked for Death (when talented) if you have 0-1 Combo Points.
+    {spells.markedForDeath, 'target.comboPoints <= 1 and player.hasTalent(7, 2)'},
+
+    -- 4. Cast Death from Above Icon Death from Above (when talented) if you have 6 Combo Points and Adrenaline Rush Icon Adrenaline Rush is not active.
+    {spells.deathFromAbove, 'target.comboPoints >= 6 and player.hasTalent(7, 3) and not player.hasBuff(spells.adrenalineRush)'},
+
+    -- 5. Maintain your decent Roll the Bones buffs
+    {spells.rollTheBones, 'target.comboPoints >= 1 and not rollTheBonesDecentBuffCount(2)'},
+
+    -- 6. Cast Run Through if you are at 5-6 Combo Points.
+    {spells.runThrough, 'target.comboPoints >= 5'},
+
+    -- 7. Cast Pistol Shot if you have an Opportunity Icon Opportunity proc and you have 4 or less Combo Points.
+    {spells.pistolShot, 'target.comboPoints <= 4 and player.hasBuff(spells.opportunity)'},
+
+    -- 8. Cast Saber Slash to generate Combo Points.
+    {spells.saberSlash},
 }
-,"rogue_outlaw.simc")
+,"Icy Veins")
