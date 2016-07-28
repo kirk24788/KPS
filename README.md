@@ -55,9 +55,12 @@ from SimCraft - those might not be fully functional, but aren't tested.
 * Rogue: Outlaw
 * Warlock: Affliction, Demonology, Destruction
 
+**Untested Rotations in 7.0.3:**
+
+* Deathknight: Blood
+
 **Outdated Rotations:**
 
-* Deathknight: Blood (6.2.2)
 * Druid: Balance (6.2.2)
 * Paladin: Retribution (6.2.2)
 * Priest: Shadow (6.2.2)
@@ -325,20 +328,20 @@ Members:
  * `<UNIT>.hasBuff(<SPELL>)` - return true if the unit has the given buff (i.e. `target.hasBuff(spells.renew)`)
  * `<UNIT>.hasDebuff(<SPELL>)` - returns true if the unit has the given debuff (i.e. `target.hasDebuff(spells.immolate)`)
  * `<UNIT>.hasMyDebuff(<SPELL>)` - returns true if the unit has the given debuff _AND_ the debuff was cast by the player (i.e. `target.hasMyDebuff(spells.immolate)`)
- * `<UNIT>.myBuffDuration(<SPELL>)` - returns the remaining duration of the buff on the given unit if the buff was cast by the player 
- * `<UNIT>.myDebuffDuration(<SPELL>)` - returns the remaining duration of the debuff on the given unit if the debuff was cast by the player 
+ * `<UNIT>.myBuffDuration(<SPELL>)` - returns the remaining duration of the buff on the given unit if the buff was cast by the player
+ * `<UNIT>.myDebuffDuration(<SPELL>)` - returns the remaining duration of the debuff on the given unit if the debuff was cast by the player
  * `<UNIT>.myDebuffDurationMax(<SPELL>)` - returns the total duration of the given debuff if it was cast by the player
  * `<UNIT>.buffDuration(<SPELL>)` - returns the remaining duration of the given buff
  * `<UNIT>.debuffDuration(<SPELL>)` - returns the remaining duration of the given debuff
  * `<UNIT>.debuffStacks(<SPELL>)` - returns the debuff stacks on for the given <SPELL> on this unit
- * `<UNIT>.dbuffStacks(<SPELL>)` - returns the buff stacks on for the given <SPELL> on this unit
+ * `<UNIT>.buffStacks(<SPELL>)` - returns the buff stacks on for the given <SPELL> on this unit
  * `<UNIT>.castTimeLeft` - returns the casting time left for this unit or 0 if it is not casting
  * `<UNIT>.channelTimeLeft` - returns the channeling time left for this unit or 0 if it is not channeling
  * `<UNIT>.isCasting` - returns true if the unit is casting (or channeling) a spell
  * `<UNIT>.isCastingSpell(<SPELL>)` - returns true if the unit is casting (or channeling) the given <SPELL> (i.e. `target.isCastingSpell(spells.immolate)`)
  * `<UNIT>.isInterruptable` - returns true if the unit is currently casting (or channeling) a spell which can be interrupted.
  * `<UNIT>.name` - returns the unit name
- * `<UNIT>.name` - returns the unit guid
+ * `<UNIT>.guid` - returns the unit guid
  * `<UNIT>.npcId` - returns the unit id (as seen on wowhead)
  * `<UNIT>.level` - returns the unit level
  * `<UNIT>.isRaidBoss` - returns true if the unit is a raid boss

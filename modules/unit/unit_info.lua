@@ -14,7 +14,7 @@ function Unit.name(self)
 end
 
 --[[[
-@function `<UNIT>.name` - returns the unit guid
+@function `<UNIT>.guid` - returns the unit guid
 ]]--
 function Unit.guid(self)
     return UnitGUID(self.unit)

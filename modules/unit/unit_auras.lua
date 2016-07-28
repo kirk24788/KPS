@@ -55,7 +55,7 @@ function Unit.hasMyDebuff(self)
 end
 
 --[[[
-@function `<UNIT>.myBuffDuration(<SPELL>)` - returns the remaining duration of the buff on the given unit if the buff was cast by the player 
+@function `<UNIT>.myBuffDuration(<SPELL>)` - returns the remaining duration of the buff on the given unit if the buff was cast by the player
 ]]--
 local myBuffDuration = setmetatable({}, {
     __index = function(t, unit)
@@ -75,7 +75,7 @@ function Unit.myBuffDuration(self)
 end
 
 --[[[
-@function `<UNIT>.myDebuffDuration(<SPELL>)` - returns the remaining duration of the debuff on the given unit if the debuff was cast by the player 
+@function `<UNIT>.myDebuffDuration(<SPELL>)` - returns the remaining duration of the debuff on the given unit if the debuff was cast by the player
 ]]--
 local myDebuffDuration = setmetatable({}, {
     __index = function(t, unit)
@@ -170,7 +170,7 @@ function Unit.debuffStacks(self)
 end
 
 --[[[
-@function `<UNIT>.dbuffStacks(<SPELL>)` - returns the buff stacks on for the given <SPELL> on this unit
+@function `<UNIT>.buffStacks(<SPELL>)` - returns the buff stacks on for the given <SPELL> on this unit
 ]]--
 local buffStacks = setmetatable({}, {
     __index = function(t, unit)
