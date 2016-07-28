@@ -30,12 +30,6 @@ hooksecurefunc(GameTooltip, "SetUnitAura", function(self,...)
     if id then addLine(self,id) end
 end)
 
--- local enabled, glyphType, glyphTooltipIndex, glyphSpellID, icon = GetGlyphSocketInfo(i)
-hooksecurefunc(GameTooltip, "SetGlyph", function(self,...)
-    local id = select(4,GetGlyphSocketInfo(...))
-    if id then addLine(self,id) end
-end)
-
 GameTooltip:HookScript("OnTooltipSetSpell", function(self)
     local id = select(3,self:GetSpell())
     if id then addLine(self,id) end

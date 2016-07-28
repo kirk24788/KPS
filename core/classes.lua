@@ -48,7 +48,7 @@ local function specToNumber(classId, spec)
     return nil
 end
 
-function kps.classes.toKey(class,spec)
+function kps.classes.toKey(class, spec)
     local classId = classToNumber(class)
     if not classId then return 0 end
     local specId = specToNumber(classId, spec)
