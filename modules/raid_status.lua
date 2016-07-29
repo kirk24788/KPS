@@ -1,7 +1,7 @@
 --[[[
 @module Heal/Raid Status
 Helper functions for Raiders in Groups or Raids mainly aimed for healing rotations, but might be useful
-for some DPS Rotations too. 
+for some DPS Rotations too.
 ]]--
 
 local _raidStatus = {}
@@ -93,10 +93,8 @@ end
 local function tanksInRaid()
     local tanks = {}
     for name,player in pairs(raidStatus) do
-        if UnitGroupRolesAssigned(player.unit) == "TANK" 
-            or player.hasBuff(kps.spells.druid.bearForm)
-            or player.hasBuff(kps.spells.deathknight.bloodPresence)
-            or player.hasBuff(kps.spells.paladin.righteousFury) then
+        if UnitGroupRolesAssigned(player.unit) == "TANK"
+            or player.guid == kps["env"].focus.guid then
             table.insert(tanks, player)
         end
     end
@@ -117,7 +115,11 @@ kps.RaidStatus.prototype.lowestInRaid = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.lowestTankInRaid` - Returns the lowest tank in the raid (based on _incoming_ HP!) - if none is found the player is returned.
+@function `heal.lowestTankInRaid` - Returns the lowest tank in the raid (based on _incoming_ HP!) - a tank is either:
+
+    * any group member that has the Group Role `TANK`
+    * is `focus` target
+    * `player` if neither Group Role nor `focus` are set
 ]]--
 kps.RaidStatus.prototype.lowestTankInRaid = kps.utils.cachedValue(function()
     local lowestUnit = kps["env"].player

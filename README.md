@@ -238,13 +238,17 @@ Members:
 
 #### Heal/Raid Status
 Helper functions for Raiders in Groups or Raids mainly aimed for healing rotations, but might be useful
-for some DPS Rotations too. 
+for some DPS Rotations too.
 
 Members:
 
  * `heal.count` - return the size of the current group
  * `heal.type` - return the group type - either 'group' or 'raid'
- * `heal.lowestTankInRaid` - Returns the lowest tank in the raid (based on _incoming_ HP!) - if none is found the player is returned.
+ * `heal.lowestTankInRaid` - Returns the lowest tank in the raid (based on _incoming_ HP!) - a tank is either:
+
+    * any group member that has the Group Role `TANK`
+    * is `focus` target
+    * `player` if neither Group Role nor `focus` are set
  * `heal.defaultTarget` - Returns the default healing target based on these rules:
 
     * `player` if the player is below 20% hp incoming

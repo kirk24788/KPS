@@ -37,7 +37,8 @@ THOTTBOT_IDS = {
 ADDITIONAL_SPELLS = {
     "deathknight": [77535,
               195181, # Bone Shield
-    ], "druid": [164545,164547,117679,135201
+    ], "druid": [164545,164547,117679,135201,
+                 155777, # Rejuvination (Germination)
     ],"hunter": [],
     "mage": [166872,145254,48107,166868,101166,135029],
     "monk": [116768,159407,145008],
