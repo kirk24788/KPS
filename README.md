@@ -52,12 +52,9 @@ from SimCraft - those might not be fully functional, but aren't tested.
 
 **Fully Supported in 7.0.3:**
 
+* Deathknight: Blood
 * Rogue: Outlaw
 * Warlock: Affliction, Demonology, Destruction
-
-**Untested Rotations in 7.0.3:**
-
-* Deathknight: Blood
 
 **Outdated Rotations:**
 
