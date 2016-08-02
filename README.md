@@ -55,6 +55,7 @@ from SimCraft - those might not be fully functional, but aren't tested.
 * Deathknight: Blood
 * Rogue: Outlaw
 * Warlock: Affliction, Demonology, Destruction
+* Warrior: Fury
 
 **Outdated Rotations:**
 
@@ -74,7 +75,7 @@ _(Might not be fully functional)_
 * Priest: Discipline (7.0.3), Holy (7.0.3)
 * Rogue: Assassination (7.0.3), Subtlety (7.0.3)
 * Shaman: Elemental (7.0.3), Enhancement (7.0.3)
-* Warrior: Arms (7.0.3), Fury (7.0.3), Protection (7.0.3)
+* Warrior: Arms (7.0.3), Protection (7.0.3)
 
 
 

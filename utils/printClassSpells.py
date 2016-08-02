@@ -62,7 +62,11 @@ ADDITIONAL_SPELLS = {
     ],"warrior": [],
 }
 
-SPELL_BLACKLIST = [
+SPELL_ID_BLACKLIST = [
+    209694, # Wrong Warrior:Rampage
+]
+
+SPELL_NAME_BLACKLIST = [
     "Leather Specialization",
 ]
 
@@ -101,7 +105,9 @@ def is_filtered(spell):
         return (True, "Duplicate")
     else:
         _ALREADY_SEEN.append(spell["name"])
-    if spell["name"] in SPELL_BLACKLIST:
+    if spell["name"] in SPELL_NAME_BLACKLIST:
+        return (True, "Blacklisted")
+    if int(spell["id"]) in SPELL_ID_BLACKLIST:
         return (True, "Blacklisted")
     if spell["cat"]==-11:
         return (True, "Weapon Proficiencies")
