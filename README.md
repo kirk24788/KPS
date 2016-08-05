@@ -269,6 +269,7 @@ Members:
     * lowest tank in raid
 
  * `heal.averageHpIncoming` - Returns the average hp incoming for all raid members
+ * `heal.aggroTank(<UNIT-STRING>)` - Returns the tank with highest aggro on the given target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead. 
 
 
 #### Spell Class

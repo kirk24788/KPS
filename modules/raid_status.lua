@@ -90,16 +90,24 @@ function kps.RaidStatus.prototype.type(self)
     return raidType
 end
 
-local function tanksInRaid()
-    local tanks = {}
+
+
+local _tanksInRaid = {}
+_tanksInRaid[1] = {}
+_tanksInRaid[2] = {}
+local _tanksInRaidIdx = 1
+
+local tanksInRaid = kps.utils.cachedValue(function()
+    if _tanksInRaidIdx == 1 then _tanksInRaidIdx = 2 else _tanksInRaidIdx = 1 end
+    table.wipe(_tanksInRaid[_tanksInRaidIdx])
     for name,player in pairs(raidStatus) do
         if UnitGroupRolesAssigned(player.unit) == "TANK"
             or player.guid == kps["env"].focus.guid then
-            table.insert(tanks, player)
+            table.insert(_tanksInRaid[_tanksInRaidIdx], player)
         end
     end
-    return tanks
-end
+    return _tanksInRaid[_tanksInRaidIdx]
+end)
 
 -- Lowest Player in Raid (Based on INCOMING HP!)
 kps.RaidStatus.prototype.lowestInRaid = kps.utils.cachedValue(function()
@@ -194,6 +202,41 @@ kps.RaidStatus.prototype.averageHpIncoming = kps.utils.cachedValue(function()
     end
     return hpIncTotal / hpIncCount
 end)
+
+
+
+
+--[[[
+@function `heal.aggroTank(<UNIT-STRING>)` - Returns the tank with highest aggro on the given target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead. 
+]]--
+local findAggroTank = setmetatable({}, {
+    __index = function(t, self)
+        local val = function (targetUnit)
+            local allTanks = tanksInRaid()
+            local highestThreat = 0
+            local aggroTank = nil
+
+            for _, possibleTank in pairs(allTanks) do
+                local unitThreat = UnitThreatSituation(possibleTank.unit, targetUnit)
+                if unitThreat and unitThreat > highestThreat then
+                    highestThreat = unitThreat
+                    aggroTank = possibleTank
+                end
+            end
+
+            -- Nobody is tanking 'targetUnit' - return any tank...return 'defaultTank'
+            if aggroTank == nil then
+                return self.defaultTank()
+            end
+
+            return aggroTank
+        end
+        t[self] = val
+        return val
+    end})
+function kps.RaidStatus.prototype.findAggroTank(self)
+    return findAggroTank[self]
+end
 
 
 kps.env.heal = kps.RaidStatus.new()
