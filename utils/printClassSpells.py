@@ -22,6 +22,7 @@ DEFAULT_CACHE_AGE_IN_SECONDS = 5 * 60 * 60
 
 THOTTBOT_IDS = {
     "deathknight": 6,
+    "demonhunter": 12,
     "druid": 11,
     "hunter": 3,
     "mage": 8,
@@ -37,6 +38,8 @@ THOTTBOT_IDS = {
 ADDITIONAL_SPELLS = {
     "deathknight": [77535,
               195181, # Bone Shield
+    ],"demonhunter": [
+              195072,  # Fel Rush
     ], "druid": [164545,164547,117679,135201,
                  155777, # Rejuvination (Germination)
     ],"hunter": [],

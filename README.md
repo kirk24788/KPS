@@ -53,9 +53,14 @@ from SimCraft - those might not be fully functional, but aren't tested.
 **Fully Supported in 7.0.3:**
 
 * Deathknight: Blood
+* Demonhunter: Havoc
 * Rogue: Outlaw
 * Warlock: Affliction, Demonology, Destruction
 * Warrior: Fury
+
+**Untested Rotations in 7.0.3:**
+
+* Demonhunter: Vengeance
 
 **Outdated Rotations:**
 
@@ -198,9 +203,7 @@ Members:
  * `player.chi` - Chi
  * `player.chiMax` - Chi Max
  * `player.shadowOrbs` - Shadow Orbs
- * `player.burningEmbers` - Burning Embers (0-4)
- * `player.emberShards` - Ember Shards (0-40)
- * `player.demonicFury` - Demonic Fury
+ * `player.fury` - Fury (Demon Hunter)
  * `player.hasProc` - returns true if the player has a proc (either mastery, crit, haste, int, strength or agility)
  * `player.hasMasteryProc` - returns true if the player has a mastery proc
  * `player.hasCritProc` - returns true if the player has a crit proc

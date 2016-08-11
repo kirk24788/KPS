@@ -53,7 +53,8 @@ local function getPlayerSpells()
         kps.spells.mage,
         kps.spells.warlock,
         kps.spells.monk,
-        kps.spells.druid
+        kps.spells.druid,
+        kps.spells.demonhunter
     }
     _,_,classId = UnitClass("player")
     return playerSpells[classId]
@@ -80,7 +81,8 @@ local function getClassEnv()
         kps.env.mage,
         kps.env.warlock,
         kps.env.monk,
-        kps.env.druid
+        kps.env.druid,
+        kps.env.demonhunter
     }
     _,_,classId = UnitClass("player")
     return playerEnvs[classId]

@@ -118,20 +118,8 @@ function Player.shadowOrbs(self)
     return UnitPower("player", 13)
 end
 --[[[
-@function `player.burningEmbers` - Burning Embers (0-4)
+@function `player.fury` - Fury (Demon Hunter)
 ]]--
-function Player.burningEmbers(self)
-    return UnitPower("player", 14)
-end
---[[[
-@function `player.emberShards` - Ember Shards (0-40)
-]]--
-function Player.emberShards(self)
-    return UnitPower("player", 14, true)
-end
---[[[
-@function `player.demonicFury` - Demonic Fury
-]]--
-function Player.demonicFury(self)
-    return UnitPower("player", 15)
+function Player.fury(self)
+    return UnitPower("player", 17)
 end

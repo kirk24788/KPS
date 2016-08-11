@@ -52,6 +52,7 @@ modules\totem.lua
 modules\spell_id.lua
 modules\unlock\basic.lua
 rotations\deathknight_spells.lua
+rotations\demonhunter_spells.lua
 rotations\druid_spells.lua
 rotations\hunter_spells.lua
 rotations\mage_spells.lua
@@ -63,6 +64,7 @@ rotations\shaman_spells.lua
 rotations\warlock_spells.lua
 rotations\warrior_spells.lua
 rotations\deathknight.lua
+rotations\demonhunter.lua
 rotations\druid.lua
 rotations\hunter.lua
 rotations\mage.lua
@@ -78,6 +80,8 @@ modules\raid_status.lua
 rotations\deathknight_blood.lua
 rotations\deathknight_frost.lua
 rotations\deathknight_unholy.lua
+rotations\demonhunter_havoc.lua
+rotations\demonhunter_vengeance.lua
 rotations\druid_balance.lua
 rotations\druid_feral.lua
 rotations\druid_guardian.lua

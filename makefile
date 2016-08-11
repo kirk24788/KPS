@@ -38,13 +38,13 @@ global_spells:
 	./utils/printGlobalSpells.py > modules/spell/spells.lua
 
 # Rotation Spells for each class
-class_spells: deathknight_spells druid_spells hunter_spells mage_spells monk_spells paladin_spells priest_spells rogue_spells shaman_spells warlock_spells warrior_spells
+class_spells: deathknight_spells demonhunter_spells druid_spells hunter_spells mage_spells monk_spells paladin_spells priest_spells rogue_spells shaman_spells warlock_spells warrior_spells
 %_spells: rotations/%_spells.lua
 	./utils/printClassSpells.py -c $(subst _spells,,$@) -o $<
 
 
 # Rotations for each class
-class_rotations: deathknight_rotations druid_rotations hunter_rotations mage_rotations monk_rotations paladin_rotations priest_rotations rogue_rotations shaman_rotations warlock_rotations warrior_rotations
+class_rotations: deathknight_rotations demonhunter_rotations druid_rotations hunter_rotations mage_rotations monk_rotations paladin_rotations priest_rotations rogue_rotations shaman_rotations warlock_rotations warrior_rotations
 
 deathknight_rotations: deathknight_blood_rotation deathknight_frost_rotation deathknight_unholy_rotation
 deathknight_blood_rotation:
@@ -54,6 +54,12 @@ deathknight_frost_rotation:
 	./utils/convertSimC.py -p simc/deathknight_frost_2h.simc -c deathknight -s frost -a rotations/deathknight_frost.lua
 deathknight_unholy_rotation:
 	./utils/convertSimC.py -p simc/deathknight_unholy.simc -c deathknight -s unholy -o rotations/deathknight_unholy.lua
+
+demonhunter_rotations: demonhunter_havoc_rotation demonhunter_vengeance_rotation
+demonhunter_havoc_rotation:
+	./utils/convertSimC.py -p simc/demonhunter_havoc.simc -c demonhunter -s havoc -o rotations/demonhunter_havoc.lua
+demonhunter_vengeance_rotation:
+	./utils/convertSimC.py -p simc/demonhunter_vengeance.simc -c demonhunter -s vengeance -o rotations/demonhunter_vengeance.lua
 
 druid_rotations: druid_balance_rotation druid_feral_rotation druid_guardian_rotation
 druid_balance_rotation:
