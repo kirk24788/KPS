@@ -54,6 +54,8 @@ from SimCraft - those might not be fully functional, but aren't tested.
 
 * Deathknight: Blood
 * Demonhunter: Havoc
+* Mage: Fire
+* Paladin: Retribution
 * Rogue: Outlaw
 * Warlock: Affliction, Demonology, Destruction
 * Warrior: Fury
@@ -65,7 +67,6 @@ from SimCraft - those might not be fully functional, but aren't tested.
 **Outdated Rotations:**
 
 * Druid: Balance (6.2.2)
-* Paladin: Retribution (6.2.2)
 * Priest: Shadow (6.2.2)
 
 **Automatically Generated Rotations:**
@@ -74,13 +75,18 @@ _(Might not be fully functional)_
 * Deathknight: Frost (7.0.3), Unholy (7.0.3)
 * Druid: Feral (7.0.3), Guardian (7.0.3)
 * Hunter: Beastmaster (7.0.3), Marksmanship (7.0.3), Survival (7.0.3)
-* Mage: Arcane (7.0.3), Fire (7.0.3), Frost (7.0.3)
+* Mage: Arcane (7.0.3), Frost (7.0.3)
 * Monk: Brewmaster (7.0.3), Windwalker (6.2.2)
 * Paladin: Protection (7.0.3)
 * Priest: Discipline (7.0.3), Holy (7.0.3)
 * Rogue: Assassination (7.0.3), Subtlety (7.0.3)
 * Shaman: Elemental (7.0.3), Enhancement (7.0.3)
 * Warrior: Arms (7.0.3), Protection (7.0.3)
+
+**Special Thanks for contributing to the KPS rotations:**
+
+* fourdots
+* markusem
 
 
 

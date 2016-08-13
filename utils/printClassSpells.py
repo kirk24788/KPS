@@ -43,8 +43,9 @@ ADDITIONAL_SPELLS = {
     ], "druid": [164545,164547,117679,135201,
                  155777, # Rejuvination (Germination)
     ],"hunter": [],
-    "mage": [166872,145254,48107,166868,101166,135029],
-    "monk": [116768,159407,145008],
+    "mage": [166872,145254,48107,166868,101166,135029,
+              48108, # Hot Streak!
+    ], "monk": [116768,159407,145008],
     "paladin": [117809,156989,156988,156990,166831],
     "priest": [179337],
     "rogue": [193359, # True Bearing
@@ -67,6 +68,7 @@ ADDITIONAL_SPELLS = {
 
 SPELL_ID_BLACKLIST = [
     209694, # Wrong Warrior:Rampage
+    195283, # Wrong Mage: Hot Streak!
 ]
 
 SPELL_NAME_BLACKLIST = [

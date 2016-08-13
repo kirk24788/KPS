@@ -51,6 +51,7 @@ def read_rotation_data():
     untested_supported = {}
     outdated = {}
     generated = {}
+    contributors = set()
 
     for class_name_lower, spec_names in SUPPORTED_SPECS.iteritems():
         class_name = class_name_lower.title()
@@ -70,6 +71,8 @@ def read_rotation_data():
                     if class_name not in fully_supported.keys():
                         fully_supported[class_name] = []
                     fully_supported[class_name].append(spec_name)
+                if meta["author"] and len(meta["author"]) > 1 and meta["author"].lower() != "kirk24788":
+                    contributors.add(meta["author"])
             else:
                 if class_name not in outdated.keys():
                     outdated[class_name] = []
@@ -102,6 +105,12 @@ def read_rotation_data():
         for class_name in sorted(generated.keys()):
             spec_names = sorted(generated[class_name])
             rotation_data = "%s* %s: %s\n" % (rotation_data, class_name, ", ".join(spec_names))
+        rotation_data = rotation_data + "\n"
+
+    if len(contributors) > 0:
+        rotation_data = rotation_data + "**Special Thanks for contributing to the KPS rotations:**\n\n"
+        for contributor in sorted(sorted(contributors)):
+            rotation_data = "%s* %s\n" % (rotation_data, contributor)
         rotation_data = rotation_data + "\n"
     return rotation_data
 
