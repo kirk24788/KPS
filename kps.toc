@@ -76,7 +76,7 @@ rotations\shaman.lua
 rotations\warlock.lua
 rotations\warrior.lua
 env.lua
-modules\raid_status.lua
+modules\heal.lua
 rotations\deathknight_blood.lua
 rotations\deathknight_frost.lua
 rotations\deathknight_unholy.lua
