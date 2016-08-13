@@ -44,9 +44,11 @@ local function loadOnDemand()
         groupHealTargets[1] = kps.Unit.new("player")
         for i=2,5 do
             groupHealTargets[i] = kps.Unit.new("party"..(i-1))
+            kps.env["party"..(i-1)] = groupHealTargets[i]
         end
         for i=1,40 do
-            raidHealTargets[i] = kps.Unit.new("raid"..(1))
+            raidHealTargets[i] = kps.Unit.new("raid"..(i))
+            kps.env["raid"..(i)] = raidHealTargets[i]
         end
 
         kps.events.registerOnUpdate(updateRaidStatus)
@@ -59,9 +61,10 @@ kps.RaidStatus = {}
 kps.RaidStatus.prototype = {}
 kps.RaidStatus.metatable = {}
 
-function kps.RaidStatus.new()
+function kps.RaidStatus.new(call_members)
     local inst = {}
     setmetatable(inst, kps.RaidStatus.metatable)
+    inst.call_members = call_members
     return inst
 end
 
@@ -71,7 +74,11 @@ kps.RaidStatus.metatable.__index = function (table, key)
         error("Unknown Keys-Property '" .. key .. "'!")
     end
     loadOnDemand()
-    return fn(table)
+    if table.call_members then
+        return fn(table)
+    else
+        return fn
+    end
 end
 
 
@@ -150,6 +157,7 @@ end)
     * lowest tank in raid which is below 50% hp incoming
     * lowest raid member
 
+    When used as a _target_ in your rotation, you *must* write `kps.heal.defaultTarget`!
 ]]--
 kps.RaidStatus.prototype.defaultTarget = kps.utils.cachedValue(function()
     -- If we're below 20% - always heal us first!
@@ -175,6 +183,7 @@ end)
     * `target` if the target is below 50% hp incoming (if the target is not healable, `targettarget` is checked instead)
     * lowest tank in raid
 
+    When used as a _target_ in your rotation, you *must* write `kps.heal.defaultTank`!
 ]]--
 kps.RaidStatus.prototype.defaultTank = kps.utils.cachedValue(function()
     -- If we're below 20% - always heal us first!
@@ -205,40 +214,49 @@ end)
 
 
 
+local function findAggroTankOfUnit(targetUnit)
+    local allTanks = tanksInRaid()
+    local highestThreat = 0
+    local aggroTank = nil
 
---[[[
-@function `heal.aggroTank(<UNIT-STRING>)` - Returns the tank with highest aggro on the given target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead. 
-]]--
-local findAggroTank = setmetatable({}, {
-    __index = function(t, self)
-        local val = function (targetUnit)
-            local allTanks = tanksInRaid()
-            local highestThreat = 0
-            local aggroTank = nil
-
-            for _, possibleTank in pairs(allTanks) do
-                local unitThreat = UnitThreatSituation(possibleTank.unit, targetUnit)
-                if unitThreat and unitThreat > highestThreat then
-                    highestThreat = unitThreat
-                    aggroTank = possibleTank
-                end
-            end
-
-            -- Nobody is tanking 'targetUnit' - return any tank...return 'defaultTank'
-            if aggroTank == nil then
-                return self.defaultTank()
-            end
-
-            return aggroTank
+    for _, possibleTank in pairs(allTanks) do
+        local unitThreat = UnitThreatSituation(possibleTank.unit, targetUnit)
+        if unitThreat and unitThreat > highestThreat then
+            highestThreat = unitThreat
+            aggroTank = possibleTank
         end
-        t[self] = val
-        return val
-    end})
-function kps.RaidStatus.prototype.findAggroTank(self)
-    return findAggroTank[self]
+    end
+
+    -- Nobody is tanking 'targetUnit' - return any tank...return 'defaultTank'
+    if aggroTank == nil then
+        return kps.RaidStatus.prototype.defaultTank()
+    end
+
+    return aggroTank
 end
 
+--[[[
+@function `heal.aggroTank` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
 
-kps.env.heal = kps.RaidStatus.new()
-kps.heal = kps.env.heal
+    When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTank`!
+]]--
+kps.RaidStatus.prototype.aggroTank = kps.utils.cachedValue(function()
+    return findAggroTankOfUnit("target")
+end)
+
+--[[[
+@function `heal.aggroTankFocus` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
+
+    When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTankFocus`!
+]]--
+kps.RaidStatus.prototype.aggroTankFocus = kps.utils.cachedValue(function()
+    return findAggroTankOfUnit("focus")
+end)
+
+-- Here comes the tricky part - use an instance of RaidStatus which calls it's members
+-- for 'kps.env.heal' - so we can write 'heal.defaultTarget.hp < xxx' in our rotations
+kps.env.heal = kps.RaidStatus.new(true)
+-- And use another instance of RaidStatus which returns the functions so we can write
+-- kps.heal.defaultTarget as a target for our rotation tables...
+kps.heal = kps.RaidStatus.new(false)
 
