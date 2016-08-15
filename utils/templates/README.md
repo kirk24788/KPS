@@ -47,8 +47,7 @@ Copyright (C) 2015 Mario Mancino
 
 ## Builds and Classes
 
-All healing specs except for druid restoration are currently without a rotation. All DPS Specs have at least one rotation automatically generated
-from SimCraft - those might not be fully functional, but aren't tested.
+All DPS Specs have at least one rotation automatically generated from SimCraft - those might not be fully functional and aren't tested.
 
 %(rotations)s
 

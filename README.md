@@ -47,13 +47,13 @@ Copyright (C) 2015 Mario Mancino
 
 ## Builds and Classes
 
-All healing specs except for druid restoration are currently without a rotation. All DPS Specs have at least one rotation automatically generated
-from SimCraft - those might not be fully functional, but aren't tested.
+All DPS Specs have at least one rotation automatically generated from SimCraft - those might not be fully functional and aren't tested.
 
 **Fully Supported in 7.0.3:**
 
 * Deathknight: Blood
 * Demonhunter: Havoc
+* Druid: Restoration
 * Mage: Fire
 * Paladin: Retribution
 * Rogue: Outlaw
@@ -63,6 +63,9 @@ from SimCraft - those might not be fully functional, but aren't tested.
 **Untested Rotations in 7.0.3:**
 
 * Demonhunter: Vengeance
+* Monk: Mistweaver
+* Paladin: Holy
+* Shaman: Restoration
 
 **Outdated Rotations:**
 
