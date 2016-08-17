@@ -1,36 +1,32 @@
 --[[[
 @module Shaman Enhancement Rotation
-@generated_from shaman_enhancement.simc
+@author Silk_sn
 @version 7.0.3
 ]]--
 local spells = kps.spells.shaman
 local env = kps.env.shaman
 
-
 kps.rotations.register("SHAMAN","ENHANCEMENT",
 {
-    {spells.windShear}, -- wind_shear
-    {spells.bloodlust, 'target.hp < 25 or player.timeInCombat > 0.500'}, -- bloodlust,if=target.health.pct<25|time>0.500
-    {spells.feralSpirit}, -- feral_spirit
-    {spells.boulderfist, 'not player.hasBuff(spells.boulderfist)'}, -- boulderfist,if=!buff.boulderfist.up
-    {spells.ascendance}, -- ascendance
-    {spells.windsong}, -- windsong
-    {spells.furyOfAir, 'not target.hasMyDebuff(spells.furyOfAir)'}, -- fury_of_air,if=!ticking
--- ERROR in 'frostbrand,if=talent.hailstorm.enabled&buff.frostbrand.remains<4.8': Unknown Talent 'hailstorm' for 'shaman'!
-    {spells.flametongue, 'player.buffDuration(spells.flametongue) < 4.8'}, -- flametongue,if=buff.flametongue.remains<4.8
-    {spells.doomWinds}, -- doom_winds
-    {spells.crashLightning, 'activeEnemies.count >= 3'}, -- crash_lightning,if=active_enemies>=3
-    {spells.windstrike}, -- windstrike
-    {spells.stormstrike}, -- stormstrike
--- ERROR in 'lightning_bolt,if=talent.overcharge.enabled&maelstrom>=45': Unknown Talent 'overcharge' for 'shaman'!
-    {spells.lavaLash, 'player.buffStacks(spells.hotHand)'}, -- lava_lash,if=buff.hot_hand.react
-    {spells.boulderfist, 'spells.boulderfist.charges >= 1.5'}, -- boulderfist,if=charges_fractional>=1.5
-    {spells.earthenSpike}, -- earthen_spike
--- ERROR in 'crash_lightning,if=active_enemies>1|talent.crashing_storm.enabled|(pet.feral_spirit.remains>5|pet.frost_wolf.remains>5|pet.fiery_wolf.remains>5|pet.lightning_wolf.remains>5)': Unknown Talent 'crashingStorm' for 'shaman'!
-    {spells.sundering}, -- sundering
--- ERROR in 'lava_lash,if=maelstrom>=120': Unknown expression 'maelstrom'!
--- ERROR in 'flametongue,if=talent.boulderfist.enabled': Unknown Talent 'boulderfist' for 'shaman'!
-    {spells.boulderfist}, -- boulderfist
-    {spells.rockbiter}, -- rockbiter
+    --Survival
+    {spells.astralShift, 'player.hp<0.3'},
+    {spells.healingSurge, 'player.hp<0.6'},
+
+    --Blood fury for orcs
+    {kps.Spell.fromId(20572), 'kps.cooldowns'},
+
+    --Dps
+    {spells.boulderfist, 'not player.hasBuff(kps.Spell.fromId(218825))'},
+    {spells.frostbrand, 'not player.hasBuff(spells.frostbrand) or (player.buffDuration(spells.frostbrand) <= 4.8 and spells.stormstrike.cooldown > 0)'},
+    {spells.boulderfist, 'player.maelstrom < 130 and spells.boulderfist.charges == 2'},
+    {spells.flametongue, 'not player.hasBuff(spells.flametongue)'},
+    {spells.feralSpirit, 'kps.cooldowns'},
+    {spells.crashLightning, 'spells.stormstrike.inRange(target) and activeEnemies.count >= 3 and kps.multiTarget'},
+    {spells.stormstrike},
+    {spells.crashLightning, 'spells.stormstrike.inRange(target)'},
+    {spells.lavaLash, 'player.maelstrom >= 110'},
+    {spells.boulderfist},
+    {spells.flametongue},
+    {spells.lightningBolt, 'not spells.stormstrike.inRange(target)'},
 }
-,"shaman_enhancement.simc")
+,"shaman enhancement", {3,0,0,-1,-2,1,2})

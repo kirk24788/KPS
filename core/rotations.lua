@@ -75,19 +75,22 @@ function kps.rotations.register(class,spec,table,tooltip, expectedTalents)
         rotation.getSpell = kps.parser.parseSpellTable(table)
         return rotation.getSpell()
     end
-    local lastTalentCheck = 0
+    rotation["lastTalentCheck"] = 0
     rotation["checkTalents"] = function ()
-        if expectedTalents and GetTime() - lastTalentCheck > 60 then
+        if expectedTalents and GetTime() - rotation["lastTalentCheck"] > 60 then
             for row=1,7 do
                 if expectedTalents[row] ~= nil and expectedTalents[row] ~= 0 then
                     local _, talentRowSelected =  GetTalentTierInfo(row,1)
-                    if expectedTalents[row] ~= talentRowSelected then
+                    if expectedTalents[row] > 0 and expectedTalents[row] ~= talentRowSelected then
                         local _,name = GetTalentInfo(row, expectedTalents[row], 1)
                         kps.write("Unsupported Talent - in Row", row, "please select", name)
+                    elseif -1 * expectedTalents[row] == talentRowSelected then
+                        local _,name = GetTalentInfo(row, -1 * expectedTalents[row], 1)
+                        kps.write("Unsupported Talent - in Row", row, "please DON'T select", name)
                     end
                 end
             end
-            lastTalentCheck = GetTime()
+            rotation["lastTalentCheck"] = GetTime()
         end
     end
     addRotationToTable(rotations[key],rotation)

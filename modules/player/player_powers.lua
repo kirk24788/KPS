@@ -98,7 +98,12 @@ function Player.holyPower(self)
     return UnitPower("player", 9)
 end
 -- PowerType 10 - Alternate (appears to be used by some bosses - doesn't appear in Blizzard UI code)
--- PowerType 11 - Dark Force (appears to be used by some bosses - semantically opposite of 12)
+--[[[
+@function `player.maelstrom` - Shadow Orbs
+]]--
+function Player.maelstrom(self)
+    return UnitPower("player", 11)
+end
 --[[[
 @function `player.chi` - Chi
 ]]--
