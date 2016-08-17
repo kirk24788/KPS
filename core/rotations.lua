@@ -35,7 +35,7 @@ function kps.rotations.setActive(idx)
     activeRotation = idx
     if kps.rotations.getActive() ~= nil then
         kps.write("Changed your active Rotation to: "..kps.rotations.getActive().tooltip)
-    else 
+    else
         kps.write("No Rotation for Your Class/Spec!")
     end
 end
@@ -64,8 +64,9 @@ choose your Rotation.
 @param spec Uppercase english spec name (no abbreviations!) or spec id
 @param table Rotation table
 @param tooltip Unique Name for this Rotation
+@param expectedTalents Optional Table of Talents required for this rotation (set a tier to 0 if unimportant for this rotation)
 ]]--
-function kps.rotations.register(class,spec,table,tooltip)
+function kps.rotations.register(class,spec,table,tooltip, expectedTalents)
     if not kps.classes.isPlayerClass(class) then return end
     local key = kps.classes.toKey(class, spec)
     if not rotations[key] then rotations[key] = {} end
@@ -73,6 +74,21 @@ function kps.rotations.register(class,spec,table,tooltip)
     rotation["getSpell"] = function ()
         rotation.getSpell = kps.parser.parseSpellTable(table)
         return rotation.getSpell()
+    end
+    local lastTalentCheck = 0
+    rotation["checkTalents"] = function ()
+        if expectedTalents and GetTime() - lastTalentCheck > 60 then
+            for row=1,7 do
+                if expectedTalents[row] ~= nil and expectedTalents[row] ~= 0 then
+                    local _, talentRowSelected =  GetTalentTierInfo(row,1)
+                    if expectedTalents[row] ~= talentRowSelected then
+                        local _,name = GetTalentInfo(row, expectedTalents[row], 1)
+                        kps.write("Unsupported Talent - in Row", row, "please select", name)
+                    end
+                end
+            end
+            lastTalentCheck = GetTime()
+        end
     end
     addRotationToTable(rotations[key],rotation)
     kps.rotations.reset()
@@ -83,23 +99,6 @@ end
 function kps.rotations.reset()
     kps.rotations.setActive(activeRotation)
 end
-
-
---[[[ Debug Function - prints all Rotations sorted by class and spec ]]--
-function kps.rotations.print()
-    for ci,class in ipairs(classNames) do
-        local msg = class .. ": "
-        for si,spec in ipairs(specNames[ci]) do
-            local key = toKey(class, spec)
-            local pveCount = tableCount(pveRotations,key)
-            local pvpCount = tableCount(pvpRotations,key)
-            local oocCount = tableCount(oocRotations,key)
-            msg = msg .. spec .. "(PvE " .. pveCount .. " / PvP " .. pvpCount .. " / OOC " ..oocCount..") "
-        end
-        print(msg)
-    end
-end
-
 
 
 kps.events.register("ACTIVE_TALENT_GROUP_CHANGED", function ()

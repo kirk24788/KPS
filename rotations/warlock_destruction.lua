@@ -60,4 +60,4 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
     -- Cast Conflagrate to generate Soul Shards.
     {spells.incinerate},
 }
-,"Destruction 7.0.3")
+,"Destruction 7.0.3", {0,0,0,0,0,2,0})

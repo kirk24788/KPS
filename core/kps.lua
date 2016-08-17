@@ -49,7 +49,7 @@ kps.combatStep = function ()
 
     -- Check for rotation
     if not kps.rotations.getActive() then
-        kps.write("KPS does not have a rotation for your class (%s) or spec (%s)!", kps.spec, kps.class)
+        kps.write("KPS does not have a rotation for your class (", kps.classes.className() ,") or spec (", kps.classes.specName(), ")!")
         kps.enabled = false
     end
 
@@ -73,7 +73,10 @@ kps.combatStep = function ()
             castSequence = nil
         end
     else
-        local spell, target = kps.rotations.getActive().getSpell()
+        local activeRotation = kps.rotations.getActive()
+        if not activeRotation then return end
+        activeRotation.checkTalents()
+        local spell, target = activeRotation.getSpell()
         if spell ~= nil and not player.isCasting then
             if priorityMacro ~= nil then
                 kps.runMacro(priorityMacro)

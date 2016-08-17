@@ -68,4 +68,4 @@ kps.rotations.register("WARLOCK","AFFLICTION",
     -- Cast Drain Life/Drain Soul Icon Drain Soul as a filler.
     {spells.drainLife},
 }
-,"Icy Veins")
+,"Icy Veins", {0,2,0,1,0,2,1})

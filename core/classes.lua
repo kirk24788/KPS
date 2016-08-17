@@ -61,14 +61,28 @@ function kps.classes.toKey(class, spec)
     return classId * 10 + specId
 end
 
+function kps.classes.className()
+    local specId = GetSpecialization() or 0
+    return classNames[classId]
+end
+
+function kps.classes.specName()
+    local _,_,classId = UnitClass("player")
+    local specId = GetSpecialization()
+    if specId then
+        return specNames[classId][specId]
+    else
+        return "NONE"
+    end
+end
 
 function kps.classes.getCurrentKey()
-    _,_,classId = UnitClass("player")
-    specId = GetSpecialization() or 0
+    local _,_,classId = UnitClass("player")
+    local specId = GetSpecialization() or 0
     return classId * 10 + specId
 end
 
 function kps.classes.isPlayerClass(class)
-    _,_,classId = UnitClass("player")
+    local _,_,classId = UnitClass("player")
     return classToNumber(class) == classId
 end
