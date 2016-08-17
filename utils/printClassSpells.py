@@ -38,6 +38,9 @@ THOTTBOT_IDS = {
 ADDITIONAL_SPELLS = {
     "deathknight": [77535,
               195181, # Bone Shield
+              81340, # Sudden Doom
+              191587, # Virtulent Plague
+              194310, # Festering Wound
     ],"demonhunter": [
               195072,  # Fel Rush
     ], "druid": [164545,164547,117679,135201,
