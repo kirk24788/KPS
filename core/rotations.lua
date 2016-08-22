@@ -94,6 +94,7 @@ function kps.rotations.register(class,spec,table,tooltip, expectedTalents)
         end
     end
     addRotationToTable(rotations[key],rotation)
+    activeRotation = #(rotations[key])
     kps.rotations.reset()
 end
 
