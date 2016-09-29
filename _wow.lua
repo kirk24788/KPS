@@ -6,6 +6,9 @@ Definition of WoW Functions for testing without WoW.
 SlashCmdList = {}
 DEFAULT_CHAT_FRAME = {}
 DEFAULT_CHAT_FRAME.AddMessage = print
+table.wipe = function ( ... )
+
+end
 function tostringall(...)
     if select('#', ...) > 0 then
         return tostring(...), tostringall(select(2, ...))
@@ -150,8 +153,8 @@ function CreateFrame( ... )
     texture.SetParent = function ( ... ) end
     texture.SetVertexColor = function ( ... ) end
     texture.SetParent = function ( ... ) end
-    fontString.SetPoint = function ( ... ) end 
-    fontString.SetText = function ( ... ) end 
+    fontString.SetPoint = function ( ... ) end
+    fontString.SetText = function ( ... ) end
 
     frame.SetScript = function ( ... ) end
     frame.RegisterEvent = function ( ... ) end
@@ -232,4 +235,10 @@ function LibStub( ... )
 end
 function GetSpellTexture( ... )
     return {}
+end
+function GetTalentInfo( ... )
+    return 5
+end
+function GetTalentTierInfo( ... )
+    return 5
 end

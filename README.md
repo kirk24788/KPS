@@ -222,6 +222,9 @@ Members:
  * `player.timeInCombat` - returns number of seconds in combat
  * `player.hasTalent(<ROW>,<TALENT>)` - returns true if the player has the selected talent (row: 1-7, talent: 1-3).
  * `player.hasGlyph(<GLYPH>)` - returns true if the player has the given gylph - glyphs can be accessed via the spells (e.g.: `player.hasGlyph(spells.glyphOfDeathGrip)`).
+ * `player.lastEmpowermentCast` - returns the time of the last cast of Demonic Empowerment
+ * `player.demons` - returns the number of active demons
+ * `player.empoweredDemons` - returns the number of empowered demons
  * `player.eclipseDirLunar` - returns true if the balance bar is currently going towards Lunar
  * `player.eclipseDirSolar` - returns true if the balance bar is currently going towards Solar
  * `player.eclipsePower` - returns current eclipse power - ranges from 100(solar) to -100(lunar)

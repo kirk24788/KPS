@@ -77,6 +77,7 @@ rotations\warlock.lua
 rotations\warrior.lua
 env.lua
 modules\heal.lua
+modules\player\player_demons.lua
 rotations\deathknight_blood.lua
 rotations\deathknight_frost.lua
 rotations\deathknight_unholy.lua

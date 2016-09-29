@@ -70,6 +70,7 @@ ADDITIONAL_SPELLS = {
         111898, # Grimmoire: Felguard
         63106, # Siphon Life
         216457, # Shard Instability
+        211714, # Thal'kiel's Consumption
     ],"warrior": [],
 }
 
