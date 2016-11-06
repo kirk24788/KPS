@@ -25,7 +25,8 @@ local function calcTimeToDie(guid, health)
         end
     end
 end
-local function updateTimeToDieData(guid, health, time)
+local function updateTimeToDieData(guid, health)
+    local time = GetTime()
     local dataset = timeToDieData[guid]
     if not dataset or not dataset.n then
         dataset = {}
@@ -52,7 +53,7 @@ local function updateTimeToDieData(guid, health, time)
         dataset.health0 = dataset.health0 + health
         dataset.mhealth = dataset.mhealth + time * health
         dataset.mtime = dataset.mtime + time * time
-        local timeToDie = calcTimeToDie(guid,health,time)
+        local timeToDie = calcTimeToDie(guid,health)
         if not timeToDie then
             return nil
         end
@@ -70,9 +71,8 @@ local function updateTimeToDie(unit)
         return
     end
 
-    local time = GetTime()
 
-    timeToDieData[unitGuid] = updateTimeToDieData(unitGuid,health,time)
+    timeToDieData[unitGuid] = updateTimeToDieData(unitGuid,health)
     if timeToDieData[unitGuid] then
         if timeToDieData[unitGuid]["timeSinceNoChange"] >= maxTDDLifetime then
             timeToDieData[unitGuid] = nil
