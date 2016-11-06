@@ -37,7 +37,7 @@ kps.spells.ae.freeze = kps.Spell.fromId(33395) -- Freeze
 kps.spells.ae.runeOfPower = kps.Spell.fromId(116011) -- Rune of Power
 kps.spells.ae.summonBlackOxStatue = kps.Spell.fromId(115315) -- Summon Black Ox Statue
 kps.spells.ae.cataclysm = kps.Spell.fromId(152108) -- Cataclysm
-kps.spells.ae.earthquakeTotem = kps.Spell.fromId(61882) -- Earthquake Totem
+kps.spells.ae.earthquake = kps.Spell.fromId(61882) -- Earthquake
 kps.spells.ae.rainOfFireChanneled = kps.Spell.fromId(5740) -- Rain of Fire (Channeled)
 -- Spell with ID 104233 not found!
 kps.spells.ae.explosiveTrap = kps.Spell.fromId(13813) -- Explosive Trap
