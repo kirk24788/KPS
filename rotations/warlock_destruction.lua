@@ -24,8 +24,13 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
     env.deactivateBurningRushIfNotMoving(1),
 
     -- Apply  Havoc if a secondary target is present.
-    {spells.havoc, 'isHavocUnit("mouseover") and keys.ctrl', "mouseover" },
-    {spells.havoc, 'isHavocUnit("focus") and focus.isAttackable', "focus"  },
+    {{"nested"}, 'not player.hasTalent(7, 1)', {
+        {spells.havoc, 'isHavocUnit("mouseover") and keys.ctrl', "mouseover" },
+        {spells.havoc, 'isHavocUnit("focus") and focus.isAttackable', "focus"  },
+    }},
+    {{"nested"}, 'player.hasTalent(7, 1)', {
+        {spells.havoc, 'focus.myDebuffDuration(spells.havoc) <= 2.0', "focus"  },
+    }},
 
     -- Maintain Immolate on your main target(s).
     {spells.immolate, 'focus.myDebuffDuration(spells.immolate) <= 1.0 and not spells.immolate.isRecastAt("focus")', "focus"},

@@ -26,31 +26,32 @@ kps.rotations.register("WARLOCK","AFFLICTION",
     -- Deactivate Burning Rush if not moving for 1 second
     env.deactivateBurningRushIfNotMoving(1),
 
-    -- Maintain Agony (on up to 3 targets, including Soul Effigy) at all times.
-    {spells.agony, 'target.myDebuffDuration(spells.agony) <= 7.2'},
-    {spells.agony, 'focus.myDebuffDuration(spells.agony) <= 7.2', 'focus'},
-    {spells.agony, 'mouseover.myDebuffDuration(spells.agony) <= 7.2', 'mouseover'},
-    {spells.agony, 'boss1.myDebuffDuration(spells.agony) <= 7.2', 'boss1'},
-    {spells.agony, 'boss2.myDebuffDuration(spells.agony) <= 7.2', 'boss2'},
-
-    -- Cast Unstable Affliction if you reach 5 Soul Shards.
-    {spells.unstableAffliction, 'player.soulShards >= 5 or player.hasBuff(spells.shardInstability)'},
-
     -- Maintain Corruption (on up to 3 targets, including Soul Effigy) at all times and all bosses.
     {{"nested"}, 'player.hasTalent(2, 2)', {
         {spells.corruption, 'not target.hasDebuff(spells.corruption)'},
         {spells.corruption, 'not focus.hasDebuff(spells.corruption)', 'focus'},
         {spells.corruption, 'not mouseover.hasDebuff(spells.corruption)', 'mouseover'},
-        {spells.corruption, 'not boss1.hasDebuff(spells.corruption)', 'boss1'},
-        {spells.corruption, 'not boss2.hasDebuff(spells.corruption)', 'boss2'},
+      --  {spells.corruption, 'not boss1.hasDebuff(spells.corruption)', 'boss1'},
+     --   {spells.corruption, 'not boss2.hasDebuff(spells.corruption)', 'boss2'},
     }},
     {{"nested"}, 'not player.hasTalent(2, 2)', {
         {spells.corruption, 'target.myDebuffDuration(spells.corruption) <= 5.4'},
         {spells.corruption, 'focus.myDebuffDuration(spells.corruption) <= 5.4', 'focus'},
         {spells.corruption, 'mouseover.myDebuffDuration(spells.corruption) <= 5.4', 'mouseover'},
-        {spells.corruption, 'boss1.myDebuffDuration(spells.corruption) <= 5.4', 'boss1'},
-        {spells.corruption, 'boss2.myDebuffDuration(spells.corruption) <= 5.4', 'boss2'},
+     --   {spells.corruption, 'boss1.myDebuffDuration(spells.corruption) <= 5.4', 'boss1'},
+     --   {spells.corruption, 'boss2.myDebuffDuration(spells.corruption) <= 5.4', 'boss2'},
     }},
+
+    -- Maintain Agony (on up to 3 targets, including Soul Effigy) at all times.
+    {spells.agony, 'target.myDebuffDuration(spells.agony) <= 7.2'},
+    {spells.agony, 'focus.myDebuffDuration(spells.agony) <= 7.2', 'focus'},
+    {spells.agony, 'mouseover.myDebuffDuration(spells.agony) <= 7.2', 'mouseover'},
+--    {spells.agony, 'boss1.myDebuffDuration(spells.agony) <= 7.2', 'boss1'},
+ --   {spells.agony, 'boss2.myDebuffDuration(spells.agony) <= 7.2', 'boss2'},
+
+    -- Cast Unstable Affliction if you reach 5 Soul Shards.
+    {spells.unstableAffliction, 'player.soulShards >= 5 or player.hasBuff(spells.shardInstability)'},
+
 
     -- Place your Soul Effigy if absent.
     {{"nested"}, 'kps.cooldowns', {
@@ -81,7 +82,7 @@ kps.rotations.register("WARLOCK","AFFLICTION",
         {spells.unstableAffliction, 'player.hasProc'},
     }},
     {{"nested"}, 'player.hasTalent(2, 1)', {
-        {spells.unstableAffliction, 'not target.hasDebuff(spells.unstableAffliction) or player.soulShards >= 4'},
+        {spells.unstableAffliction, 'not target.hasDebuff(spells.unstableAffliction) or player.soulShards > 4'},
     }},
 
     -- Cast Seed of Corruption to apply Corruption Icon Corruption if there are 4 or more targets present and stacked.
