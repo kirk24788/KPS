@@ -38,6 +38,7 @@ modules\unit\unit_info.lua
 modules\unit\unit_powers.lua
 modules\unit\unit_range.lua
 modules\unit\unit_state.lua
+modules\unit\unit_timetodie.lua
 modules\player\player.lua
 modules\player\player_auras.lua
 modules\player\player_eclipse.lua
