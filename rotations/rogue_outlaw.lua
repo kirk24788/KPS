@@ -20,6 +20,11 @@ Level 100: Marked for Death
 
 kps.rotations.register("ROGUE","OUTLAW",
 {
+           -- Def CD's
+    {{"nested"}, 'kps.defensive', {
+		{spells.vanish, 'player.hp <= 0.1'},
+    }},
+        
     -- 1. Activate Blade Flurry if more than one target is present and stacked.
     {spells.bladeFlurry, 'activeEnemies.count > 1 and not player.hasBuff(spells.bladeFlurry)'},
     {spells.bladeFlurry, 'activeEnemies.count <= 1 and player.hasBuff(spells.bladeFlurry)'},
