@@ -19,19 +19,13 @@ kps.spells.potion.draenicStrengthPotion = kps.Spell.fromId(156428) -- Draenic St
 kps.spells.ae = {}
 kps.spells.ae.bindingShot = kps.Spell.fromId(109248) -- Binding Shot
 kps.spells.ae.shadowfury = kps.Spell.fromId(30283) -- Shadowfury
--- Spell with ID 88685 not found!
--- Spell with ID 724 not found!
 kps.spells.ae.massDispel = kps.Spell.fromId(32375) -- Mass Dispel
 kps.spells.ae.deathAndDecay = kps.Spell.fromId(43265) -- Death and Decay
 kps.spells.ae.powerWordBarrier = kps.Spell.fromId(62618) -- Power Word: Barrier
 kps.spells.ae.flamestrike = kps.Spell.fromId(2120) -- Flamestrike
--- Spell with ID 115180 not found!
 kps.spells.ae.lightsHammer = kps.Spell.fromId(114158) -- Light&#039;s Hammer
 kps.spells.ae.healingRain = kps.Spell.fromId(73921) -- Healing Rain
--- Spell with ID 88747 not found!
 kps.spells.ae.summonJadeSerpentStatue = kps.Spell.fromId(115313) -- Summon Jade Serpent Statue
--- Spell with ID 115460 not found!
--- Spell with ID 114192 not found!
 kps.spells.ae.heroicLeap = kps.Spell.fromId(6544) -- Heroic Leap
 kps.spells.ae.freeze = kps.Spell.fromId(33395) -- Freeze
 kps.spells.ae.runeOfPower = kps.Spell.fromId(116011) -- Rune of Power
@@ -39,11 +33,11 @@ kps.spells.ae.summonBlackOxStatue = kps.Spell.fromId(115315) -- Summon Black Ox 
 kps.spells.ae.cataclysm = kps.Spell.fromId(152108) -- Cataclysm
 kps.spells.ae.earthquake = kps.Spell.fromId(61882) -- Earthquake
 kps.spells.ae.rainOfFireChanneled = kps.Spell.fromId(5740) -- Rain of Fire (Channeled)
--- Spell with ID 104233 not found!
 kps.spells.ae.explosiveTrap = kps.Spell.fromId(13813) -- Explosive Trap
 kps.spells.ae.iceTrap = kps.Spell.fromId(13809) -- Ice Trap
--- Spell with ID 1499 not found!
 kps.spells.ae.defile = kps.Spell.fromId(152280) -- Defile
+kps.spells.ae.metamorphosis = kps.Spell.fromId(187827) -- Metamorphosis
+kps.spells.ae.starfall = kps.Spell.fromId(191034) -- Starfall
 
 
 -- Crowd Control Spells
@@ -51,10 +45,7 @@ kps.spells.cc = {}
 kps.spells.cc.mindControl = kps.Spell.fromId(605) -- Mind Control
 kps.spells.cc.entanglingRoots = kps.Spell.fromId(339) -- Entangling Roots
 kps.spells.cc.cyclone = kps.Spell.fromId(33786) -- Cyclone
--- Spell with ID 2637 not found!
--- Spell with ID 1499 not found!
 kps.spells.cc.iceTrap = kps.Spell.fromId(13809) -- Ice Trap
--- Spell with ID 34600 not found!
 kps.spells.cc.polymorph = kps.Spell.fromId(118) -- Polymorph
 kps.spells.cc.polymorphBlackCat = kps.Spell.fromId(61305) -- Polymorph (BlackCat)
 kps.spells.cc.polymorphPig = kps.Spell.fromId(28272) -- Polymorph (Pig)
@@ -101,13 +92,10 @@ kps.spells.ignore.detox = kps.Spell.fromId(115450) -- Detox (when casting Detox 
 kps.spells.ignore.purifyingBrew = kps.Spell.fromId(119582) -- Purifying Brew (having more than 1 chi, this can prevent using it twice in a row)
 kps.spells.ignore.chiTorpedo = kps.Spell.fromId(115008) -- Chi Torpedo (same as roll)
 kps.spells.ignore.flyingSerpentKick = kps.Spell.fromId(101545) -- Flying Serpent Kick (prevents you from landing as soon as you start 'flying')
--- Spell with ID 115921 not found!
--- Spell with ID 116781 not found!
 kps.spells.ignore.expelHarm = kps.Spell.fromId(115072) -- Expel Harm (below 35%, brewmasters ignores cooldown on this spell)
 kps.spells.ignore.breathOfFire = kps.Spell.fromId(115181) -- Breath of Fire (if you are chi capped, this can make you burn all your chi)
 kps.spells.ignore.provoke = kps.Spell.fromId(115546) -- Provoke (prevents you from wasting your taunt)
 kps.spells.ignore.tigereyeBrew = kps.Spell.fromId(116740) -- Tigereye Brew (prevents you from wasting your stacks and resetting your buff)
--- Spell with ID 115294 not found!
 kps.spells.ignore.burningRush = kps.Spell.fromId(111400) -- warlock burning rush
 kps.spells.ignore.alterTime = kps.Spell.fromId(108978) -- Alter Time
 kps.spells.ignore.evocation = kps.Spell.fromId(12051) -- Evocation

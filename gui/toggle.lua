@@ -166,8 +166,8 @@ end)
 
 kps.gui.createToggle("multiTarget", "Interface\\Icons\\achievement_arena_5v5_3", "MultiTarget")
 kps.gui.createToggle("cooldowns", "Interface\\Icons\\Spell_Holy_BorrowedTime", "Cooldowns")
-kps.gui.createToggle("interrupt", "Interface\\Icons\\INV_Shield_05", "Interrupts")
-kps.gui.createToggle("defensive", "Interface\\Icons\\Spell_Misc_EmotionHappy", "Defensive")
+kps.gui.createToggle("interrupt", "Interface\\Icons\\Spell_Misc_EmotionHappy", "Interrupts")
+kps.gui.createToggle("defensive", "Interface\\Icons\\INV_Shield_05", "Defensive")
 kps.gui.createToggle("autoTurn", "Interface\\Icons\\misc_arrowleft", "AutoTurn")
 
 

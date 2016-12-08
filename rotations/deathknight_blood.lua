@@ -24,7 +24,8 @@ kps.rotations.register("DEATHKNIGHT","BLOOD",
 {
     -- Def CD's
     {{"nested"}, 'kps.defensive', {
-        {spells.vampiricBlood, 'player.hp < 0.4'},
+        {spells.vampiricBlood, 'player.hp < 0.5'},
+        {spells.dancingRuneWeapon, 'player.hp < 0.6'},
     }},
 
     -- Single Target Rotation
@@ -32,17 +33,15 @@ kps.rotations.register("DEATHKNIGHT","BLOOD",
         -- 1. Apply and maintain your disease (Blood Plague) on the target using Blood Boil.
         {spells.bloodBoil, 'target.distance <= 10 and not target.hasMyDebuff(spells.bloodPlague)'},
         -- 2. Make use of your Crimson Scourge procs to cast Death and Decay. - IF SHIFT IS PRESSED!
-        {spells.deathAndDecay, 'player.hasBuff(spells.crimsonScourge) and keys.shift'},
-        -- 3. Use Marrowrend to maintain at least 5 stacks of Bone Shield.
-        {spells.marrowrend, 'player.buffStacks(spells.boneShield) < 5'},
+        {spells.deathAndDecay, 'keys.shift or player.hasBuff(spells.crimsonScourge)'},
+        -- 3. Use Marrowrend to maintain at least 6 stacks of Bone Shield.
+        {spells.marrowrend, 'player.buffStacks(spells.boneShield) < 6 or player.buffDuration(spells.boneShield) <= 6'},
         -- 4. Use free global cooldowns on Blood Boilwhile you are building Bone Shield stacks.
         {spells.bloodBoil, 'target.distance <= 10 and not spells.bloodBoil.charges >= 2'},
         -- 5. Spend your Runic Power on Death Strike.
-        {spells.deathStrike, 'player.hp < 0.7'},
+        {spells.deathStrike, 'kps.incomingDamage(5) > player.hpMax * 0.1 or player.runicPower >= 80'},
         -- 6. Spend your excess Runes (only if you have 5 stacks of Bone Shield and do not need to use Marrowrend ) on Heart Strike.
-        {spells.heartStrike},
-        -- 7. Spend your excess Runic Power on Death Strike Icon Death Strike.
-        {spells.deathStrike, 'player.runicPower >= 110'},
+        {spells.heartStrike, 'player.buffStacks(spells.boneShield) >= 6 and player.buffDuration(spells.boneShield) >= 9'},
     }},
     -- Multi Target Rotation
     {{"nested"}, 'activeEnemies.count > 1', {
