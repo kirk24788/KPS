@@ -21,7 +21,7 @@ kps.multiTarget = false
 kps.gcd = 1.5
 kps.lastCast = nil
 kps.lastTargetGUID = nil
-kps.autoAttackEnabled = true
+kps.autoAttackEnabled = false
 
 -- Cast Sequence Settings
 kps.maxCastSequenceLength = 10
