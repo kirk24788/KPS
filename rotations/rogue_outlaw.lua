@@ -23,6 +23,8 @@ kps.rotations.register("ROGUE","OUTLAW",
            -- Def CD's
     {{"nested"}, 'kps.defensive', {
 		{spells.vanish, 'player.hp <= 0.1'},
+		{spells.crimsonVial, 'player.hp <= 0.6'}
+		{spells.riposte, 'player.hp <= 0.4'}
     }},
         
     -- 1. Activate Blade Flurry if more than one target is present and stacked.
