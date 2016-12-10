@@ -1,6 +1,6 @@
 --[[[
 @module Rogue Outlaw Rotation
-@author kirk24788
+@author Subzrk & Xvir
 @version 7.0.3
 ]]--
 local spells = kps.spells.rogue
@@ -45,7 +45,7 @@ kps.rotations.register("ROGUE","OUTLAW",
     {spells.deathFromAbove, 'target.comboPoints >= 6 and player.hasTalent(7, 3) and not player.hasBuff(spells.adrenalineRush)'},
 
     -- 5. Maintain your decent Roll the Bones buffs
-    {spells.rollTheBones, 'target.comboPoints >= 1 and not rollTheBonesDecentBuffCount(2)'},
+    {spells.rollTheBones, 'target.comboPoints >= 1 and not rollTheBonesDecentBuffCount(2) and kps.cooldowns'},
 
     -- 6. Cast Run Through if you are at 5-6 Combo Points.
     {spells.runThrough, 'target.comboPoints >= 5'},
