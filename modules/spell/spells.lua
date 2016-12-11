@@ -38,6 +38,7 @@ kps.spells.ae.iceTrap = kps.Spell.fromId(13809) -- Ice Trap
 kps.spells.ae.defile = kps.Spell.fromId(152280) -- Defile
 kps.spells.ae.metamorphosis = kps.Spell.fromId(187827) -- Metamorphosis
 kps.spells.ae.starfall = kps.Spell.fromId(191034) -- Starfall
+kps.spells.ae.efflorescence = kps.Spell.fromId(145205) -- Efflorescence
 
 
 -- Crowd Control Spells
