@@ -21,6 +21,8 @@ kps.rotations.register("DRUID","FERAL",
 {
     -- CatForm Form
     {spells.catForm, 'not player.hasBuff(spells.catForm)'},
+    -- Tiger's Fury		
+    {spells.tigersFury, 'player.energy < 30 or (player.energy < 80 and player.hasBuff(spells.berserk))'},
 
     -- Def CD's
     {{"nested"}, 'kps.defensive', {
@@ -44,7 +46,6 @@ kps.rotations.register("DRUID","FERAL",
 	
     -- Single Target Rotation
     {{"nested"}, 'activeEnemies.count <= 1', {
-		{spells.tigersFury, 'player.energy < 30 or (player.energy < 80 and player.hasBuff(spells.berserk))'},
 		{spells.rake, 'target.myDebuffDuration(spells.rake) < 3 and target.comboPoints < 5'},
 		{spells.shred, '(target.comboPoints < 5 and player.energy > 50)'},
 		{spells.rip, 'target.comboPoints == 5 and target.myDebuffDuration(spells.rip) < 4.8'},
@@ -53,7 +54,6 @@ kps.rotations.register("DRUID","FERAL",
     }},
     -- Multi Target Rotation
     {{"nested"}, 'activeEnemies.count > 1 and target.isAttackable', {
-		{spells.tigersFury, 'player.energy < 30 or (player.energy < 80 and player.hasBuff(spells.berserk))'},
 		{spells.thrash, 'target.myDebuffDuration(spells.thrash) < 3'},
 		{spells.swipe},
     }},
