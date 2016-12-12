@@ -30,7 +30,6 @@ kps.rotations.register("DRUID","FERAL",
 	
 	  -- Cooldowns (Other CD's are within  Single/AoE Target Rotation)
     {{"nested"}, 'kps.cooldowns', {
-	    {spells.tigersFury, 'player.energy < 30 or (player.energy < 80 and player.hasBuff(spells.berserk))'},
 		{spells.berserk, 'spells.tigersFury.cooldown < 5'},
 		{spells.healingTouch, 'player.hasBuff(spells.predatorySwiftness)'},
 		{spells.ashamanesFrenzy},
@@ -45,6 +44,7 @@ kps.rotations.register("DRUID","FERAL",
 	
     -- Single Target Rotation
     {{"nested"}, 'activeEnemies.count <= 1', {
+		{spells.tigersFury, 'player.energy < 30 or (player.energy < 80 and player.hasBuff(spells.berserk))'},
 		{spells.rake, 'target.myDebuffDuration(spells.rake) < 3 and target.comboPoints < 5'},
 		{spells.shred, '(target.comboPoints < 5 and player.energy > 50)'},
 		{spells.rip, 'target.comboPoints == 5 and target.myDebuffDuration(spells.rip) < 4.8'},
@@ -53,6 +53,7 @@ kps.rotations.register("DRUID","FERAL",
     }},
     -- Multi Target Rotation
     {{"nested"}, 'activeEnemies.count > 1 and target.isAttackable', {
+		{spells.tigersFury, 'player.energy < 30 or (player.energy < 80 and player.hasBuff(spells.berserk))'},
 		{spells.thrash, 'target.myDebuffDuration(spells.thrash) < 3'},
 		{spells.swipe},
     }},
