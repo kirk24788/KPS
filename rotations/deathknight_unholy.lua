@@ -1,6 +1,6 @@
 --[[[
 @module Deathknight Unholy Rotation
-@author markusem
+@author xvir.subzrk
 @version 7.0.3
 ]]--
 local spells = kps.spells.deathknight
@@ -21,71 +21,58 @@ local env = kps.env.deathknight
 
 kps.rotations.register("DEATHKNIGHT","UNHOLY",
 {
-
-    -- buffs
+    -- Player Pet
     {spells.raiseDead, 'not player.hasPet'},
 
-    -- interrupts
+    -- Cooldowns
+    {{"nested"}, 'kps.cooldowns', {
+        {spells.darkTransformation, 'player.hasPet'},
+		{spells.soulReaper, 'target.debuffStacks(spells.festeringWound) >= 4'},
+		{spells.apocalypse, 'target.debuffStacks(spells.festeringWound) = 8'},
+		{spells.armyOfTheDead, 'player.allRunes > 4'},
+        {spells.summonGargoyle, 'not player.hasTalent(7,1)'},
+        { {"macro"}, 'kps.useBagItem', "/use 13" },
+        { {"macro"}, 'kps.useBagItem', "/use 14" },
+    }},
+	
+    -- Have Soul Reaper Buff
+    {{"nested"}, 'player.hasBuff(spells.soulReaper)', {
+        {spells.scourgeStrike},
+    }},
+	
+    -- Def CD's
+    {{"nested"}, 'kps.defensive', {
+		{spells.iceboundFortitud, 'player.hp < 0.3'},
+		{spells.deathStrike, 'player.hp < 0.5 or player.hasBuff(spells.darkSuccor)'},
+		{spells.antimagicShell, 'player.hp < 0.5 and (spells.mindFreeze).cooldown and target.isInterruptable'},
+        { {"macro"}, 'kps.useBagItem and player.hp < 0.7', "/use Healthstone" },
+        { {"macro"}, 'kps.defensive and player.hp < 0.6', "/cast Gift of the Naaru" },
+    }},
+	
+    -- Interrupt Target
     {{"nested"}, 'kps.interrupt and target.isInterruptable', {
-        {spells.mindFreeze},
+        {spells.mindFreeze, 'target.distance <= 15'},
         {spells.asphyxiate, 'not spells.strangulate.isRecastAt("target")'},
     }},
-
-    -- defensive
-    {{"nested"}, 'kps.defensive', {
-        { {"macro"}, 'kps.useBagItem and player.hp < 0.70', "/use Healthstone" },
-        -- {spells.deathStrike, 'player.hp < 0.7'},
-        {spells.iceboundFortitude, 'player.hp < 0.3'},
+	
+    -- Single Target Rotation
+    {{"nested"}, 'activeEnemies.count <= 1', {
+        {spells.outbreak, 'not target.hasMyDebuff(spells.virulentPlague) or target.myDebuffDuration(spells.virulentPlague) <= 2'},
+		{ {"macro"}, 'player.hasPet', "/petassist"}, 
+        {spells.festeringStrike, 'target.debuffStacks(spells.festeringWound) <= 4'},
+        {spells.deathCoil, 'player.hasBuff(spells.suddenDoom) or player.runicPower > 35'},
+		{spells.deathAndDecay, 'keys.shift'},
+        {spells.scourgeStrike, 'target.debuffStacks(spells.festeringWound) >= 3'},
     }},
-
-    -- situational
-    {spells.deathAndDecay, 'keys.shift'}, -- also does Defile
-
-    -- diseases
-    -- {spells.outbreak, 'not target.hasMyDebuff(spells.virulentPlague)'},
-    {spells.outbreak, 'target.myDebuffDuration(spells.virulentPlague) < 2'},
-
-    -- multitarget
-    -- WORK ON IT
-
-    -- cooldowns
-    {{"nested"}, 'kps.cooldowns', {
-        {spells.summonGargoyle, 'not player.hasTalent(7,1)'},
-
-        {{"nested"}, 'spells.darkArbiter.cooldown > 60', {
-            -- trinkets!
-            { {"macro"}, 'kps.useBagItem', "/use 13" },
-            { {"macro"}, 'kps.useBagItem', "/use 14" },
-            -- racial!
-            { {"macro"}, 'kps.cooldowns', "/cast Blood Fury" },
-        }},
-        -- pet attack, just in case!
-        -- { {"macro"}, 'player.hasPet', "/petassist"}, --loops
-
-        {spells.darkTransformation},
-        {spells.darkArbiter, 'player.runicPower > 90'},
-        {spells.deathCoil, 'spells.darkArbiter.cooldown > 165'},
-        {spells.deathCoil, 'player.runicPower > 95'},
-        {spells.deathCoil, 'player.hasBuff(spells.suddenDoom)'},
-        {spells.festeringStrike, 'target.debuffStacks(spells.festeringWound) < 5'},
-        {spells.clawingShadows, 'target.debuffStacks(spells.festeringWound) >= 1'},
-        {spells.deathCoil, 'pet.hasBuff(spells.darkTransformation) and player.runicPower > 85'},
-        {spells.deathCoil, 'spells.darkArbiter.cooldown > 10 and not pet.hasBuff(spells.darkTransformation)'},
+	
+	-- Multi Target Rotation
+    {{"nested"}, 'activeEnemies.count > 1', {
+        {spells.outbreak, 'not target.hasMyDebuff(spells.virulentPlague) or target.myDebuffDuration(spells.virulentPlague) <= 2'},
+		{ {"macro"}, 'player.hasPet', "/petassist"}, 
+		{spells.deathAndDecay, 'keys.shift'}, 
+        {spells.festeringStrike, 'target.debuffStacks(spells.festeringWound) < 3'},
+        {spells.deathCoil, 'player.hasBuff(spells.suddenDoom) or player.runicPower > 35'},
+        {spells.scourgeStrike, 'target.debuffStacks(spells.festeringWound) >= 2'},
     }},
-
-    -- rotation
-    {{"nested"}, 'not kps.cooldowns', {
-        {spells.darkTransformation},
-
-        {spells.deathCoil, 'spells.darkArbiter.cooldown > 165'},
-
-        {spells.deathCoil, 'player.runicPower > 95'},
-        {spells.deathCoil, 'player.hasBuff(spells.suddenDoom)'},
-        {spells.festeringStrike, 'target.debuffStacks(spells.festeringWound) < 5'},
-        {spells.clawingShadows, 'target.debuffStacks(spells.festeringWound) >= 1'},
-        {spells.deathCoil, 'pet.hasBuff(spells.darkTransformation) and player.runicPower > 85'},
-        {spells.deathCoil, 'not pet.hasBuff(spells.darkTransformation) and player.runicPower > 70'},
-    }},
-
 }
-,"Unholy 7.0.3 MU", {3, 2, 3, 1, 3, 1, 1})
+,"Unholy Pve")
