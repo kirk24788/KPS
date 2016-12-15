@@ -16,7 +16,7 @@ local function updatesRunes()
         for i = 1,6,1 do
             start, duration, ready = GetRuneCooldown(i)
             runesReady[i] = ready
-            runesDeath[i] = ready and GetRuneType(i) == 4
+       --   runesDeath[i] = ready and GetRuneType(i) == 4
             runesCooldownDuration[i] = duration
             runesCooldown[i] = start + duration - GetTime()
         end
