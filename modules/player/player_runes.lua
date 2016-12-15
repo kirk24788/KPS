@@ -7,7 +7,6 @@ local Player = kps.Player.prototype
 
 local runesNextUpdate = 0
 local runesReady = {}
-local runesDeath = {}
 local runesCooldown = {}
 local runesCooldownDuration = {}
 local function updatesRunes()
@@ -46,7 +45,7 @@ local function cooldownFraction(a,b)
 end
 
 --[[[
-@function `player.allRunes` - returns the total number of active runes
+@function `player.Runes` - returns the total number of active runes
 ]]--
 function Player.Runes(self)
     return runes(1,2) + runes(3,4) + runes(5,6)
