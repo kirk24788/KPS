@@ -46,16 +46,16 @@ kps.rotations.register("PRIEST","HOLY",
     }},
 	
 	{spells.heal, 'heal.defaultTank.hp < 0.9', kps.heal.defaultTank},
-    {spells.heal, 'heal.lowestInRaid.hp < 0.8', kps.heal.lowestInRaid},
-    {spells.heal, 'heal.defaultTarget.hp < 0.8', kps.heal.defaultTarget},
+	{spells.heal, 'heal.lowestInRaid.hp < 0.8', kps.heal.lowestInRaid},
+	{spells.heal, 'heal.defaultTarget.hp < 0.8', kps.heal.defaultTarget},
 	
 	{spells.renew, 'heal.defaultTank.hp < 1', kps.heal.defaultTank},
-    {spells.renew, 'heal.lowestInRaid.hp < 0.65', kps.heal.lowestInRaid},
-    {spells.renew, 'heal.defaultTarget.hp < 0.65', kps.heal.defaultTarget},
+	{spells.renew, 'heal.lowestInRaid.hp < 0.65', kps.heal.lowestInRaid},
+	{spells.renew, 'heal.defaultTarget.hp < 0.65', kps.heal.defaultTarget},
 	
 	{spells.flashHeal, 'heal.defaultTank.hp < 0.65', kps.heal.defaultTank},
-    {spells.flashHeal, 'heal.lowestInRaid.hp < 0.45', kps.heal.lowestInRaid},
-    {spells.flashHeal, 'heal.defaultTarget.hp < 0.45', kps.heal.defaultTarget},
+	{spells.flashHeal, 'heal.lowestInRaid.hp < 0.45', kps.heal.lowestInRaid},
+	{spells.flashHeal, 'heal.defaultTarget.hp < 0.45', kps.heal.defaultTarget},
 	
 }
 ,"Holy heal")
