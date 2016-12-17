@@ -57,7 +57,5 @@ kps.rotations.register("PRIEST","HOLY",
     {spells.flashHeal, 'heal.lowestInRaid.hp < 0.45', kps.heal.lowestInRaid},
     {spells.flashHeal, 'heal.defaultTarget.hp < 0.45', kps.heal.defaultTarget},
 	
-	holyWordSerenity
-	guardianSpirit
 }
 ,"Holy heal")
