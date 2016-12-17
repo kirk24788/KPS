@@ -31,7 +31,7 @@ kps.rotations.register("PRIEST","HOLY",
 	{spells.holyWordSerenity, 'heal.lowestInRaid.hp < 0.3 and not heal.defaultTank.hp > 0.45', kps.heal.lowestInRaid},
 	{spells.holyWordSerenity, 'heal.defaultTarget.hp < 0.3 and heal.defaultTank.hp > 0.45', kps.heal.defaultTarget},
 	-- Prayer of Mending (Tank only)
-	{spells.prayerOfMending, kps.heal.defaultTank},
+	{spells.prayerOfMending, kps.heal.aggroTank},
 	-- Flash Heal
 	{spells.flashHeal, 'heal.defaultTank.hp < 0.8', kps.heal.defaultTank},
 	{spells.flashHeal, 'heal.lowestInRaid.hp < 0.65', kps.heal.lowestInRaid},
@@ -41,9 +41,9 @@ kps.rotations.register("PRIEST","HOLY",
 	{spells.heal, 'heal.lowestInRaid.hp < 0.85', kps.heal.lowestInRaid},
 	{spells.heal, 'heal.defaultTarget.hp < 0.85', kps.heal.defaultTarget},
 	-- renew
-	{spells.renew, 'heal.defaultTank.hp < 1 and heal.defaultTank < 0.4 and heal.lowestInRaid.myBuffDuration(spells.renew) < 2', kps.heal.defaultTank},
-	{spells.renew, 'heal.lowestInRaid.hp < 0.9  and heal.defaultTank < 0.4 and not heal.lowestInRaid.hasBuff(spells.renew)', kps.heal.lowestInRaid},
-	{spells.renew, 'heal.defaultTarget.hp < 0.9  and heal.defaultTank < 0.4 and heal.lowestInRaid.myBuffDuration(spells.renew)', kps.heal.defaultTarget},
+	{spells.renew, 'heal.defaultTank.hp < 1 and heal.lowestInRaid.myBuffDuration(spells.renew) < 2', kps.heal.defaultTank},
+	{spells.renew, 'heal.lowestInRaid.hp < 0.9 and heal.lowestInRaid.hasBuff(spells.renew) < 1', kps.heal.lowestInRaid},
+	{spells.renew, 'heal.defaultTarget.hp < 0.9 and heal.lowestInRaid.myBuffDuration(spells.renew) < 1', kps.heal.defaultTarget},
 	-- smite when doing nothing
 	{spells.smite},
 	
