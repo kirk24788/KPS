@@ -26,12 +26,18 @@ kps.rotations.register("PRIEST","HOLY",
 	{spells.flashHeal, 'heal.defaultTank.hp < 0.4', kps.heal.defaultTank},
 	{spells.flashHeal, 'heal.defaultTank.hp < 0.45', kps.heal.lowestInRaid},
     }},
+	-- Body and Mind
+	{spells.bodyAndMind, kps.heal.defaultTank},
+	-- Prayer of Mending (Tank only)
+	{spells.prayerOfMending, kps.heal.aggroTank},
+	-- renew
+	{spells.renew, 'heal.defaultTank.myBuffDuration(spells.renew) < 2 and heal.defaultTank.hp < 1', kps.heal.defaultTank},
+	{spells.renew, 'heal.lowestInRaid.myBuffDuration(spells.renew) < 1 and heal.lowestInRaid.hp < 0.9', kps.heal.lowestInRaid},
+	{spells.renew, 'heal.defaultTarget.myBuffDuration(spells.renew) < 1 and heal.defaultTarget.hp < 0.9', kps.heal.defaultTarget},
 	-- Holy Word: Serenity
 	{spells.holyWordSerenity, 'heal.defaultTank.hp < 0.4', kps.heal.defaultTank},
 	{spells.holyWordSerenity, 'heal.defaultTank.hp > 0.45 and heal.lowestInRaid.hp < 0.3', kps.heal.lowestInRaid},
 	{spells.holyWordSerenity, 'heal.defaultTank.hp > 0.45 and heal.defaultTarget.hp < 0.3', kps.heal.defaultTarget},
-	-- Prayer of Mending (Tank only)
-	{spells.prayerOfMending, kps.heal.aggroTank},
 	-- Flash Heal
 	{spells.flashHeal, 'heal.defaultTank.hp < 0.8', kps.heal.defaultTank},
 	{spells.flashHeal, 'heal.lowestInRaid.hp < 0.65', kps.heal.lowestInRaid},
@@ -40,14 +46,8 @@ kps.rotations.register("PRIEST","HOLY",
 	{spells.heal, 'heal.defaultTank.hp < 0.95', kps.heal.defaultTank},
 	{spells.heal, 'heal.lowestInRaid.hp < 0.85', kps.heal.lowestInRaid},
 	{spells.heal, 'heal.defaultTarget.hp < 0.85', kps.heal.defaultTarget},
-	-- renew
-	{spells.renew, 'heal.defaultTank.myBuffDuration(spells.renew) < 2 and heal.defaultTank.hp < 1', kps.heal.defaultTank},
-	{spells.renew, 'heal.lowestInRaid.hasBuff(spells.renew) < 1 and heal.lowestInRaid.hp < 0.9', kps.heal.lowestInRaid},
-	{spells.renew, 'heal.defaultTarget.myBuffDuration(spells.renew) < 1 and heal.defaultTarget.hp < 0.9', kps.heal.defaultTarget},
 	-- smite when doing nothing
 	{spells.smite},
-	
-	
 	
 }
 ,"Holy heal")
