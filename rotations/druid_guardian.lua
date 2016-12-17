@@ -24,10 +24,10 @@ kps.rotations.register("DRUID","GUARDIAN",
     {spells.bearForm, 'not player.hasBuff(spells.bearForm)'},
 
     -- Def CD's
-    {{"nested"}, 'kps.defensive', 
+    {{"nested"}, 'kps.defensive', {
 		{spells.swiftmend, 'player.hp < 0.2'},
-        {spells.survivalInstincts, 'player.hp < 0.3 and not player.hasBuff(spells.survivalInstincts)'},
-        {spells.survivalInstincts, 'player.hp < 0.6 and (spells.survivalInstincts.charges >= 2 and not player.hasBuff(spells.survivalInstincts))'},
+        	{spells.survivalInstincts, 'player.hp < 0.3 and not player.hasBuff(spells.survivalInstincts)'},
+        	{spells.survivalInstincts, 'player.hp < 0.6 and (spells.survivalInstincts.charges >= 2 and not player.hasBuff(spells.survivalInstincts))'},
 		{spells.barkskin, 'player.hp < 0.7'},
 		{spells.rageOfTheSleeper, 'player.hp < 0.8'},
 		{spells.frenziedRegeneration, 'player.hp < 0.9 and (spells.frenziedRegeneration.charges >= 2 and not player.hasBuff(spells.frenziedRegeneration))'},
