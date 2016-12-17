@@ -35,14 +35,14 @@ kps.rotations.register("PRIEST","HOLY",
 	
 	-- Def CD's
     {{"nested"}, 'kps.defensive', {
-		{spells.Spellname, 'player.hp < 0.2'},
+	{spells.Spellname, 'player.hp < 0.2'},
         { {"macro"}, 'kps.useBagItem and player.hp < 0.8', "/use Healthstone" },		
     }},
 	
 	-- surge Of Light Proc
     {{"nested"}, 'player.hasBuff(spells.surgeOfLight)', {
-		{spells.flashHeal, 'heal.defaultTank.hp < 0.4', kps.heal.defaultTank},
-		{spells.flashHeal, 'not heal.defaultTank.hp < 0.4', kps.heal.lowestInRaid},
+	{spells.flashHeal, 'heal.defaultTank.hp < 0.4', kps.heal.defaultTank},
+	{spells.flashHeal, 'not heal.defaultTank.hp < 0.4', kps.heal.lowestInRaid},
     }},
 	
 	{spells.heal, 'heal.defaultTank.hp < 0.9', kps.heal.defaultTank},
