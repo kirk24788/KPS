@@ -18,7 +18,6 @@ kps.rotations.register("PRIEST","HOLY",
 	
 	-- Def CD's
     {{"nested"}, 'kps.defensive', {
-	{spells.Spellname, 'player.hp < 0.2'},
         { {"macro"}, 'kps.useBagItem and player.hp < 0.8', "/use Healthstone" },		
     }},
 	
