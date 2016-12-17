@@ -29,7 +29,6 @@ kps.rotations.register("DRUID","RESTORATION",
         {spells.regrowth, 'heal.lowestInRaid.hp < 0.8', kps.heal.lowestInRaid},
         {spells.regrowth, 'heal.defaultTank.hp < 0.8', kps.heal.defaultTank},
         {spells.regrowth, 'heal.defaultTarget.hp < 0.8', kps.heal.defaultTarget},
-        {spells.regrowth, 'heal.lowestInGroup.hp < 0.8', kps.heal.lowestInGroup},
     }},
 
     -- Have Omen Of Clarity Buff
@@ -37,7 +36,6 @@ kps.rotations.register("DRUID","RESTORATION",
         {spells.regrowth, 'heal.defaultTank.hp < 0.8', kps.heal.defaultTank},
         {spells.regrowth, 'heal.lowestInRaid.hp < 0.8', kps.heal.lowestInRaid},
         {spells.regrowth, 'heal.defaultTarget.hp < 0.8', kps.heal.defaultTarget},
-        {spells.regrowth, 'heal.lowestInGroup.hp < 0.8', kps.heal.lowestInGroup},
     }},
 	
     -- Have Soul Of The Forest Buff
@@ -45,18 +43,15 @@ kps.rotations.register("DRUID","RESTORATION",
         {spells.regrowth, 'heal.defaultTank.hp < 0.8', kps.heal.defaultTank},
         {spells.regrowth, 'heal.lowestInRaid.hp < 0.8', kps.heal.lowestInRaid},
         {spells.regrowth, 'heal.defaultTarget.hp < 0.8', kps.heal.defaultTarget},
-        {spells.regrowth, 'heal.lowestInGroup.hp < 0.8', kps.heal.lowestInGroup},
     }},
 
     {spells.swiftmend, 'heal.defaultTank.hp < 0.6', kps.heal.defaultTank},
     {spells.swiftmend, 'heal.lowestInRaid.hp < 0.6', kps.heal.lowestInRaid},
     {spells.swiftmend, 'heal.defaultTarget.hp < 0.6', kps.heal.defaultTarget},
-    {spells.swiftmend, 'heal.lowestInGroup.hp < 0.6', kps.heal.lowestInGroup},
 	
     {spells.regrowth, 'heal.defaultTank.hp < 0.7', kps.heal.defaultTank},
     {spells.regrowth, 'heal.lowestInRaid.hp < 0.7', kps.heal.lowestInRaid},
     {spells.regrowth, 'heal.defaultTarget.hp < 0.7', kps.heal.defaultTarget},
-    {spells.regrowth, 'heal.lowestInGroup.hp < 0.7', kps.heal.lowestInGroup},
 	
     {spells.lifebloom, 'heal.defaultTank.myBuffDuration(spells.lifebloom) < 3', kps.heal.defaultTank},
 	
@@ -66,7 +61,6 @@ kps.rotations.register("DRUID","RESTORATION",
     {spells.rejuvenation, 'heal.defaultTank.myBuffDuration(spells.rejuvenation) < 3 and heal.defaultTank.hp < 1', kps.heal.defaultTank},
     {spells.rejuvenation, 'heal.defaultTarget.buffDuration(spells.rejuvenation) < 3 and heal.defaultTarget.hp < 1', kps.heal.defaultTarget},
     {spells.rejuvenation, 'heal.lowestInRaid.myBuffDuration(spells.rejuvenation) < 3 and heal.lowestInRaid.hp < 1', kps.heal.lowestInRaid},
-    {spells.rejuvenation, 'heal.lowestInGroup.myBuffDuration(spells.rejuvenation) < 3 and heal.lowestInGroup.hp < 1', kps.heal.lowestInGroup},
 	
     {spells.healingTouch, 'heal.defaultTarget.hp < 0.9 and not player.isMoving', kps.heal.defaultTarget},
 }
