@@ -42,7 +42,7 @@ kps.rotations.register("PRIEST","HOLY",
 	{spells.heal, 'heal.defaultTarget.hp < 0.85', kps.heal.defaultTarget},
 	-- renew
 	{spells.renew, 'heal.defaultTank.hp < 1 and heal.defaultTank < 0.4 and heal.lowestInRaid.myBuffDuration(spells.renew) < 2', kps.heal.defaultTank},
-	{spells.renew, 'heal.lowestInRaid.hp < 0.9  and heal.defaultTank < 0.4 and not heal.lowestInRaid.hasBuff(spells.renew', kps.heal.lowestInRaid},
+	{spells.renew, 'heal.lowestInRaid.hp < 0.9  and heal.defaultTank < 0.4 and not heal.lowestInRaid.hasBuff(spells.renew)', kps.heal.lowestInRaid},
 	{spells.renew, 'heal.defaultTarget.hp < 0.9  and heal.defaultTank < 0.4 and heal.lowestInRaid.myBuffDuration(spells.renew)', kps.heal.defaultTarget},
 	-- smite when doing nothing
 	{spells.smite},
