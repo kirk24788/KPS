@@ -43,6 +43,7 @@ kps.rotations.register("PALADIN","RETRIBUTION",
         {spells.judgment},
 		{spells.bladeOfWrath, 'player.holyPower < 4'},
         {spells.crusaderStrike, 'player.holyPower < 5'},
+		{spells.zeal, 'player.holyPower < 5'},
         {spells.templarsVerdict, 'player.holyPower >= 2 and target.hasMyDebuff(spells.judgment)'},
         {spells.templarsVerdict, 'player.holyPower >= 2 or player.hasBuff(spells.divinePurpose)'},
     }},
@@ -51,9 +52,24 @@ kps.rotations.register("PALADIN","RETRIBUTION",
     {{"nested"}, 'activeEnemies.count > 1 and target.isAttackable', {
         {spells.judgment},
         {spells.bladeOfWrath, 'player.holyPower < 4'},
-        {spells.crusaderStrike, 'player.holyPower < 5'},
+        {spells.zeal, 'player.holyPower < 5'},
+		{spells.crusaderStrike, 'player.holyPower < 5'},
         {spells.divineStorm, 'player.holyPower >= 2 and target.hasMyDebuff(spells.judgment)'},
         {spells.divineStorm, 'player.holyPower >= 2 or player.hasBuff(spells.divinePurpose)'},
     }},
 }
 ,"Icy Veins")
+
+
+	kps.rotations.register("PALADIN","RETRIBUTION",
+	{
+
+		{{"nested"}, 'target.isAttackable', {
+			{spells.zeal, 'target.distance <= 10'},
+			{spells.judgment, 'target.distance <= 30 and target.distance >= 10'},
+			{spells.templarsVerdict},
+			{spells.divineStorm},
+			{spells.bladeOfWrath},
+		}},
+	}
+,"Spam Zeal")
