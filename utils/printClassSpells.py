@@ -159,15 +159,18 @@ GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 
 kps.spells.%s = {}
 """ % (class_name.title(), class_name.title(), class_name)
+    class_spells = []
     for spell in spells:
         if not is_filtered(spell)[0]:
-            s += "kps.spells.%s.%s = kps.Spell.fromId(%s)\n" % (class_name,spell_key(spell["name"][1:]),spell["id"])
+            class_spells.append("kps.spells.%s.%s = kps.Spell.fromId(%s)\n" % (class_name,spell_key(spell["name"][1:]),spell["id"]))
     for spell_id in ADDITIONAL_SPELLS[class_name]:
         try:
             spell = Spell(spell_id)
-            s += "kps.spells.%s.%s = kps.Spell.fromId(%s)\n" % (class_name, spell.key, spell.id)
+            class_spells.append("kps.spells.%s.%s = kps.Spell.fromId(%s)\n" % (class_name, spell.key, spell.id))
         except:
             LOG.error("ERROR: Spell-ID %s not found for %s", spell_id, class_name)
+    for class_spell in sorted(class_spells):
+        s += class_spell
     return s
 
 if __name__ == "__main__":
