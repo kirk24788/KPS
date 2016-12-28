@@ -13,27 +13,27 @@ kps.rotations.register("WARRIOR","FURY",
     {{"nested"}, 'kps.cooldowns and target.distance > 5', {
         {spells.charge}, -- charge
     }},
-	
+
     -- Cooldowns
     {{"nested"}, 'kps.cooldowns', {
         {spells.battleCry},
         {spells.odynsFury},
         {spells.dragonRoar, 'not player.hasTalent(7,1) and target.distance < 8'},
     }},
-	
+
     -- Def CD's
     {{"nested"}, 'kps.defensive', {
-		{spells.victoryRush},
-		{spells.enragedRegeneration, 'player.hp < 0.4'},
-		{spells.commandingShout, 'player.hp < 0.6'},
-        { {"macro"}, 'kps.useBagItem and player.hp < 0.8', "/use Healthstone" },		
+        {spells.victoryRush},
+        {spells.enragedRegeneration, 'player.hp < 0.4'},
+        {spells.commandingShout, 'player.hp < 0.6'},
+        { {"macro"}, 'kps.useBagItem and player.hp < 0.8', "/use Healthstone" },
     }},
-	
+
     -- Have enragedRegeneration Buff
     {{"nested"}, 'player.hasBuff(spells.enragedRegeneration)', {
         {spells.bloodthirst},
     }},
-	
+
     -- Single Target - No Massacre
     {{"nested"}, 'activeEnemies.count <= 1 and not player.hasTalent(5,1)', {
         {spells.rampage, 'not player.hasBuff(spells.enrage) and player.rage >= 70'},
