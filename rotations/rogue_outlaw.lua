@@ -1,6 +1,6 @@
 --[[[
 @module Rogue Outlaw Rotation
-@author kirk24788
+@author Subzrk & Xvir
 @version 7.0.3
 ]]--
 local spells = kps.spells.rogue
@@ -20,6 +20,13 @@ Level 100: Marked for Death
 
 kps.rotations.register("ROGUE","OUTLAW",
 {
+           -- Def CD's
+    {{"nested"}, 'kps.defensive', {
+		{spells.vanish, 'player.hp <= 0.1'},
+		{spells.crimsonVial, 'player.hp <= 0.6'},
+		{spells.riposte, 'player.hp <= 0.4'},
+    }},
+        
     -- 1. Activate Blade Flurry if more than one target is present and stacked.
     {spells.bladeFlurry, 'activeEnemies.count > 1 and not player.hasBuff(spells.bladeFlurry)'},
     {spells.bladeFlurry, 'activeEnemies.count <= 1 and player.hasBuff(spells.bladeFlurry)'},
@@ -40,7 +47,7 @@ kps.rotations.register("ROGUE","OUTLAW",
     {spells.deathFromAbove, 'target.comboPoints >= 6 and player.hasTalent(7, 3) and not player.hasBuff(spells.adrenalineRush)'},
 
     -- 5. Maintain your decent Roll the Bones buffs
-    {spells.rollTheBones, 'target.comboPoints >= 1 and not rollTheBonesDecentBuffCount(2)'},
+    {spells.rollTheBones, 'target.comboPoints >= 1 and not rollTheBonesDecentBuffCount(2) and kps.cooldowns'},
 
     -- 6. Cast Run Through if you are at 5-6 Combo Points.
     {spells.runThrough, 'target.comboPoints >= 5'},

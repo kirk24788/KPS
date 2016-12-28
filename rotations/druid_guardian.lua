@@ -1,30 +1,66 @@
 --[[[
 @module Druid Guardian Rotation
-@generated_from druid_guardian.simc
+@author xvir.subzrk
 @version 7.0.3
 ]]--
+
 local spells = kps.spells.druid
 local env = kps.env.druid
 
+--[[
+Suggested Talents:
+Level 15: Blood Frenzy
+Level 30: Guttural Roars
+Level 45: Restoration Affinity
+Level 60: Mighty Bash
+Level 75: Galactic Guardian
+Level 90: Guardian of Elune
+Level 100: Rend and Tear
+]]--
 
 kps.rotations.register("DRUID","GUARDIAN",
 {
-    {spells.skullBash}, -- skull_bash
-    {spells.barkskin}, -- barkskin
-    {spells.bristlingFur, 'player.buffDuration(spells.ironfur) < 2 and player.rage < 40'}, -- bristling_fur,if=buff.ironfur.remains<2&rage<40
--- ERROR in 'ironfur,if=buff.ironfur.down|rage.deficit<25': Unknown expression 'rage.deficit'!
--- ERROR in 'frenzied_regeneration,if=!ticking&incoming_damage_6s%health.max>0.25+(2-charges_fractional)*0.15': Unknown expression 'incoming_damage_6s'!
-    {spells.pulverize, 'not player.hasBuff(spells.pulverize)'}, -- pulverize,cycle_targets=1,if=buff.pulverize.down
-    {spells.mangle}, -- mangle
-    {spells.pulverize, 'player.buffDuration(spells.pulverize) < player.gcd'}, -- pulverize,cycle_targets=1,if=buff.pulverize.remains<gcd
-    {spells.lunarBeam}, -- lunar_beam
-    {spells.incarnation}, -- incarnation
-    {spells.thrash, 'activeEnemies.count >= 2'}, -- thrash_bear,if=active_enemies>=2
-    {spells.pulverize, 'player.buffDuration(spells.pulverize) < 3.6'}, -- pulverize,cycle_targets=1,if=buff.pulverize.remains<3.6
-    {spells.thrash, 'player.hasTalent(7, 2) and player.buffDuration(spells.pulverize) < 3.6'}, -- thrash_bear,if=talent.pulverize.enabled&buff.pulverize.remains<3.6
-    {spells.moonfire, 'not target.hasMyDebuff(spells.moonfire)'}, -- moonfire,cycle_targets=1,if=!ticking
-    {spells.moonfire, 'target.myDebuffDuration(spells.moonfire) < 3.6'}, -- moonfire,cycle_targets=1,if=remains<3.6
-    {spells.moonfire, 'target.myDebuffDuration(spells.moonfire) < 7.2'}, -- moonfire,cycle_targets=1,if=remains<7.2
-    {spells.moonfire}, -- moonfire
+   -- bearForm Form
+    {spells.bearForm, 'not player.hasBuff(spells.bearForm)'},
+
+    -- Def CD's
+    {{"nested"}, 'kps.defensive', {
+		{spells.swiftmend, 'player.hp < 0.2'},
+        	{spells.survivalInstincts, 'player.hp < 0.3 and not player.hasBuff(spells.survivalInstincts)'},
+        	{spells.survivalInstincts, 'player.hp < 0.6 and (spells.survivalInstincts.charges >= 2 and not player.hasBuff(spells.survivalInstincts))'},
+		{spells.barkskin, 'player.hp < 0.7'},
+		{spells.rageOfTheSleeper, 'player.hp < 0.8'},
+		{spells.frenziedRegeneration, 'player.hp < 0.9 and (spells.frenziedRegeneration.charges >= 2 and not player.hasBuff(spells.frenziedRegeneration))'},
+        { {"macro"}, 'kps.useBagItem and player.hp < 0.9', "/use Healthstone" },		
+    }},
+	
+	  -- Cooldowns
+    {{"nested"}, 'kps.cooldowns', {
+		{spells.stampedingRoar, 'keys.shift'},
+    }},
+	
+    -- Interrupt Target
+    {{"nested"}, 'kps.interrupt and target.isInterruptable', {
+        {spells.skullBash, 'target.distance <= 13'},
+        {spells.mightyBash, '(spells.skullBash).cooldown'},
+        {spells.incapacitatingRoar, '(spells.skullBash).cooldown and (spells.mightyBash).cooldown'},
+    }},
+	
+    -- Single Target Rotation
+    {{"nested"}, 'activeEnemies.count <= 1', {
+        {spells.ironfur, 'player.hasBuff(spells.guardianOfElune) or player.buffDuration(spells.ironfur) <= 3'},
+        {spells.mangle},
+		{spells.thrash},
+		{spells.moonfire, 'player.hasBuff(spells.galacticGuardian)'},
+		{spells.swipe},
+    }},
+    -- Multi Target Rotation
+    {{"nested"}, 'activeEnemies.count > 1', {
+        {spells.markOfUrsol, 'player.hasBuff(spells.guardianOfElune) or player.buffDuration(spells.markOfUrsol) <= 3'},
+        {spells.mangle},
+		{spells.thrash},
+		{spells.moonfire, 'player.hasBuff(spells.galacticGuardian)'},
+		{spells.swipe},
+    }},
 }
-,"druid_guardian.simc")
+,"Icy Veins")

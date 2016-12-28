@@ -90,7 +90,12 @@ end
 function Player.soulShards(self)
     return UnitPower("player", 7)
 end
--- PowerType 8 - Eclipse Power
+--[[[
+@function `player.astralPower` - Astral Power (Druid)
+]]--
+function Player.astralPower(self)
+    return UnitPower("player", 8)
+end
 --[[[
 @function `player.holyPower` - Holy Power
 ]]--
@@ -127,4 +132,10 @@ end
 ]]--
 function Player.fury(self)
     return UnitPower("player", 17)
+end
+--[[[
+@function `player.pain` - Pain (Demon Hunter)
+]]--
+function Player.pain(self)
+    return UnitPower("player", 18)
 end
