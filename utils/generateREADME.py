@@ -71,12 +71,14 @@ def read_rotation_data():
                     if class_name not in fully_supported.keys():
                         fully_supported[class_name] = []
                     fully_supported[class_name].append(spec_name)
-                if meta["author"] and len(meta["author"]) > 1 and meta["author"].lower() != "kirk24788":
-                    contributors.add(meta["author"])
+                if meta["author"] and len(meta["author"]) > 1:
+                    contributors |= set(meta["authors"])
+
             else:
                 if class_name not in outdated.keys():
                     outdated[class_name] = []
                 outdated[class_name].append("%s (%s)" % (spec_name, meta["version"] ))
+    contributors.discard("kirk24788")
     rotation_data = "**Fully Supported in %s:**\n\n" % WOW_VERSION
     if fully_supported.keys() == []:
         rotation_data = rotation_data + "None\n\n"

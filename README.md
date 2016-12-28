@@ -51,19 +51,21 @@ All DPS Specs have at least one rotation automatically generated from SimCraft -
 
 **Fully Supported in 7.0.3:**
 
-* Deathknight: Blood, Unholy
-* Demonhunter: Havoc, Vengeance
-* Druid: Feral, Restoration, Balance
+* Deathknight: Blood, Frost, Unholy
+* Demonhunter: Havoc
+* Druid: Balance, Feral, Guardian, Restoration
 * Hunter: Beastmaster, Marksmanship
 * Mage: Fire
 * Paladin: Retribution
+* Priest: Holy
 * Rogue: Outlaw
 * Shaman: Enhancement
 * Warlock: Affliction, Demonology, Destruction
-* Warrior: Fury
+* Warrior: Arms, Fury
 
 **Untested Rotations in 7.0.3:**
 
+* Demonhunter: Vengeance
 * Monk: Mistweaver
 * Paladin: Holy
 * Shaman: Restoration
@@ -75,22 +77,22 @@ All DPS Specs have at least one rotation automatically generated from SimCraft -
 **Automatically Generated Rotations:**
 _(Might not be fully functional)_
 
-* Deathknight: Frost (7.0.3)
-* Druid: Guardian (7.0.3)
 * Hunter: Survival (7.0.3)
 * Mage: Arcane (7.0.3), Frost (7.0.3)
 * Monk: Brewmaster (7.0.3), Windwalker (6.2.2)
 * Paladin: Protection (7.0.3)
-* Priest: Discipline (7.0.3), Holy (7.0.3)
+* Priest: Discipline (7.0.3)
 * Rogue: Assassination (7.0.3), Subtlety (7.0.3)
 * Shaman: Elemental (7.0.3)
-* Warrior: Arms (7.0.3), Protection (7.0.3)
+* Warrior: Protection (7.0.3)
 
 **Special Thanks for contributing to the KPS rotations:**
 
-* Silk_sn
 * fourdots
 * markusem
+* silk_sn
+* subzrk
+* xvir
 
 
 
@@ -251,12 +253,14 @@ Members:
  * `player.comboPoints` - Combo Points
  * `player.runicPower` - Runic Power
  * `player.soulShards` - Soul Shards
+ * `player.astralPower` - Astral Power (Druid)
  * `player.holyPower` - Holy Power
  * `player.maelstrom` - Shadow Orbs
  * `player.chi` - Chi
  * `player.chiMax` - Chi Max
  * `player.shadowOrbs` - Shadow Orbs
  * `player.fury` - Fury (Demon Hunter)
+ * `player.pain` - Pain (Demon Hunter)
  * `player.hasProc` - returns true if the player has a proc (either mastery, crit, haste, int, strength or agility)
  * `player.hasMasteryProc` - returns true if the player has a mastery proc
  * `player.hasCritProc` - returns true if the player has a crit proc
@@ -267,20 +271,7 @@ Members:
  * `player.gcd` - returns the current global cooldown
  * `player.bloodlust` - returns true if th player has bloodlus (or heroism, time warp...)
  * `player.timeToNextHolyPower` - returns the time until the next holy power (including the gcd or cast time of the next power generating spell)
- * `player.bloodRunes` - returns the number of blood runes (including blood death runes!)
- * `player.frostRunes` - returns the number of frost runes (including frost death runes!)
- * `player.unholyRunes` - returns the number of unholy runes (including unholy death runes!)
- * `player.allRunes` - returns the total number of active runes
- * `player.bloodDeathRunes` - returns the number of blood runes which currently are converted to death runes
- * `player.frostDeathRunes` - returns the number of frost runes which currently are converted to death runes
- * `player.unholyDeathRunes` - returns the number of unholy runes which currently are converted to death runes
- * `player.bloodFraction` - returns the fraction of blood runes: 0.0 (no runes) to 2.0 (two runes)
- * `player.frostFraction` - returns the fraction of frost runes: 0.0 (no runes) to 2.0 (two runes)
- * `player.unholyFraction` - returns the fraction of unholy runes: 0.0 (no runes) to 2.0 (two runes)
- * `player.bloodOrDeathRunes` - returns the number of blood or death runes
- * `player.frostOrDeathRunes` - returns the number of frost or death runes
- * `player.unholyOrDeathRunes` - returns the number of unholy or death runes
- * `player.deathRunes` - returns the number of death runes
+ * `player.Runes` - returns the total number of active runes
  * `player.hasSealOfTruth` - returns if the player has the seal of truth
  * `player.hasSealOfRighteousness` - returns if the player has the seal of righteousness
  * `player.hasSealOfJustice` - returns if the player has the seal of justice

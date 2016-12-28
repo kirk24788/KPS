@@ -5,6 +5,7 @@ Exception used in all Python KPS modules.
 """
 import logging
 import os
+import re
 
 
 class KpsError(Exception):
@@ -75,7 +76,7 @@ def parse_rotation_meta(class_name, spec_name):
     for meta_key, meta_data in raw_meta_info.iteritems():
         if len(meta_key) > 1:
             meta_info[meta_key[1:]] = " ".join(meta_data)
-    
+
     required_keys = ["version", "module"]
     for key in required_keys:
         if not key in meta_info.keys():
@@ -84,4 +85,9 @@ def parse_rotation_meta(class_name, spec_name):
         raise Exception("Invalid Meta-Information for %s_%s.lua - No '@author' and '@generated_from' are mutually exclusive" % (class_name, spec_name))
     if "author" not in meta_info.keys() and "generated_from" not in meta_info.keys():
         raise Exception("Invalid Meta-Information for %s_%s.lua - One of '@author' and '@generated_from' is required!" % (class_name, spec_name))
+    # Clean up authors, if multiple
+    if "author" in meta_info.keys():
+        authors = re.split(r"\.|&|/", meta_info["author"]) #meta_info["author"].split("&")
+        meta_info["authors"] = map(str.lower, map(str.strip, authors))
+
     return meta_info
