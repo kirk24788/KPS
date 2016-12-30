@@ -86,3 +86,12 @@ function kps.classes.isPlayerClass(class)
     local _,_,classId = UnitClass("player")
     return classToNumber(class) == classId
 end
+function kps.classes.isPlayerSpec(class,spec)
+    local _,_,classId = UnitClass("player")
+    local specId = GetSpecialization()
+    if specId then
+        return classToNumber(class) == classId and specNames[classId][specId] == spec
+    else
+        return false
+    end
+end

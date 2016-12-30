@@ -8,6 +8,7 @@ local LOG = kps.Logger(kps.LogLevel.INFO)
 
 local iconSize = 36
 local iconOffset = 4
+local maxCustomButtons = 5
 local shadowTexture = "Interface\\AddOns\\KPS\\Media\\shadow.tga"
 local borderTexture = "Interface\\AddOns\\KPS\\Media\\border.tga"
 local borderTextureFailed = "Interface\\AddOns\\KPS\\Media\\border_red.tga"
@@ -15,7 +16,8 @@ local borderTextureActive = "Interface\\AddOns\\KPS\\Media\\border_green.tga"
 
 local allToggleFrames = {}
 
-local function createToggleButton(id, parent, anchorOffset, texture, description)
+local function createToggleButton(id, parent, offsetIndex, texture, description, customButton)
+    local anchorOffset = (iconSize+iconOffset) * offsetIndex
     -- Create Frame
     local frame = CreateFrame("Button", "toggleKPS_"..id, parent)
     if anchorOffset == 0 then
@@ -88,6 +90,35 @@ local function createToggleButton(id, parent, anchorOffset, texture, description
             frame.updateState()
         end)
     end
+    -- id change
+    frame.changeId = function(id, description)
+        kps[id] = false
+        frame.updateState = function(self)
+            if kps[id] then
+                frame.border:SetTexture(borderTextureActive)
+            else
+                frame.border:SetTexture(borderTexture)
+            end
+        end
+        if description == nil then
+            description = "kps." .. id
+        end
+        frame:SetScript("OnClick", function(self, button)
+            kps[id] = not kps[id]
+            if kps[id] then
+                kps.write(description, "enabled")
+            else
+                kps.write(description, "disabled")
+            end
+            frame.updateState()
+        end)
+        frame:SetScript("OnEnter", function(self)
+            GameTooltip:SetOwner(self, "ANCHOR_TOP")
+            GameTooltip:SetText(description)
+            GameTooltip:Show()
+        end)
+        frame.updateState()
+    end
     -- tooltip
     if anchorOffset == 0 then
         frame:SetScript("OnEnter", function(self)
@@ -108,17 +139,13 @@ local function createToggleButton(id, parent, anchorOffset, texture, description
     frame:SetScript("OnLeave", function(self) GameTooltip:Hide() end)
     -- show
     frame:Show()
-    table.insert(allToggleFrames, frame)
+    if customButton == nil then
+        table.insert(allToggleFrames, frame)
+    end
     return frame
 end
 
 local toggleAnchor = createToggleButton("enabled", UIParent, 0, "Interface\\AddOns\\KPS\\Media\\kps.tga")
-local nextToggleOffset = 1
-function kps.gui.createToggle(id, texture, description)
-    local toggle = createToggleButton(id, toggleAnchor, (iconSize+iconOffset) * nextToggleOffset, texture, description)
-    nextToggleOffset = nextToggleOffset + 1
-    return toggle
-end
 
 function kps.gui.updateToggleStates()
     for _, frame in pairs(allToggleFrames) do
@@ -164,12 +191,54 @@ toggleAnchor:SetScript("OnClick", function(self,button)
     end
 end)
 
-kps.gui.createToggle("multiTarget", "Interface\\Icons\\achievement_arena_5v5_3", "MultiTarget")
-kps.gui.createToggle("cooldowns", "Interface\\Icons\\Spell_Holy_BorrowedTime", "Cooldowns")
-kps.gui.createToggle("interrupt", "Interface\\Icons\\Spell_Misc_EmotionHappy", "Interrupts")
-kps.gui.createToggle("defensive", "Interface\\Icons\\INV_Shield_05", "Defensive")
-kps.gui.createToggle("autoTurn", "Interface\\Icons\\misc_arrowleft", "AutoTurn")
+createToggleButton("multiTarget", toggleAnchor, 1, "Interface\\Icons\\achievement_arena_5v5_3", "MultiTarget")
+createToggleButton("cooldowns", toggleAnchor, 2, "Interface\\Icons\\Spell_Holy_BorrowedTime", "Cooldowns")
+createToggleButton("interrupt", toggleAnchor, 3, "Interface\\Icons\\spell_deathknight_mindfreeze", "Interrupts")
+createToggleButton("defensive", toggleAnchor, 4, "Interface\\Icons\\INV_Shield_05", "Defensive")
+createToggleButton("autoTurn", toggleAnchor, 5, "Interface\\Icons\\misc_arrowleft", "AutoTurn")
 
+
+local customToggleData = {}
+local customSpecButtons = {}
+local nextCustomSpecButtonId = 0
+for i=0,maxCustomButtons-1 do
+    customSpecButtons[i] = createToggleButton("custom"..i, toggleAnchor, 6+i, "Interface\\Icons\\inv_misc_questionmark", "?", true)
+    customSpecButtons[i]:Hide()
+end
+local resetCustomSpecButtons = function ()
+    for i=0,maxCustomButtons-1 do
+        customSpecButtons[i]:Hide()
+    end
+    nextCustomSpecButtonId = 0
+end
+
+function kps.gui.updateCustomToggles()
+    for i=0,maxCustomButtons-1 do
+        customSpecButtons[i]:Hide()
+    end
+    local key = kps.classes.getCurrentKey()
+    if customToggleData[key] ~= nil then
+        local nextCustomSpecButtonId = 0
+        for id,data in pairs(customToggleData[key]) do
+            if nextCustomSpecButtonId < maxCustomButtons then
+                customSpecButtons[nextCustomSpecButtonId]:Show()
+                customSpecButtons[nextCustomSpecButtonId].changeId(id, data.description)
+                customSpecButtons[nextCustomSpecButtonId].texture:SetTexture(data.texture)
+                nextCustomSpecButtonId = nextCustomSpecButtonId + 1
+            end
+        end
+    end
+end
+kps.events.register("ACTIVE_TALENT_GROUP_CHANGED", kps.gui.updateCustomToggles)
+
+
+function kps.gui.addCustomToggle(className, specName, id, texture, description)
+    local key = kps.classes.toKey(className, specName)
+    if customToggleData[key] == nil then
+        customToggleData[key] = {}
+    end
+    customToggleData[key][id] = {texture = texture, description = description}
+end
 
 
 -- Change Border on Enter/Leave Combat
