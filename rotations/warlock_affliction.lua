@@ -93,10 +93,10 @@ kps.rotations.register("WARLOCK","AFFLICTION",
     }},
 
     -- Cast Summon Doomguard on cooldown.
-    {spells.summonDoomguard, 'kps.cooldowns'},
+    {spells.summonDoomguard, 'kps.cooldowns and not player.hasTalent(6, 1)'},
 
     -- Cast Grimoire: Felhunter on cooldown.
-    {spells.grimoireFelhunter, 'kps.cooldowns'},
+    {spells.grimoireFelhunter, 'kps.cooldowns and not player.hasTalent(6, 1)'},
 
     -- Cast Unstable Affliction as a Soul Shard dump.
     -- If you are talented into Absolute Corruption Icon Absolute Corruption, you should build up your Soul Shards then cast Unstable Affliction Icon Unstable Affliction several times in a row to compound the damage. It is most advantageous to do this during procs, such as trinkets or weapon enchant.
