@@ -3,7 +3,7 @@ AutoTurn Module
 ]]--
 local LOG = kps.Logger(kps.LogLevel.INFO)
 
-kps.events.register("UI_ERROR_MESSAGE", function(event_error)
+kps.events.register("UI_ERROR_MESSAGE", function(event_type, event_error)
       if kps.enabled and kps.autoTurn and  ((event_error == SPELL_FAILED_UNIT_NOT_INFRONT) or (event_error == ERR_BADATTACKFACING)) then
          if kps["env"].player ~= nil and not kps["env"].player.isMoving then
             kps.timers.create("Facing", 0.6)
