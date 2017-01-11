@@ -12,9 +12,9 @@ kps.rotations.register("DEATHKNIGHT","FROST",
     -- Cooldowns
     {{"nested"}, 'kps.cooldowns', {
         {spells.pillarOfFrost, 'player.hasBuff(spells.obliteration)'},
-        {spells.empowerRuneWeapon, 'player.Runes < 1 and player.hasBuff(spells.obliteration)'},
+        {spells.empowerRuneWeapon, 'player.runes < 1 and player.hasBuff(spells.obliteration)'},
         {spells.sindragosasFury, 'player.hasBuff(spells.obliteration)'},
-        {spells.obliteration, 'player.Runes >= 2 and player.runicPower >= 25'},
+        {spells.obliteration, 'player.runes >= 2 and player.runicPower >= 25'},
     }},
 
     -- Have Obliteration Buff
@@ -46,7 +46,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
     -- Single Target Rotation
     {{"nested"}, 'activeEnemies.count <= 1 and target.isAttackable', {
         {spells.howlingBlast, 'target.distance <= 30 and not target.hasMyDebuff(spells.frostFever) or target.myDebuffDuration(spells.frostFever) <= 2 or player.hasBuff(spells.rime) and not player.hasBuff(spells.obliteration)'},
-        {spells.obliterate, 'player.hasBuff(spells.killingMachine) or player.Runes > 2'},
+        {spells.obliterate, 'player.hasBuff(spells.killingMachine) or player.runes > 2'},
         {spells.remorselessWinter, 'target.distance <= 5'},
         {spells.frostStrike, 'not player.hasBuff(spells.icyTalons) or player.buffDuration(spells.icyTalons) <= 2 or player.runicPower >= 40'},
     }},

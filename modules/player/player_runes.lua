@@ -45,8 +45,21 @@ local function cooldownFraction(a,b)
 end
 
 --[[[
-@function `player.Runes` - returns the total number of active runes
+@function `player.runes` - returns the total number of active runes
 ]]--
-function Player.Runes(self)
+function Player.runes(self)
     return runes(1,2) + runes(3,4) + runes(5,6)
+end
+
+--[[[
+@function `player.runesCooldown` - returns the cooldown until the next rune is available
+]]--
+function Player.runesCooldown(self)
+    updatesRunes()
+    local cd = 9999
+    for i = 1,6,1 do
+        if runesReady[i] then return 0 end
+        if runesCooldown[i] > 0 and cd > runesCooldown[i] then cd = runesCooldown[i] end
+    end
+    return cd
 end

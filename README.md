@@ -271,7 +271,8 @@ Members:
  * `player.gcd` - returns the current global cooldown
  * `player.bloodlust` - returns true if th player has bloodlus (or heroism, time warp...)
  * `player.timeToNextHolyPower` - returns the time until the next holy power (including the gcd or cast time of the next power generating spell)
- * `player.Runes` - returns the total number of active runes
+ * `player.runes` - returns the total number of active runes
+ * `player.runesCooldown` - returns the cooldown until the next rune is available
  * `player.hasSealOfTruth` - returns if the player has the seal of truth
  * `player.hasSealOfRighteousness` - returns if the player has the seal of righteousness
  * `player.hasSealOfJustice` - returns if the player has the seal of justice
