@@ -354,6 +354,10 @@ Members:
  * `<UNIT>.debuffDuration(<SPELL>)` - returns the remaining duration of the given debuff
  * `<UNIT>.debuffStacks(<SPELL>)` - returns the debuff stacks on for the given <SPELL> on this unit
  * `<UNIT>.buffStacks(<SPELL>)` - returns the buff stacks on for the given <SPELL> on this unit
+ * `<UNIT>.debuffCount(<SPELL>)` - returns the number of different debuffs (not counting the stacks!) on for the given <SPELL> on this unit
+ * `<UNIT>.buffCount(<SPELL>)` - returns the number of different buffs (not counting the stacks!) on for the given <SPELL> on this unit
+ * `<UNIT>.myDebuffCount(<SPELL>)` - returns the number of different debuffs (not counting the stacks!) on for the given <SPELL> on this unit if the spells were cast by the player
+ * `<UNIT>.myBuffCount(<SPELL>)` - returns the number of different buffs (not counting the stacks!) on for the given <SPELL> on this unit if the spells were cast by the player
  * `<UNIT>.castTimeLeft` - returns the casting time left for this unit or 0 if it is not casting
  * `<UNIT>.channelTimeLeft` - returns the channeling time left for this unit or 0 if it is not channeling
  * `<UNIT>.isCasting` - returns true if the unit is casting (or channeling) a spell

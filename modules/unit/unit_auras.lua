@@ -60,12 +60,16 @@ end
 local myBuffDuration = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            local _,_,_,_,_,_,duration,caster,_,_,_ = UnitBuff(unit,spell.name)
-            if caster ~= "player" then return 0 end
-            if duration == nil then return 0 end
-            duration = duration-GetTime()
-            if duration < 0 then return 0 end
-            return duration
+            for i=1,40 do
+                local name,_,_,_,_,duration,endTime,caster,_,_ = UnitBuff(unit,i)
+                if caster=="player" and name == spell.name then
+                    if endTime==nil then return 0 end
+                    local timeLeft = endTime-GetTime() -- lag?
+                    if timeLeft < 0 then return 0 end
+                    return timeLeft
+                end
+            end
+            return 0
         end
         t[unit] = val
         return val
@@ -80,12 +84,16 @@ end
 local myDebuffDuration = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            local _,_,_,_,_,_,endTime,caster,_,_ = UnitDebuff(unit,spell.name)
-            if caster~="player" then return 0 end
-            if endTime==nil then return 0 end
-            local duration = endTime-GetTime() -- lag?
-            if duration < 0 then return 0 end
-            return duration
+            for i=1,40 do
+                local name,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,i)
+                if caster=="player" and name == spell.name then
+                    if endTime==nil then return 0 end
+                    local timeLeft = endTime-GetTime() -- lag?
+                    if timeLeft < 0 then return 0 end
+                    return timeLeft
+                end
+            end
+            return 0
         end
         t[unit] = val
         return val
@@ -100,10 +108,14 @@ end
 local myDebuffDurationMax = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            local _,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,spell.name)
-            if caster~="player" then return 0 end
-            if endTime==nil then return 0 end
-            return duration
+            for i=1,40 do
+                local name,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,i)
+                if caster=="player" and name == spell.name then
+                    if endTime==nil then return 0 end
+                    return duration
+                end
+            end
+            return 0
         end
         t[unit] = val
         return val
@@ -184,5 +196,94 @@ local buffStacks = setmetatable({}, {
     end})
 function Unit.buffStacks(self)
     return buffStacks[self.unit]
+end
+
+
+--[[[
+@function `<UNIT>.debuffCount(<SPELL>)` - returns the number of different debuffs (not counting the stacks!) on for the given <SPELL> on this unit
+]]--
+local debuffCount = setmetatable({}, {
+    __index = function(t, unit)
+        local val = function (spell)
+            local count = 0
+            for i=1,40 do
+                local name,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,i)
+                if caster=="player" and name == spell.name then
+                    count = count + 1
+                end
+            end
+            return count
+        end
+        t[unit] = val
+        return val
+    end})
+function Unit.debuffCount(self)
+    return debuffCount[self.unit]
+end
+
+--[[[
+@function `<UNIT>.buffCount(<SPELL>)` - returns the number of different buffs (not counting the stacks!) on for the given <SPELL> on this unit
+]]--
+local buffCount = setmetatable({}, {
+    __index = function(t, unit)
+        local val = function (spell)
+            local count = 0
+            for i=1,40 do
+                local name,_,_,_,_,duration,endTime,caster,_,_ = UnitBuff(unit,i)
+                if name == spell.name then
+                    count = count + 1
+                end
+            end
+            return count
+        end
+        t[unit] = val
+        return val
+    end})
+function Unit.buffCount(self)
+    return buffCount[self.unit]
+end
+
+--[[[
+@function `<UNIT>.myDebuffCount(<SPELL>)` - returns the number of different debuffs (not counting the stacks!) on for the given <SPELL> on this unit if the spells were cast by the player
+]]--
+local myDebuffCount = setmetatable({}, {
+    __index = function(t, unit)
+        local val = function (spell)
+            local count = 0
+            for i=1,40 do
+                local name,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,i)
+                if name == spell.name then
+                    count = count + 1
+                end
+            end
+            return count
+        end
+        t[unit] = val
+        return val
+    end})
+function Unit.myDebuffCount(self)
+    return myDebuffCount[self.unit]
+end
+
+--[[[
+@function `<UNIT>.myBuffCount(<SPELL>)` - returns the number of different buffs (not counting the stacks!) on for the given <SPELL> on this unit if the spells were cast by the player
+]]--
+local myBuffCount = setmetatable({}, {
+    __index = function(t, unit)
+        local val = function (spell)
+            local count = 0
+            for i=1,40 do
+                local name,_,_,_,_,duration,endTime,caster,_,_ = UnitBuff(unit,i)
+                if caster=="player" and name == spell.name then
+                    count = count + 1
+                end
+            end
+            return count
+        end
+        t[unit] = val
+        return val
+    end})
+function Unit.myBuffCount(self)
+    return myBuffCount[self.unit]
 end
 
