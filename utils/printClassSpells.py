@@ -45,6 +45,8 @@ ADDITIONAL_SPELLS = {
         195072,  # Fel Rush
     ], "druid": [164545,164547,117679,135201,
         155777, # Rejuvination (Germination)
+        202768, # Half Moon
+        202771, # Full Moon
     ],"hunter": [
         187131, # Vulnerable
         223138, # Marking Targets
@@ -71,7 +73,9 @@ ADDITIONAL_SPELLS = {
         63106, # Siphon Life
         216457, # Shard Instability
         211714, # Thal'kiel's Consumption
-    ],"warrior": [],
+    ],"warrior": [
+        85739, # Meat Cleaver
+    ],
 }
 
 SPELL_ID_BLACKLIST = [

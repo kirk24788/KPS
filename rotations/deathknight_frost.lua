@@ -28,7 +28,7 @@ kps.rotations.register("DEATHKNIGHT","FROST",
 
         {spells.deathStrike, 'player.hp < 0.8 and player.runicPower >= 45'},
         --{ {"macro"}, 'player.hp < 0.7', "/use Healthstone" },
-        {spells.iceboundFortitud, 'player.hp < 0.5'},
+        {spells.iceboundFortitude, 'player.hp < 0.5'},
         {spells.antimagicShell, 'player.hp < 0.5 and target.isInterruptable'},
 
     }},

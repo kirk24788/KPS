@@ -42,7 +42,7 @@ kps.rotations.register("DEATHKNIGHT","UNHOLY",
 
     -- Def CD's
     {{"nested"}, 'kps.defensive', {
-        {spells.iceboundFortitud, 'player.hp < 0.3'},
+        {spells.iceboundFortitude, 'player.hp < 0.3'},
         {spells.deathStrike, 'player.hp < 0.5 or player.hasBuff(spells.darkSuccor)'},
         {spells.antimagicShell, 'player.hp < 0.5 and (spells.mindFreeze).cooldown and target.isInterruptable'},
         { {"macro"}, 'kps.useBagItem and player.hp < 0.7', "/use Healthstone" },

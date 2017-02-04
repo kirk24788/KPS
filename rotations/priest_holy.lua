@@ -8,14 +8,6 @@ local env = kps.env.priest
 
 kps.rotations.register("PRIEST","HOLY",
 {
-
-    -- Cooldowns
-    {{"nested"}, 'kps.cooldowns and not player.isMoving', {
-        {spells.innervate, 'player.mana < 0.7'},
-        {spells.essenceOfGhanir, 'player.mana < 0.7'},
-        {spells.tranquility, 'not player.isMoving and heal.averageHpIncoming < 0.8'},
-    }},
-
     -- Def CD's
     {{"nested"}, 'kps.defensive', {
         { {"macro"}, 'kps.useBagItem and player.hp < 0.8', "/use Healthstone" },
