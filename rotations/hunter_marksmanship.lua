@@ -25,9 +25,9 @@ kps.rotations.register("HUNTER","MARKSMANSHIP",
     {spells.trueshot, 'kps.cooldowns'},
 
     --DPS
-    {spells.markedShot, 'not target.hasDebuff(kps.Spell.fromId(187131) or target.myDebuffDuration(kps.Spell.fromId(187131)) < 2)'},
-    {spells.aimedShot, 'target.myDebuffDuration(kps.Spell.fromId(187131)) >= 2'},
-    {spells.sidewinders, '(player.hasBuff(kps.Spell.fromId(223138)) and player.focus >= 60) or spells.sidewinders.charges == 2'},
+    {spells.markedShot, 'not target.hasMyDebuff(spells.vulnerable) or target.myDebuffDuration(spells.vulnerable) < 2)'},
+    {spells.aimedShot, 'target.myDebuffDuration(spells.vulnerable) >= 2'},
+    {spells.sidewinders, '(player.hasBuff(spells.markingTargets) and player.focus >= 60) or spells.sidewinders.charges == 2'},
     {spells.aMurderOfCrows},
     {spells.aimedShot, 'player.focus >= 130'},
 
