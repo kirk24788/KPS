@@ -1,22 +1,10 @@
 --[[[
 @module Warlock Affliction Rotation
 @author Kirk24788
-@version 7.0.3
+@version 7.1.5
 ]]--
 local spells = kps.spells.warlock
 local env = kps.env.warlock
-
-
---[[
-Suggested Talents:
-Level 15: Writhe in Agony
-Level 30: Absolute Corruption
-Level 45: Demon Skin
-Level 60: Siphon Life
-Level 75: Burning Rush
-Level 90: Grimoire of Service
-Level 100: Soul Effigy
-]]--
 
 kps.runAtEnd(function()
     kps.gui.addCustomToggle("WARLOCK","AFFLICTION", "multiBoss", "Interface\\Icons\\achievement_boss_lichking", "MultiDot Bosses")
@@ -114,3 +102,35 @@ kps.rotations.register("WARLOCK","AFFLICTION",
     {spells.drainLife},
 }
 ,"Icy Veins", {-1,-3,0,-3,0,-2,1})
+
+
+
+kps.rotations.register("WARLOCK","AFFLICTION",
+{
+    -- Cast Life Tap when you have to move, providing your DoTs are all fully refreshed.
+    {spells.lifeTap, 'player.mana < 0.4'},
+
+    -- Deactivate Burning Rush if not moving for 1 second
+    env.deactivateBurningRushIfNotMoving(1),
+
+    -- Differ between bosses and trash
+    {{"nested"}, 'kps.multiBoss or boss1.exists', {
+        {spells.agony, 'target.myDebuffDuration(spells.agony) <= 7.2'},
+        {spells.corruption, 'target.myDebuffDuration(spells.corruption) <= 5.4'},
+        {spells.unstableAffliction, 'target.myDebuffCount(spells.unstableAffliction) < 2'},
+        {spells.reapSouls, 'player.hasBuff(spells.tormentedSouls) and not player.hasBuff(spells.thalkielsConsumption)'},
+        {spells.drainSoul},
+    }},
+    {{"nested"}, 'not kps.multiBoss and not boss1.exists', {
+        {spells.agony, 'target.myDebuffDuration(spells.agony) <= 7.2'},
+        {spells.agony, 'focus.myDebuffDuration(spells.agony) <= 7.2', 'focus'},
+        {spells.agony, 'mouseover.myDebuffDuration(spells.agony) <= 7.2', 'mouseover'},
+        {spells.reapSouls, 'player.buffStacks(spells.tormentedSouls) >= 2 and not player.hasBuff(spells.thalkielsConsumption)'},
+        {spells.seedOfCorruption},
+        {spells.corruption, 'not target.hasDebuff(spells.corruption)'},
+        {spells.corruption, 'not focus.hasDebuff(spells.corruption)', 'focus'},
+        {spells.corruption, 'not mouseover.hasDebuff(spells.corruption)', 'mouseover'},
+    }},
+}
+,"Mythic+", {3,1,0,2,0,3,3})
+

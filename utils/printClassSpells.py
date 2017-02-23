@@ -73,6 +73,9 @@ ADDITIONAL_SPELLS = {
         63106, # Siphon Life
         216457, # Shard Instability
         211714, # Thal'kiel's Consumption
+        216695, # Tormented Souls
+        216708, # Deadwind Harvester
+
     ],"warrior": [
         85739, # Meat Cleaver
     ],
