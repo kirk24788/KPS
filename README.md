@@ -49,30 +49,24 @@ Copyright (C) 2015 Mario Mancino
 
 All DPS Specs have at least one rotation automatically generated from SimCraft - those might not be fully functional and aren't tested.
 
-**Fully Supported in 7.0.3:**
+**Fully Supported in 7.1.5:**
 
-* Deathknight: Blood, Frost, Unholy
-* Demonhunter: Havoc
-* Druid: Balance, Feral, Guardian, Restoration
-* Hunter: Beastmaster, Marksmanship
-* Mage: Fire
-* Paladin: Retribution
-* Priest: Holy
-* Rogue: Outlaw
-* Shaman: Enhancement
-* Warlock: Affliction, Demonology, Destruction
-* Warrior: Arms, Fury
-
-**Untested Rotations in 7.0.3:**
-
-* Demonhunter: Vengeance
-* Monk: Mistweaver
-* Paladin: Holy
-* Shaman: Restoration
+* Warlock: Affliction
 
 **Outdated Rotations:**
 
-* Priest: Shadow (6.2.2)
+* Deathknight: Blood (7.0.3), Frost (7.0.3), Unholy (7.0.3)
+* Demonhunter: Havoc (7.0.3), Vengeance (7.0.3)
+* Druid: Balance (7.0.3), Feral (7.0.3), Guardian (7.0.3), Restoration (7.0.3)
+* Hunter: Beastmaster (7.0.3), Marksmanship (7.0.3)
+* Mage: Fire (7.0.3)
+* Monk: Mistweaver (7.0.3)
+* Paladin: Holy (7.0.3), Retribution (7.0.3)
+* Priest: Holy (7.0.3), Shadow (6.2.2)
+* Rogue: Outlaw (7.0.3)
+* Shaman: Enhancement (7.0.3), Restoration (7.0.3)
+* Warlock: Demonology (7.0.3), Destruction (7.0.3)
+* Warrior: Arms (7.0.3), Fury (7.0.3)
 
 **Automatically Generated Rotations:**
 _(Might not be fully functional)_
@@ -85,14 +79,6 @@ _(Might not be fully functional)_
 * Rogue: Assassination (7.0.3), Subtlety (7.0.3)
 * Shaman: Elemental (7.0.3)
 * Warrior: Protection (7.0.3)
-
-**Special Thanks for contributing to the KPS rotations:**
-
-* fourdots
-* markusem
-* silk_sn
-* subzrk
-* xvir
 
 
 
@@ -386,6 +372,221 @@ Members:
  * `<UNIT>.inVehicle` - returns true if the given unit is inside a vehicle.
  * `<UNIT>.isHealable` - returns true if the give unit is healable by the player.
  * `<UNIT>.hasPet` - returns true if the given unit has a pet.
+
+
+### Rotations
+It is pretty simple to write your own rotation. The easiest way is to extend one of the rotation files in `rotations/CLASSNAME_SPECNAME.lua`.
+But you may be better of if you create a seperate file or even another addon.
+
+#### Rotation File Skeleton
+No matter which way you choose, you should always start your
+rotation with.
+```
+local spells = kps.spells.classname
+local env = kps.env.classname
+```
+
+Replace `classname` with whatever class you're writing this rotation for. While not needed, this local definitions help you to write easier to read rotations.
+
+Next will be your rotation(s), they can be registered with `kps.rotations.register(...)`. This function takes 4-5 parameters:
+
+1. Classname (Uppercase String, e.g.: "SHAMAN")
+1. Specname (Uppercase String, e.g.: "ENHANCEMENT")
+1. Rotation Table
+1. Description of the Rotation (will be shown in Dropdown if multiple Rotations exist)
+1. _Optional:_ Required Talents for this Spec
+
+```
+kps.rotations.register("SHAMAN","ENHANCEMENT",
+{
+...
+}
+,"shaman enhancement", {...})
+```
+
+#### Rotation Table
+This is your actual rotation, every element is evaluated until a tuple containing the spell object and a target are returned. The elements can be one of:
+
+ * Simple Cast
+ * Cast Sequence
+ * Function
+ * Macro
+ * Nested Rotation Table
+
+##### Simple Cast
+_Syntax:_
+```
+  {SPELL, CONDITION, TARGET}
+```
+
+*SPELL*
+The first element is mandatory, and must be a spell object - e.g.: `spells.lavaLash` - this is the reason why we needed the `local spells = kps.spells.classname` in the rotation skeleton, else we would also have to write `kps.spells.shaman.lavaLash`.
+
+*CONDITION*
+The second element is a little more complex, usually this is a string, like `'player.soulShards >= 3'`. For a detailed description
+on the availabe modules check the _Rotation Modules_ section, but you can also call Lua functions within the condition.
+
+But you can also supply a function here (_the function itself, not a call to a function!_). This function must not take any parameters
+and should return a boolean value, like:
+```
+local function myCondition()
+    return kps.env.player.soulShards >= 3
+end
+
+kps.rotations.register(
+...
+  {spells.chaosBolt, myCondition , "target"},
+...
+)
+```
+This would have the same effect as the string, but this should be avoided in most cases. The string will be compiled and doesn't need
+to be parsed every time, so there is no speed benefit here to gain.
+
+And finally you can also omit this parameter completely, if you want this spell to be case always (but you have to omit the target also!):
+```
+  {spells.incinerate},
+```
+
+*TARGET*
+Just like the _CONDITION_, the _TARGET_ can either be a WoW Target String (e.g. `'target'` or `'focus'`).
+
+But it can also be a function. This is pretty important if you have a healing rotation, e.g.:
+```
+    {spells.flashHeal, 'heal.defaultTank.hp < 0.4', kps.heal.defaultTank},
+```
+
+
+##### Cast Sequence
+_Syntax:_
+```
+  {{SPELL, SPELL, SPELL,...}, CONDITION, TARGET}
+```
+This is basically the same as a simple cast, but instead of a single spell you supply a table of multiple spells.
+If the condition is met, each spell will be cast in the give order at the given target.
+
+##### Function
+If you want, you can also supply a function instead of a table, this function must return a spell object and a target string:
+```
+local function mySpellFunction()
+    if kps.env.player.soulShards >= 3 then
+        return spells.chaosBolt, "target"
+    end
+end
+
+kps.rotations.register(
+...
+  mySpellFunction,
+...
+)
+```
+
+While this might not be as useful on first sight - after all it could be written much easier, it can be used to trigger complex conditions like:
+```
+local burningRushLastMovement = 0
+local function deactivateBurningRush()
+    local player = kps.env.player
+    if player.isMoving or not player.hasBuff(kps.spells.warlock.burningRush) then
+        burningRushLastMovement = GetTime()
+    else
+        local nonMovingDuration = GetTime() - burningRushLastMovement
+        if nonMovingDuration >= 1 then
+            RunMacroText("/cancelaura " .. kps.spells.warlock.burningRush)
+        end
+    end
+end
+
+kps.rotations.register(
+...
+  deactivateBurningRush,
+...
+)
+```
+
+##### Macro
+_Syntax:_
+```
+  {{"macro"}, CONDITION, MACRO_TEXT}
+```
+You can also run simple macro commands. You only have to set the first element to `{"macro"}` (all lowercase!).
+
+The condition is the same as in _Simple Spell_ or _Cast Sequence_.
+
+The *MACRO_TEXT* is a string containing your command, e.g.:`'/use Healthstone'`.
+
+##### Nested Rotation Table
+_Syntax:_
+```
+  {{"nested"}, CONDITION, { ... }}
+```
+You can also nest rotation tables, you only have to set the first element to `{"nested"}` (all lowercase!).
+
+The condition is still the same as in _Simple Spell_, _Cast Sequence_ or _Macro_.
+
+The third element is another Rotation Table which gets evaluated if the condition matches. This has two advantages, for once
+it makes your conditions easier to read, as you don't have to repeat the common conditions and your rotation gets slightly faster.
+
+
+#### Required Talents Table
+If your rotation requires specific talents, you can use the optional fifth parameter of `kps.rotations.register(...)`.
+This *must* be a Table with 7 elements (one for each talent row).
+KPS will write a warning if the talent requirements are not met once per fight, but not more than once per minute.
+
+Each element stands for one Talent Tier and should have numeric values between `-3` and `+3`:
+
+ * If the value is `0` than this Tier doesn't have any requiremnts.
+ * If the value is positive, this tier must have the given talent (e.g.: `1` = _first talent_).
+ * If the value is negative, this tier must have any talent but not the given (e.g.: `-2` = _first or third talent_)
+
+_Example:_
+```
+{3,0,0,-1,-2,1,2}
+-- Tier   1: Third Talent must be selected
+-- Tier 2/3: No Requirements
+-- Tier   4: First or Second Talant must be selected
+-- Tier   5: First or Thirst Talant must be selected
+-- Tier   6: First Talent must be selected
+-- Tier   7: Second Talent must be selected
+```
+
+### Custom Functions
+In some cases you might need some custom functions, which are only relevant to a specific class. Those can be registered in the
+environment and can be used within your conditions:
+```
+local burnPhase = false
+function kps.env.mage.burnPhase()
+    if not burnPhase then
+        burnPhase = kps.env.player.timeInCombat < 5 or kps.spells.mage.evocation.cooldown < 2
+    else
+        burnPhase = kps.env.player.mana > 0.35
+    end
+    return burnPhase
+end
+
+kps.rotations.register(
+...
+    {spells.arcaneMissiles, 'burnPhase()', "target"  },
+...
+)
+```
+
+Don't forgot to actually call this function within your condition, a simple `'burnPhase'` would always yield `true`.
+
+You can also use functions with parameters:
+```
+function kps.env.warlock.isHavocUnit(unit)
+    if not UnitExists(unit) then  return false end
+    if UnitIsUnit("target",unit) then return false end
+    return true
+end
+
+
+kps.rotations.register(
+...
+    {spells.havoc, 'isHavocUnit("focus") and focus.isAttackable', "focus"  },
+...
+)
+```
+
 
 
 ### Open Issues
