@@ -601,7 +601,6 @@ kps.rotations.register(
  * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
  * `modules/unit/unit_casting.lua:62` - Blacklisted spells?
  * `modules/unit/unit_casting.lua:69` - Reimplement JPS Code
- * `modules/unit/unit_powers.lua:47` - TimeToDie
  * `modules/unit/unit_state.lua:13` - PvP
  * `modules/unit/unit_state.lua:26` - if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
  * `modules/unit/unit_state.lua:27` - Refactor!!!

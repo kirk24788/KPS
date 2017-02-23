@@ -40,14 +40,6 @@ function Unit.hpIncoming(self)
     return (UnitHealth(self.unit) + hpInc)/UnitHealthMax(self.unit)
 end
 
---[[
-@function `<UNIT>.timeToDie` - NOT YET WORKING!!!
-]]--
-function Unit.timeToDie(self)
-    --TODO: TimeToDie
-    return 666
-end
-
 --[[[
 @function `<UNIT>.mana` - returns the unit mana (in a range between 0.0 and 1.0).
 ]]--
