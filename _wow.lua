@@ -44,7 +44,7 @@ end
 function UnitManaMax(unit)
     return 300000
 end
-function UnitPower(token, idx,flag)
+function UnitPower(token,idx,flag)
     return 4
 end
 function GetSpellInfo(id)
@@ -112,6 +112,9 @@ function IsHarmfulSpell( ... )
     return true
 end
 function UnitIsUnit( ... )
+    return true
+end
+function UnitIsPVP( ... )
     return true
 end
 function UnitIsVisible( ... )

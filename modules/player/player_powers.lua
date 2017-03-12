@@ -122,9 +122,9 @@ function Player.chiMax(self)
     return UnitPowerMax("player", 12)
 end
 --[[[
-@function `player.shadowOrbs` - Shadow Orbs
+@function `player.insanity` -- SPELL_POWER_INSANITY 13 Legion Insanity are used by Shadow Priests
 ]]--
-function Player.shadowOrbs(self)
+function Player.insanity(self)
     return UnitPower("player", 13)
 end
 --[[[

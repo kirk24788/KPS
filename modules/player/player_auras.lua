@@ -18,6 +18,34 @@ function Player.isFalling(self)
     return IsFalling()
 end
 
+local IsFallingFor = function(delay)
+	if delay == nil then delay = 1 end
+	if not IsFalling() then kps.timers.reset("Falling") end
+	if IsFalling() then
+		if kps.timers.check("Falling") == 0 then kps.timers.create("Falling", delay * 2 ) end
+	end
+	if IsFalling() and kps.timers.check("Falling") > 0 and kps.timers.check("Falling") < delay then return true end
+	return false
+end
+
+function Player.isFallingFor(self)
+    return IsFallingFor
+end
+
+--[[[
+@function `player.IsSwimming` - returns true if the player is currently swimming.
+]]--
+function Player.isSwimming(self)
+    return IsSwimming()
+end
+
+--[[[
+@function `player.isInRaid` - returns true if the player is currently in Raid.
+]]--
+function Player.isInRaid(self)
+    return IsInRaid()
+end
+
 local combatEnterTime = 0
 --[[[
 @function `player.timeInCombat` - returns number of seconds in combat
@@ -69,4 +97,59 @@ local function hasGlyph(glyph)
 end
 function Player.hasGlyph(self)
     return hasGlyph
+end
+
+
+--[[[
+@function `player.useItem(<ITEMID>)` - returns true if the player has the given item and cooldown == 0
+]]--
+local itemCooldown = function(item)
+	if item == nil then return 999 end
+	local start,duration,enable = GetItemCooldown(item) -- GetItemCooldown(ItemID) you MUST pass in the itemID.
+	local usable = select(1,IsUsableItem(item))
+	local itemName,_ = GetItemSpell(item) -- Useful for determining whether an item is usable.
+	if not usable then return 999 end
+	if not itemName then return 999 end
+	if enable == 0 then return 999 end 
+	local cd = start+duration-GetTime()
+	if cd < 0 then return 0 end
+	return cd
+end
+
+local useItem = function(item)
+	local cd = itemCooldown(item)
+	if cd == 0 then return true end
+	return false
+end
+
+function Player.useItem(self)
+	return useItem
+end
+
+
+--[[[
+@function `player.useTrinket(<SLOT>)` - returns true if the player has the given trinket and cooldown == 0
+]]--
+-- For trinket's. Pass 0 or 1 for the slot.
+-- { "macro", Player.useTrinket(0) , "/use 13"},
+-- { "macro", Player.useTrinket(1) , "/use 14"},
+local useTrinket = function(trinketNum)
+	-- The index actually starts at 0
+	local slotName = "Trinket"..(trinketNum).."Slot" -- "Trinket0Slot" "Trinket1Slot"
+	-- Get the slot ID
+	local slotId = select(1,GetInventorySlotInfo(slotName)) -- "Trinket0Slot" est 13 "Trinket1Slot" est 14
+	-- get the Trinket ID
+	local trinketId = GetInventoryItemID("player", slotId)
+	if not trinketId then return false end
+	-- Check if it's on cooldown
+	local trinketCd = itemCooldown(trinketId)
+	if trinketCd > 0 then return false end
+	-- Check if it's usable
+	local trinketUsable = GetItemSpell(trinketId)
+	if not trinketUsable then return false end
+	return true
+end
+
+function Player.useTrinket(self)
+	return useTrinket
 end

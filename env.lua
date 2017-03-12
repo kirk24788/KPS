@@ -96,44 +96,60 @@ envMeta.__index = function (table, key)
     return _G[key]
 end
 
+local toSpellName = function(spell)
+	local spellname = nil
+	if type(spell) == "string" then spellname = spell
+	elseif type(spell) == "number" then spellname = GetSpellInfo(spell) end
+	return spellname
+end
 
+local function IsSpellKnown(spell)
+	local name, texture, offset, numSpells, isGuild = GetSpellTabInfo(2)
+	local mySpell = nil
+	local spellname = toSpellName(spell)
+	for index = offset+1, numSpells+offset do
+		-- Get the Global Spell ID from the Player's spellbook
+		local spellID = select(2,GetSpellBookItemInfo(index, "spell"))
+		local slotType = select(1,GetSpellBookItemInfo(index, "spell"))
+		local name = select(1,GetSpellBookItemName(index, "spell"))
+		if spellname == name and slotType ~= "FUTURESPELL" then
+			mySpell = spellname
+			break -- Breaking out of the for/do loop, because we have a match
+		end
+	end
+	if mySpell == nil then return false end
+	return true
+end
 
-
-local harmSpells = {}
+local HarmSpell = nil
+local HelpSpell = nil
 local function getHarmfulSpell()
-    local HarmSpell = nil
-    local HarmSpell40 = {}
-    local HarmSpell30 = {}
-    local HarmSpell20 = {}
-    local _, _, offset, numSpells, _ = GetSpellTabInfo(2)
-    local booktype = "spell"
-    for index = offset+1, numSpells+offset do
-        -- Get the Global Spell ID from the Player's spellbook
-        -- local spellname,rank,icon,cost,isFunnel,powerType,castTime,minRange,maxRange = GetSpellInfo(spellID)
-        local name = select(1,GetSpellBookItemName(index, booktype))
-        local spellID = select(2,GetSpellBookItemInfo(index, booktype))
-        local maxRange = select(6,GetSpellInfo(spellID))
-        local minRange = select(5,GetSpellInfo(spellID))
-        local harmful = IsHarmfulSpell(index, booktype)
-        if minRange ~= nil and maxRange ~= nil and harmful ~= nil then
-            if (maxRange > 39) and (harmful == true) and (minRange == 0) then
-                table.insert(HarmSpell40,name)
-            elseif (maxRange > 29) and (harmful == true) and (minRange == 0) then
-                table.insert(HarmSpell30,name)
-            elseif (maxRange > 19) and (harmful == true) and (minRange == 0) then
-                table.insert(HarmSpell20,name)
-            end
-        end
-    end
-    if HarmSpell40[1] then
-        HarmSpell = HarmSpell40[1]
-    elseif HarmSpell30[1] then
-        HarmSpell = HarmSpell30[1]
-    else
-        HarmSpell = HarmSpell20[1]
-    end
+	local _, _, offset, numSpells, _ = GetSpellTabInfo(2)
+	local harmdist = 0
+	local helpdist = 0
+	for index = offset+1, numSpells+offset do
+		-- Get the Global Spell ID from the Player's spellbook
+		local spell = select(1,GetSpellBookItemName(index, "spell"))
+		local spellID = select(2,GetSpellBookItemInfo(index, "spell"))
+		local minRange = select(5,GetSpellInfo(spellID))
+		if minRange == nil then minRange = 8 end
+		local maxRange = select(6,GetSpellInfo(spellID))
+		if maxRange == nil then maxRange = 0 end
+		local harmful = IsHarmfulSpell(spell)
+		local helpful = IsHelpfulSpell(spell)
+		if harmful and maxRange > 0 and minRange == 0 and IsSpellKnown(spellID) then
+			if maxRange > harmdist then
+				harmdist = maxRange
+				HarmSpell = spell
+			end
+		elseif helpful and maxRange > 0 and minRange == 0 and IsSpellKnown(spellID) then
+			if maxRange > helpdist then
+				helpdist = maxRange
+				HelpSpell = spell
+			end
+		end
+	end 
     if HarmSpell ~= nil then
-        harmSpells[HarmSpell] = true
         return kps.Spell.fromId(HarmSpell)
     else
         return kps.Spell.fromId(0)

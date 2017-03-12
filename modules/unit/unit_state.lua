@@ -30,6 +30,20 @@ function Unit.isAttackable(self)
 end
 
 --[[[
+@function `<UNIT>.isPVP` - returns true if the given unit is in PVP.
+]]--
+function Unit.isPVP(self)
+    return UnitIsPVP(self.unit)
+end
+
+--[[[
+@function `<UNIT>.inCombat` - returns true if the given unit is in Combat.
+]]--
+function Unit.inCombat(self)
+    return UnitAffectingCombat(self.unit)
+end
+
+--[[[
 @function `<UNIT>.isMoving` - returns true if the given unit is currently moving.
 ]]--
 function Unit.isMoving(self)

@@ -150,6 +150,9 @@ local function fnParseMacro(macroText, conditionFn)
         if conditionFn() then
             if not kps["env"].player.isCasting then
                 kps.runMacro(macroText)
+            elseif kps["env"].player.isCasting and string.find(macroText,"/stopcasting") ~= nil then
+               kps.runMacro("/stopcasting")
+               print("StopCasting")
             end
         end
         -- Macro's always return nil,nil to allow other spells to be cast! Actual macro casting is done within this function!
@@ -182,24 +185,19 @@ end
 
 local function fnParseTarget(target)
     if type(target) == "function" then
-        return function ()
-            local targetData = target()
-            if type(targetData) == "table" then
-                return targetData.unit
-            else
-                return targetData
-            end
+        return function()
+        	return target()
         end
     elseif type(target) == "table" then
-        return function ()
+        return function()
             return target.unit
         end
     elseif target == nil then
-        return function ()
+        return function()
             return "target"
         end
     else
-        return function ()
+        return function()
             return target
         end
     end
@@ -254,9 +252,13 @@ end
 
 ---[[[ Pop from Token List ]]--
 function parser.pop(tokens)
-    local t,v = unpack(tokens[1])
-    table.remove(tokens, 1)
-    return t,v
+	if tokens[1] then
+		local t,v = unpack(tokens[1])
+    	table.remove(tokens, 1)
+    	return t,v
+	else
+        return "iden",""
+    end
 end
 
 ---[[[ Pop from Function/Element List]]--
@@ -314,7 +316,7 @@ function parser.parseBrackets(tokens, bracketLevel)
     while #tokens > 0 do
         local t, v = parser.pop(tokens)
         if t == "(" then
-            table.insert(parsedBrackets, currentBracket)
+            --table.insert(parsedBrackets, currentBracket)
             table.insert(parsedBrackets, {"()", parser.parseBrackets(tokens, bracketLevel + 1)})
             parser.debugTokenList(" * parse.parseBrackets["..bracketLevel.."]", tokens)
         elseif t == ")" then

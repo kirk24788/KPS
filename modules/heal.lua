@@ -212,7 +212,20 @@ kps.RaidStatus.prototype.averageHpIncoming = kps.utils.cachedValue(function()
     return hpIncTotal / hpIncCount
 end)
 
+--[[[
+@function `heal.countInRange` - Returns the count for all raid members below health pct
+]]--
 
+kps.RaidStatus.prototype.countInRange = kps.utils.cachedValue(function(pct)
+	if pct == nil then pct = 1 end
+	local count = 0
+    for name, unit in pairs(raidStatus) do
+        if unit.hpIncoming < 0.80 then
+        	count = count + 1
+        end
+    end
+    return count
+end)
 
 local function findAggroTankOfUnit(targetUnit)
     local allTanks = tanksInRaid()
