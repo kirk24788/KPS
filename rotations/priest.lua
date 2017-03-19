@@ -20,7 +20,7 @@ local UnitDebuffDuration = function(spell,unit)
 	return timeLeft
 end
 
-function UnitHasBuff(spell,unit)
+local UnitHasBuff = function(spell,unit)
 	--if unit == nil then unit = "player" end
 	local spellname = tostring(spell)
 	if spellname == nil then return false end
@@ -28,17 +28,10 @@ function UnitHasBuff(spell,unit)
 	return false
 end
 
-local function HealthPct(unit)
-	return UnitHealth(unit) / UnitHealthMax(unit)
-end
-local function PlayerHasTalent(row,talent)
-	local _, talentRowSelected =  GetTalentTierInfo(row,1)
-	if talent == talentRowSelected then return true end
-	return false
-end
-
 function kps.env.priest.canCastvoidBolt()
-	--if kps.multiTarget then return false end
+	if kps.multiTarget then return false end
+	--local player = kps.env.player
+	--if not player.hasBuff(self,VoidFormBuff) then return false end
 	if not UnitHasBuff(VoidFormBuff,"player") then return false end
 	if kps.spells.priest.voidEruption.cooldown > 0 then return false end
 	local Channeling = UnitChannelInfo("player") -- "Mind Flay" is a channeling spell
@@ -97,7 +90,14 @@ function kps.env.priest.VoidBoltTarget()
 end
 
 
-
+local function HealthPct(unit)
+	return UnitHealth(unit) / UnitHealthMax(unit)
+end
+local function PlayerHasTalent(row,talent)
+	local _, talentRowSelected =  GetTalentTierInfo(row,1)
+	if talent == talentRowSelected then return true end
+	return false
+end
 function kps.env.priest.DeathEnemyTarget()
 	local deathEnemyTarget = nil
 	for i=1,#Enemy do -- for _,unit in ipairs(EnemyUnit) do
