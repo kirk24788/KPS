@@ -30,8 +30,7 @@ end
 
 function kps.env.priest.canCastvoidBolt()
 	if kps.multiTarget then return false end
-	--local player = kps.env.player
-	--if not player.hasBuff(self,VoidFormBuff) then return false end
+	--if not kps["env"].player.hasBuff(self,VoidFormBuff) then return false end
 	if not UnitHasBuff(VoidFormBuff,"player") then return false end
 	if kps.spells.priest.voidEruption.cooldown > 0 then return false end
 	local Channeling = UnitChannelInfo("player") -- "Mind Flay" is a channeling spell
@@ -72,7 +71,7 @@ end
 
 local Enemy = { "target", "focus" ,"mouseover" }
 function kps.env.priest.VoidBoltTarget()
-	local VoidBoltTarget = nil
+	local VoidBoltTarget = "target"
 	local VoidBoltTargetDuration = 24
 	for i=1,#Enemy do -- for _,unit in ipairs(EnemyUnit) do
 		local unit = Enemy[i]
@@ -99,7 +98,7 @@ local function PlayerHasTalent(row,talent)
 	return false
 end
 function kps.env.priest.DeathEnemyTarget()
-	local deathEnemyTarget = nil
+	local deathEnemyTarget = "target"
 	for i=1,#Enemy do -- for _,unit in ipairs(EnemyUnit) do
 		local unit = Enemy[i]
 		if PlayerHasTalent(4,2) and HealthPct(unit) < 0.35 then

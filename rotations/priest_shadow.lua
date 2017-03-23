@@ -5,10 +5,6 @@
 local spells = kps.spells.priest
 local env = kps.env.priest
 
-----------------------------------------
-----------------------------------------
-----------------------------------------
-
 kps.rotations.register("PRIEST","SHADOW",{
 
 	env.TargetMouseover,
@@ -54,36 +50,36 @@ kps.rotations.register("PRIEST","SHADOW",{
 
 	{spells.voidEruption , 'target.isAttackable and not player.hasBuff(spells.voidform) and player.insanity == 100' },
 	{spells.voidEruption , 'target.isAttackable and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity > 64' },
+	{{"macro"}, 'canCastvoidBolt()' , "/stopcasting" },
+	{spells.voidEruption, 'player.hasBuff(spells.voidform)' , env.VoidBoltTarget },
 
     -- "Shadow Word: Death" 32379
     {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 2' , "target" },
-    {spells.shadowWordDeath, 'DeathEnemyTarget() ~= nil and player.insanity < 85' , env.DeathEnemyTarget },
+    {spells.shadowWordDeath, 'player.insanity < 85' , env.DeathEnemyTarget },
  
  	-- "Infusion de puissance"  -- Confère un regain de puissance pendant 20 sec, ce qui augmente la hâte de 25%
-	-- "Mindbender" cd 1 min duration 12 sec -- "Ombrefiel" cd 3 min duration 12sec
 	{spells.powerInfusion, 'player.buffStacks(spells.voidform) > 14 and player.insanity > 64' },
-	{spells.shadowfiend, 'player.buffStacks(spells.voidform) > 9' },
-	{spells.mindbender, 'player.buffStacks(spells.voidform) > 9' },
 	
-	{spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
-	{spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
-	{spells.vampiricTouch, 'not player.isMoving and focus.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("focus") ' , 'focus' },
-	{spells.shadowWordPain, 'focus.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("focus") ' , 'focus' },
-
-	{{"macro"}, 'canCastvoidBolt()' , "/stopcasting" },
-	{spells.voidEruption, 'player.hasBuff(spells.voidform) and VoidBoltTarget() ~= nil' , env.VoidBoltTarget },
-	{spells.voidTorrent, 'player.hasBuff(spells.voidform) and not player.isMoving' },
-	
-	{spells.vampiricTouch, 'kps.multiTarget and mouseover.isAttackable and not player.isMoving and mouseover.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("mouseover") ' , 'mouseover' },
-	{spells.shadowWordPain, 'kps.multiTarget and mouseover.isAttackable and mouseover.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("mouseover") ' , 'mouseover' },
-
 	--{{"macro"}, env.canCastMindBlast , "/stopcasting" },
 	{{"macro"}, 'canCastMindBlast()' , "/stopcasting" },
 	{spells.mindBlast, 'not player.isMoving' },
 
+	{spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
+	{spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
+	{spells.vampiricTouch, 'not player.isMoving and focus.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("focus") ' , 'focus' },
+	{spells.shadowWordPain, 'focus.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("focus") ' , 'focus' },
 	{spells.vampiricTouch, 'mouseover.inCombat and not player.isMoving and mouseover.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("mouseover") ' , 'mouseover' },
 	{spells.shadowWordPain, 'mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("mouseover") ' , 'mouseover' },
+	{spells.vampiricTouch, 'kps.multiTarget and mouseover.isAttackable and not player.isMoving and mouseover.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("mouseover") ' , 'mouseover' },
+	{spells.shadowWordPain, 'kps.multiTarget and mouseover.isAttackable and mouseover.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("mouseover") ' , 'mouseover' },
 
+	{spells.voidTorrent, 'player.hasBuff(spells.voidform) and not player.isMoving' },
+
+	-- "Ombrefiel" cd 3 min duration 12sec
+	{spells.shadowfiend, 'player.buffStacks(spells.voidform) > 9' },
+	-- "Mindbender" cd 1 min duration 12 sec 
+	{spells.mindbender, 'player.buffStacks(spells.voidform) > 9' },
+	
 	{spells.mindFlay, 'not player.isMoving' },
 }
 ,"Shadow Priest")
