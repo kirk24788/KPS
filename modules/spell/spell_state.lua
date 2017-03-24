@@ -53,6 +53,45 @@ function Spell.isRecastAt(self)
     return isRecastAt[self]
 end
 
+--[[[
+@function `<SPELL>.castTimeLeft(<UNIT-STRING>)` - returns the castTimeLeft in seconds the spell has if casted
+]]--
+local castTimeLeft = setmetatable({}, {
+    __index = function(t, self)
+        local val = function(unit)
+        	if unit==nil then unit = "player" end
+         	local name,_,_,_,_,endTime,_,_,_ = UnitCastingInfo(unit)
+        	if endTime == nil then return 0 end
+        	print("test",self.name,":",name)
+        	if tostring(self.name) == tostring(name) then return ((endTime - (GetTime() * 1000 ) )/1000) end
+        	return 0
+        end
+        t[self] = val
+        return val
+    end})
+function Spell.castTimeLeft(self)
+    return castTimeLeft[self]
+end
+
+
+--[[[
+@function `<SPELL>.channelTimeLeft(<UNIT-STRING>)` - returns the channelTimeLeft in seconds the spell has if casted
+]]--
+local channelTimeLeft = setmetatable({}, {
+    __index = function(t, self)
+        local val = function(unit)
+        	if unit==nil then unit = "player" end
+         	local name,_,_,_,_,endTime,_,_,_ = UnitChannelInfo(unit)
+        	if endTime == nil then return 0 end
+        	if tostring(self.name) == tostring(name) then return ((endTime - (GetTime() * 1000 ) )/1000) end
+        	return 0
+        end
+        t[self] = val
+        return val
+    end})
+function Spell.channelTimeLeft(self)
+    return channelTimeLeft[self]
+end
 
 --[[[
 @function `<SPELL>.needsSelect` - returns true this is an AoE spell which needs to be targetted on the ground.
