@@ -62,7 +62,6 @@ local castTimeLeft = setmetatable({}, {
         	if unit==nil then unit = "player" end
          	local name,_,_,_,_,endTime,_,_,_ = UnitCastingInfo(unit)
         	if endTime == nil then return 0 end
-        	print("test",self.name,":",name)
         	if tostring(self.name) == tostring(name) then return ((endTime - (GetTime() * 1000 ) )/1000) end
         	return 0
         end
