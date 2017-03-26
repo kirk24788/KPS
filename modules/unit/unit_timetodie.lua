@@ -94,8 +94,6 @@ local function loadOnDemand()
 end
 
 
-
-
 --[[
 @function `<UNIT>.timeToDie` - Time to die in seconds
 ]]--
