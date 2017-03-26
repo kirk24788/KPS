@@ -614,7 +614,6 @@ kps.rotations.register(
  * `modules/unit/unit_casting.lua:62` - Blacklisted spells?
  * `modules/unit/unit_state.lua:13` - PvP
  * `modules/unit/unit_state.lua:26` - if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
- * `modules/unit/unit_state.lua:27` - Refactor!!!
  * `rotations/mage.lua:52` - Implement pyroChain sequence
  * `rotations/priest.lua:121` - if jps.PlayerIsBlacklisted(self.unit) then return false end
 
