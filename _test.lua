@@ -4,7 +4,7 @@
 Test-Runner for KPS. Used to test KPS Functionality and generate the kps.toc.
 If you want to hide a requirement, add spaces infront of the require statement.
 ]]--
-    require("_wow")
+require("_wow")
 --LIB:libs\LibStub-1.0\LibStub.lua
 --LIB:libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 --LIB:libs\LibRangeCheck-2.0\LibRangeCheck-2.0.lua
