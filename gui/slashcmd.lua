@@ -36,7 +36,7 @@ function SlashCmdList.KPS(cmd, editbox)
         kps.defensive = not kps.defensive
         kps.gui.updateToggleStates()
     elseif msg == "debug" then kps.debug = not kps.debug
-    	kps.write("Debug set to", tostring(kps.debug))
+        kps.write("Debug set to", tostring(kps.debug))
     elseif msg == "help" then
         kps.write("Slash Commands:")
         kps.write("/kps - Show enabled status.")
