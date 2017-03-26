@@ -262,6 +262,7 @@ _EXPRESSION_CONVERSIONS = [
     ("soul_shard", "player.soulShards"),
     ("demonic_fury","player.demonicFury"),
     ("shadow_orb","player.shadowOrbs"),
+    ("insanity","player.insanity"),
     ("holy_power","player.holyPower"),
     ("combo_points","target.comboPoints"),
     ("rage","player.rage"),

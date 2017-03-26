@@ -212,7 +212,19 @@ kps.RaidStatus.prototype.averageHpIncoming = kps.utils.cachedValue(function()
     return hpIncTotal / hpIncCount
 end)
 
+--[[[
+@function `heal.countInRange()` - Returns the count for all raid members below threshold 0.80 health pct
+]]--
 
+kps.RaidStatus.prototype.countInRange = kps.utils.cachedValue(function()
+    local count = 0
+    for name, unit in pairs(raidStatus) do
+        if unit.hpIncoming < 0.80 then
+            count = count + 1
+        end
+    end
+    return count
+end)
 
 local function findAggroTankOfUnit(targetUnit)
     local allTanks = tanksInRaid()
@@ -249,6 +261,7 @@ end)
 
     When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTankFocus`!
 ]]--
+
 kps.RaidStatus.prototype.aggroTankFocus = kps.utils.cachedValue(function()
     return findAggroTankOfUnit("focus")
 end)

@@ -44,7 +44,7 @@ end
 function UnitManaMax(unit)
     return 300000
 end
-function UnitPower(token, idx,flag)
+function UnitPower(token,idx,flag)
     return 4
 end
 function GetSpellInfo(id)
@@ -61,11 +61,11 @@ function GetUnitSpeed(unit)
 end
 function UnitCastingInfo(unit)
     -- name, subText, text, texture, startTime, endTime, isTradeSkill, castID, notInterruptible = UnitCastingInfo("unit")
-    return "SpellNameCasting", "SpellText", "SpellSubText", "SpellTexture", nil, 1000, 1002, false, nil, false
+    return "SpellNameCasting", "SpellText", "SpellSubText", "SpellTexture", 1, 1000, nil, false, nil
 end
 function UnitChannelInfo( ... )
-    --  local spellName,_,_,_,_,endTime,_,_,_ = UnitChannelInfo(self.unit)
-    return "SpellChanneled", nil, nil, nil, 1, 5, nil, nil, nil
+    -- name, subtext, text, texture, startTime, endTime, isTradeSkill, notInterruptible = UnitChannelInfo(self.unit)
+    return "SpellChanneled", nil, nil, nil, 1, 5, nil, nil
 end
 function debugstack(a,b,c)
     return "file.lua:1"
@@ -112,6 +112,9 @@ function IsHarmfulSpell( ... )
     return true
 end
 function UnitIsUnit( ... )
+    return true
+end
+function UnitIsPVP( ... )
     return true
 end
 function UnitIsVisible( ... )
