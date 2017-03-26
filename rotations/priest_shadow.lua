@@ -1,8 +1,8 @@
---[[
+--[[[
 @module Priest Shadow Rotation
 @author htordeux
 @version 7.1.5
-]]
+]]--
 
 local spells = kps.spells.priest
 local env = kps.env.priest
