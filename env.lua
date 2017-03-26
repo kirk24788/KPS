@@ -122,11 +122,9 @@ local function IsSpellKnown(spell)
 end
 
 local HarmSpell = nil
-local HelpSpell = nil
 local function getHarmfulSpell()
     local _, _, offset, numSpells, _ = GetSpellTabInfo(2)
     local harmdist = 0
-    local helpdist = 0
     for index = offset+1, numSpells+offset do
         -- Get the Global Spell ID from the Player's spellbook
         local spell = select(1,GetSpellBookItemName(index, "spell"))
@@ -136,16 +134,10 @@ local function getHarmfulSpell()
         local maxRange = select(6,GetSpellInfo(spellID))
         if maxRange == nil then maxRange = 0 end
         local harmful = IsHarmfulSpell(spell)
-        local helpful = IsHelpfulSpell(spell)
         if harmful and maxRange > 0 and minRange == 0 and IsSpellKnown(spellID) then
             if maxRange > harmdist then
                 harmdist = maxRange
                 HarmSpell = spell
-            end
-        elseif helpful and maxRange > 0 and minRange == 0 and IsSpellKnown(spellID) then
-            if maxRange > helpdist then
-                helpdist = maxRange
-                HelpSpell = spell
             end
         end
     end 
