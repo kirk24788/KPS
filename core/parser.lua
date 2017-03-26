@@ -186,7 +186,7 @@ end
 local function fnParseTarget(target)
     if type(target) == "function" then
         return function()
-        	return target()
+            return target()
         end
     elseif type(target) == "table" then
         return function()
@@ -252,11 +252,11 @@ end
 
 ---[[[ Pop from Token List ]]--
 function parser.pop(tokens)
-	if tokens[1] then
-		local t,v = unpack(tokens[1])
-    	table.remove(tokens, 1)
-    	return t,v
-	else
+    if tokens[1] then
+        local t,v = unpack(tokens[1])
+        table.remove(tokens, 1)
+        return t,v
+    else
         return "iden",""
     end
 end

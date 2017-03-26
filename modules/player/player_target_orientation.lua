@@ -38,44 +38,44 @@ end
 local activeUnitPlates = {}
 
 local function AddNameplate(unitID)
-	local nameplate = C_NamePlate.GetNamePlateForUnit(unitID)
-	if UnitCanAttack("player",unitID) then
-		activeUnitPlates[unitID] = nameplate:GetName()
-	end
+    local nameplate = C_NamePlate.GetNamePlateForUnit(unitID)
+    if UnitCanAttack("player",unitID) then
+        activeUnitPlates[unitID] = nameplate:GetName()
+    end
 end
 
 local function RemoveNameplate(unitID)
-	activeUnitPlates[unitID] = nil
+    activeUnitPlates[unitID] = nil
 end
 
 kps.events.register("NAME_PLATE_UNIT_ADDED", function(unitID)
-	AddNameplate(unitID)
+    AddNameplate(unitID)
 end)
 
 kps.events.register("NAME_PLATE_UNIT_REMOVED", function(unitID)
-	RemoveNameplate(unitID)
+    RemoveNameplate(unitID)
 end)
 
 --[[[
 @function `player.plateCount` - returns NamePlate count in combat
 ]]--
 function Player.plateCount(self)
-	local plateCount = 0
-	for unit,_ in pairs(activeUnitPlates) do
-		if UnitAffectingCombat(unit) then plateCount = plateCount + 1 end
-	end
-	return plateCount
+    local plateCount = 0
+    for unit,_ in pairs(activeUnitPlates) do
+        if UnitAffectingCombat(unit) then plateCount = plateCount + 1 end
+    end
+    return plateCount
 end
 
 --[[[
 @function `player.isTarget` - returns true if the player is targeted
 ]]--
 function Player.isTarget(self)
-	for unit,_ in pairs(activeUnitPlates) do
-		if UnitExists(unit.."target") then
-			local target = unit.."target"
-			if UnitIsUnit(target,"player") then return true end
-		end
-	end
-	return false
+    for unit,_ in pairs(activeUnitPlates) do
+        if UnitExists(unit.."target") then
+            local target = unit.."target"
+            if UnitIsUnit(target,"player") then return true end
+        end
+    end
+    return false
 end

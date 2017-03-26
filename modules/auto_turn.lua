@@ -9,7 +9,7 @@ kps.events.register("UI_ERROR_MESSAGE", function(event_type, event_error)
             kps.timers.create("Facing", 1)
             TurnLeftStart()
             CameraOrSelectOrMoveStart()
-			C_Timer.After(1,function() TurnLeftStop() end)
+            C_Timer.After(1,function() TurnLeftStop() end)
          end
       end
 end)
