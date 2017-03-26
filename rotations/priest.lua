@@ -116,9 +116,9 @@ local UnitExists = UnitExists
 local function UnitIsAttackable(unit)
     if not UnitExists(unit) then return false end
     if (string.match(GetUnitName(unit), kps.locale["Dummy"])) then return true end
-    if UnitCanAttack("player",unit) == false then return false end-- UnitCanAttack(attacker, attacked) return 1 if the attacker can attack the attacked, nil otherwise.
+    if UnitCanAttack("player",unit) == false then return false end
     if UnitIsEnemy("player",unit) == false then return false end -- WARNING a unit is hostile to you or not Returns either 1 ot nil -- Raider's Training returns nil with UnitIsEnemy
-    --TODO: if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
+    --TODO: if jps.PlayerIsBlacklisted(self.unit) then return false end
     if not kps.env.harmSpell.inRange(unit) then return false end
     return true
 end
