@@ -10,9 +10,15 @@ local env = kps.env.priest
 --	
 --	{spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
 --	{spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
---	
---	{{"macro"}, 'spells.mindBlast.cooldown == 0 and spells.mindFlay.channelTimeLeft("player") > 1' , "/stopcasting" },
+
+--	{spells.voidEruption , 'target.isAttackable and not player.hasBuff(spells.voidform) and player.insanity == 100' },
+--	{spells.voidEruption , 'target.isAttackable and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity > 64' },
+
+--	{{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > 1' , "/stopcasting" },
+--	{spells.voidEruption, 'player.hasBuff(spells.voidform)' , env.VoidBoltTarget },
+--	{{"macro"}, 'spells.mindBlast.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > 0' , "/stopcasting" },
 --	{spells.mindBlast, 'not player.isMoving' },
+
 --	{spells.mindFlay, 'not player.isMoving' },
 --}
 --,"Test SPriest")
@@ -64,7 +70,7 @@ kps.rotations.register("PRIEST","SHADOW",{
 	{spells.voidEruption , 'target.isAttackable and not player.hasBuff(spells.voidform) and player.insanity == 100' },
 	{spells.voidEruption , 'target.isAttackable and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity > 64' },
 	--{{"macro"}, 'canCastvoidBolt()' , "/stopcasting" },
-	{{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.channelTimeLeft("player") > 1' , "/stopcasting" },
+	{{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > 0.5' , "/stopcasting" },
 	{spells.voidEruption, 'player.hasBuff(spells.voidform)' , env.VoidBoltTarget },
 
     -- "Shadow Word: Death" 32379
@@ -76,7 +82,7 @@ kps.rotations.register("PRIEST","SHADOW",{
 	
 	--{{"macro"}, env.canCastMindBlast , "/stopcasting" },
 	--{{"macro"}, 'canCastMindBlast()' , "/stopcasting" },
-	{{"macro"}, 'spells.mindBlast.cooldown == 0 and spells.mindFlay.channelTimeLeft("player") > 1' , "/stopcasting" },
+	{{"macro"}, 'spells.mindBlast.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > 0.5' , "/stopcasting" },
 	{spells.mindBlast, 'not player.isMoving' },
 
 	{spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
