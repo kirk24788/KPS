@@ -64,6 +64,7 @@ kps.combatStep = function ()
         if castSequence[castSequenceIndex] ~= nil and (castSequenceStartTime + kps.maxCastSequenceLength > GetTime()) then
             local spell = castSequence[castSequenceIndex]()
             if spell.canBeCastAt(castSequenceTarget) then
+                kps.write("Cast-Sequence: "..spell)
                 LOG.debug("Cast-Sequence: %s. %s", castSequenceIndex, spell)
                 spell.cast(castSequenceTarget)
                 castSequenceIndex = castSequenceIndex + 1
@@ -118,7 +119,7 @@ hooksecurefunc("UseAction", function(...)
             end
         end
         if stype == "item" then
-            priorityAction = kps.useItem(id)
+            priorityAction = kps.useItem(id) -- TODO kps.useItem
         end
         if stype == "macro" then
             macroText = select(3, GetMacroInfo(id))

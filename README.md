@@ -51,6 +51,7 @@ All DPS Specs have at least one rotation automatically generated from SimCraft -
 
 **Fully Supported in 7.1.5:**
 
+* Priest: Shadow
 * Warlock: Affliction
 
 **Outdated Rotations:**
@@ -62,7 +63,7 @@ All DPS Specs have at least one rotation automatically generated from SimCraft -
 * Mage: Fire (7.0.3)
 * Monk: Mistweaver (7.0.3)
 * Paladin: Holy (7.0.3), Retribution (7.0.3)
-* Priest: Holy (7.0.3), Shadow (6.2.2)
+* Priest: Holy (7.0.3)
 * Rogue: Outlaw (7.0.3)
 * Shaman: Enhancement (7.0.3), Restoration (7.0.3)
 * Warlock: Demonology (7.0.3), Destruction (7.0.3)
@@ -79,7 +80,6 @@ _(Might not be fully functional)_
 * Rogue: Assassination (7.0.3), Subtlety (7.0.3)
 * Shaman: Elemental (7.0.3)
 * Warrior: Protection (7.0.3)
-
 
 
 ##  Development
@@ -170,6 +170,7 @@ Members:
 
     When used as a _target_ in your rotation, you *must* write `kps.heal.defaultTank`!
  * `heal.averageHpIncoming` - Returns the average hp incoming for all raid members
+ * `heal.countInRange` - Returns the count for all raid members below health pct
  * `heal.aggroTank` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
 
     When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTank`!
@@ -205,9 +206,13 @@ Members:
 
  * `player.isMounted` - returns true if the player is mounted (exception: Nagrand Mounts do not count as mounted since you can cast while riding)
  * `player.isFalling` - returns true if the player is currently falling.
+ * `player.IsSwimming` - returns true if the player is currently swimming.
+ * `player.isInRaid` - returns true if the player is currently in Raid.
  * `player.timeInCombat` - returns number of seconds in combat
  * `player.hasTalent(<ROW>,<TALENT>)` - returns true if the player has the selected talent (row: 1-7, talent: 1-3).
  * `player.hasGlyph(<GLYPH>)` - returns true if the player has the given gylph - glyphs can be accessed via the spells (e.g.: `player.hasGlyph(spells.glyphOfDeathGrip)`).
+ * `player.useItem(<ITEMID>)` - returns true if the player has the given item and cooldown == 0
+ * `player.useTrinket(<SLOT>)` - returns true if the player has the given trinket and cooldown == 0
  * `player.lastEmpowermentCast` - returns the time of the last cast of Demonic Empowerment
  * `player.demons` - returns the number of active demons
  * `player.empoweredDemons` - returns the number of empowered demons
@@ -244,7 +249,7 @@ Members:
  * `player.maelstrom` - Shadow Orbs
  * `player.chi` - Chi
  * `player.chiMax` - Chi Max
- * `player.shadowOrbs` - Shadow Orbs
+ * `player.insanity` -- SPELL_POWER_INSANITY 13 Legion Insanity are used by Shadow Priests
  * `player.fury` - Fury (Demon Hunter)
  * `player.pain` - Pain (Demon Hunter)
  * `player.hasProc` - returns true if the player has a proc (either mastery, crit, haste, int, strength or agility)
@@ -269,6 +274,8 @@ Members:
  * `player.staggerPercentTotal` - returns the percentage of stagger to the player max health
  * `player.isBehind` - returns true if the player is behind the last target. Also returns true if the player never received an error - if you want to check if the player is in front *DON'T* use this function!
  * `player.isInFront` - returns true if the player is in front of the last target. Also returns true if the player never received an error - if you want to check if the player is behind *DON'T* use this function!
+ * `player.plateCount` - returns NamePlate count in combat
+ * `player.isTarget` - returns true if the player is targeted
 
 
 #### Spell Class
@@ -294,6 +301,7 @@ Members:
  * `<SPELL>.cooldown` - returns the current cooldown of this spell 
  * `<SPELL>.cooldownTotal` - returns the cooldown in seconds the spell has if casted - this is NOT the current cooldown of the spell! 
  * `<SPELL>.isRecastAt(<UNIT-STRING>)` - returns true if this was last casted spell and the last targetted unit was the given unit (e.g.: `spell.immolate.isRecastAt("target")`). 
+ * `<SPELL>.castTimeLeft(<UNIT-STRING>)` - returns the castTimeLeft or channelTimeLeft in seconds the spell has if casted
  * `<SPELL>.needsSelect` - returns true this is an AoE spell which needs to be targetted on the ground.
  * `<SPELL>.isBattleRez` - returns true if this spell is one of the batlle rez spells.
  * `<SPELL>.isPrioritySpell` - returns true if this is one of the user-casted spells which should be ignored for the spell queue. (internal use only!)
@@ -366,6 +374,8 @@ Members:
  * `<UNIT>.distanceMin` - returns the min. approximated distance to the given unit.
  * `<UNIT>.distanceMax` - returns the max. approximated distance to the given unit.
  * `<UNIT>.isAttackable` - returns true if the given unit can be attacked by the player.
+ * `<UNIT>.isPVP` - returns true if the given unit is in PVP.
+ * `<UNIT>.inCombat` - returns true if the given unit is in Combat.
  * `<UNIT>.isMoving` - returns true if the given unit is currently moving.
  * `<UNIT>.isDead` - returns true if the unit is dead.
  * `<UNIT>.isDrinking` - returns true if the given unit is currently eating/drinking.
@@ -597,14 +607,15 @@ kps.rotations.register(
  * `env.lua:28` - Clean UP!!! This code is a mess...
  * `gui/toggle.lua:75` - Right-Click Action
  * `libs/LibRangeCheck-2.0/LibRangeCheck-2.0.lua:31` - check if unit is valid, etc
+
  * `modules/incoming_damage.lua:28` - Load on demand!
  * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
  * `modules/unit/unit_casting.lua:62` - Blacklisted spells?
- * `modules/unit/unit_casting.lua:69` - Reimplement JPS Code
  * `modules/unit/unit_state.lua:13` - PvP
  * `modules/unit/unit_state.lua:26` - if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
  * `modules/unit/unit_state.lua:27` - Refactor!!!
  * `rotations/mage.lua:52` - Implement pyroChain sequence
+ * `rotations/priest.lua:121` - if jps.PlayerIsBlacklisted(self.unit) then return false end
 
 
 
