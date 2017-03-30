@@ -287,3 +287,32 @@ function Unit.myBuffCount(self)
     return myBuffCount[self.unit]
 end
 
+--[[[
+@function `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit is dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". player.isDispellable("Magic")
+]]--
+
+local isDispellable = setmetatable({}, {
+    __index = function(t, unit)
+        local val = function (dispel)
+            local auraName, debuffType, expirationTime, spellId
+            local i = 1
+            auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitDebuff(unit,i) 
+            while auraName do
+                if debuffType ~= nil and debuffType == dispel then
+                    if expTime ~= nil and expTime - GetTime() > 1 then
+                    return true end
+                end
+                i = i + 1
+                auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitDebuff(unit,i)
+            end
+            return false
+        end
+        t[unit] = val
+        return val
+    end})
+function Unit.isDispellable(self)
+    return isDispellable[self.unit]
+end
+
+
+

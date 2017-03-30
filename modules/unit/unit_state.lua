@@ -24,9 +24,22 @@ function Unit.isAttackable(self)
     if UnitCanAttack("player", self.unit)==false then return false end-- UnitCanAttack(attacker, attacked) return 1 if the attacker can attack the attacked, nil otherwise.
     if UnitIsEnemy("player",self.unit)==false then return false end -- WARNING a unit is hostile to you or not Returns either 1 ot nil -- Raider's Training returns nil with UnitIsEnemy
     --TODO: if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
-    --TODO: Refactor!!!
     if not kps.env.harmSpell.inRange(self.unit) then return false end
     return true
+end
+
+--[[[
+@function `<UNIT>.isPVP` - returns true if the given unit is in PVP.
+]]--
+function Unit.isPVP(self)
+    return UnitIsPVP(self.unit)
+end
+
+--[[[
+@function `<UNIT>.inCombat` - returns true if the given unit is in Combat.
+]]--
+function Unit.inCombat(self)
+    return UnitAffectingCombat(self.unit)
 end
 
 --[[[
