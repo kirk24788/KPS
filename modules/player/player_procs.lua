@@ -116,6 +116,13 @@ end
 function Player.hasHasteProc(self)
     return haste.hasProc()
 end
+
+--[[[
+@function `player.haste` - returns the player haste
+]]--
+function Player.haste(self)
+    return UnitSpellHaste("player")
+end
 --[[[
 @function `player.hasIntProc` - returns true if the player has a int proc
 ]]--
