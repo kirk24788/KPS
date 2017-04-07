@@ -84,6 +84,18 @@ end
 
 
 --[[[
+@function `player.spellCooldown(<SPELL>)` - returns true if the player has the selected spell in cooldown (row: 1-7, talent: 1-3).
+]]--
+local function spellCooldown(spell)
+    local start,duration,_ = GetSpellCooldown(spell)
+    if duration == nil then return 0 end
+    return duration
+end
+function Player.spellCooldown(self)
+    return spellCooldown
+end
+
+--[[[
 @function `player.hasGlyph(<GLYPH>)` - returns true if the player has the given gylph - glyphs can be accessed via the spells (e.g.: `player.hasGlyph(spells.glyphOfDeathGrip)`).
 ]]--
 local function hasGlyph(glyph)
@@ -131,8 +143,8 @@ end
 @function `player.useTrinket(<SLOT>)` - returns true if the player has the given trinket and cooldown == 0
 ]]--
 -- For trinket's. Pass 0 or 1 for the slot.
--- { "macro", Player.useTrinket(0) , "/use 13"},
--- { "macro", Player.useTrinket(1) , "/use 14"},
+-- { "macro", player.useTrinket(0) , "/use 13"},
+-- { "macro", player.useTrinket(1) , "/use 14"},
 local useTrinket = function(trinketNum)
     -- The index actually starts at 0
     local slotName = "Trinket"..(trinketNum).."Slot" -- "Trinket0Slot" "Trinket1Slot"

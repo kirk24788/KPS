@@ -33,7 +33,9 @@ function Player.isInFront(self)
 end
 
 
-
+--[[
+Player Nameplates
+]]--
 
 local activeUnitPlates = {}
 
@@ -55,6 +57,26 @@ end)
 kps.events.register("NAME_PLATE_UNIT_REMOVED", function(unitID)
     RemoveNameplate(unitID)
 end)
+
+local function friendIsTarget()
+    local friendtarget = {}
+    for unit,_ in pairs(activeUnitPlates) do
+        if UnitExists(unit.."target") then
+            local target = unit.."target"
+            local targetguid = UnitGUID(target)
+            tinsert(friendtarget,targetguid)
+        end
+    end
+    return friendtarget
+end
+
+function friendIsRaidTarget(unitguid)
+    local friendistarget = friendIsTarget()
+    for unit,plate in pairs(friendistarget) do
+        if plate == unitguid then return true end
+    end
+    return false
+end
 
 --[[[
 @function `player.plateCount` - returns NamePlate count in combat

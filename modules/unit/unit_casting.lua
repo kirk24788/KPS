@@ -37,8 +37,12 @@ local isCastingSpell = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
             local name, _, _, _, startTime, endTime, _, interrupt = UnitCastingInfo(unit)
-            if not name then return false end
-            if spell.name:lower() == name:lower() and (kps.env[unit].castTimeLeft(unit) > 0 or kps.env[unit].channelTimeLeft(unit) > 0) then return true end
+            if endTime == nil then 
+                local name,_,_,_,_,endTime,_,_,_ = UnitChannelInfo(unit)
+                if endTime == nil then return false end
+                if tostring(spell.name) == tostring(name) then return true end
+            end
+            if tostring(spell.name) == tostring(name) then return true end
             return false
         end
         t[unit] = val
@@ -47,9 +51,6 @@ local isCastingSpell = setmetatable({}, {
 function Unit.isCastingSpell(self)
     return isCastingSpell[self.unit]
 end
-
-
-
 
 --[[[
 @function `<UNIT>.isInterruptable` - returns true if the unit is currently casting (or channeling) a spell which can be interrupted.

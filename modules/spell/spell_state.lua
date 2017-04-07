@@ -54,7 +54,7 @@ function Spell.isRecastAt(self)
 end
 
 --[[[
-@function `<SPELL>.castTimeLeft(<UNIT-STRING>)` - returns the castTimeLeft or channelTimeLeft in seconds the spell has if casted
+@function `<SPELL>.castTimeLeft(<UNIT-STRING>)` - returns the castTimeLeft or channelTimeLeft in seconds the spell has if casted (e.g.: 'spells.mindFlay.castTimeLeft("player") > 0.5' )
 ]]--
 local castTimeLeft = setmetatable({}, {
     __index = function(t, self)
