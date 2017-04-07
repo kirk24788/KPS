@@ -87,7 +87,7 @@ end
 @function `player.spellCooldown(<SPELL>)` - returns true if the player has the selected spell in cooldown (row: 1-7, talent: 1-3).
 ]]--
 local function spellCooldown(spell)
-	local start,duration,_ = GetSpellCooldown(spell)
+    local start,duration,_ = GetSpellCooldown(spell)
     if duration == nil then return 0 end
     return duration
 end
