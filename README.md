@@ -51,8 +51,7 @@ All DPS Specs have at least one rotation automatically generated from SimCraft -
 
 **Fully Supported in 7.2:**
 
-* Priest: Shadow
-* Priest: Holy
+* Priest: Holy, Shadow
 * Warlock: Affliction
 
 **Outdated Rotations:**
