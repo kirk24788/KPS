@@ -49,9 +49,10 @@ Copyright (C) 2015 Mario Mancino
 
 All DPS Specs have at least one rotation automatically generated from SimCraft - those might not be fully functional and aren't tested.
 
-**Fully Supported in 7.1.5:**
+**Fully Supported in 7.2:**
 
 * Priest: Shadow
+* Priest: Holy
 * Warlock: Affliction
 
 **Outdated Rotations:**
@@ -63,7 +64,6 @@ All DPS Specs have at least one rotation automatically generated from SimCraft -
 * Mage: Fire (7.0.3)
 * Monk: Mistweaver (7.0.3)
 * Paladin: Holy (7.0.3), Retribution (7.0.3)
-* Priest: Holy (7.0.3)
 * Rogue: Outlaw (7.0.3)
 * Shaman: Enhancement (7.0.3), Restoration (7.0.3)
 * Warlock: Demonology (7.0.3), Destruction (7.0.3)
