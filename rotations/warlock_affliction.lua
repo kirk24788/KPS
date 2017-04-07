@@ -1,7 +1,7 @@
 --[[[
 @module Warlock Affliction Rotation
 @author Kirk24788
-@version 7.1.5
+@version 7.2
 ]]--
 local spells = kps.spells.warlock
 local env = kps.env.warlock

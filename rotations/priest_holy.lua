@@ -1,8 +1,9 @@
 --[[[
 @module Priest Holy Rotation
-@author Subzrk.Xvir
-@version 7.0.3
+@author htordeux
+@version 7.2
 ]]--
+
 local spells = kps.spells.priest
 local env = kps.env.priest
 
