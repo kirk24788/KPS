@@ -186,13 +186,12 @@ end
 local function fnParseTarget(target)
     if type(target) == "function" then
         return function()
-            --return target()
             local targetData = target()
             if type(targetData) == "table" then
                 return targetData.unit
             else
                 return targetData
-			end
+            end
         end
     elseif type(target) == "table" then
         return function()

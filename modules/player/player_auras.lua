@@ -84,6 +84,18 @@ end
 
 
 --[[[
+@function `player.spellCooldown(<SPELL>)` - returns true if the player has the selected spell in cooldown (row: 1-7, talent: 1-3).
+]]--
+local function spellCooldown(spell)
+	local start,duration,_ = GetSpellCooldown(spell)
+    if duration == nil then return 0 end
+    return duration
+end
+function Player.spellCooldown(self)
+    return spellCooldown
+end
+
+--[[[
 @function `player.hasGlyph(<GLYPH>)` - returns true if the player has the given gylph - glyphs can be accessed via the spells (e.g.: `player.hasGlyph(spells.glyphOfDeathGrip)`).
 ]]--
 local function hasGlyph(glyph)

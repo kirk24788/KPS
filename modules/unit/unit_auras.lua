@@ -274,7 +274,7 @@ local myBuffCount = setmetatable({}, {
             local count = 0
             for i=1,40 do
                 local name,_,_,_,_,duration,endTime,caster,_,_ = UnitBuff(unit,i)
-                if caster=="player" and name == spell.name then
+                if caster == "player" and name == spell.name then
                     count = count + 1
                 end
             end
@@ -290,10 +290,11 @@ end
 --[[[
 @function `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit is dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". player.isDispellable("Magic")
 ]]--
-
+local UnitCanAssist = UnitCanAssist
 local isDispellable = setmetatable({}, {
     __index = function(t, unit)
         local val = function (dispel)
+            if not UnitCanAssist("player", unit) then return false end
             local auraName, debuffType, expirationTime, spellId
             local i = 1
             auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitDebuff(unit,i) 

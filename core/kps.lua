@@ -18,9 +18,9 @@ function kps.write(...)
     DEFAULT_CHAT_FRAME:AddMessage("|cffff8000KPS: " .. strjoin(" ", tostringall(...))); -- color orange
 end
 
-kps.useBagItem = function(bagItem)
+kps.useItem = function(bagItem)
+    return true
     -- TODO: Return a FUNCTION which uses Item!
-    -- See JPS, also:
     --[[
 
             if res == nil and IsEquippedItem(id) then

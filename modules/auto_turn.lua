@@ -8,7 +8,7 @@ kps.events.register("UI_ERROR_MESSAGE", function(event_type, event_error)
          if kps["env"].player ~= nil and not kps["env"].player.isMoving then
             kps.timers.create("Facing", 1)
             TurnLeftStart()
-            CameraOrSelectOrMoveStart()
+            --CameraOrSelectOrMoveStart()
             C_Timer.After(1,function() TurnLeftStop() end)
          end
       end
