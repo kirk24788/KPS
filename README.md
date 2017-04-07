@@ -171,12 +171,14 @@ Members:
     When used as a _target_ in your rotation, you *must* write `kps.heal.defaultTank`!
  * `heal.averageHpIncoming` - Returns the average hp incoming for all raid members
  * `heal.countInRange()` - Returns the count for all raid members below threshold 0.80 health pct
- * `heal.aggroTank` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
+ * `heal.aggroTankTarget` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
 
     When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTank`!
  * `heal.aggroTankFocus` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
 
     When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTankFocus`!
+ * `heal.aggroTank` - Returns the tank or unit if overnuked with highest aggro and lowest health Without otherunit specified.
+ * `heal.lowestTargetInRaid` - Returns the raid unit with lowest health targetd by enemy nameplate.
 
 
 #### Incoming Damage
@@ -210,6 +212,7 @@ Members:
  * `player.isInRaid` - returns true if the player is currently in Raid.
  * `player.timeInCombat` - returns number of seconds in combat
  * `player.hasTalent(<ROW>,<TALENT>)` - returns true if the player has the selected talent (row: 1-7, talent: 1-3).
+ * `player.spellCooldown(<SPELL>)` - returns true if the player has the selected spell in cooldown (row: 1-7, talent: 1-3).
  * `player.hasGlyph(<GLYPH>)` - returns true if the player has the given gylph - glyphs can be accessed via the spells (e.g.: `player.hasGlyph(spells.glyphOfDeathGrip)`).
  * `player.useItem(<ITEMID>)` - returns true if the player has the given item and cooldown == 0
  * `player.useTrinket(<SLOT>)` - returns true if the player has the given trinket and cooldown == 0
@@ -256,6 +259,7 @@ Members:
  * `player.hasMasteryProc` - returns true if the player has a mastery proc
  * `player.hasCritProc` - returns true if the player has a crit proc
  * `player.hasHasteProc` - returns true if the player has a haste proc
+ * `player.haste` - returns the player haste
  * `player.hasIntProc` - returns true if the player has a int proc
  * `player.hasStrProc` - returns true if the player has a strength proc
  * `player.hasAgiProc` - returns true if the player has a agility proc
@@ -301,7 +305,7 @@ Members:
  * `<SPELL>.cooldown` - returns the current cooldown of this spell 
  * `<SPELL>.cooldownTotal` - returns the cooldown in seconds the spell has if casted - this is NOT the current cooldown of the spell! 
  * `<SPELL>.isRecastAt(<UNIT-STRING>)` - returns true if this was last casted spell and the last targetted unit was the given unit (e.g.: `spell.immolate.isRecastAt("target")`). 
- * `<SPELL>.castTimeLeft(<UNIT-STRING>)` - returns the castTimeLeft or channelTimeLeft in seconds the spell has if casted
+ * `<SPELL>.castTimeLeft(<UNIT-STRING>)` - returns the castTimeLeft or channelTimeLeft in seconds the spell has if casted (e.g.: 'spells.mindFlay.castTimeLeft("player") > 0.5' )
  * `<SPELL>.needsSelect` - returns true this is an AoE spell which needs to be targetted on the ground.
  * `<SPELL>.isBattleRez` - returns true if this spell is one of the batlle rez spells.
  * `<SPELL>.isPrioritySpell` - returns true if this is one of the user-casted spells which should be ignored for the spell queue. (internal use only!)
@@ -601,7 +605,7 @@ kps.rotations.register(
 
 
 ### Open Issues
- * `core/kps.lua:22` - Return a FUNCTION which uses Item!
+ * `core/kps.lua:23` - Return a FUNCTION which uses Item!
  * `core/logger.lua:33` - Check if DEFAULT_CHAT_FRAME:AddMessage() has any significant advantages
  * `core/parser.lua:132` - syntax error in
  * `core/parser.lua:139` - Error Handling!
@@ -611,11 +615,10 @@ kps.rotations.register(
 
  * `modules/incoming_damage.lua:28` - Load on demand!
  * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
- * `modules/unit/unit_casting.lua:62` - Blacklisted spells?
+ * `modules/unit/unit_casting.lua:63` - Blacklisted spells?
  * `modules/unit/unit_state.lua:13` - PvP
  * `modules/unit/unit_state.lua:26` - if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
  * `rotations/mage.lua:52` - Implement pyroChain sequence
- * `rotations/priest.lua:121` - if jps.PlayerIsBlacklisted(self.unit) then return false end
 
 
 

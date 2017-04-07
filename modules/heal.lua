@@ -82,7 +82,6 @@ kps.RaidStatus.metatable.__index = function (table, key)
 end
 
 
-
 --[[[
 @function `heal.count` - return the size of the current group
 ]]--
@@ -131,7 +130,6 @@ end)
 
 --[[[
 @function `heal.lowestTankInRaid` - Returns the lowest tank in the raid (based on _incoming_ HP!) - a tank is either:
-
     * any group member that has the Group Role `TANK`
     * is `focus` target
     * `player` if neither Group Role nor `focus` are set
@@ -150,13 +148,11 @@ end)
 
 --[[[
 @function `heal.defaultTarget` - Returns the default healing target based on these rules:
-
     * `player` if the player is below 20% hp incoming
     * `focus` if the focus is below 50% hp incoming (if the focus is not healable, `focustarget` is checked instead)
     * `target` if the target is below 50% hp incoming (if the target is not healable, `targettarget` is checked instead)
     * lowest tank in raid which is below 50% hp incoming
     * lowest raid member
-
     When used as a _target_ in your rotation, you *must* write `kps.heal.defaultTarget`!
 ]]--
 kps.RaidStatus.prototype.defaultTarget = kps.utils.cachedValue(function()
@@ -177,12 +173,10 @@ end)
 
 --[[[
 @function `heal.defaultTank` - Returns the default tank based on these rules:
-
     * `player` if the player is below 20% hp incoming
     * `focus` if the focus is below 50% hp incoming (if the focus is not healable, `focustarget` is checked instead)
     * `target` if the target is below 50% hp incoming (if the target is not healable, `targettarget` is checked instead)
     * lowest tank in raid
-
     When used as a _target_ in your rotation, you *must* write `kps.heal.defaultTank`!
 ]]--
 kps.RaidStatus.prototype.defaultTank = kps.utils.cachedValue(function()
@@ -246,7 +240,6 @@ end)
 
 --[[[
 @function `heal.aggroTankTarget` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
-
     When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTank`!
 ]]--
 
@@ -277,7 +270,6 @@ end)
 
 --[[[
 @function `heal.aggroTankFocus` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
-
     When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTankFocus`!
 ]]--
 
