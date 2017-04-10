@@ -298,7 +298,7 @@ kps.RaidStatus.prototype.aggroTank = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.lowestTargetInRaid` - Returns the raid unit with lowest health targetd by enemy nameplate.
+@function `heal.lowestTargetInRaid` - Returns the raid unit with lowest health targeted by enemy nameplate.
 ]]--
 
 kps.RaidStatus.prototype.lowestTargetInRaid = kps.utils.cachedValue(function()

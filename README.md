@@ -171,6 +171,7 @@ Members:
     When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTankFocus`!
  * `heal.aggroTank` - Returns the tank or unit if overnuked with highest aggro and lowest health Without otherunit specified.
  * `heal.lowestTargetInRaid` - Returns the raid unit with lowest health targetd by enemy nameplate.
+ * `heal.isMagicDispellable` - Returns the raid unit with magic debuff to dispel
 
 
 #### Incoming Damage
@@ -204,7 +205,6 @@ Members:
  * `player.isInRaid` - returns true if the player is currently in Raid.
  * `player.timeInCombat` - returns number of seconds in combat
  * `player.hasTalent(<ROW>,<TALENT>)` - returns true if the player has the selected talent (row: 1-7, talent: 1-3).
- * `player.spellCooldown(<SPELL>)` - returns true if the player has the selected spell in cooldown (row: 1-7, talent: 1-3).
  * `player.hasGlyph(<GLYPH>)` - returns true if the player has the given gylph - glyphs can be accessed via the spells (e.g.: `player.hasGlyph(spells.glyphOfDeathGrip)`).
  * `player.useItem(<ITEMID>)` - returns true if the player has the given item and cooldown == 0
  * `player.useTrinket(<SLOT>)` - returns true if the player has the given trinket and cooldown == 0
@@ -379,6 +379,8 @@ Members:
  * `<UNIT>.inVehicle` - returns true if the given unit is inside a vehicle.
  * `<UNIT>.isHealable` - returns true if the give unit is healable by the player.
  * `<UNIT>.hasPet` - returns true if the given unit has a pet.
+ * `<UNIT>.incomingDamage` - returns incoming damage of the unit over last 4 seconds
+ * `<UNIT>.incomingHeal` - returns incoming heal of the unit over last 4 seconds
 
 
 ### Rotations
