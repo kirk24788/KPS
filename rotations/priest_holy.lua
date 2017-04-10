@@ -67,8 +67,8 @@ kps.rotations.register("PRIEST","HOLY",
         {spells.smite },
     }},
     
-	-- "Light of T'uure" 208065
-	{spells.lightOfTuure, 'player.hp < 0.70 and not player.hasBuff(spells.lightOfTuure)' , "player"},
+    -- "Light of T'uure" 208065
+    {spells.lightOfTuure, 'player.hp < 0.70 and not player.hasBuff(spells.lightOfTuure)' , "player"},
     {spells.lightOfTuure, 'heal.lowestTankInRaid.hp < 0.85 and not heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.50' , kps.heal.lowestTankInRaid},
     {spells.lightOfTuure, 'heal.lowestInRaid.hp < 0.85 and not heal.lowestInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestInRaid},
@@ -83,8 +83,8 @@ kps.rotations.register("PRIEST","HOLY",
     {spells.prayerOfHealing, 'not player.isMoving and not player.isInRaid and heal.countInRange > 2', "player"},
 
 
-	-- "Soins de lien" 32546
-	{ spells.bindingHeal, 'heal.lowestInRaid.hp < 0.70 and player.hp < 0.70 and player.hp > heal.lowestInRaid.hp' , kps.heal.lowestInRaid},
+    -- "Soins de lien" 32546
+    {spells.bindingHeal, 'heal.lowestInRaid.hp < 0.70 and player.hp < 0.70 and player.hp > heal.lowestInRaid.hp' , kps.heal.lowestInRaid},
 
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal and heal.lowestTankInRaid.hp < 0.80' , kps.heal.lowestTankInRaid},
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.70' , kps.heal.lowestTankInRaid},    
