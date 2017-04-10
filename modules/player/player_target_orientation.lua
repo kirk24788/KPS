@@ -58,25 +58,35 @@ kps.events.register("NAME_PLATE_UNIT_REMOVED", function(unitID)
     RemoveNameplate(unitID)
 end)
 
-local function friendIsTarget()
-    local friendtarget = {}
+function friendIsRaidTarget(unitguid)
     for unit,_ in pairs(activeUnitPlates) do
         if UnitExists(unit.."target") then
             local target = unit.."target"
             local targetguid = UnitGUID(target)
-            tinsert(friendtarget,targetguid)
+            if targetguid == unitguid then return true end
         end
-    end
-    return friendtarget
-end
-
-function friendIsRaidTarget(unitguid)
-    local friendistarget = friendIsTarget()
-    for unit,plate in pairs(friendistarget) do
-        if plate == unitguid then return true end
     end
     return false
 end
+
+--local nameplateTarget = setmetatable({}, {
+--    __index = function(t, self)
+--        local val = function(unitguid)
+--          for unit,_ in pairs(activeUnitPlates) do
+--              if UnitExists(unit.."target") then
+--                  local target = unit.."target"
+--                  local targetguid = UnitGUID(target)
+--                  if targetguid == unitguid then return true end
+--              end
+--          end
+--          return false
+--        end
+--        t[self] = val
+--        return val
+--    end})
+--function nameplateRaidTarget(self)
+--    return nameplateTarget[self]
+--end
 
 --[[[
 @function `player.plateCount` - returns NamePlate count in combat

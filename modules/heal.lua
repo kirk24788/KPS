@@ -313,6 +313,16 @@ kps.RaidStatus.prototype.lowestTargetInRaid = kps.utils.cachedValue(function()
     return lowestUnit
 end)
 
+--[[[
+@function `heal.isMagicDispellable` - Returns the raid unit with magic debuff to dispel
+]]--
+
+kps.RaidStatus.prototype.isMagicDispellable = kps.utils.cachedValue(function()
+    for name, player in pairs(raidStatus) do
+        if player.isDispellable("Magic") then return player end
+    end
+    return nil
+end)
 
 -- Here comes the tricky part - use an instance of RaidStatus which calls it's members
 -- for 'kps.env.heal' - so we can write 'heal.defaultTarget.hp < xxx' in our rotations

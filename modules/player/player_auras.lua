@@ -68,6 +68,8 @@ kps.events.register("PLAYER_LEAVE_COMBAT", function()
 end)
 kps.events.register("PLAYER_REGEN_ENABLED", function()
     combatEnterTime = 0
+    -- Garbage
+	collectgarbage("collect")
 end)
 
 
@@ -80,19 +82,6 @@ local function hasTalent(row, talent)
 end
 function Player.hasTalent(self)
     return hasTalent
-end
-
-
---[[[
-@function `player.spellCooldown(<SPELL>)` - returns true if the player has the selected spell in cooldown (row: 1-7, talent: 1-3).
-]]--
-local function spellCooldown(spell)
-    local start,duration,_ = GetSpellCooldown(spell)
-    if duration == nil then return 0 end
-    return duration
-end
-function Player.spellCooldown(self)
-    return spellCooldown
 end
 
 --[[[
