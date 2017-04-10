@@ -69,7 +69,7 @@ end)
 kps.events.register("PLAYER_REGEN_ENABLED", function()
     combatEnterTime = 0
     -- Garbage
-	collectgarbage("collect")
+    collectgarbage("collect")
 end)
 
 
