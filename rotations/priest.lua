@@ -68,7 +68,6 @@ end
 --{spells.mindFlay, env.testkps(kps.multiTarget) }, -- always false
 
 
-
 local Enemy = { "target", "focus" ,"mouseover" }
 function kps.env.priest.VoidBoltTarget()
     local VoidBoltTarget = "target"
@@ -117,8 +116,7 @@ local function UnitIsAttackable(unit)
     if not UnitExists(unit) then return false end
     if (string.match(GetUnitName(unit), kps.locale["Dummy"])) then return true end
     if UnitCanAttack("player",unit) == false then return false end
-    if UnitIsEnemy("player",unit) == false then return false end -- WARNING a unit is hostile to you or not Returns either 1 ot nil -- Raider's Training returns nil with UnitIsEnemy
-    --TODO: if jps.PlayerIsBlacklisted(self.unit) then return false end
+    if UnitIsEnemy("player",unit) == false then return false end
     if not kps.env.harmSpell.inRange(unit) then return false end
     return true
 end
@@ -127,11 +125,13 @@ function kps.env.priest.TargetMouseover()
     -- Config FOCUS with MOUSEOVER
     if not UnitExists("focus") and UnitIsAttackable("mouseover") then
         if UnitIsUnit("mouseovertarget","player") and not UnitIsUnit("target","mouseover") then
-            kps.runMacro("/focus mouseover") --print("Enemy DAMAGER|cff1eff00 "..name.." |cffffffffset as FOCUS")
-        elseif not UnitIsUnit("target","mouseover") and UnitDebuffDuration(kps.spells.priest.shadowWordPain,"mouseover") < 2 then 
-            kps.runMacro("/focus mouseover") --print("Enemy COMBAT|cff1eff00 "..name.." |cffffffffset as FOCUS not DEBUFF")
+            kps.runMacro("/focus mouseover")
+        elseif not UnitIsUnit("target","mouseover") and UnitDebuffDuration(kps.spells.priest.shadowWordPain,"mouseover") < 2 and UnitDebuffDuration(kps.spells.priest.vampiricTouch,"mouseover") < 2 then 
+            kps.runMacro("/focus mouseover")
+        elseif not UnitIsUnit("target","mouseover") and UnitDebuffDuration(kps.spells.priest.shadowWordPain,"mouseover") < 2 then
+            kps.runMacro("/focus mouseover")
         elseif not UnitIsUnit("target","mouseover") and UnitDebuffDuration(kps.spells.priest.vampiricTouch,"mouseover") < 2 then
-            kps.runMacro("/focus mouseover") --print("Enemy COMBAT|cff1eff00 "..name.." |cffffffffset as FOCUS not DEBUFF")
+            kps.runMacro("/focus mouseover")
         elseif not UnitIsUnit("target","mouseover") then
             kps.runMacro("/focus mouseover")
         end

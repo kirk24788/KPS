@@ -68,6 +68,8 @@ kps.events.register("PLAYER_LEAVE_COMBAT", function()
 end)
 kps.events.register("PLAYER_REGEN_ENABLED", function()
     combatEnterTime = 0
+    -- Garbage
+    collectgarbage("collect")
 end)
 
 
@@ -81,7 +83,6 @@ end
 function Player.hasTalent(self)
     return hasTalent
 end
-
 
 --[[[
 @function `player.hasGlyph(<GLYPH>)` - returns true if the player has the given gylph - glyphs can be accessed via the spells (e.g.: `player.hasGlyph(spells.glyphOfDeathGrip)`).
@@ -131,8 +132,8 @@ end
 @function `player.useTrinket(<SLOT>)` - returns true if the player has the given trinket and cooldown == 0
 ]]--
 -- For trinket's. Pass 0 or 1 for the slot.
--- { "macro", Player.useTrinket(0) , "/use 13"},
--- { "macro", Player.useTrinket(1) , "/use 14"},
+-- { "macro", player.useTrinket(0) , "/use 13"},
+-- { "macro", player.useTrinket(1) , "/use 14"},
 local useTrinket = function(trinketNum)
     -- The index actually starts at 0
     local slotName = "Trinket"..(trinketNum).."Slot" -- "Trinket0Slot" "Trinket1Slot"

@@ -46,3 +46,63 @@ function Unit.isRaidBoss(self)
     end
     return false
 end
+
+--[[
+Player Nameplates
+]]--
+
+local activeUnitPlates = {}
+
+local function AddNameplate(unitID)
+    local nameplate = C_NamePlate.GetNamePlateForUnit(unitID)
+    if UnitCanAttack("player",unitID) then
+        activeUnitPlates[unitID] = nameplate:GetName()
+    end
+end
+
+local function RemoveNameplate(unitID)
+    activeUnitPlates[unitID] = nil
+end
+
+kps.events.register("NAME_PLATE_UNIT_ADDED", function(unitID)
+    AddNameplate(unitID)
+end)
+
+kps.events.register("NAME_PLATE_UNIT_REMOVED", function(unitID)
+    RemoveNameplate(unitID)
+end)
+
+function nameplateTarget(unitguid)
+    for unit,_ in pairs(activeUnitPlates) do
+        if UnitExists(unit.."target") then
+            local target = unit.."target"
+            local targetguid = UnitGUID(target)
+            if targetguid == unitguid then return true end
+        end
+    end
+    return false
+end
+
+--[[[
+@function `<UNIT>.plateCount` - returns namePlates count in combat (actives enemies)
+]]--
+function Unit.plateCount(self)
+    local plateCount = 0
+    for unit,_ in pairs(activeUnitPlates) do
+        if UnitAffectingCombat(unit) then plateCount = plateCount + 1 end
+    end
+    return plateCount
+end
+
+--[[[
+@function `<UNIT>.isTarget` - returns true if the unit is targeted by an enemy nameplate
+]]--
+function Unit.isTarget(self)
+    for unit,_ in pairs(activeUnitPlates) do
+        if UnitExists(unit.."target") then
+            local target = unit.."target"
+            if UnitIsUnit(target,self.unit) then return true end
+        end
+    end
+    return false
+end
