@@ -10,7 +10,7 @@ local env = kps.env.priest
 kps.rotations.register("PRIEST","HOLY",
 {
     {{"nested"}, 'player.hasBuff(spells.spiritOfRedemption)' ,{
-    	{spells.holyWordSerenity, 'heal.lowestInRaid.hp < 0.60' , kps.heal.lowestInRaid},
+        {spells.holyWordSerenity, 'heal.lowestInRaid.hp < 0.60' , kps.heal.lowestInRaid},
         {spells.prayerOfHealing, 'heal.countInRange > 3' , kps.heal.lowestInRaid},
         {spells.flashHeal, 'heal.lowestInRaid.hp < 0.80' , kps.heal.lowestInRaid},
         {spells.renew, 'heal.lowestInRaid.myBuffDuration(spells.renew) < 3 and heal.lowestInRaid.hp < 0.95' , kps.heal.lowestInRaid},
@@ -48,7 +48,7 @@ kps.rotations.register("PRIEST","HOLY",
     -- "Fade" 586 "Disparition"
     {spells.fade, 'player.isTarget' },
     -- "Prière du désespoir" 19236 "Desperate Prayer"
-	{spells.desperatePrayer, 'player.hp < 0.60' , "player" },
+    {spells.desperatePrayer, 'player.hp < 0.60' , "player" },
     -- Body and Mind
     {spells.bodyAndMind, 'player.isMoving and not player.hasBuff(spells.bodyAndMind)' , "player"},
     -- "Don des naaru" 59544
@@ -88,7 +88,7 @@ kps.rotations.register("PRIEST","HOLY",
 
     -- "Soins de lien" 32546
     {spells.bindingHeal, 'heal.lowestInRaid.hp < 0.70 and player.hp < 0.70 and player.hp > heal.lowestInRaid.hp' , kps.heal.lowestInRaid},
-	{spells.flashHeal, 'not player.isMoving and player.hp < 0.70' , "player"},
+    {spells.flashHeal, 'not player.isMoving and player.hp < 0.70' , "player"},
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal and heal.lowestTankInRaid.hp < 0.80' , kps.heal.lowestTankInRaid},
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.70' , kps.heal.lowestTankInRaid},    
     {spells.flashHeal, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.70' , kps.heal.lowestTargetInRaid},   
