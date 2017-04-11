@@ -357,7 +357,7 @@ Members:
  * `<UNIT>.npcId` - returns the unit id (as seen on wowhead)
  * `<UNIT>.level` - returns the unit level
  * `<UNIT>.isRaidBoss` - returns true if the unit is a raid boss
- * `<UNIT>.plateCount` - returns namePlates count in combat (actives enemies)
+ * `<UNIT>.plateCount` - e.g. 'player.plateCount' returns namePlates count in combat (actives enemies)
  * `<UNIT>.isTarget` - returns true if the unit is targeted by an enemy nameplate
  * `<UNIT>.hp` - returns the unit hp (in a range between 0.0 and 1.0).
  * `<UNIT>.hpTotal` - returns the current hp as an absolute value.
