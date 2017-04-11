@@ -55,7 +55,7 @@ ADDITIONAL_SPELLS = {
         48108, # Hot Streak!
     ], "monk": [116768,159407,145008],
     "paladin": [117809,156989,156988,156990,166831],
-    "priest": [179337],
+    "priest": [],
     "rogue": [
         193359, # True Bearing
         193357, # Shark Infested Waters
