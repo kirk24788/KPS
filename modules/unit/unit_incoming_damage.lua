@@ -1,117 +1,34 @@
---[[[
-@module Incoming Damage
-Provides access to historical data on the incoming damage. This module is aimed
-at tank rotations, but might be useful for other classes too.
+--[[
+Unit Incoming Damage: Functions which handle incoming damage or healing
 ]]--
-kps.IncomingDamage = {}
-kps.IncomingDamage.prototype = {}
-kps.IncomingDamage.metatable = {}
+local Unit = kps.Unit.prototype
 
-function kps.IncomingDamage.new()
-    local inst = {}
-    setmetatable(inst, kps.IncomingDamage.metatable)
-    return inst
-end
+local incomingTimeRange = 4
+local moduleLoaded = false
 
-kps.IncomingDamage.metatable.__index = function (table, key)
-    local fn = kps.IncomingDamage.prototype[key]
-    if fn == nil then
-        error("Unknown IncomingDamage-Property '" .. key .. "'!")
+
+-- incomingDamage
+local incomingDamage = {}
+local updateincomingDamage = function(duration)
+    for unit,index in pairs(incomingDamage) do
+        local data = #index
+        local delta = GetTime() - index[1][1]
+        if delta > 5 then incomingDamage[unit] = nil end
     end
-    return fn(table)
 end
 
---[[[
-@function `keys.incomingDamage(<TIME>)` - Returns the amount of damage which was done to the player over the last <TIME> seconds.
-]]--
-function kps.incomingDamage(time)
-    -- TODO: Load on demand!
-    return 0
-end
-
-
-
-
--- IncomingDamage
-local IncomingDamage = {}
---setmetatable(IncomingDamage, { __mode = 'k' }) -- creation of a weak table
 -- Incoming Heal
-local IncomingHeal = {}
---setmetatable(IncomingHeal, { __mode = 'k' }) -- creation of a weak table
-
--- IncomingDamage[destGUID] = { {GetTime(),damage,destName}, ... }
-local updateIncomingDamage = function(duration)
-    for unit,index in pairs(IncomingDamage) do
+local incomingHeal = {}
+local updateincomingHeal = function()
+    for unit,index in pairs(incomingHeal) do
         local data = #index
         local delta = GetTime() - index[1][1]
-        if delta > 5 then IncomingDamage[unit] = nil end
+        if delta > 5 then incomingHeal[unit] = nil end
     end
 end
 
--- IncomingHeal[destGUID] = ( {GetTime(),heal,destName}, ... )
-local updateIncomingHeal = function()
-    for unit,index in pairs(IncomingHeal) do
-        local data = #index
-        local delta = GetTime() - index[1][1]
-        if delta > 5 then IncomingHeal[unit] = nil end
-    end
-end
 
-local updateFrequency = GetTime()
-cachedValue = function(fn,updateInterval)
-    if not updateInterval then updateInterval = 0.2 end
-    local curTime = GetTime()
-    local diff = curTime - updateFrequency
-    if diff < updateInterval then return end
-    updateFrequency = curTime
-    local value = fn()
-    return value
-end
 
-kps.events.registerOnUpdate(function()
-    cachedValue(updateIncomingHeal,1)
-    cachedValue(updateIncomingDamage,1)
-end)
-
-function UnitIncomingDamage(unitguid)
-    local time = 4
-    --local unitguid = UnitGUID(unit)
-    local totalDamage = 0
-    if IncomingDamage[unitguid] ~= nil then
-        local dataset = IncomingDamage[unitguid]
-        if #dataset > 1 then
-            local timeDelta = dataset[1][1] - dataset[#dataset][1] -- (lasttime - firsttime)
-            local totalTime = math.max(timeDelta, 1)
-            if time > totalTime then time = totalTime end
-            for i=1,#dataset do
-                if dataset[1][1] - dataset[i][1] <= time then
-                    totalDamage = totalDamage + dataset[i][2]
-                end
-            end
-        end
-    end
-    return totalDamage
-end
-
-function UnitIncomingHeal(unitguid)
-    local time = 4
-    --local unitguid = UnitGUID(unit)
-    local totalHeal = 0
-    if IncomingHeal[unitguid] ~= nil then
-        local dataset = IncomingHeal[unitguid]
-        if #dataset > 1 then
-            local timeDelta = dataset[1][1] - dataset[#dataset][1] -- (lasttime - firsttime)
-            local totalTime = math.max(timeDelta, 1)
-            if time > totalTime then time = totalTime end
-                for i=1,#dataset do
-                    if dataset[1][1] - dataset[i][1] <= time then
-                    totalHeal = totalHeal + dataset[i][2]
-                end
-            end
-        end
-    end
-    return totalHeal
-end
 
 -------------------------------------------------------
 -------- COMBAT_LOG_EVENT_UNFILTERED FUNCTIONS --------
@@ -134,7 +51,7 @@ end
 -- eventtable[15] == amount if suffix is SPELL_DAMAGE or SPELL_HEAL -- spellHealed
 -- eventtable[16] == spellCount if suffix is _AURA
 
--- for the SWING prefix, _DAMAGE starts at the 12th parameter. 
+-- for the SWING prefix, _DAMAGE starts at the 12th parameter.
 -- for ENVIRONMENTAL prefix, _DAMAGE starts at the 13th.
 
 local damageEvents = {
@@ -160,22 +77,22 @@ local RAID_AFFILIATION = bit.bor(COMBATLOG_OBJECT_AFFILIATION_PARTY, COMBATLOG_O
 local COMBATLOG_OBJECT_CONTROL_PLAYER = COMBATLOG_OBJECT_CONTROL_PLAYER
 local bitband = bit.band
 
-kps.events.register("COMBAT_LOG_EVENT_UNFILTERED", function ( ... )
 
+local combatLogUpdate = function ( ... )
     local currentTime = GetTime()
     local event = select(2,...)
     local sourceGUID = select(4,...)
     local sourceFlags = select(6,...)
     local destGUID = select(8,...)
     local destFlags = select(10,...)
-    local sourceName = select(5,...) 
+    local sourceName = select(5,...)
     local destName = select(9,...)
-    
+
     local isSourceEnemy = bitband(sourceFlags, COMBATLOG_OBJECT_REACTION_HOSTILE) == COMBATLOG_OBJECT_REACTION_HOSTILE
     local isDestEnemy = bitband(destFlags, COMBATLOG_OBJECT_REACTION_HOSTILE) == COMBATLOG_OBJECT_REACTION_HOSTILE
     local isSourceFriend = bitband(sourceFlags,COMBATLOG_OBJECT_REACTION_FRIENDLY) == COMBATLOG_OBJECT_REACTION_FRIENDLY
     local isDestFriend = bitband(destFlags,COMBATLOG_OBJECT_REACTION_FRIENDLY) == COMBATLOG_OBJECT_REACTION_FRIENDLY
-        
+
     -- HEAL TABLE -- Incoming Heal on Enemy from Enemy Healers UnitGUID
     if healEvents[event] then
         if isDestEnemy and isSourceEnemy then
@@ -187,15 +104,15 @@ kps.events.register("COMBAT_LOG_EVENT_UNFILTERED", function ( ... )
                 if addEnemyHealer then EnemyHealer[sourceGUID] = {classHealer,sourceName} end
             end
         end
-    
+
     -- HEAL TABLE -- Incoming Heal on Friend
         if isDestFriend and UnitCanAssist("player",destName) then
             local heal = select(15,...)
-            if IncomingHeal[destGUID] == nil then IncomingHeal[destGUID] = {} end
-            tinsert(IncomingHeal[destGUID],1,{GetTime(),heal,destName})
+            if incomingHeal[destGUID] == nil then incomingHeal[destGUID] = {} end
+            tinsert(incomingHeal[destGUID],1,{GetTime(),heal,destName})
         end
     end
-    
+
     -- DAMAGE TABLE Note that for the SWING prefix, _DAMAGE starts at the 12th parameter
     if damageEvents[event] then
         if isDestFriend and UnitCanAssist("player",destName) then
@@ -218,10 +135,67 @@ kps.events.register("COMBAT_LOG_EVENT_UNFILTERED", function ( ... )
                 envdmg = env
             end
             damage = swingdmg + spelldmg + envdmg
-    
+
             -- Table of Incoming Damage on Friend
-            if IncomingDamage[destGUID] == nil then IncomingDamage[destGUID] = {} end
-            table.insert(IncomingDamage[destGUID],1,{GetTime(),damage,destName})
+            if incomingDamage[destGUID] == nil then incomingDamage[destGUID] = {} end
+            table.insert(incomingDamage[destGUID],1,{GetTime(),damage,destName})
         end
     end
-end)
+end
+
+
+local function loadOnDemand()
+    if not moduleLoaded then
+        kps.events.registerOnUpdate(function()
+            kps.utils.cachedFunction(updateincomingHeal,1)
+            kps.utils.cachedFunction(updateincomingDamage,1)
+        end)
+        kps.events.register("COMBAT_LOG_EVENT_UNFILTERED", combatLogUpdate)
+        moduleLoaded = true
+    end
+end
+
+
+--[[[
+@function `<UNIT>.incomingDamage` - returns incoming damage of the unit over last 4 seconds
+]]--
+function Unit.incomingDamage(self)
+    loadOnDemand()
+    local totalDamage = 0
+    if incomingDamage[self.guid] ~= nil then
+        local dataset = incomingDamage[self.guid]
+        if #dataset > 1 then
+            local timeDelta = dataset[1][1] - dataset[#dataset][1] -- (lasttime - firsttime)
+            local totalTime = math.max(timeDelta, 1)
+            if incomingTimeRange > totalTime then incomingTimeRange = totalTime end
+            for i=1,#dataset do
+                if dataset[1][1] - dataset[i][1] <= incomingTimeRange then
+                    totalDamage = totalDamage + dataset[i][2]
+                end
+            end
+        end
+    end
+    return totalDamage
+end
+
+--[[[
+@function `<UNIT>.incomingHeal` - returns incoming heal of the unit over last 4 seconds
+]]--
+function Unit.incomingHeal(self)
+    loadOnDemand()
+    local totalHeal = 0
+    if incomingHeal[self.guid] ~= nil then
+        local dataset = incomingHeal[self.guid]
+        if #dataset > 1 then
+            local timeDelta = dataset[1][1] - dataset[#dataset][1] -- (lasttime - firsttime)
+            local totalTime = math.max(timeDelta, 1)
+            if incomingTimeRange > totalTime then incomingTimeRange = totalTime end
+                for i=1,#dataset do
+                    if dataset[1][1] - dataset[i][1] <= incomingTimeRange then
+                    totalHeal = totalHeal + dataset[i][2]
+                end
+            end
+        end
+    end
+    return totalHeal
+end

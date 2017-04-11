@@ -102,18 +102,3 @@ function Unit.timeToDie(self)
     local timeToDie = calcTimeToDie(self.guid, self.hpTotal)
     if timeToDie ~= nil then return math.ceil(timeToDie) else return 666 end
 end
-
-
---[[[
-@function `<UNIT>.incomingDamage` - returns incoming damage of the unit over last 4 seconds
-]]--
-function Unit.incomingDamage(self)
-    return UnitIncomingDamage(self.guid)
-end
-
---[[[
-@function `<UNIT>.incomingHeal` - returns incoming heal of the unit over last 4 seconds
-]]--
-function Unit.incomingHeal(self)
-    return UnitIncomingHeal(self.guid)
-end
