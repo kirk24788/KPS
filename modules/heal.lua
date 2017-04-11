@@ -304,9 +304,9 @@ end)
 kps.RaidStatus.prototype.lowestTargetInRaid = kps.utils.cachedValue(function()
     local lowestUnit = kps["env"].player
     local lowestHp = 2
-    for name, player in pairs(raidStatus) do
-        if friendIsRaidTarget(player.guid) and player.hpIncoming < lowestHp then
-            lowestUnit = player
+    for name, unit in pairs(raidStatus) do
+        if unit.isTarget and unit.hpIncoming < lowestHp then
+            lowestUnit = unit
             lowestHp = lowestUnit.hp
         end
     end
@@ -318,8 +318,8 @@ end)
 ]]--
 
 kps.RaidStatus.prototype.isMagicDispellable = kps.utils.cachedValue(function()
-    for name, player in pairs(raidStatus) do
-        if player.isDispellable("Magic") then return player end
+    for name, unit in pairs(raidStatus) do
+        if unit.isDispellable("Magic") then return unit end
     end
     return nil
 end)
@@ -330,4 +330,3 @@ kps.env.heal = kps.RaidStatus.new(true)
 -- And use another instance of RaidStatus which returns the functions so we can write
 -- kps.heal.defaultTarget as a target for our rotation tables...
 kps.heal = kps.RaidStatus.new(false)
-

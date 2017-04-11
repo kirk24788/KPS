@@ -10,6 +10,7 @@ local env = kps.env.priest
 kps.rotations.register("PRIEST","HOLY",
 {
     {{"nested"}, 'player.hasBuff(spells.spiritOfRedemption)' ,{
+    	{spells.holyWordSerenity, 'heal.lowestInRaid.hp < 0.60' , kps.heal.lowestInRaid},
         {spells.prayerOfHealing, 'heal.countInRange > 3' , kps.heal.lowestInRaid},
         {spells.flashHeal, 'heal.lowestInRaid.hp < 0.80' , kps.heal.lowestInRaid},
         {spells.renew, 'heal.lowestInRaid.myBuffDuration(spells.renew) < 3 and heal.lowestInRaid.hp < 0.95' , kps.heal.lowestInRaid},
@@ -25,7 +26,8 @@ kps.rotations.register("PRIEST","HOLY",
     {{"macro"}, 'player.useTrinket(1) and heal.countInRange > 3' , "/use 14"}, -- jps.useTrinket(1) est "Trinket1Slot" est slotId  14
 
     -- "Apotheosis" 200183 increasing the effects of Serendipity by 200% and reducing the cost of your Holy Words by 100%.
-    { spells.apotheosis, 'player.hasTalent(7,1) and heal.lowestInRaid.hp < 0.40' },
+    { spells.apotheosis, 'player.hasTalent(7,1) and heal.lowestTankInRaid.hp < 0.40' },
+    { spells.apotheosis, 'player.hasTalent(7,1) and heal.lowestInRaid.hp < 0.40 and spells.guardianSpirit.cooldown > 0' },
     { spells.apotheosis, 'player.hasTalent(7,1) and heal.countInRange > 3' },
     
     -- Holy Word: Serenity
@@ -45,9 +47,10 @@ kps.rotations.register("PRIEST","HOLY",
 
     -- "Fade" 586 "Disparition"
     {spells.fade, 'player.isTarget' },
+    -- "Prière du désespoir" 19236 "Desperate Prayer"
+	{spells.desperatePrayer, 'player.hp < 0.60' , "player" },
     -- Body and Mind
     {spells.bodyAndMind, 'player.isMoving and not player.hasBuff(spells.bodyAndMind)' , "player"},
-
     -- "Don des naaru" 59544
     {spells.giftNaaru, 'player.hp < 0.60' , "player" },
     -- "Pierre de soins" 5512
@@ -85,7 +88,7 @@ kps.rotations.register("PRIEST","HOLY",
 
     -- "Soins de lien" 32546
     {spells.bindingHeal, 'heal.lowestInRaid.hp < 0.70 and player.hp < 0.70 and player.hp > heal.lowestInRaid.hp' , kps.heal.lowestInRaid},
-
+	{spells.flashHeal, 'not player.isMoving and player.hp < 0.70' , "player"},
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal and heal.lowestTankInRaid.hp < 0.80' , kps.heal.lowestTankInRaid},
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.70' , kps.heal.lowestTankInRaid},    
     {spells.flashHeal, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.70' , kps.heal.lowestTargetInRaid},   
