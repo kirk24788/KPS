@@ -270,8 +270,6 @@ Members:
  * `player.staggerPercentTotal` - returns the percentage of stagger to the player max health
  * `player.isBehind` - returns true if the player is behind the last target. Also returns true if the player never received an error - if you want to check if the player is in front *DON'T* use this function!
  * `player.isInFront` - returns true if the player is in front of the last target. Also returns true if the player never received an error - if you want to check if the player is behind *DON'T* use this function!
- * `player.plateCount` - returns NamePlate count in combat
- * `player.isTarget` - returns true if the player is targeted
 
 
 #### Spell Class
@@ -359,6 +357,8 @@ Members:
  * `<UNIT>.npcId` - returns the unit id (as seen on wowhead)
  * `<UNIT>.level` - returns the unit level
  * `<UNIT>.isRaidBoss` - returns true if the unit is a raid boss
+ * `<UNIT>.plateCount` - returns namePlates count in combat (actives enemies)
+ * `<UNIT>.isTarget` - returns true if the unit is targeted by an enemy nameplate
  * `<UNIT>.hp` - returns the unit hp (in a range between 0.0 and 1.0).
  * `<UNIT>.hpTotal` - returns the current hp as an absolute value.
  * `<UNIT>.hpMax` - returns the maximum hp as an absolute value

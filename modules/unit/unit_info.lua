@@ -84,7 +84,7 @@ function nameplateTarget(unitguid)
 end
 
 --[[[
-@function `<UNIT>.plateCount` - returns namePlates count in combat (actives enemies)
+@function `<UNIT>.plateCount` - e.g. 'player.plateCount' returns namePlates count in combat (actives enemies)
 ]]--
 function Unit.plateCount(self)
     local plateCount = 0
