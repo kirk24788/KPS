@@ -16,6 +16,8 @@ kps.Spell = {}
 kps.Spell.prototype = {}
 kps.Spell.metatable = {}
 
+local GetUnitName = GetUnitName
+
 local castAt = setmetatable({}, {
     __index = function(t, self)
         local val = function (target)
@@ -31,6 +33,7 @@ local castAt = setmetatable({}, {
                 CastSpellByName(self.name,target)
             end
 
+            if kps.debug then print(self.name,"|cff1eff00","|",GetUnitName(target)) end
             kps.gui.updateSpellTexture(self)
 
             local _, gcd = GetSpellCooldown(61304) -- Global Cooldown Spell

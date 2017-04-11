@@ -82,7 +82,6 @@ kps.RaidStatus.metatable.__index = function (table, key)
 end
 
 
-
 --[[[
 @function `heal.count` - return the size of the current group
 ]]--
@@ -131,7 +130,6 @@ end)
 
 --[[[
 @function `heal.lowestTankInRaid` - Returns the lowest tank in the raid (based on _incoming_ HP!) - a tank is either:
-
     * any group member that has the Group Role `TANK`
     * is `focus` target
     * `player` if neither Group Role nor `focus` are set
@@ -150,18 +148,16 @@ end)
 
 --[[[
 @function `heal.defaultTarget` - Returns the default healing target based on these rules:
-
     * `player` if the player is below 20% hp incoming
     * `focus` if the focus is below 50% hp incoming (if the focus is not healable, `focustarget` is checked instead)
     * `target` if the target is below 50% hp incoming (if the target is not healable, `targettarget` is checked instead)
     * lowest tank in raid which is below 50% hp incoming
     * lowest raid member
-
     When used as a _target_ in your rotation, you *must* write `kps.heal.defaultTarget`!
 ]]--
 kps.RaidStatus.prototype.defaultTarget = kps.utils.cachedValue(function()
-    -- If we're below 20% - always heal us first!
-    if kps.env.player.hpIncoming < 0.2 then return kps["env"].player end
+    -- If we're below 30% - always heal us first!
+    if kps.env.player.hpIncoming < 0.3 then return kps["env"].player end
     -- If the focus target is below 50% - take it (must be some reason there is a focus after all...)
     if kps["env"].focus.isHealable and kps["env"].focus.hpIncoming < 0.5 then return kps["env"].focus end
     -- MAYBE we also focused an enemy so we can heal it's target...
@@ -177,17 +173,15 @@ end)
 
 --[[[
 @function `heal.defaultTank` - Returns the default tank based on these rules:
-
     * `player` if the player is below 20% hp incoming
     * `focus` if the focus is below 50% hp incoming (if the focus is not healable, `focustarget` is checked instead)
     * `target` if the target is below 50% hp incoming (if the target is not healable, `targettarget` is checked instead)
     * lowest tank in raid
-
     When used as a _target_ in your rotation, you *must* write `kps.heal.defaultTank`!
 ]]--
 kps.RaidStatus.prototype.defaultTank = kps.utils.cachedValue(function()
-    -- If we're below 20% - always heal us first!
-    if kps.env.player.hpIncoming < 0.2 then return kps["env"].player end
+    -- If we're below 30% - always heal us first!
+    if kps.env.player.hpIncoming < 0.3 then return kps["env"].player end
     -- If the focus target is below 50% - take it (must be some reason there is a focus after all...)
     if kps["env"].focus.isHealable and kps["env"].focus.hpIncoming < 0.5 then return kps["env"].focus end
     -- MAYBE we also focused an enemy so we can heal it's target...
@@ -206,8 +200,10 @@ kps.RaidStatus.prototype.averageHpIncoming = kps.utils.cachedValue(function()
     local hpIncTotal = 0
     local hpIncCount = 0
     for name, unit in pairs(raidStatus) do
-        hpIncTotal = hpIncTotal + unit.hpIncoming
-        hpIncCount = hpIncCount + 1
+        if unit.isHealable then
+            hpIncTotal = hpIncTotal + unit.hpIncoming
+            hpIncCount = hpIncCount + 1
+        end
     end
     return hpIncTotal / hpIncCount
 end)
@@ -216,15 +212,36 @@ end)
 @function `heal.countInRange()` - Returns the count for all raid members below threshold 0.80 health pct
 ]]--
 
-kps.RaidStatus.prototype.countInRange = kps.utils.cachedValue(function()
+local countInRange = function(pct)
+    if pct == nil then pct = 1 end
     local count = 0
+    local maxcount = 0
     for name, unit in pairs(raidStatus) do
-        if unit.hpIncoming < 0.80 then
-            count = count + 1
+        if unit.isHealable then
+            maxcount = maxcount + 1
+            if unit.hpIncoming < pct then
+                count = count + 1
+            end
         end
     end
+    return count, maxcount
+end
+
+kps.RaidStatus.prototype.countInRange = kps.utils.cachedValue(function()
+    local count,_ = countInRange(0.80)
     return count
 end)
+
+
+kps.RaidStatus.prototype.maxcountInRange = kps.utils.cachedValue(function()
+    local _,maxcount = countInRange(0.80)
+    return maxcount
+end)
+
+--[[[
+@function `heal.aggroTankTarget` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
+    When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTank`!
+]]--
 
 local function findAggroTankOfUnit(targetUnit)
     local allTanks = tanksInRaid()
@@ -247,23 +264,64 @@ local function findAggroTankOfUnit(targetUnit)
     return aggroTank
 end
 
---[[[
-@function `heal.aggroTank` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
-
-    When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTank`!
-]]--
-kps.RaidStatus.prototype.aggroTank = kps.utils.cachedValue(function()
+kps.RaidStatus.prototype.aggroTankTarget = kps.utils.cachedValue(function()
     return findAggroTankOfUnit("target")
 end)
 
 --[[[
 @function `heal.aggroTankFocus` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
-
     When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTankFocus`!
 ]]--
 
 kps.RaidStatus.prototype.aggroTankFocus = kps.utils.cachedValue(function()
     return findAggroTankOfUnit("focus")
+end)
+
+--[[[
+@function `heal.aggroTank` - Returns the tank or unit if overnuked with highest aggro and lowest health Without otherunit specified.
+]]--
+local tsort = table.sort
+kps.RaidStatus.prototype.aggroTank = kps.utils.cachedValue(function()
+    local TankUnit = tanksInRaid()
+    for name, unit in pairs(raidStatus) do
+        local unitThreat = UnitThreatSituation(name)
+        if unitThreat == 1 and unit.isHealable then
+            TankUnit[#TankUnit+1] = unit
+        elseif unitThreat == 3 and unit.isHealable then
+            TankUnit[#TankUnit+1] = unit
+        end
+    end
+    tsort(TankUnit, function(a,b) return a.hpIncoming < b.hpIncoming end)
+    local myTank = TankUnit[1]
+    if myTank == nil then myTank = kps["env"].player end
+    return myTank
+end)
+
+--[[[
+@function `heal.lowestTargetInRaid` - Returns the raid unit with lowest health targeted by enemy nameplate.
+]]--
+
+kps.RaidStatus.prototype.lowestTargetInRaid = kps.utils.cachedValue(function()
+    local lowestUnit = kps["env"].player
+    local lowestHp = 2
+    for name, unit in pairs(raidStatus) do
+        if unit.isTarget and unit.hpIncoming < lowestHp then
+            lowestUnit = unit
+            lowestHp = lowestUnit.hp
+        end
+    end
+    return lowestUnit
+end)
+
+--[[[
+@function `heal.isMagicDispellable` - Returns the raid unit with magic debuff to dispel
+]]--
+
+kps.RaidStatus.prototype.isMagicDispellable = kps.utils.cachedValue(function()
+    for name, unit in pairs(raidStatus) do
+        if unit.isDispellable("Magic") then return unit end
+    end
+    return nil
 end)
 
 -- Here comes the tricky part - use an instance of RaidStatus which calls it's members
@@ -272,4 +330,3 @@ kps.env.heal = kps.RaidStatus.new(true)
 -- And use another instance of RaidStatus which returns the functions so we can write
 -- kps.heal.defaultTarget as a target for our rotation tables...
 kps.heal = kps.RaidStatus.new(false)
-
