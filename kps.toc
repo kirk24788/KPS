@@ -24,6 +24,7 @@ core\rotations.lua
 core\timers.lua
 modules\spell\spell.lua
 modules\spell\spells.lua
+modules\spell\spells_healer.lua
 modules\spell\spell_range.lua
 modules\spell\spell_state.lua
 modules\spell\spell_ticktime.lua

@@ -73,12 +73,17 @@ _(Might not be fully functional)_
 
 * Hunter: Survival (7.0.3)
 * Mage: Arcane (7.0.3), Frost (7.0.3)
-* Monk: Brewmaster (7.0.3), Windwalker (6.2.2)
-* Paladin: Protection (7.0.3)
+* Monk: Brewmaster (7.2), Windwalker (6.2.2)
+* Paladin: Protection (7.2)
 * Priest: Discipline (7.0.3)
 * Rogue: Assassination (7.0.3), Subtlety (7.0.3)
 * Shaman: Elemental (7.0.3)
-* Warrior: Protection (7.0.3)
+* Warrior: Protection (7.2)
+
+**Special Thanks for contributing to the KPS rotations:**
+
+* htordeux
+
 
 
 ##  Development
@@ -166,21 +171,12 @@ Members:
  * `heal.averageHpIncoming` - Returns the average hp incoming for all raid members
  * `heal.countInRange()` - Returns the count for all raid members below threshold 0.80 health pct
  * `heal.aggroTankTarget` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
-    When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTank`!
+    When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTankTarget`!
  * `heal.aggroTankFocus` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
     When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTankFocus`!
  * `heal.aggroTank` - Returns the tank or unit if overnuked with highest aggro and lowest health Without otherunit specified.
  * `heal.lowestTargetInRaid` - Returns the raid unit with lowest health targeted by enemy nameplate.
  * `heal.isMagicDispellable` - Returns the raid unit with magic debuff to dispel
-
-
-#### Incoming Damage
-Provides access to historical data on the incoming damage. This module is aimed
-at tank rotations, but might be useful for other classes too.
-
-Members:
-
- * `keys.incomingDamage(<TIME>)` - Returns the amount of damage which was done to the player over the last <TIME> seconds.
 
 
 #### Keys
@@ -352,6 +348,8 @@ Members:
  * `<UNIT>.isCasting` - returns true if the unit is casting (or channeling) a spell
  * `<UNIT>.isCastingSpell(<SPELL>)` - returns true if the unit is casting (or channeling) the given <SPELL> (i.e. `target.isCastingSpell(spells.immolate)`)
  * `<UNIT>.isInterruptable` - returns true if the unit is currently casting (or channeling) a spell which can be interrupted.
+ * `<UNIT>.incomingDamage` - returns incoming damage of the unit over last 4 seconds
+ * `<UNIT>.incomingHeal` - returns incoming heal of the unit over last 4 seconds
  * `<UNIT>.name` - returns the unit name
  * `<UNIT>.guid` - returns the unit guid
  * `<UNIT>.npcId` - returns the unit id (as seen on wowhead)
@@ -379,8 +377,6 @@ Members:
  * `<UNIT>.inVehicle` - returns true if the given unit is inside a vehicle.
  * `<UNIT>.isHealable` - returns true if the give unit is healable by the player.
  * `<UNIT>.hasPet` - returns true if the given unit has a pet.
- * `<UNIT>.incomingDamage` - returns incoming damage of the unit over last 4 seconds
- * `<UNIT>.incomingHeal` - returns incoming heal of the unit over last 4 seconds
 
 
 ### Rotations
@@ -606,8 +602,6 @@ kps.rotations.register(
  * `env.lua:28` - Clean UP!!! This code is a mess...
  * `gui/toggle.lua:75` - Right-Click Action
  * `libs/LibRangeCheck-2.0/LibRangeCheck-2.0.lua:31` - check if unit is valid, etc
-
- * `modules/incoming_damage.lua:28` - Load on demand!
  * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
  * `modules/unit/unit_casting.lua:63` - Blacklisted spells?
  * `modules/unit/unit_state.lua:13` - PvP
