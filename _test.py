@@ -22,19 +22,18 @@ print "Testing Class/Spec Meta-Data..."
 from utils.config import SUPPORTED_SPECS
 exception_raised = False
 
+
+global_spells = []
+with open("modules/spell/spells.lua" , "r") as f:
+    data = f.read()
+    for line in data.split("\n"):
+        prefix = "kps.spells."
+        prefix_length = len(prefix)
+        if line.startswith(prefix):
+            global_spells.append(line[prefix_length:].split("=")[0].strip())
 for class_name in sorted(SUPPORTED_SPECS.keys()):
     spec_names = sorted(SUPPORTED_SPECS[class_name])
-    spells = []
-    with open("rotations/%s_spells.lua" % class_name, "r") as f:
-        data = f.read()
-        for line in data.split("\n"):
-            prefix = "kps.spells.%s." % class_name
-            prefix_length = len(prefix)
-            if line.startswith(prefix):
-                spells.append(line[prefix_length:].split("=")[0].strip())
-for class_name in sorted(SUPPORTED_SPECS.keys()):
-    spec_names = sorted(SUPPORTED_SPECS[class_name])
-    spells = []
+    spells = list(global_spells)
     with open("rotations/%s_spells.lua" % class_name, "r") as f:
         data = f.read()
         for line in data.split("\n"):
@@ -53,7 +52,7 @@ for class_name in sorted(SUPPORTED_SPECS.keys()):
                 for line in data.split("\n"):
                     line_nr = line_nr + 1
                     if "local spells" not in line:
-                        for match in re.findall("spells\.([a-zA-Z0-9]*)", line):
+                        for match in re.findall("spells\.([racial\.|ae\.]?[a-zA-Z0-9]*)", line):
                             if match not in spells:
                                 print "%s:%d - Unknown 'spells.%s'" % (rotation_file, line_nr, match)
                                 exception_raised = True
