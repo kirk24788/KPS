@@ -240,7 +240,7 @@ end)
 
 --[[[
 @function `heal.aggroTankTarget` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
-    When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTank`!
+    When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTankTarget`!
 ]]--
 
 local function findAggroTankOfUnit(targetUnit)
@@ -330,3 +330,32 @@ kps.env.heal = kps.RaidStatus.new(true)
 -- And use another instance of RaidStatus which returns the functions so we can write
 -- kps.heal.defaultTarget as a target for our rotation tables...
 kps.heal = kps.RaidStatus.new(false)
+
+
+function kpstest()
+
+for name, unit in pairs(raidStatus) do
+    print("|cffffffffName: ",name,"Unit: ",unit.unit,"Guid: ",unit.guid)
+    print("|cffff8000TARGET: ",unit.isTarget)
+    print("|cff1eff00HEAL: ",unit.incomingHeal)
+    print("|cFFFF0000DMG: ",unit.incomingDamage)
+end
+print("LOWEST",kps["env"].heal.lowestInRaid.name)
+--print("test",kps["env"].player.isCastingSpell(kps.spells.priest.mindFlay))
+--print("test",kps["env"].player.isCastingSpell(kps.spells.priest.mindBlast))
+--print("test",kps["env"].target.isAttackable)
+
+end
+
+
+--[[
+|cffe5cc80 = beige (artifact)
+|cffff8000 = orange (legendary)
+|cffa335ee = purple (epic)
+|cff0070dd = blue (rare)
+|cff1eff00 = green (uncommon)
+|cffffffff = white (normal)
+|cff9d9d9d = gray (crappy)
+|cFFFFff00 = yellow
+|cFFFF0000 = red
+]]

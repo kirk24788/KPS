@@ -23,7 +23,6 @@ kps.rotations.register("SHAMAN","RESTORATION",
 
     {{"nested"}, 'player.hasBuff(spells.tidalWaves)', {
 
-        {spells.unleashLife, 'heal.defaultTank.hp < 0.4'},
         {spells.healingWave, 'heal.defaultTank.hp < 0.7', kps.heal.defaultTank},
         {spells.chainHeal, 'heal.defaultTank.hp < 0.8', kps.heal.defaultTank},
     }},

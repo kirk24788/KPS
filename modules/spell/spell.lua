@@ -18,6 +18,14 @@ kps.Spell.metatable = {}
 
 local GetUnitName = GetUnitName
 
+local CastedSpellTable = {}
+-- { ["Rénovation"] = "GUIDplayer", ["Soins"] = "GUIDparty1", ["Soins rapides"] = "GUIDraid4" }
+
+function LastCastedSpellUnit(unit)
+	local spellname = CastedSpellTable[unit]
+	return spellname
+end
+
 local castAt = setmetatable({}, {
     __index = function(t, self)
         local val = function (target)
@@ -41,6 +49,7 @@ local castAt = setmetatable({}, {
             kps.lastCast = self
             kps.lastTargetGUID = UnitGUID(target)
             self.lastCast = GetTime()
+            CastedSpellTable[kps.lastTargetGUID] = self
         end
         t[self] = val
         return val

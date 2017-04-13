@@ -1,7 +1,7 @@
 --[[[
 @module Monk Brewmaster Rotation
 @generated_from monk_brewmaster_1h.simc
-@version 7.0.3
+@version 7.2
 ]]--
 local spells = kps.spells.monk
 local env = kps.env.monk
@@ -12,8 +12,8 @@ kps.rotations.register("MONK","BREWMASTER",
 -- ERROR in 'chi_sphere,if=talent.power_strikes.enabled&buff.chi_sphere.react&chi<4': Spell 'chiSphere' unknown!
 -- ERROR in 'chi_brew,if=talent.chi_brew.enabled&chi.max-chi>=2&buff.elusive_brew_stacks.stack<=10&((charges=1&recharge_time<5)|charges=2|(target.time_to_die<15&(cooldown.touch_of_death.remains>target.time_to_die|glyph.touch_of_death.enabled)))': Spell 'chiBrew' unknown!
 -- ERROR in 'chi_brew,if=(chi<1&stagger.heavy)|(chi<2&buff.shuffle.down)': Spell 'chiBrew' unknown!
-    {spells.giftOfTheOx, 'player.buffStacks(spells.giftOfTheOx) and kps.incomingDamage(1.5)'}, -- gift_of_the_ox,if=buff.gift_of_the_ox.react&incoming_damage_1500ms
-    {spells.diffuseMagic, 'kps.incomingDamage(1.5) and not player.hasBuff(spells.fortifyingBrew)'}, -- diffuse_magic,if=incoming_damage_1500ms&buff.fortifying_brew.down
+    {spells.giftOfTheOx, 'player.buffStacks(spells.giftOfTheOx) and player.incomingDamage > 0'}, -- gift_of_the_ox,if=buff.gift_of_the_ox.react&incoming_damage_1500ms
+    {spells.diffuseMagic, 'player.incomingDamage > 0 and not player.hasBuff(spells.fortifyingBrew)'}, -- diffuse_magic,if=incoming_damage_1500ms&buff.fortifying_brew.down
 -- ERROR in 'dampen_harm,if=incoming_damage_1500ms&buff.fortifying_brew.down&buff.elusive_brew_activated.down': Spell 'kps.spells.monk.elusiveBrew' unknown (in expression: 'buff.elusive_brew.down')!
 -- ERROR in 'fortifying_brew,if=incoming_damage_1500ms&(buff.dampen_harm.down|buff.diffuse_magic.down)&buff.elusive_brew_activated.down': Spell 'kps.spells.monk.elusiveBrew' unknown (in expression: 'buff.elusive_brew.down')!
 -- ERROR in 'elusive_brew,if=buff.elusive_brew_stacks.react>=9&(buff.dampen_harm.down|buff.diffuse_magic.down)&buff.elusive_brew_activated.down': Spell 'elusiveBrew' unknown!
@@ -25,6 +25,8 @@ kps.rotations.register("MONK","BREWMASTER",
 -- ERROR in 'blackout_kick,if=buff.shuffle.down': Spell 'kps.spells.monk.shuffle' unknown (in expression: 'buff.shuffle.down')!
         {spells.purifyingBrew, 'player.hasBuff(spells.serenity)'}, -- purifying_brew,if=buff.serenity.up
 -- ERROR in 'purifying_brew,if=stagger.moderate&buff.shuffle.remains>=6': Spell 'kps.spells.monk.shuffle' unknown (in expression: 'buff.shuffle.remains')!
+        {spells.guard, '( spells.guard.charges == 1 and spells.guard.cooldown < 5 ) or spells.guard.charges == 2 or target.timeToDie < 15'}, -- guard,if=(charges=1&recharge_time<5)|charges=2|target.time_to_die<15
+        {spells.guard, 'player.incomingDamage >= player.hpMax * 0.5'}, -- guard,if=incoming_damage_10s>=health.max*0.5
         {spells.kegSmash, 'player.chiMax - player.chi >= 2 and not player.buffDuration(spells.serenity)'}, -- keg_smash,if=chi.max-chi>=2&!buff.serenity.remains
 -- ERROR in 'blackout_kick,if=buff.shuffle.remains<=3&cooldown.keg_smash.remains>=gcd': Spell 'kps.spells.monk.shuffle' unknown (in expression: 'buff.shuffle.remains')!
         {spells.blackoutKick, 'player.hasBuff(spells.serenity)'}, -- blackout_kick,if=buff.serenity.up
@@ -39,6 +41,8 @@ kps.rotations.register("MONK","BREWMASTER",
 -- ERROR in 'blackout_kick,if=buff.shuffle.down': Spell 'kps.spells.monk.shuffle' unknown (in expression: 'buff.shuffle.down')!
         {spells.purifyingBrew, 'player.hasBuff(spells.serenity)'}, -- purifying_brew,if=buff.serenity.up
 -- ERROR in 'purifying_brew,if=stagger.moderate&buff.shuffle.remains>=6': Spell 'kps.spells.monk.shuffle' unknown (in expression: 'buff.shuffle.remains')!
+        {spells.guard, '( spells.guard.charges == 1 and spells.guard.cooldown < 5 ) or spells.guard.charges == 2 or target.timeToDie < 15'}, -- guard,if=(charges=1&recharge_time<5)|charges=2|target.time_to_die<15
+        {spells.guard, 'player.incomingDamage >= player.hpMax * 0.5'}, -- guard,if=incoming_damage_10s>=health.max*0.5
         {spells.kegSmash, 'player.chiMax - player.chi >= 2 and not player.buffDuration(spells.serenity)'}, -- keg_smash,if=chi.max-chi>=2&!buff.serenity.remains
 -- ERROR in 'blackout_kick,if=buff.shuffle.remains<=3&cooldown.keg_smash.remains>=gcd': Spell 'kps.spells.monk.shuffle' unknown (in expression: 'buff.shuffle.remains')!
         {spells.blackoutKick, 'player.hasBuff(spells.serenity)'}, -- blackout_kick,if=buff.serenity.up
@@ -58,8 +62,8 @@ kps.rotations.register("MONK","BREWMASTER",
 -- ERROR in 'chi_sphere,if=talent.power_strikes.enabled&buff.chi_sphere.react&chi<4': Spell 'chiSphere' unknown!
 -- ERROR in 'chi_brew,if=talent.chi_brew.enabled&chi.max-chi>=2&buff.elusive_brew_stacks.stack<=10&((charges=1&recharge_time<5)|charges=2|(target.time_to_die<15&(cooldown.touch_of_death.remains>target.time_to_die|glyph.touch_of_death.enabled)))': Spell 'chiBrew' unknown!
 -- ERROR in 'chi_brew,if=(chi<1&stagger.heavy)|(chi<2&buff.shuffle.down)': Spell 'chiBrew' unknown!
-    {spells.giftOfTheOx, 'player.buffStacks(spells.giftOfTheOx) and kps.incomingDamage(1.5)'}, -- gift_of_the_ox,if=buff.gift_of_the_ox.react&incoming_damage_1500ms
-    {spells.diffuseMagic, 'kps.incomingDamage(1.5) and not player.hasBuff(spells.fortifyingBrew)'}, -- diffuse_magic,if=incoming_damage_1500ms&buff.fortifying_brew.down
+    {spells.giftOfTheOx, 'player.buffStacks(spells.giftOfTheOx) and player.incomingDamage > 0'}, -- gift_of_the_ox,if=buff.gift_of_the_ox.react&incoming_damage_1500ms
+    {spells.diffuseMagic, 'player.incomingDamage > 0 and not player.hasBuff(spells.fortifyingBrew)'}, -- diffuse_magic,if=incoming_damage_1500ms&buff.fortifying_brew.down
 -- ERROR in 'dampen_harm,if=incoming_damage_1500ms&buff.fortifying_brew.down&buff.elusive_brew_activated.down': Spell 'kps.spells.monk.elusiveBrew' unknown (in expression: 'buff.elusive_brew.down')!
 -- ERROR in 'fortifying_brew,if=incoming_damage_1500ms&(buff.dampen_harm.down|buff.diffuse_magic.down)&buff.elusive_brew_activated.down': Spell 'kps.spells.monk.elusiveBrew' unknown (in expression: 'buff.elusive_brew.down')!
 -- ERROR in 'elusive_brew,if=buff.elusive_brew_stacks.react>=9&(buff.dampen_harm.down|buff.diffuse_magic.down)&buff.elusive_brew_activated.down': Spell 'elusiveBrew' unknown!
@@ -71,6 +75,8 @@ kps.rotations.register("MONK","BREWMASTER",
 -- ERROR in 'blackout_kick,if=buff.shuffle.down': Spell 'kps.spells.monk.shuffle' unknown (in expression: 'buff.shuffle.down')!
         {spells.purifyingBrew, 'player.hasBuff(spells.serenity)'}, -- purifying_brew,if=buff.serenity.up
 -- ERROR in 'purifying_brew,if=stagger.moderate&buff.shuffle.remains>=6': Spell 'kps.spells.monk.shuffle' unknown (in expression: 'buff.shuffle.remains')!
+        {spells.guard, '( spells.guard.charges == 1 and spells.guard.cooldown < 5 ) or spells.guard.charges == 2 or target.timeToDie < 15'}, -- guard,if=(charges=1&recharge_time<5)|charges=2|target.time_to_die<15
+        {spells.guard, 'player.incomingDamage >= player.hpMax * 0.5'}, -- guard,if=incoming_damage_10s>=health.max*0.5
         {spells.kegSmash, 'player.chiMax - player.chi >= 2 and not player.buffDuration(spells.serenity)'}, -- keg_smash,if=chi.max-chi>=2&!buff.serenity.remains
 -- ERROR in 'blackout_kick,if=buff.shuffle.remains<=3&cooldown.keg_smash.remains>=gcd': Spell 'kps.spells.monk.shuffle' unknown (in expression: 'buff.shuffle.remains')!
         {spells.blackoutKick, 'player.hasBuff(spells.serenity)'}, -- blackout_kick,if=buff.serenity.up
@@ -85,6 +91,8 @@ kps.rotations.register("MONK","BREWMASTER",
 -- ERROR in 'blackout_kick,if=buff.shuffle.down': Spell 'kps.spells.monk.shuffle' unknown (in expression: 'buff.shuffle.down')!
         {spells.purifyingBrew, 'player.hasBuff(spells.serenity)'}, -- purifying_brew,if=buff.serenity.up
 -- ERROR in 'purifying_brew,if=stagger.moderate&buff.shuffle.remains>=6': Spell 'kps.spells.monk.shuffle' unknown (in expression: 'buff.shuffle.remains')!
+        {spells.guard, '( spells.guard.charges == 1 and spells.guard.cooldown < 5 ) or spells.guard.charges == 2 or target.timeToDie < 15'}, -- guard,if=(charges=1&recharge_time<5)|charges=2|target.time_to_die<15
+        {spells.guard, 'player.incomingDamage >= player.hpMax * 0.5'}, -- guard,if=incoming_damage_10s>=health.max*0.5
         {spells.kegSmash, 'player.chiMax - player.chi >= 2 and not player.buffDuration(spells.serenity)'}, -- keg_smash,if=chi.max-chi>=2&!buff.serenity.remains
 -- ERROR in 'blackout_kick,if=buff.shuffle.remains<=3&cooldown.keg_smash.remains>=gcd': Spell 'kps.spells.monk.shuffle' unknown (in expression: 'buff.shuffle.remains')!
         {spells.blackoutKick, 'player.hasBuff(spells.serenity)'}, -- blackout_kick,if=buff.serenity.up

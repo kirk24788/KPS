@@ -72,17 +72,6 @@ kps.events.register("NAME_PLATE_UNIT_REMOVED", function(unitID)
     RemoveNameplate(unitID)
 end)
 
-function nameplateTarget(unitguid)
-    for unit,_ in pairs(activeUnitPlates) do
-        if UnitExists(unit.."target") then
-            local target = unit.."target"
-            local targetguid = UnitGUID(target)
-            if targetguid == unitguid then return true end
-        end
-    end
-    return false
-end
-
 --[[[
 @function `<UNIT>.plateCount` - e.g. 'player.plateCount' returns namePlates count in combat (actives enemies)
 ]]--
@@ -98,9 +87,9 @@ end
 @function `<UNIT>.isTarget` - returns true if the unit is targeted by an enemy nameplate
 ]]--
 function Unit.isTarget(self)
-    for unit,_ in pairs(activeUnitPlates) do
-        if UnitExists(unit.."target") then
-            local target = unit.."target"
+    for nameplate,_ in pairs(activeUnitPlates) do
+        if UnitExists(nameplate.."target") then
+            local target = nameplate.."target"
             if UnitIsUnit(target,self.unit) then return true end
         end
     end

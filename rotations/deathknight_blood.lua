@@ -39,7 +39,7 @@ kps.rotations.register("DEATHKNIGHT","BLOOD",
         -- 4. Use free global cooldowns on Blood Boilwhile you are building Bone Shield stacks.
         {spells.bloodBoil, 'target.distance <= 10 and not spells.bloodBoil.charges >= 2'},
         -- 5. Spend your Runic Power on Death Strike.
-        {spells.deathStrike, 'kps.incomingDamage(5) > player.hpMax * 0.1 or player.runicPower >= 80'},
+        {spells.deathStrike, 'player.incomingDamage > player.hpMax * 0.1 or player.runicPower >= 80'},
         -- 6. Spend your excess Runes (only if you have 5 stacks of Bone Shield and do not need to use Marrowrend ) on Heart Strike.
         {spells.heartStrike, 'player.buffStacks(spells.boneShield) >= 6 and player.buffDuration(spells.boneShield) >= 9'},
     }},

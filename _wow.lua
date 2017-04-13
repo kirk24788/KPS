@@ -14,6 +14,13 @@ function tostringall(...)
         return tostring(...), tostringall(select(2, ...))
     end
 end
+bit = {}
+bit.band = function( ... )
+    return 0
+end
+bit.bor = function( ... )
+    return True
+end
 function strjoin( x )
     return ""
 end

@@ -1,7 +1,7 @@
 --[[[
 @module Paladin Protection Rotation
 @generated_from paladin_protection.simc
-@version 7.0.3
+@version 7.2
 ]]--
 local spells = kps.spells.paladin
 local env = kps.env.paladin
@@ -18,7 +18,7 @@ kps.rotations.register("PALADIN","PROTECTION",
 -- ERROR in 'eternal_flame,if=buff.eternal_flame.remains<2&buff.bastion_of_glory.react>2&(holy_power>=3|buff.divine_purpose.react|buff.bastion_of_power.react)': Spell 'eternalFlame' unknown!
 -- ERROR in 'eternal_flame,if=buff.bastion_of_power.react&buff.bastion_of_glory.react>=5': Spell 'eternalFlame' unknown!
     {spells.shieldOfTheRighteous, 'player.buffStacks(spells.divinePurpose)'}, -- shield_of_the_righteous,if=buff.divine_purpose.react
-    {spells.shieldOfTheRighteous, '( player.holyPower >= 5 or kps.incomingDamage(1.5) >= player.hpMax * 0.3 ) and ( not player.hasTalent(7, 2) or spells.seraphim.cooldown > 5 )'}, -- shield_of_the_righteous,if=(holy_power>=5|incoming_damage_1500ms>=health.max*0.3)&(!talent.seraphim.enabled|cooldown.seraphim.remains>5)
+    {spells.shieldOfTheRighteous, '( player.holyPower >= 5 or player.incomingDamage >= player.hpMax * 0.3 ) and ( not player.hasTalent(7, 2) or spells.seraphim.cooldown > 5 )'}, -- shield_of_the_righteous,if=(holy_power>=5|incoming_damage_1500ms>=health.max*0.3)&(!talent.seraphim.enabled|cooldown.seraphim.remains>5)
     {spells.shieldOfTheRighteous, 'player.buffDuration(spells.holyAvenger) > player.timeToNextHolyPower and ( not player.hasTalent(7, 2) or spells.seraphim.cooldown > player.timeToNextHolyPower )'}, -- shield_of_the_righteous,if=buff.holy_avenger.remains>time_to_hpg&(!talent.seraphim.enabled|cooldown.seraphim.remains>time_to_hpg)
 -- ERROR in 'seal_of_insight,if=talent.empowered_seals.enabled&!seal.insight&buff.uthers_insight.remains<cooldown.judgment.remains': Spell 'sealOfInsight' unknown!
 -- ERROR in 'seal_of_righteousness,if=talent.empowered_seals.enabled&!seal.righteousness&buff.uthers_insight.remains>cooldown.judgment.remains&buff.liadrins_righteousness.down': Spell 'sealOfRighteousness' unknown!

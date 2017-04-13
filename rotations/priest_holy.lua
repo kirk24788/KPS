@@ -15,12 +15,12 @@ kps.rotations.register("PRIEST","HOLY",
         {spells.flashHeal, 'heal.lowestInRaid.hp < 0.80' , kps.heal.lowestInRaid},
         {spells.renew, 'heal.lowestInRaid.myBuffDuration(spells.renew) < 3 and heal.lowestInRaid.hp < 0.95' , kps.heal.lowestInRaid},
     }},
-    
-    {spells.guardianSpirit, 'player.hp < 0.30' , kps.heal.lowestTankInRaid}, 
+
+    {spells.guardianSpirit, 'player.hp < 0.30' , kps.heal.lowestTankInRaid},
     {spells.guardianSpirit, 'heal.lowestTankInRaid.hp < 0.30' , kps.heal.lowestTankInRaid},
     {spells.guardianSpirit, 'heal.aggroTank.hp < 0.30' , kps.heal.aggroTank},
     {spells.guardianSpirit, 'heal.lowestInRaid.hp < 0.30' , kps.heal.lowestInRaid},
-    
+
     -- TRINKETS
     -- { "macro", jps.useTrinket(0) , "/use 13"}, -- jps.useTrinket(0) est "Trinket0Slot" est slotId  13
     {{"macro"}, 'player.useTrinket(1) and heal.countInRange > 3' , "/use 14"}, -- jps.useTrinket(1) est "Trinket1Slot" est slotId  14
@@ -29,13 +29,13 @@ kps.rotations.register("PRIEST","HOLY",
     { spells.apotheosis, 'player.hasTalent(7,1) and heal.lowestTankInRaid.hp < 0.40' },
     { spells.apotheosis, 'player.hasTalent(7,1) and heal.lowestInRaid.hp < 0.40 and spells.guardianSpirit.cooldown > 0' },
     { spells.apotheosis, 'player.hasTalent(7,1) and heal.countInRange > 3' },
-    
+
     -- Holy Word: Serenity
     {spells.holyWordSerenity, 'player.hp < 0.50' , "player"},
     {spells.holyWordSerenity, 'heal.lowestTankInRaid.hp < 0.50' , kps.heal.lowestTankInRaid},
     {spells.holyWordSerenity, 'heal.aggroTank.hp < 0.50' , kps.heal.aggroTank},
     {spells.holyWordSerenity, 'heal.lowestInRaid.hp < 0.40' , kps.heal.lowestInRaid},
-    
+
     -- Surge Of Light
     {{"nested"}, 'player.hasBuff(spells.surgeOfLight)' , {
         {spells.flashHeal, 'player.hp < 0.80' , "player"},
@@ -52,7 +52,7 @@ kps.rotations.register("PRIEST","HOLY",
     -- Body and Mind
     {spells.bodyAndMind, 'player.isMoving and not player.hasBuff(spells.bodyAndMind)' , "player"},
     -- "Don des naaru" 59544
-    {spells.giftNaaru, 'player.hp < 0.60' , "player" },
+    {kps.spells.racial.giftOfTheNaaru, 'player.hp < 0.60' , "player" },
     -- "Pierre de soins" 5512
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.90' ,"/use item:5512" },
     -- renew
@@ -63,19 +63,21 @@ kps.rotations.register("PRIEST","HOLY",
     {spells.purify, 'heal.lowestTankInRaid.isDispellable("Magic")' , kps.heal.lowestTankInRaid},
     {spells.purify, 'heal.isMagicDispellable ~= nil' , kps.heal.isMagicDispellable},
     {spells.purify, 'mouseover.isDispellable("Magic")' , "mouseover" },
-    
+
     {{"nested"}, 'kps.multiTarget and target.isAttackable' , {
         {spells.holyWordChastise },
         {spells.holyFire },
         {spells.smite },
     }},
-    
+
     -- "Light of T'uure" 208065
     {spells.lightOfTuure, 'player.hp < 0.70 and not player.hasBuff(spells.lightOfTuure)' , "player"},
     {spells.lightOfTuure, 'heal.lowestTankInRaid.hp < 0.85 and not heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.50' , kps.heal.lowestTankInRaid},
     {spells.lightOfTuure, 'heal.lowestInRaid.hp < 0.85 and not heal.lowestInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestInRaid},
     
+	{spells.flashHeal, 'not heal.lowestInRaid.lastCastedSpell(spells.flashHeal) and heal.lowestInRaid.hp < 0.95' , kps.heal.lowestInRaid},
+
     -- Prayer of Mending (Tank only)
     {spells.prayerOfMending, 'not player.isMoving and heal.aggroTank.hp > 0.60 and not heal.aggroTank.hasBuff(spells.prayerOfMending)' , kps.heal.aggroTank},
     {spells.prayerOfMending, 'not player.isMoving and heal.lowestTankInRaid.hp > 0.60 and not heal.lowestTankInRaid.hasBuff(spells.prayerOfMending)' , kps.heal.lowestTankInRaid},
@@ -90,12 +92,12 @@ kps.rotations.register("PRIEST","HOLY",
     {spells.bindingHeal, 'heal.lowestInRaid.hp < 0.70 and player.hp < 0.70 and player.hp > heal.lowestInRaid.hp' , kps.heal.lowestInRaid},
     {spells.flashHeal, 'not player.isMoving and player.hp < 0.70' , "player"},
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal and heal.lowestTankInRaid.hp < 0.80' , kps.heal.lowestTankInRaid},
-    {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.70' , kps.heal.lowestTankInRaid},    
-    {spells.flashHeal, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.70' , kps.heal.lowestTargetInRaid},   
-    
+    {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.70' , kps.heal.lowestTankInRaid},
+    {spells.flashHeal, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.70' , kps.heal.lowestTargetInRaid},
+
     {spells.renew, 'heal.lowestInRaid.myBuffDuration(spells.renew) < 3 and heal.lowestInRaid.hp < 0.95' , kps.heal.lowestInRaid},
     {spells.renew, 'heal.lowestTankInRaid.myBuffDuration(spells.renew) < 3 and heal.lowestTankInRaid.hp < 0.95' , kps.heal.lowestTankInRaid},
- 
+
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp > heal.lowestInRaid.hp and heal.lowestInRaid.hp < 0.70' , kps.heal.lowestInRaid},
     {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.incomingDamage > heal.lowestInRaid.incomingHeal and heal.lowestInRaid.hp < 0.70' , kps.heal.lowestInRaid},
 
@@ -111,7 +113,7 @@ kps.rotations.register("PRIEST","HOLY",
     }},
 
     -- "Nova sacrée" 132157
-    {spells.holyNova, 'player.isMoving and target.distance < 10 and target.isAttackable' , "target" },    
+    {spells.holyNova, 'player.isMoving and target.distance < 10 and target.isAttackable' , "target" },
     -- smite when doing nothing
     {spells.smite, 'target.isAttackable and not player.hasBuff(spells.surgeOfLight)', "target" },
 
