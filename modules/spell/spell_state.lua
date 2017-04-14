@@ -147,23 +147,3 @@ local lastCasted = setmetatable({}, {
 function Spell.lastCasted(self)
     return lastCasted[self]
 end
-
---[[[
-@function `<SPELL>.lastCastedUnit(<UNIT-STRING>)` - returns true if the spell was last casted within the given unit (e.g.: `spell.flashheal.lastCastedUnit(player)`).
-]]--
-
-local lastCastedUnit = setmetatable({}, {
-    __index = function(t, self)
-        local val = function (unit)
-            if LastCastedSpell(self) == unit.guid then return true end
-            return false
-        end
-        t[self] = val
-        return val
-    end})
-function Spell.lastCastedUnit(self)
-    return lastCastedUnit[self]
-end
-
-
-

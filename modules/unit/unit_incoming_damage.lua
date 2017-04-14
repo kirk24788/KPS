@@ -27,7 +27,6 @@ local updateincomingHeal = function()
     end
 end
 
-
 -------------------------------------------------------
 -------- COMBAT_LOG_EVENT_UNFILTERED FUNCTIONS --------
 -------------------------------------------------------

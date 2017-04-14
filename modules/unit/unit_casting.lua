@@ -66,21 +66,3 @@ function Unit.isInterruptable(self)
     end
     return false
 end
-
---[[[
-@function `<UNIT>.lastCastedSpell(<SPELL>)` - returns true if the spell was last casted within the given unit (e.g.: `player.lastCastedSpell(spells.flashHeal)`).
-]]--
-local lastCastedSpell = setmetatable({}, {
-    __index = function(t, unit)
-        local val = function (spell)
-        	local unitguid = UnitGUID(unit)
-            if LastCastedSpellUnit(unitguid) == spell.name then return true end
-            return false
-        end
-        t[unit] = val
-        return val
-    end})
-    
-function Unit.lastCastedSpell(self)
-    return lastCastedSpell[self.unit]
-end
