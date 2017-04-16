@@ -119,7 +119,7 @@ hooksecurefunc("UseAction", function(...)
             end
         end
         if stype == "item" then
-            priorityAction = kps.useItem(id) -- TODO kps.useItem
+            priorityAction = kps.useItem -- TODO kps.useItem
         end
         if stype == "macro" then
             macroText = select(3, GetMacroInfo(id))

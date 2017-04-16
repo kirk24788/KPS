@@ -9,10 +9,13 @@ local env = kps.env.priest
 
 kps.rotations.register("PRIEST","SHADOW",{
 
+    {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
+    {{"macro"}, 'not target.exists and targettarget.isAttackable and targettarget.inCombat' , "/target targettarget" },
     env.TargetMouseover,
 
     -- "Dispersion" 47585
     {spells.dispersion, 'player.hp < 0.40' },
+    {{"macro"}, 'player.hasBuff(spells.dispersion) and player.hp > 0.90' , "/cancelaura "..spells.dispersion },
     {spells.fade, 'not player.isPVP and player.isTarget' },
     -- "Power Word: Shield" 17
     {spells.powerWordShield, 'player.isMoving and player.hasTalent(2,2) and not player.hasBuff(spells.powerWordShield)' , "player" },
@@ -61,12 +64,13 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.vampiricTouch, 'not player.isMoving and focus.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("focus") ' , 'focus' },
     {spells.shadowWordPain, 'focus.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("focus") ' , 'focus' },
 
-    -- TRINKETS
+    -- TRINKETS "Trinket0Slot" est slotId  13 "Trinket1Slot" est slotId  14
+    --{{"macro"}, 'player.useTrinket(1)' , "/use 14"},
     -- "Infusion de puissance"  -- Confère un regain de puissance pendant 20 sec, ce qui augmente la hâte de 25%
     {spells.powerInfusion, 'player.buffStacks(spells.voidform) > 14 and player.buffStacks(spells.voidform) < 22' },
 
-    {spells.voidEruption , 'target.isAttackable and not player.hasBuff(spells.voidform) and player.insanity == 100' },
-    {spells.voidEruption , 'target.isAttackable and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity > 64' },
+    {spells.voidEruption , 'not player.isMoving and target.isAttackable and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity > 64' },
+    {spells.voidEruption , 'not player.isMoving and target.isAttackable and not player.hasBuff(spells.voidform) and player.insanity == 100' },
     --{{"macro"}, 'canCastvoidBolt()' , "/stopcasting" },
     {{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > 0.5' , "/stopcasting" },
     {spells.voidEruption, 'player.hasBuff(spells.voidform)' , env.VoidBoltTarget },

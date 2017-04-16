@@ -27,6 +27,13 @@ local updateincomingHeal = function()
     end
 end
 
+local favoriteSpell = 2061 -- usefull for holy priest with hasTalent(1,1) kps.spells.priest.trailOfLight
+local lastCastedUnit = "player"
+local lastCastedSpell = function(unit)
+	if lastCastedUnit == unit then return true end
+	return false
+end
+
 -------------------------------------------------------
 -------- COMBAT_LOG_EVENT_UNFILTERED FUNCTIONS --------
 -------------------------------------------------------
@@ -73,7 +80,8 @@ local COMBATLOG_OBJECT_AFFILIATION_OUTSIDER = COMBATLOG_OBJECT_AFFILIATION_OUTSI
 local RAID_AFFILIATION = bit.bor(COMBATLOG_OBJECT_AFFILIATION_PARTY, COMBATLOG_OBJECT_AFFILIATION_RAID, COMBATLOG_OBJECT_AFFILIATION_MINE)
 local COMBATLOG_OBJECT_CONTROL_PLAYER = COMBATLOG_OBJECT_CONTROL_PLAYER
 local bitband = bit.band
-
+local GetUnitName = GetUnitName
+local GetTime = GetTime
 
 local combatLogUpdate = function ( ... )
     local currentTime = GetTime()
@@ -92,8 +100,9 @@ local combatLogUpdate = function ( ... )
 
     -- HEAL TABLE -- Incoming Heal on Enemy from Enemy Healers UnitGUID
     if healEvents[event] then
+    	local spellID = select(12, ...)
+    	local spellName = select(13, ...)
         if isDestEnemy and isSourceEnemy then
-            local spellID = select(12, ...)
             local addEnemyHealer = false
             local classHealer = kps.spells.healer[spellID]
             if classHealer and UnitCanAttack("player",destName) then
@@ -108,6 +117,10 @@ local combatLogUpdate = function ( ... )
             -- Table of Incoming Heal on Friend IncomingHeal[destGUID] = ( {GetTime(),heal,destName}, ... )
             if incomingHeal[destGUID] == nil then incomingHeal[destGUID] = {} end
             tinsert(incomingHeal[destGUID],1,{GetTime(),heal,destName})
+        end
+	-- lastCasted Player Spell on Unit
+        if sourceName == GetUnitName("player") and spellID == favoriteSpell then
+        	lastCastedUnit = destName
         end
     end
 
@@ -196,4 +209,12 @@ function Unit.incomingHeal(self)
         end
     end
     return totalHeal
+end
+
+--[[[
+@function `<UNIT>.lastCastedUnit` - returns true if the unit was the last casted spell kps.spells.priest.flashHeal
+usefull for holy priest with hasTalent(1,1) kps.spells.priest.trailOfLight
+]]--
+function Unit.lastCastedUnit(self)
+    return lastCastedSpell(self.name)
 end

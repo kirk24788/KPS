@@ -8,6 +8,9 @@ kps.env.priest = {}
 
 local MindFlay = tostring(kps.spells.priest.mindFlay)
 local VoidFormBuff = tostring(kps.spells.priest.voidform)
+local Heal = tostring(kps.spells.priest.heal)
+local FlashHeal = tostring(kps.spells.priest.flashHeal)
+local PrayerOfHealing = tostring(kps.spells.priest.prayerOfHealing)
 
 local UnitDebuffDuration = function(spell,unit)
     --if unit == nil then return "target" end
@@ -25,6 +28,31 @@ local UnitHasBuff = function(spell,unit)
     local spellname = tostring(spell)
     if spellname == nil then return false end
     if select(1,UnitBuff(unit,spellname)) then return true end
+    return false
+end
+
+local UnitIsUnit = UnitIsUnit
+local UnitExists = UnitExists
+local UnitIsDeadOrGhost = UnitIsDeadOrGhost
+local UnitHealth = UnitHealth
+local UnitHealthMax = UnitHealthMax
+
+local function UnitIsAttackable(unit)
+	if UnitIsDeadOrGhost(unit) then return false end
+    if not UnitExists(unit) then return false end
+    if (string.match(GetUnitName(unit), kps.locale["Dummy"])) then return true end
+    if UnitCanAttack("player",unit) == false then return false end
+    if UnitIsEnemy("player",unit) == false then return false end
+    if not kps.env.harmSpell.inRange(unit) then return false end
+    return true
+end
+
+local function HealthPct(unit)
+    return UnitHealth(unit) / UnitHealthMax(unit)
+end
+local function PlayerHasTalent(row,talent)
+    local _, talentRowSelected =  GetTalentTierInfo(row,1)
+    if talent == talentRowSelected then return true end
     return false
 end
 
@@ -87,15 +115,6 @@ function kps.env.priest.VoidBoltTarget()
     return VoidBoltTarget
 end
 
-
-local function HealthPct(unit)
-    return UnitHealth(unit) / UnitHealthMax(unit)
-end
-local function PlayerHasTalent(row,talent)
-    local _, talentRowSelected =  GetTalentTierInfo(row,1)
-    if talent == talentRowSelected then return true end
-    return false
-end
 function kps.env.priest.DeathEnemyTarget()
     local deathEnemyTarget = "target"
     for i=1,#Enemy do -- for _,unit in ipairs(EnemyUnit) do
@@ -107,18 +126,6 @@ function kps.env.priest.DeathEnemyTarget()
         break end
     end
     return deathEnemyTarget
-end
-
-local UnitIsUnit = UnitIsUnit
-local UnitExists = UnitExists
-
-local function UnitIsAttackable(unit)
-    if not UnitExists(unit) then return false end
-    if (string.match(GetUnitName(unit), kps.locale["Dummy"])) then return true end
-    if UnitCanAttack("player",unit) == false then return false end
-    if UnitIsEnemy("player",unit) == false then return false end
-    if not kps.env.harmSpell.inRange(unit) then return false end
-    return true
 end
 
 function kps.env.priest.TargetMouseover()
@@ -142,3 +149,48 @@ function kps.env.priest.TargetMouseover()
         kps.runMacro("/clearfocus")
     end
 end
+
+-- AVOID OVERHEALING -- env.ShouldInterruptCasting(InterruptTable, CountInRange, AvgHealthRaid)
+
+local SerenityOnCD = function()
+	if kps.spells.priest.holyWordSerenity.cooldown == 0 then return false end 
+	return true
+end
+
+local InterruptTable = {
+	{FlashHeal, 0.85 , SerenityOnCD() },
+	{Heal, 0.95 , SerenityOnCD() },
+	{PrayerOfHealing, 3 , true },
+}
+
+local ShouldInterruptCasting = function (InterruptTable, CountInRange, UnitHealth)
+	if kps.lastTargetGUID == nil then return false end
+	local spellCasting, _, _, _, _, endTime, _ = UnitCastingInfo("player")
+	if spellCasting == nil then return false end
+	local TargetHealth = HealthPct(kps.lastTarget)
+	
+	for key, healSpellTable in pairs(InterruptTable) do
+		local breakpoint = healSpellTable[2]
+		local spellName = tostring(healSpellTable[1])
+		if spellName == spellCasting and healSpellTable[3] == false then
+			if healSpellTable[1] == PrayerOfHealing and CountInRange < breakpoint then
+				SpellStopCasting()
+				DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING avgHP "..spellName..", raid has enough hp!",0, 0.5, 0.8)
+			elseif healSpellTable[1] == Heal and TargetHealth > breakpoint then
+				SpellStopCasting()
+				DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..","..kps.lastTarget.." has enough hp!",0, 0.5, 0.8)
+			elseif healSpellTable[1] == FlashHeal and TargetHealth > breakpoint then
+				SpellStopCasting()
+				DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..","..kps.lastTarget.." has enough hp!",0, 0.5, 0.8)
+			end
+		end
+	end
+end
+
+
+kps.env.priest.ShouldInterruptCasting = function()
+	local countInRange = kps["env"].heal.countInRange
+	local unitHealth = kps["env"].heal.lowestInRaid.hp
+	return ShouldInterruptCasting(InterruptTable, countInRange, unitHealth)
+end
+

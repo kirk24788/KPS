@@ -40,6 +40,7 @@ local castAt = setmetatable({}, {
             kps.gcd = gcd
             kps.lastCast = self
             kps.lastTargetGUID = UnitGUID(target)
+            kps.lastTarget = target
             self.lastCast = GetTime()
         end
         t[self] = val
