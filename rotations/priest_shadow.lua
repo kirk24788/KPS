@@ -16,7 +16,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     -- "Dispersion" 47585
     {spells.dispersion, 'player.hp < 0.40' },
     {{"macro"}, 'player.hasBuff(spells.dispersion) and player.hp > 0.90' , "/cancelaura "..spells.dispersion },
-    {spells.fade, 'not player.isPVP and player.isTarget' },
+    {spells.fade, 'player.isTarget' },
     -- "Power Word: Shield" 17
     {spells.powerWordShield, 'player.isMoving and player.hasTalent(2,2) and not player.hasBuff(spells.powerWordShield)' , "player" },
     {spells.powerWordShield, 'player.hp < 0.80 and not player.hasBuff(spells.voidform) and not player.hasBuff(spells.powerWordShield)' , "player" },

@@ -52,6 +52,7 @@ Player Nameplates
 ]]--
 
 local activeUnitPlates = {}
+local UnitExists = UnitExists
 
 local function AddNameplate(unitID)
     local nameplate = C_NamePlate.GetNamePlateForUnit(unitID)
