@@ -71,7 +71,6 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.holyWordSerenity, 'heal.lowestInRaid.hp < 0.40' , kps.heal.lowestInRaid},
 
     -- "Dispel" "Purifier" 527
-    {spells.purify, 'mouseover.isDispellable("Magic")' , "mouseover" },
     {{"nested"},'kps.cooldowns', {
         {spells.purify, 'player.isDispellable("Magic")' , "player" },
         {spells.purify, 'heal.lowestTankInRaid.isDispellable("Magic")' , kps.heal.lowestTankInRaid},
@@ -95,6 +94,7 @@ kps.rotations.register("PRIEST","HOLY",{
         {spells.holyWordSerenity, 'mouseover.hp < 0.40' , "mouseover" },
         {spells.guardianSpirit, 'mouseover.hp < 0.30' , "mouseover" },
         {spells.prayerOfHealing, 'heal.countInRange > 3' , "mouseover" },
+        {spells.lightOfTuure, 'mouseover.hp < 0.70' , "mouseover" },
         {spells.flashHeal, 'not player.isMoving and mouseover.hp < 0.70' , "mouseover" },
         {spells.renew, 'mouseover.myBuffDuration(spells.renew) < 3 and mouseover.hp < 0.90' , "mouseover" },
         {spells.heal, 'mouseover.hp < 0.90' , "mouseover" },

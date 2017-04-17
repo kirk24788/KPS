@@ -262,7 +262,7 @@ function parser.pop(tokens)
         table.remove(tokens, 1)
         return t,v
     else
-        return "iden",""
+        return "iden","()"
     end
 end
 
