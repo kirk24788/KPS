@@ -350,6 +350,7 @@ Members:
  * `<UNIT>.isInterruptable` - returns true if the unit is currently casting (or channeling) a spell which can be interrupted.
  * `<UNIT>.incomingDamage` - returns incoming damage of the unit over last 4 seconds
  * `<UNIT>.incomingHeal` - returns incoming heal of the unit over last 4 seconds
+ * `<UNIT>.lastCastedUnit` - returns true if the unit was the last casted spell kps.spells.priest.flashHeal usefull for holy priest with hasTalent(1,1) kps.spells.priest.trailOfLight
  * `<UNIT>.name` - returns the unit name
  * `<UNIT>.guid` - returns the unit guid
  * `<UNIT>.npcId` - returns the unit id (as seen on wowhead)
@@ -602,7 +603,6 @@ kps.rotations.register(
  * `env.lua:28` - Clean UP!!! This code is a mess...
  * `gui/toggle.lua:75` - Right-Click Action
  * `libs/LibRangeCheck-2.0/LibRangeCheck-2.0.lua:31` - check if unit is valid, etc
-
  * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
  * `modules/unit/unit_casting.lua:63` - Blacklisted spells?
  * `modules/unit/unit_state.lua:13` - PvP
