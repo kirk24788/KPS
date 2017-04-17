@@ -54,7 +54,7 @@ kps.rotations.register("PRIEST","SHADOW",{
 
     -- "Shadow Word: Death" 32379
     {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 2' , "target" },
-    {spells.shadowWordDeath, 'player.insanity < 85' , env.DeathEnemyTarget },
+    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges > 0 and player.insanity < 85' , env.DeathEnemyTarget },
 
     -- mindblast is highest priority spell out of voidform
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform)' , "target"  },
