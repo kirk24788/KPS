@@ -30,8 +30,8 @@ end
 local favoriteSpell = 2061 -- usefull for holy priest with hasTalent(1,1) kps.spells.priest.trailOfLight
 local lastCastedUnit = "player"
 local lastCastedSpell = function(unit)
-	if lastCastedUnit == unit then return true end
-	return false
+    if lastCastedUnit == unit then return true end
+    return false
 end
 
 -------------------------------------------------------
@@ -100,8 +100,8 @@ local combatLogUpdate = function ( ... )
 
     -- HEAL TABLE -- Incoming Heal on Enemy from Enemy Healers UnitGUID
     if healEvents[event] then
-    	local spellID = select(12, ...)
-    	local spellName = select(13, ...)
+        local spellID = select(12, ...)
+        local spellName = select(13, ...)
         if isDestEnemy and isSourceEnemy then
             local addEnemyHealer = false
             local classHealer = kps.spells.healer[spellID]
@@ -118,9 +118,9 @@ local combatLogUpdate = function ( ... )
             if incomingHeal[destGUID] == nil then incomingHeal[destGUID] = {} end
             tinsert(incomingHeal[destGUID],1,{GetTime(),heal,destName})
         end
-	-- lastCasted Player Spell on Unit
+    -- lastCasted Player Spell on Unit
         if sourceName == GetUnitName("player") and spellID == favoriteSpell then
-        	lastCastedUnit = destName
+            lastCastedUnit = destName
         end
     end
 
