@@ -212,8 +212,7 @@ function Unit.incomingHeal(self)
 end
 
 --[[[
-@function `<UNIT>.lastCastedUnit` - returns true if the unit was the last casted spell kps.spells.priest.flashHeal
-usefull for holy priest with hasTalent(1,1) kps.spells.priest.trailOfLight
+@function `<UNIT>.lastCastedUnit` - returns true if the unit was the last casted spell kps.spells.priest.flashHeal usefull for holy priest with hasTalent(1,1) kps.spells.priest.trailOfLight
 ]]--
 function Unit.lastCastedUnit(self)
     return lastCastedSpell(self.name)
