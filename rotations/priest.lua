@@ -96,7 +96,7 @@ end
 --{spells.mindFlay, env.testkps(kps.multiTarget) }, -- always false
 
 
-local Enemy = { "target", "focus" ,"mouseover" }
+local Enemy = {"mouseover", "focus", "target" }
 function kps.env.priest.VoidBoltTarget()
     local VoidBoltTarget = "target"
     local VoidBoltTargetDuration = 24

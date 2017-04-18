@@ -6,6 +6,7 @@
 
 local spells = kps.spells.priest
 local env = kps.env.priest
+local dispersion = tostring(kps.spells.priest.dispersion)
 
 kps.rotations.register("PRIEST","SHADOW",{
 
@@ -15,7 +16,7 @@ kps.rotations.register("PRIEST","SHADOW",{
 
     -- "Dispersion" 47585
     {spells.dispersion, 'player.hp < 0.40' },
-    {{"macro"}, 'player.hasBuff(spells.dispersion) and player.hp > 0.90' , "/cancelaura "..spells.dispersion },
+    {{"macro"}, 'player.hasBuff(spells.dispersion) and player.hp > 0.90' , "/cancelaura "..dispersion },
     {spells.fade, 'player.isTarget' },
     -- "Power Word: Shield" 17
     {spells.powerWordShield, 'player.isMoving and player.hasTalent(2,2) and not player.hasBuff(spells.powerWordShield)' , "player" },

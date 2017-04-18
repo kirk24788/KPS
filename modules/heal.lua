@@ -283,12 +283,12 @@ end)
 local tsort = table.sort
 kps.RaidStatus.prototype.aggroTank = kps.utils.cachedValue(function()
     local TankUnit = tanksInRaid()
-    for name, unit in pairs(raidStatus) do
-        local unitThreat = UnitThreatSituation(name)
-        if unitThreat == 1 and unit.isHealable then
-            TankUnit[#TankUnit+1] = unit
-        elseif unitThreat == 3 and unit.isHealable then
-            TankUnit[#TankUnit+1] = unit
+    for name, player in pairs(raidStatus) do
+        local unitThreat = UnitThreatSituation(player.unit)
+        if unitThreat == 1 and player.isHealable then
+            TankUnit[#TankUnit+1] = player
+        elseif unitThreat == 3 and player.isHealable then
+            TankUnit[#TankUnit+1] = player
         end
     end
     tsort(TankUnit, function(a,b) return a.hpIncoming < b.hpIncoming end)
