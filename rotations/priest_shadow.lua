@@ -10,8 +10,9 @@ local dispersion = tostring(kps.spells.priest.dispersion)
 
 kps.rotations.register("PRIEST","SHADOW",{
 
+    {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
-    {{"macro"}, 'not target.exists and targettarget.isAttackable and targettarget.inCombat' , "/target targettarget" },
+    {{"macro"}, 'not target.isAttackable and targettarget.isAttackable and targettarget.inCombat' , "/target targettarget" },
     env.TargetMouseover,
 
     -- "Dispersion" 47585
@@ -21,7 +22,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     -- "Power Word: Shield" 17
     {spells.powerWordShield, 'player.isMoving and player.hasTalent(2,2) and not player.hasBuff(spells.powerWordShield)' , "player" },
     {spells.powerWordShield, 'player.hp < 0.80 and not player.hasBuff(spells.voidform) and not player.hasBuff(spells.powerWordShield)' , "player" },
-    {spells.powerWordShield, 'mouseover.hp < 0.50 and not mouseover.hasBuff(spells.powerWordShield)' , "mouseover" },
+    {spells.powerWordShield, 'mouseover.isHealable and mouseover.hp < 0.50 and not mouseover.hasBuff(spells.powerWordShield)' , "mouseover" },
     -- "Pierre de soins" 5512
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.60', "/use item:5512" },
     -- "Don des naaru" 59544
@@ -42,7 +43,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     {{"nested"}, 'kps.interrupt',{
         -- "Silence" 15487 -- debuff same ID
         {spells.silence, 'not target.hasDebuff(spells.mindBomb) and target.isInterruptable and target.distance < 30' , "target" },
-        {spells.silence, 'not focus.hasDebuff(spells.mindBomb) and focus.isInterruptable and focus.distance < 30'  , "focus" },
+        {spells.silence, 'not focus.hasDebuff(spells.mindBomb) and focus.isInterruptable and focus.distance < 30' , "focus" },
         -- "Mind Bomb" 205369 -- 30 yd range -- debuff "Explosion mentale" 226943
         {spells.mindBomb, 'target.isCasting and target.distance < 30' , "target" },
         {spells.mindBomb, 'focus.isCasting and focus.distance < 30' , "focus" },
@@ -54,8 +55,9 @@ kps.rotations.register("PRIEST","SHADOW",{
     { spells.levitate, 'kps.defensive and player.isSwimming and not player.hasBuff(spells.levitate)' , "player" },
 
     -- "Shadow Word: Death" 32379
-    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 2' , "target" },
     {spells.shadowWordDeath, 'spells.shadowWordDeath.charges > 0 and player.insanity < 85' , env.DeathEnemyTarget },
+    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 2' , "target" },
+
 
     -- mindblast is highest priority spell out of voidform
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform)' , "target"  },

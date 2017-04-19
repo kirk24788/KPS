@@ -47,9 +47,6 @@ local function UnitIsAttackable(unit)
     return true
 end
 
-local function HealthPct(unit)
-    return UnitHealth(unit) / UnitHealthMax(unit)
-end
 local function PlayerHasTalent(row,talent)
     local _, talentRowSelected =  GetTalentTierInfo(row,1)
     if talent == talentRowSelected then return true end
@@ -116,16 +113,17 @@ function kps.env.priest.VoidBoltTarget()
 end
 
 function kps.env.priest.DeathEnemyTarget()
-    local deathEnemyTarget = "target"
+    local EnemyTarget = "target"
     for i=1,#Enemy do -- for _,unit in ipairs(EnemyUnit) do
         local unit = Enemy[i]
-        if PlayerHasTalent(4,2) and HealthPct(unit) < 0.35 then
-            deathEnemyTarget = unit
-        elseif HealthPct(unit) < 0.20 then
-            deathEnemyTarget = unit
-        break end
+        local unitHealth = UnitHealth(unit) / UnitHealthMax(unit)
+        if PlayerHasTalent(4,2) and unitHealth < 0.35 then
+            EnemyTarget = unit
+        elseif unitHealth < 0.20 then
+            EnemyTarget = unit
+        end
     end
-    return deathEnemyTarget
+    return EnemyTarget
 end
 
 function kps.env.priest.TargetMouseover()
@@ -148,6 +146,7 @@ function kps.env.priest.TargetMouseover()
     elseif UnitExists("focus") and not UnitIsAttackable("focus") then
         kps.runMacro("/clearfocus")
     end
+    return nil, nil
 end
 
 -- AVOID OVERHEALING -- env.ShouldInterruptCasting(InterruptTable, CountInRange, AvgHealthRaid)
@@ -163,11 +162,11 @@ local InterruptTable = {
     {PrayerOfHealing, 3 , true },
 }
 
-local ShouldInterruptCasting = function (InterruptTable, CountInRange, UnitHealth)
+local ShouldInterruptCasting = function (InterruptTable, CountInRange, LowestHealth)
     if kps.lastTargetGUID == nil then return false end
     local spellCasting, _, _, _, _, endTime, _ = UnitCastingInfo("player")
     if spellCasting == nil then return false end
-    local TargetHealth = HealthPct(kps.lastTarget)
+    local TargetHealth = UnitHealth(kps.lastTarget) / UnitHealthMax(kps.lastTarget)
     
     for key, healSpellTable in pairs(InterruptTable) do
         local breakpoint = healSpellTable[2]
@@ -185,12 +184,13 @@ local ShouldInterruptCasting = function (InterruptTable, CountInRange, UnitHealt
             end
         end
     end
+    return nil, nil
 end
 
 
 kps.env.priest.ShouldInterruptCasting = function()
     local countInRange = kps["env"].heal.countInRange
-    local unitHealth = kps["env"].heal.lowestInRaid.hp
-    return ShouldInterruptCasting(InterruptTable, countInRange, unitHealth)
+    local lowestHealth = kps["env"].heal.lowestInRaid.hp
+    return ShouldInterruptCasting(InterruptTable, countInRange, lowestHealth)
 end
 
