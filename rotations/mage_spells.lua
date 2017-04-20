@@ -5,7 +5,7 @@ Mage Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.mage = {}
+kps.spells.mage = kps.utils.tableCopy(kps.spells.racial)
 kps.spells.mage.aegwynnsAscendance = kps.Spell.fromId(187680)
 kps.spells.mage.aegwynnsFury = kps.Spell.fromId(187287)
 kps.spells.mage.aegwynnsImperative = kps.Spell.fromId(187264)

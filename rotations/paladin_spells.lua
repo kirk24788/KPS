@@ -5,7 +5,7 @@ Paladin Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.paladin = {}
+kps.spells.paladin = kps.utils.tableCopy(kps.spells.racial)
 kps.spells.paladin.absolution = kps.Spell.fromId(212056)
 kps.spells.paladin.aegisOfLight = kps.Spell.fromId(204150)
 kps.spells.paladin.ardentDefender = kps.Spell.fromId(31850)

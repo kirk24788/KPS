@@ -5,7 +5,7 @@ Shaman Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.shaman = {}
+kps.spells.shaman = kps.utils.tableCopy(kps.spells.racial)
 kps.spells.shaman.aftershock = kps.Spell.fromId(210707)
 kps.spells.shaman.alphaWolf = kps.Spell.fromId(198434)
 kps.spells.shaman.ancestralGuidance = kps.Spell.fromId(108281)

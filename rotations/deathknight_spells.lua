@@ -5,7 +5,7 @@ Deathknight Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.deathknight = {}
+kps.spells.deathknight = kps.utils.tableCopy(kps.spells.racial)
 kps.spells.deathknight.abominationsMight = kps.Spell.fromId(207161)
 kps.spells.deathknight.allWillServe = kps.Spell.fromId(194916)
 kps.spells.deathknight.allconsumingRot = kps.Spell.fromId(192464)

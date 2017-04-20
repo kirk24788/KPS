@@ -5,7 +5,7 @@ Warlock Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.warlock = {}
+kps.spells.warlock = kps.utils.tableCopy(kps.spells.racial)
 kps.spells.warlock.absoluteCorruption = kps.Spell.fromId(196103)
 kps.spells.warlock.agony = kps.Spell.fromId(980)
 kps.spells.warlock.amplifyAfflictions = kps.Spell.fromId(200290)

@@ -5,7 +5,7 @@ Priest Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.priest = {}
+kps.spells.priest = kps.utils.tableCopy(kps.spells.racial)
 kps.spells.priest.aegisOfWrath = kps.Spell.fromId(238135)
 kps.spells.priest.afterlife = kps.Spell.fromId(196707)
 kps.spells.priest.angelicFeather = kps.Spell.fromId(121536)

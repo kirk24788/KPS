@@ -5,7 +5,7 @@ Druid Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.druid = {}
+kps.spells.druid = kps.utils.tableCopy(kps.spells.racial)
 kps.spells.druid.abundance = kps.Spell.fromId(207383)
 kps.spells.druid.adaptiveFur = kps.Spell.fromId(200850)
 kps.spells.druid.alphaChallenge = kps.Spell.fromId(207017)

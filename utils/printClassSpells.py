@@ -164,7 +164,7 @@ def generate_lua(spells, class_name):
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.%s = {}
+kps.spells.%s = kps.utils.tableCopy(kps.spells.racial)
 """ % (class_name.title(), class_name.title(), class_name)
     class_spells = []
     for spell in spells:

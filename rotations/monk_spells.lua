@@ -5,7 +5,7 @@ Monk Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.monk = {}
+kps.spells.monk = kps.utils.tableCopy(kps.spells.racial)
 kps.spells.monk.admonishment = kps.Spell.fromId(207025)
 kps.spells.monk.afterlife = kps.Spell.fromId(116092)
 kps.spells.monk.ancientMistweaverArts = kps.Spell.fromId(209520)

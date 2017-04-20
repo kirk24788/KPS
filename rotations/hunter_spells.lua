@@ -5,7 +5,7 @@ Hunter Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.hunter = {}
+kps.spells.hunter = kps.utils.tableCopy(kps.spells.racial)
 kps.spells.hunter.aMurderOfCrows = kps.Spell.fromId(131894)
 kps.spells.hunter.acuityOfTheUnseenPath = kps.Spell.fromId(241114)
 kps.spells.hunter.aimedShot = kps.Spell.fromId(19434)

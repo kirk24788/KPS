@@ -5,7 +5,7 @@ Warrior Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.warrior = {}
+kps.spells.warrior = kps.utils.tableCopy(kps.spells.racial)
 kps.spells.warrior.angerManagement = kps.Spell.fromId(152278)
 kps.spells.warrior.armsOfTheValarjar = kps.Spell.fromId(241264)
 kps.spells.warrior.artificialDamage = kps.Spell.fromId(226829)

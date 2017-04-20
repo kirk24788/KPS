@@ -5,7 +5,7 @@ Rogue Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.rogue = {}
+kps.spells.rogue = kps.utils.tableCopy(kps.spells.racial)
 kps.spells.rogue.acrobaticStrikes = kps.Spell.fromId(196924)
 kps.spells.rogue.adrenalineRush = kps.Spell.fromId(13750)
 kps.spells.rogue.agonizingPoison = kps.Spell.fromId(200802)

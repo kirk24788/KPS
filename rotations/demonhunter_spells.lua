@@ -5,7 +5,7 @@ Demonhunter Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.demonhunter = {}
+kps.spells.demonhunter = kps.utils.tableCopy(kps.spells.racial)
 kps.spells.demonhunter.abyssalStrike = kps.Spell.fromId(207550)
 kps.spells.demonhunter.agonizingFlames = kps.Spell.fromId(207548)
 kps.spells.demonhunter.aldrachiDesign = kps.Spell.fromId(207343)
