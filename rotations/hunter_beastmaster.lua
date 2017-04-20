@@ -1,20 +1,11 @@
+
 --[[[
 @module Hunter Beastmaster Rotation
-@author markusem
-@version 7.0.3
+@author blackcardi
+@version 7.2.0
 ]]--
 local spells = kps.spells.hunter
 local env = kps.env.hunter
-
-
--- Talents:
--- Tier 1: Dire Stable, Way of the Cobra
--- Tier 2: Stomp, Chimaera Shot
--- Tier 3: Posthaste, Dash
--- Tier 4: Bestial Fury
--- Tier 5: Blinding Shot (whatever talent really)
--- Tier 6: A Murder of Crows, Barrage, Volley (for AOE)
--- Tier 7: Stampede
 
 kps.rotations.register("HUNTER","BEASTMASTERY",
 {
@@ -30,9 +21,9 @@ kps.rotations.register("HUNTER","BEASTMASTERY",
 
     -- defensive
     {{"nested"}, 'kps.defensive', {
-        { {"macro"}, 'kps.useBagItem and player.hp < 0.70', "/use Healthstone" },
-        {spells.exhilaration, 'player.hp < 0.40'},
-        {spells.aspectOfTheTurtle, 'player.hp < 0.30'},
+        { {"macro"}, 'kps.useBagItem and player.hp < 0.40', "/use Healthstone" },
+        {spells.exhilaration, 'player.hp < 0.32'},
+        {spells.aspectOfTheTurtle, 'player.hp < 0.25'},
     }},
 
     -- situational
@@ -40,16 +31,18 @@ kps.rotations.register("HUNTER","BEASTMASTERY",
     -- cooldowns
     {{"nested"}, 'kps.cooldowns', {
         {{"nested"}, 'spells.bestialWrath.cooldown > 30', {
+            { {"macro"}, 'kps.cooldowns', "/cast Berserking" },
             {spells.stampede},
             {spells.aMurderOfCrows},
             {spells.aspectOfTheWild},
             -- trinkets!
-            { {"macro"}, 'kps.useBagItem', "/use 13" },
+            --{ {"macro"}, 'kps.useBagItem', "/use 13" },
             { {"macro"}, 'kps.useBagItem', "/use 14" },
             -- pet attack, just in case!
-            -- { {"macro"}, 'player.hasPet', "/petassist"}, -- loops
+            { {"macro"}, 'player.hasPet', "/petattack"}, -- loops
             -- cooldown racial
             { {"macro"}, 'kps.cooldowns', "/cast Blood Fury" },
+
         }},
     }},
 
@@ -57,27 +50,31 @@ kps.rotations.register("HUNTER","BEASTMASTERY",
     {{"nested"}, 'kps.multiTarget', {
         {spells.volley, 'not player.hasBuff(spells.volley)'},
 
-        {spells.bestialWrath, 'player.focus >= 110'},
+        {spells.bestialWrath, 'player.focus >= 105'},
 
         {spells.killCommand, 'spells.bestialWrath.cooldown > 2'},
         {spells.direBeast,'spells.bestialWrath.cooldown > 2'},
-        {spells.direFrenzy, 'player.hasTalent(2, 2) and spells.bestialWrath.cooldown > 2'},
-        {spells.multishot, 'pet.buffDuration(spells.beastCleave) < 0.5 and spells.bestialWrath.cooldown > 2'},
+        --{spells.direFrenzy, 'player.hasTalent(2, 2) and spells.bestialWrath.cooldown > 2'},
+        {spells.multishot, 'pet.buffDuration(spells.beastCleave) < 0.75 and spells.bestialWrath.cooldown > 2'},
         {spells.cobraShot, 'player.focus > 90 and spells.bestialWrath.cooldown > 3 and pet.buffDuration(spells.beastCleave) > 1.5'},
     }},
 
     -- rotation
-    {spells.bestialWrath, 'player.focus >= 110'},
-
+    {spells.volley, 'not player.hasBuff(spells.volley)'},
+    {{"macro"}, 'keys.shift', "/cast [@cursor] Freezing Trap" },
+    {spells.mendPet, 'pet.hp <= 0.45'},
+    {spells.bestialWrath, 'player.focus >= 105'},
+    {spells.aMurderOfCrows,'spells.bestialWrath.cooldown > 3 and not kps.multiTarget'},
     {spells.killCommand, 'spells.bestialWrath.cooldown > 2'},
     {spells.chimaeraShot},
-    {spells.direBeast,'spells.bestialWrath.cooldown > 2'},
-
-    {spells.direFrenzy, 'player.hasTalent(2, 2) and spells.bestialWrath.cooldown > 2'},
+    {spells.direBeast, 'spells.bestialWrath.cooldown > 2'},
+    {spells.tarTrap, 'keys.shift'},
+    --{spells.direFrenzy, 'player.hasTalent(2, 2) and spells.bestialWrath.cooldown > 2 and not player.focus >= 100'},
     {spells.barrage, 'player.hasTalent(6, 2)'},
-
-    {spells.cobraShot, 'player.hasBuff(spells.bestialWrath) and not kps.multiTarget'},
-    {spells.cobraShot, 'player.focus > 90 and spells.bestialWrath.cooldown > 3'},
+    {spells.titansThunder},
+    {spells.cobraShot, 'player.hasBuff(spells.bestialWrath) and spells.killCommand.cooldown > 1.5 and not kps.multiTarget'},
+    {spells.cobraShot, 'player.focus > 90 and spells.bestialWrath.cooldown > 3 and not kps.multiTarget'},
+    {{"macro"}, 'player.hasPet', "/petattack"},
 
 }
-,"Beastmastery 7.0.3 MU", {-1, -2, -2, 2, 0, 0, 1})
+,"Beastmastery 7.0.3 MU", {0, 0, 0, 0, 0, 0, 0})
