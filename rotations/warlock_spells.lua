@@ -5,7 +5,7 @@ Warlock Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.warlock = kps.utils.tableCopy(kps.spells.racial)
+kps.spells.warlock = {}
 kps.spells.warlock.absoluteCorruption = kps.Spell.fromId(196103)
 kps.spells.warlock.agony = kps.Spell.fromId(980)
 kps.spells.warlock.amplifyAfflictions = kps.Spell.fromId(200290)
@@ -89,6 +89,7 @@ kps.spells.warlock.flamesOfSargeras = kps.Spell.fromId(238074)
 kps.spells.warlock.flamesOfTheBlackHarvest = kps.Spell.fromId(241253)
 kps.spells.warlock.flamesOfThePit = kps.Spell.fromId(215183)
 kps.spells.warlock.focusedChaos = kps.Spell.fromId(233577)
+kps.spells.warlock.giftOfTheNaaru = kps.Spell.fromId(59544)
 kps.spells.warlock.glyphOfCrimsonBanish = kps.Spell.fromId(63312)
 kps.spells.warlock.glyphOfFelguard = kps.Spell.fromId(56246)
 kps.spells.warlock.glyphOfSoulwell = kps.Spell.fromId(58094)

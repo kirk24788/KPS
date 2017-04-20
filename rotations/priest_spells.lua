@@ -5,7 +5,7 @@ Priest Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.priest = kps.utils.tableCopy(kps.spells.racial)
+kps.spells.priest = {}
 kps.spells.priest.aegisOfWrath = kps.Spell.fromId(238135)
 kps.spells.priest.afterlife = kps.Spell.fromId(196707)
 kps.spells.priest.angelicFeather = kps.Spell.fromId(121536)
@@ -65,6 +65,7 @@ kps.spells.priest.followerOfTheLight = kps.Spell.fromId(222646)
 kps.spells.priest.forbiddenFlame = kps.Spell.fromId(214925)
 kps.spells.priest.fortressOfTheMind = kps.Spell.fromId(193195)
 kps.spells.priest.fromTheShadows = kps.Spell.fromId(193642)
+kps.spells.priest.giftOfTheNaaru = kps.Spell.fromId(59544)
 kps.spells.priest.glyphOfGhostlyFade = kps.Spell.fromId(219669)
 kps.spells.priest.glyphOfInspiredHymns = kps.Spell.fromId(147072)
 kps.spells.priest.glyphOfShackleUndead = kps.Spell.fromId(57986)

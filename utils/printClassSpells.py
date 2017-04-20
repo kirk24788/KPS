@@ -35,6 +35,9 @@ THOTTBOT_IDS = {
     "warrior": 1,
 }
 
+RACIAL_SPELLS = {
+    59544, # Gift of the Naaru
+}
 ADDITIONAL_SPELLS = {
     "deathknight": [77535,
         195181, # Bone Shield
@@ -151,6 +154,9 @@ def summarize(spells, class_name):
             s += " * FILTERED (%s): %s\n" % (reason, spell["name"][1:])
         else:
             s += " * %s (ID: %s CAT: %s)\n" % (spell["name"][1:], spell["id"], spell["cat"])
+    for spell_id in RACIAL_SPELLS:
+        spell = Spell(spell_id)
+        s += " * %s (ID: %s - from ADDITIONAL_SPELLS)\n" % (spell.name, spell.id)
     for spell_id in ADDITIONAL_SPELLS[class_name]:
         spell = Spell(spell_id)
         s += " * %s (ID: %s - from ADDITIONAL_SPELLS)\n" % (spell.name, spell.id)
@@ -164,12 +170,18 @@ def generate_lua(spells, class_name):
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.%s = kps.utils.tableCopy(kps.spells.racial)
+kps.spells.%s = {}
 """ % (class_name.title(), class_name.title(), class_name)
     class_spells = []
     for spell in spells:
         if not is_filtered(spell)[0]:
             class_spells.append("kps.spells.%s.%s = kps.Spell.fromId(%s)\n" % (class_name,spell_key(spell["name"][1:]),spell["id"]))
+    for spell_id in RACIAL_SPELLS:
+        try:
+            spell = Spell(spell_id)
+            class_spells.append("kps.spells.%s.%s = kps.Spell.fromId(%s)\n" % (class_name, spell.key, spell.id))
+        except:
+            LOG.error("ERROR: Spell-ID %s not found for %s", spell_id, class_name)
     for spell_id in ADDITIONAL_SPELLS[class_name]:
         try:
             spell = Spell(spell_id)

@@ -5,7 +5,7 @@ Druid Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.druid = kps.utils.tableCopy(kps.spells.racial)
+kps.spells.druid = {}
 kps.spells.druid.abundance = kps.Spell.fromId(207383)
 kps.spells.druid.adaptiveFur = kps.Spell.fromId(200850)
 kps.spells.druid.alphaChallenge = kps.Spell.fromId(207017)
@@ -110,6 +110,7 @@ kps.spells.druid.furyOfElune = kps.Spell.fromId(202770)
 kps.spells.druid.galacticGuardian = kps.Spell.fromId(203964)
 kps.spells.druid.germination = kps.Spell.fromId(155675)
 kps.spells.druid.ghanirsBloom = kps.Spell.fromId(214913)
+kps.spells.druid.giftOfTheNaaru = kps.Spell.fromId(59544)
 kps.spells.druid.glyphOfAutumnalBloom = kps.Spell.fromId(233059)
 kps.spells.druid.glyphOfStars = kps.Spell.fromId(114301)
 kps.spells.druid.glyphOfTheCheetah = kps.Spell.fromId(131113)

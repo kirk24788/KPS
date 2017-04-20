@@ -5,7 +5,7 @@ Demonhunter Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.demonhunter = kps.utils.tableCopy(kps.spells.racial)
+kps.spells.demonhunter = {}
 kps.spells.demonhunter.abyssalStrike = kps.Spell.fromId(207550)
 kps.spells.demonhunter.agonizingFlames = kps.Spell.fromId(207548)
 kps.spells.demonhunter.aldrachiDesign = kps.Spell.fromId(207343)
@@ -82,6 +82,7 @@ kps.spells.demonhunter.flamingSoul = kps.Spell.fromId(238118)
 kps.spells.demonhunter.fracture = kps.Spell.fromId(209795)
 kps.spells.demonhunter.fueledByPain = kps.Spell.fromId(213017)
 kps.spells.demonhunter.furyOfTheIllidari = kps.Spell.fromId(201467)
+kps.spells.demonhunter.giftOfTheNaaru = kps.Spell.fromId(59544)
 kps.spells.demonhunter.glide = kps.Spell.fromId(131347)
 kps.spells.demonhunter.glimpse = kps.Spell.fromId(203468)
 kps.spells.demonhunter.glyphOfCracklingFlames = kps.Spell.fromId(219831)

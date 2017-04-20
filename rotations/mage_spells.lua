@@ -5,7 +5,7 @@ Mage Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.mage = kps.utils.tableCopy(kps.spells.racial)
+kps.spells.mage = {}
 kps.spells.mage.aegwynnsAscendance = kps.Spell.fromId(187680)
 kps.spells.mage.aegwynnsFury = kps.Spell.fromId(187287)
 kps.spells.mage.aegwynnsImperative = kps.Spell.fromId(187264)
@@ -105,6 +105,7 @@ kps.spells.mage.frostbolt = kps.Spell.fromId(116)
 kps.spells.mage.frozenOrb = kps.Spell.fromId(84714)
 kps.spells.mage.frozenTouch = kps.Spell.fromId(205030)
 kps.spells.mage.frozenVeins = kps.Spell.fromId(195345)
+kps.spells.mage.giftOfTheNaaru = kps.Spell.fromId(59544)
 kps.spells.mage.glacialEruption = kps.Spell.fromId(238128)
 kps.spells.mage.glacialInsulation = kps.Spell.fromId(235297)
 kps.spells.mage.glacialSpike = kps.Spell.fromId(199786)

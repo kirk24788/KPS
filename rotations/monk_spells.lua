@@ -5,7 +5,7 @@ Monk Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.monk = kps.utils.tableCopy(kps.spells.racial)
+kps.spells.monk = {}
 kps.spells.monk.admonishment = kps.Spell.fromId(207025)
 kps.spells.monk.afterlife = kps.Spell.fromId(116092)
 kps.spells.monk.ancientMistweaverArts = kps.Spell.fromId(209520)
@@ -81,6 +81,7 @@ kps.spells.monk.fortuneTurned = kps.Spell.fromId(216913)
 kps.spells.monk.fullKeg = kps.Spell.fromId(214428)
 kps.spells.monk.galeBurst = kps.Spell.fromId(195399)
 kps.spells.monk.giftOfTheMists = kps.Spell.fromId(196719)
+kps.spells.monk.giftOfTheNaaru = kps.Spell.fromId(59544)
 kps.spells.monk.giftOfTheOx = kps.Spell.fromId(124502)
 kps.spells.monk.giftedStudent = kps.Spell.fromId(213136)
 kps.spells.monk.glyphOfCracklingCraneLightning = kps.Spell.fromId(219513)

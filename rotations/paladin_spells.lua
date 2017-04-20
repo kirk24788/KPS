@@ -5,7 +5,7 @@ Paladin Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.paladin = kps.utils.tableCopy(kps.spells.racial)
+kps.spells.paladin = {}
 kps.spells.paladin.absolution = kps.Spell.fromId(212056)
 kps.spells.paladin.aegisOfLight = kps.Spell.fromId(204150)
 kps.spells.paladin.ardentDefender = kps.Spell.fromId(31850)
@@ -96,6 +96,7 @@ kps.spells.paladin.fistOfJustice = kps.Spell.fromId(198054)
 kps.spells.paladin.flashOfLight = kps.Spell.fromId(19750)
 kps.spells.paladin.focusedHealing = kps.Spell.fromId(200326)
 kps.spells.paladin.forbearantFaithful = kps.Spell.fromId(209376)
+kps.spells.paladin.giftOfTheNaaru = kps.Spell.fromId(59544)
 kps.spells.paladin.glyphOfFireFromTheHeavens = kps.Spell.fromId(57954)
 kps.spells.paladin.glyphOfPillarOfLight = kps.Spell.fromId(146959)
 kps.spells.paladin.glyphOfTheLuminousCharger = kps.Spell.fromId(89401)

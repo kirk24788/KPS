@@ -5,7 +5,7 @@ Shaman Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.shaman = kps.utils.tableCopy(kps.spells.racial)
+kps.spells.shaman = {}
 kps.spells.shaman.aftershock = kps.Spell.fromId(210707)
 kps.spells.shaman.alphaWolf = kps.Spell.fromId(198434)
 kps.spells.shaman.ancestralGuidance = kps.Spell.fromId(108281)
@@ -93,6 +93,7 @@ kps.spells.shaman.gatheringOfTheMaelstrom = kps.Spell.fromId(198349)
 kps.spells.shaman.gatheringStorms = kps.Spell.fromId(198299)
 kps.spells.shaman.ghostInTheMist = kps.Spell.fromId(207351)
 kps.spells.shaman.ghostWolf = kps.Spell.fromId(2645)
+kps.spells.shaman.giftOfTheNaaru = kps.Spell.fromId(59544)
 kps.spells.shaman.giftOfTheQueen = kps.Spell.fromId(207778)
 kps.spells.shaman.glyphOfCritterhex = kps.Spell.fromId(219213)
 kps.spells.shaman.glyphOfDeluge = kps.Spell.fromId(63279)

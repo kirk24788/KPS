@@ -5,7 +5,7 @@ Rogue Spells.
 GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 ]]--
 
-kps.spells.rogue = kps.utils.tableCopy(kps.spells.racial)
+kps.spells.rogue = {}
 kps.spells.rogue.acrobaticStrikes = kps.Spell.fromId(196924)
 kps.spells.rogue.adrenalineRush = kps.Spell.fromId(13750)
 kps.spells.rogue.agonizingPoison = kps.Spell.fromId(200802)
@@ -95,6 +95,7 @@ kps.spells.rogue.garrote = kps.Spell.fromId(703)
 kps.spells.rogue.ghostArmor = kps.Spell.fromId(197244)
 kps.spells.rogue.ghostlyShell = kps.Spell.fromId(202533)
 kps.spells.rogue.ghostlyStrike = kps.Spell.fromId(196937)
+kps.spells.rogue.giftOfTheNaaru = kps.Spell.fromId(59544)
 kps.spells.rogue.gloomblade = kps.Spell.fromId(200758)
 kps.spells.rogue.glyphOfBlackout = kps.Spell.fromId(219693)
 kps.spells.rogue.glyphOfBurnout = kps.Spell.fromId(220279)
