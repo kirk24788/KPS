@@ -71,22 +71,39 @@ function kps.rotations.register(class,spec,table,tooltip, expectedTalents)
     local key = kps.classes.toKey(class, spec)
     if not rotations[key] then rotations[key] = {} end
     local rotation = {tooltip = tooltip, env = kps.env}
-    rotation["getSpell"] = function ()
-        rotation.getSpell = kps.parser.parseSpellTable(table)
-        return rotation.getSpell()
+    rotation["setCombatTable"] = function (combatTable)
+        if not combatTable then combatTable = {} end
+        rotation["combatTable"] = combatTable
+        rotation["getSpell"] = function ()
+            rotation.getSpell = kps.parser.parseSpellTable(rotation["combatTable"])
+            return rotation.getSpell()
+        end
     end
-    rotation["talentsChecked"] = false
-    rotation["lastTalentCheck"] = 0
+    rotation.setCombatTable(table)
+    rotation["setOutOfCombatTable"] = function (outOfCombatTable)
+        rotation["outOfCombatTable"] = outOfCombatTable
+        rotation["getOutOfCombatSpell"] = function ()
+            rotation.getSpell = kps.parser.parseSpellTable(rotation["outOfCombatTable"])
+            return rotation.getSpell()
+        end
+    end
+    rotation.setOutOfCombatTable({})
+    rotation["setExpectedTalents"] = function (talents)
+        rotation["talentsChecked"] = false
+        rotation["lastTalentCheck"] = 0
+        rotation["expectedTalents"] = talents
+    end
+    rotation.setExpectedTalents(expectedTalents)
     rotation["checkTalents"] = function ()
-        if expectedTalents and not rotation["talentsChecked"] and GetTime() - rotation["lastTalentCheck"] > 360 then
+        if rotation["expectedTalents"] and not rotation["talentsChecked"] and GetTime() - rotation["lastTalentCheck"] > 360 then
             for row=1,7 do
-                if expectedTalents[row] ~= nil and expectedTalents[row] ~= 0 then
+                if rotation["expectedTalents"][row] ~= nil and rotation["expectedTalents"][row] ~= 0 then
                     local _, talentRowSelected =  GetTalentTierInfo(row,1)
-                    if expectedTalents[row] > 0 and expectedTalents[row] ~= talentRowSelected then
-                        local _,name = GetTalentInfo(row, expectedTalents[row], 1)
+                    if rotation["expectedTalents"][row] > 0 and rotation["expectedTalents"][row] ~= talentRowSelected then
+                        local _,name = GetTalentInfo(row, rotation["expectedTalents"][row], 1)
                         kps.write("Unsupported Talent - in Row", row, "please select", name)
-                    elseif -1 * expectedTalents[row] == talentRowSelected then
-                        local _,name = GetTalentInfo(row, -1 * expectedTalents[row], 1)
+                    elseif -1 * rotation["expectedTalents"][row] == talentRowSelected then
+                        local _,name = GetTalentInfo(row, -1 * rotation["expectedTalents"][row], 1)
                         kps.write("Unsupported Talent - in Row", row, "please DON'T select", name)
                     end
                 end
@@ -98,6 +115,7 @@ function kps.rotations.register(class,spec,table,tooltip, expectedTalents)
     addRotationToTable(rotations[key],rotation)
     activeRotation = #(rotations[key])
     kps.rotations.reset()
+    return rotation
 end
 -- reset talent check after fight ends
 kps.events.register("PLAYER_LEAVE_COMBAT", function ()

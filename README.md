@@ -393,20 +393,20 @@ local env = kps.env.classname
 
 Replace `classname` with whatever class you're writing this rotation for. While not needed, this local definitions help you to write easier to read rotations.
 
-Next will be your rotation(s), they can be registered with `kps.rotations.register(...)`. This function takes 4-5 parameters:
+Next will be your rotation(s), they can be registered with `kps.rotations.register(...)`. This function takes 3 parameters and returns a table which allows to add rotations (in and out of combat) or set the required talents for this spec:
 
 1. Classname (Uppercase String, e.g.: "SHAMAN")
 1. Specname (Uppercase String, e.g.: "ENHANCEMENT")
-1. Rotation Table
-1. Description of the Rotation (will be shown in Dropdown if multiple Rotations exist)
-1. _Optional:_ Required Talents for this Spec
+1. Unique description of the Rotation (will be shown in Dropdown if multiple Rotations exist)
 
 ```
-kps.rotations.register("SHAMAN","ENHANCEMENT",
+kps.rotations.register("SHAMAN","ENHANCEMENT","shaman enhancement").setCombatTable(
 {
 ...
-}
-,"shaman enhancement", {...})
+}).setOutOfCombatTable(
+{
+...
+}).setExpectedTalents({...})
 ```
 
 #### Rotation Table
@@ -438,7 +438,7 @@ local function myCondition()
     return kps.env.player.soulShards >= 3
 end
 
-kps.rotations.register(
+kps.rotations.register(...).setCombatTable(
 ...
   {spells.chaosBolt, myCondition , "target"},
 ...
@@ -478,7 +478,7 @@ local function mySpellFunction()
     end
 end
 
-kps.rotations.register(
+kps.rotations.register(...).setCombatTable(
 ...
   mySpellFunction,
 ...
@@ -500,7 +500,7 @@ local function deactivateBurningRush()
     end
 end
 
-kps.rotations.register(
+kps.rotations.register(...).setCombatTable(
 ...
   deactivateBurningRush,
 ...
@@ -532,7 +532,7 @@ it makes your conditions easier to read, as you don't have to repeat the common 
 
 
 #### Required Talents Table
-If your rotation requires specific talents, you can use the optional fifth parameter of `kps.rotations.register(...)`.
+If your rotation requires specific talents, you can call the function `kps.rotations.register(...).setExpectedTalents({...})` .
 This *must* be a Table with 7 elements (one for each talent row).
 KPS will write a warning if the talent requirements are not met once per fight, but not more than once per minute.
 
@@ -567,7 +567,7 @@ function kps.env.mage.burnPhase()
     return burnPhase
 end
 
-kps.rotations.register(
+kps.rotations.register(...).setCombatTable(
 ...
     {spells.arcaneMissiles, 'burnPhase()', "target"  },
 ...
@@ -585,7 +585,7 @@ function kps.env.warlock.isHavocUnit(unit)
 end
 
 
-kps.rotations.register(
+kps.rotations.register(...).setCombatTable(
 ...
     {spells.havoc, 'isHavocUnit("focus") and focus.isAttackable', "focus"  },
 ...

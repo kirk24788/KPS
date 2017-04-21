@@ -43,10 +43,30 @@ kps.useItem = function(bagItem)
     ]]
 end
 
-kps.combatStep = function ()
-    -- Check for combat
-    if not InCombatLockdown() and not kps.autoAttackEnabled then return end
+local function handlePriorityActions(spell)
+    if priorityMacro ~= nil then
+        kps.runMacro(priorityMacro)
+        priorityMacro = nil
+    elseif priorityAction ~= nil then
+        priorityAction()
+        priorityAction = nil
+    elseif prioritySpell ~= nil then
+        if prioritySpell.canBeCastAt("target") then
+            prioritySpell.cast()
+            LOG.warn("Priority Spell %s was casted.", prioritySpell)
+            prioritySpell = nil
+        else
+            if prioritySpell.cooldown > 3 then prioritySpell = nil end
+            return false
+        end
+    else
+        return false
+    end
+    return true
+end
 
+
+kps.combatStep = function ()
     -- Check for rotation
     if not kps.rotations.getActive() then
         kps.write("KPS does not have a rotation for your class (", kps.classes.className() ,") or spec (", kps.classes.specName(), ")!")
@@ -77,24 +97,16 @@ kps.combatStep = function ()
         local activeRotation = kps.rotations.getActive()
         if not activeRotation then return end
         activeRotation.checkTalents()
-        local spell, target = activeRotation.getSpell()
-        if spell ~= nil and not player.isCasting then
-            if priorityMacro ~= nil then
-                kps.runMacro(priorityMacro)
-                priorityMacro = nil
-            elseif priorityAction ~= nil then
-                priorityAction()
-                priorityAction = nil
-            elseif prioritySpell ~= nil then
-                if prioritySpell.canBeCastAt("target") then
-                    prioritySpell.cast()
-                    LOG.warn("Priority Spell %s was casted.", prioritySpell)
-                    prioritySpell = nil
-                else
-                    if prioritySpell.cooldown > 3 then prioritySpell = nil end
-                    spell.cast(target)
-                end
-            elseif spell.id == nil then
+        local spell, target = nil, nil
+
+        if InCombatLockdown() or kps.autoAttackEnabled then
+            spell, target = activeRotation.getSpell()
+        else
+            spell, target = activeRotation.getOutOfCombatSpell()
+        end
+        
+        if spell ~= nil and not player.isCasting and not handlePriorityActions(spell) then
+            if spell.id == nil then
                 LOG.debug("Starting Cast-Sequence...")
                 castSequenceIndex = 1
                 castSequence = spell
