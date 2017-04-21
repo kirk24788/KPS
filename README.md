@@ -59,7 +59,7 @@ All DPS Specs have at least one rotation automatically generated from SimCraft -
 * Deathknight: Blood (7.0.3), Frost (7.0.3), Unholy (7.0.3)
 * Demonhunter: Havoc (7.0.3), Vengeance (7.0.3)
 * Druid: Balance (7.0.3), Feral (7.0.3), Guardian (7.0.3), Restoration (7.0.3)
-* Hunter: Beastmaster (7.0.3), Marksmanship (7.0.3)
+* Hunter: Beastmaster (7.2.0), Marksmanship (7.0.3)
 * Mage: Fire (7.0.3)
 * Monk: Mistweaver (7.0.3)
 * Paladin: Holy (7.0.3), Retribution (7.0.3)
