@@ -7,7 +7,7 @@ local spells = kps.spells.monk
 local env = kps.env.monk
 
 
-kps.rotations.register("MONK","BREWMASTER",
+kps.rotations.register("MONK","BREWMASTER","monk_brewmaster_1h.simc").setCombatTable(
 {
 -- ERROR in 'chi_sphere,if=talent.power_strikes.enabled&buff.chi_sphere.react&chi<4': Spell 'chiSphere' unknown!
 -- ERROR in 'chi_brew,if=talent.chi_brew.enabled&chi.max-chi>=2&buff.elusive_brew_stacks.stack<=10&((charges=1&recharge_time<5)|charges=2|(target.time_to_die<15&(cooldown.touch_of_death.remains>target.time_to_die|glyph.touch_of_death.enabled)))': Spell 'chiBrew' unknown!
@@ -53,11 +53,10 @@ kps.rotations.register("MONK","BREWMASTER",
         {spells.expelHarm, 'player.chiMax - player.chi >= 1 and spells.kegSmash.cooldown >= player.gcd and ( player.energy + ( player.energyRegen * ( spells.kegSmash.cooldown ) ) ) >= 80'}, -- expel_harm,if=chi.max-chi>=1&cooldown.keg_smash.remains>=gcd&(energy+(energy.regen*(cooldown.keg_smash.remains)))>=80
         {spells.tigerPalm}, -- tiger_palm
     }},
-}
-,"monk_brewmaster_1h.simc")
+})
 
 --GENERATED FROM SIMCRAFT PROFILE 'monk_brewmaster_2h.simc'
-kps.rotations.register("MONK","BREWMASTER",
+kps.rotations.register("MONK","BREWMASTER","monk_brewmaster_2h.simc").setCombatTable(
 {
 -- ERROR in 'chi_sphere,if=talent.power_strikes.enabled&buff.chi_sphere.react&chi<4': Spell 'chiSphere' unknown!
 -- ERROR in 'chi_brew,if=talent.chi_brew.enabled&chi.max-chi>=2&buff.elusive_brew_stacks.stack<=10&((charges=1&recharge_time<5)|charges=2|(target.time_to_die<15&(cooldown.touch_of_death.remains>target.time_to_die|glyph.touch_of_death.enabled)))': Spell 'chiBrew' unknown!
@@ -103,5 +102,4 @@ kps.rotations.register("MONK","BREWMASTER",
         {spells.expelHarm, 'player.chiMax - player.chi >= 1 and spells.kegSmash.cooldown >= player.gcd and ( player.energy + ( player.energyRegen * ( spells.kegSmash.cooldown ) ) ) >= 80'}, -- expel_harm,if=chi.max-chi>=1&cooldown.keg_smash.remains>=gcd&(energy+(energy.regen*(cooldown.keg_smash.remains)))>=80
         {spells.tigerPalm}, -- tiger_palm
     }},
-}
-,"monk_brewmaster_2h.simc")
+})

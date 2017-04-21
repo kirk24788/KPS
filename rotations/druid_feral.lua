@@ -17,7 +17,7 @@ Level 90: Blessing of the Ancients
 Level 100: Nature's Balance
 ]]--
 
-kps.rotations.register("DRUID","FERAL",
+kps.rotations.register("DRUID","FERAL","Icy Veins").setCombatTable(
 {
     -- CatForm Form
     {spells.catForm, 'not player.hasBuff(spells.catForm)'},
@@ -57,5 +57,4 @@ kps.rotations.register("DRUID","FERAL",
         {spells.thrash, 'target.myDebuffDuration(spells.thrash) < 3'},
         {spells.swipe},
     }},
-}
-,"Icy Veins")
+})

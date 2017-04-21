@@ -7,7 +7,7 @@ local spells = kps.spells.rogue
 local env = kps.env.rogue
 
 
-kps.rotations.register("ROGUE","SUBTLETY",
+kps.rotations.register("ROGUE","SUBTLETY","rogue_subtlety.simc").setCombatTable(
 {
 -- ERROR in 'shadow_blades,if=!buff.shadow_blades.up&energy.deficit<20&(buff.shadow_dance.up|buff.vanish.up|buff.stealth.up)': Unknown expression 'energy.deficit'!
 -- ERROR in 'goremaws_bite,if=(combo_points.max-combo_points>=2&energy.deficit>55&time<10)|(combo_points.max-combo_points>=4&energy.deficit>45)|target.time_to_die<8': Unknown expression 'combo_points.max'!
@@ -31,5 +31,4 @@ kps.rotations.register("ROGUE","SUBTLETY",
         {spells.gloomblade, 'player.energyTimeToMax < 2.5'}, -- gloomblade,if=energy.time_to_max<2.5
         {spells.backstab, 'player.energyTimeToMax < 2.5'}, -- backstab,if=energy.time_to_max<2.5
     }},
-}
-,"rogue_subtlety.simc")
+})

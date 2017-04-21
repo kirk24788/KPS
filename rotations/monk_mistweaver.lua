@@ -8,7 +8,6 @@ local spells = kps.spells.monk
 local env = kps.env.monk
 
 
-kps.rotations.register("MONK","MISTWEAVER",
+kps.rotations.register("MONK","MISTWEAVER","-empty-").setCombatTable(
 {
-}
-,"-empty-")
+})

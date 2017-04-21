@@ -20,7 +20,7 @@ Level 100: Purgatory
 ]]--
 
 
-kps.rotations.register("DEATHKNIGHT","BLOOD",
+kps.rotations.register("DEATHKNIGHT","BLOOD","Icy Veins").setCombatTable(
 {
     -- Def CD's
     {{"nested"}, 'kps.defensive', {
@@ -60,5 +60,4 @@ kps.rotations.register("DEATHKNIGHT","BLOOD",
         -- 7. Spend your excess Runic Power on Death Strike Icon Death Strike.
         {spells.deathStrike, 'player.runicPower >= 110'},
     }},
-}
-,"Icy Veins")
+})

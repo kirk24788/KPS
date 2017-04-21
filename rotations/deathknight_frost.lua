@@ -7,7 +7,7 @@ local spells = kps.spells.deathknight
 local env = kps.env.deathknight
 
 
-kps.rotations.register("DEATHKNIGHT","FROST",
+kps.rotations.register("DEATHKNIGHT","FROST","PvE 1H Frost").setCombatTable(
 {
     -- Cooldowns
     {{"nested"}, 'kps.cooldowns', {
@@ -62,21 +62,18 @@ kps.rotations.register("DEATHKNIGHT","FROST",
        {spells.frostscythe, 'player.hasBuff(spells.killingMachine)'},
        {spells.frostStrike, 'not player.hasBuff(spells.icyTalons) or player.buffDuration(spells.icyTalons) <= 2 and player.runicPower >= 25'},
     }},
-}
-,"PVE 1h Frost")
+})
 
-kps.rotations.register("DEATHKNIGHT","FROST",
+kps.rotations.register("DEATHKNIGHT","FROST","Machine Gun Rotation").setCombatTable(
 {
     {spells.pillarOfFrost}, -- pillar_of_frost
 
-}
-,"Machine Gun Rotation")
+})
 
 
-kps.rotations.register("DEATHKNIGHT","FROST",
+kps.rotations.register("DEATHKNIGHT","FROST","PvP 1H Frost").setCombatTable(
 {
     {spells.pillarOfFrost}, -- pillar_of_frost
 
-}
-,"PVP 1h Frost")
+})
 

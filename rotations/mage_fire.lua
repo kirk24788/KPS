@@ -7,7 +7,7 @@ local spells = kps.spells.mage
 local env = kps.env.mage
 
 
-kps.rotations.register("MAGE","FIRE",
+kps.rotations.register("MAGE","FIRE","Fire Mage 7.0.3").setCombatTable(
 {
 
     {{"nested"}, 'kps.defensive', {
@@ -41,5 +41,4 @@ kps.rotations.register("MAGE","FIRE",
 
     {spells.fireball},
 
-}
-,"Fire Mage 7.0.3")
+})

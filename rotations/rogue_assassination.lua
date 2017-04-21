@@ -7,7 +7,7 @@ local spells = kps.spells.rogue
 local env = kps.env.rogue
 
 
-kps.rotations.register("ROGUE","ASSASSINATION",
+kps.rotations.register("ROGUE","ASSASSINATION","rogue_assassination.simc").setCombatTable(
 {
     {{"nested"}, 'True', { -- call_action_list,name=cds
 -- ERROR in 'marked_for_death,cycle_targets=1,target_if=min:target.time_to_die,if=combo_points.deficit>=5': Unknown expression 'combo_points.deficit'!
@@ -44,5 +44,4 @@ kps.rotations.register("ROGUE","ASSASSINATION",
 -- ERROR in 'hemorrhage,if=combo_points.deficit=2&set_bonus.tier18_2pc&target.health.pct<=35': Unknown expression 'combo_points.deficit'!
 -- ERROR in 'mutilate,if=cooldown.garrote.remains>2&(combo_points.deficit>=3|(combo_points.deficit>=2&(!set_bonus.tier18_2pc|target.health.pct>35)))': Unknown expression 'combo_points.deficit'!
     }},
-}
-,"rogue_assassination.simc")
+})

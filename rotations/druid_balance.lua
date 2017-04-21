@@ -18,7 +18,7 @@ Level 90: Blessing of the Ancients
 Level 100: Nature's Balance
 ]]--
 
-kps.rotations.register("DRUID","BALANCE",
+kps.rotations.register("DRUID","BALANCE","Icy Veins").setCombatTable(
 {
 
     -- Moonkin Form
@@ -73,5 +73,4 @@ kps.rotations.register("DRUID","BALANCE",
         {spells.starsurge, 'activeEnemies.count <= 1 and player.astralPower >= 40'},
         {spells.sunfire},
     }},
-}
-,"Icy Veins")
+})

@@ -7,7 +7,7 @@ local spells = kps.spells.mage
 local env = kps.env.mage
 
 
-kps.rotations.register("MAGE","FROST",
+kps.rotations.register("MAGE","FROST","mage_frost.simc").setCombatTable(
 {
 -- ERROR in 'counterspell,if=target.debuff.casting.react': Spell 'kps.spells.mage.casting' unknown (in expression: 'target.debuff.casting.react')!
     {spells.timeWarp, 'target.hp < 25 or player.timeInCombat > 0'}, -- time_warp,if=target.health.pct<25|time>0
@@ -38,5 +38,4 @@ kps.rotations.register("MAGE","FROST",
         {spells.iceLance, 'not player.hasTalent(5, 1) and player.buffStacks(spells.fingersOfFrost) and ( not player.hasTalent(7, 1) or spells.icyVeins.cooldown > 8 )'}, -- ice_lance,if=!talent.frost_bomb.enabled&buff.fingers_of_frost.react&(!talent.thermal_void.enabled|cooldown.icy_veins.remains>8)
         {spells.frostbolt}, -- frostbolt
     }},
-}
-,"mage_frost.simc")
+})

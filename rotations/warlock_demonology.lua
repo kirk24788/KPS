@@ -17,7 +17,7 @@ Level 90: Grimoire of Service
 Level 100: Soul Conduit
 ]]--
 
-kps.rotations.register("WARLOCK","DEMONOLOGY",
+kps.rotations.register("WARLOCK","DEMONOLOGY","Icy Veins").setCombatTable(
 {
     -- Deactivate Burning Rush if not moving for 1 second
     env.deactivateBurningRushIfNotMoving(1),
@@ -70,5 +70,4 @@ kps.rotations.register("WARLOCK","DEMONOLOGY",
     -- 11. Cast ShadowBolt(or Demonbolt if talented) to generate SoulShards.
     {spells.shadowBolt, 'not player.hasTalent(7, 2)'},
     {spells.demonbolt, 'player.hasTalent(7, 2)'},
-}
-,"IcyVeins")
+})

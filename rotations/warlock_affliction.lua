@@ -12,7 +12,7 @@ end)
 
 
 
-kps.rotations.register("WARLOCK","AFFLICTION",
+kps.rotations.register("WARLOCK","AFFLICTION","Icy Veins").setCombatTable(
 {
     -- Cast Life Tap when you have to move, providing your DoTs are all fully refreshed.
     {spells.lifeTap, 'player.mana < 0.4'},
@@ -100,12 +100,11 @@ kps.rotations.register("WARLOCK","AFFLICTION",
 
     -- Cast Drain Life/Drain Soul Icon Drain Soul as a filler. (Spell names don't matter!)
     {spells.drainLife},
-}
-,"Icy Veins", {-1,-3,0,-3,0,-2,1})
+}).setExpectedTalents({-1,-3,0,-3,0,-2,1})
 
 
 
-kps.rotations.register("WARLOCK","AFFLICTION",
+kps.rotations.register("WARLOCK","AFFLICTION","Mythic+").setCombatTable(
 {
     -- Cast Life Tap when you have to move, providing your DoTs are all fully refreshed.
     {spells.lifeTap, 'player.mana < 0.4'},
@@ -131,6 +130,5 @@ kps.rotations.register("WARLOCK","AFFLICTION",
         {spells.corruption, 'not focus.hasDebuff(spells.corruption)', 'focus'},
         {spells.corruption, 'not mouseover.hasDebuff(spells.corruption)', 'mouseover'},
     }},
-}
-,"Mythic+", {3,1,0,2,0,3,3})
+}).setExpectedTalents({3,1,0,2,0,3,3})
 

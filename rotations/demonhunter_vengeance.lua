@@ -19,7 +19,7 @@ Level 108: Blade Turning
 Level 110: Soul Barrier
 ]]--
 
-kps.rotations.register("DEMONHUNTER","VENGEANCE",
+kps.rotations.register("DEMONHUNTER","VENGEANCE","Icy Veins").setCombatTable(
 {
     -- Def CD's
     {{"nested"}, 'kps.defensive', {
@@ -54,5 +54,4 @@ kps.rotations.register("DEMONHUNTER","VENGEANCE",
         {spells.soulCleave, 'player.pain >= 70'},
         {spells.shear},
     }},
-}
-,"Icy Veins")
+})

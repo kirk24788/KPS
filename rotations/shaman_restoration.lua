@@ -8,7 +8,7 @@ local spells = kps.spells.shaman
 local env = kps.env.shaman
 
 
-kps.rotations.register("SHAMAN","RESTORATION",
+kps.rotations.register("SHAMAN","RESTORATION","Resto.Shaman.E.Faber").setCombatTable(
 {
 
     {{"nested"}, 'keys.shift', {
@@ -34,5 +34,4 @@ kps.rotations.register("SHAMAN","RESTORATION",
    
     {spells.chainHeal, 'heal.defaultTarget.hp < 0.6 and (heal.defaultTank.hasBuff(spells.riptide) or heal.defaultTarget.hasBuff(spells.riptide))', kps.heal.defaultTarget },
 
-}
-,"Resto.Shaman.E.Faber")
+})

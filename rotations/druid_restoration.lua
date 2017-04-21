@@ -6,7 +6,7 @@
 local spells = kps.spells.druid
 local env = kps.env.druid
 
-kps.rotations.register("DRUID","RESTORATION",
+kps.rotations.register("DRUID","RESTORATION","Icy Veins").setCombatTable(
 {
     -- Cooldowns
     {{"nested"}, 'kps.cooldowns and not player.isMoving', {
@@ -64,5 +64,4 @@ kps.rotations.register("DRUID","RESTORATION",
     {spells.rejuvenation, 'heal.defaultTarget.buffDuration(spells.rejuvenation) < 3 and heal.defaultTarget.hp < 1', kps.heal.defaultTarget},
     {spells.rejuvenation, 'heal.lowestInRaid.myBuffDuration(spells.rejuvenation) < 3 and heal.lowestInRaid.hp < 1', kps.heal.lowestInRaid},
 
-}
-,"Icy Veins")
+})

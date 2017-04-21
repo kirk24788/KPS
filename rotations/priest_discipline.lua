@@ -7,7 +7,7 @@ local spells = kps.spells.priest
 local env = kps.env.priest
 
 
-kps.rotations.register("PRIEST","DISCIPLINE",
+kps.rotations.register("PRIEST","DISCIPLINE","priest_discipline_dmg.simc").setCombatTable(
 {
     {spells.mindbender, 'player.hasTalent(3, 2)'}, -- mindbender,if=talent.mindbender.enabled
     {spells.shadowfiend, 'not player.hasTalent(3, 2)'}, -- shadowfiend,if=!talent.mindbender.enabled
@@ -20,5 +20,4 @@ kps.rotations.register("PRIEST","DISCIPLINE",
     {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < ( target.myDebuffDurationMax(spells.shadowWordPain) * 0.3 )'}, -- shadow_word_pain,if=remains<(duration*0.3)
     {spells.smite}, -- smite
     {spells.shadowWordPain}, -- shadow_word_pain
-}
-,"priest_discipline_dmg.simc")
+})

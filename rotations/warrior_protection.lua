@@ -7,7 +7,7 @@ local spells = kps.spells.warrior
 local env = kps.env.warrior
 
 
-kps.rotations.register("WARRIOR","PROTECTION",
+kps.rotations.register("WARRIOR","PROTECTION","warrior_protection.simc").setCombatTable(
 {
     {spells.charge}, -- charge
     {spells.berserkerRage, 'not player.hasBuff(spells.enrage)'}, -- berserker_rage,if=buff.enrage.down
@@ -47,5 +47,4 @@ kps.rotations.register("WARRIOR","PROTECTION",
 -- ERROR in 'execute,if=buff.sudden_death.react': Spell 'kps.spells.warrior.suddenDeath' unknown (in expression: 'buff.sudden_death.react')!
         {spells.devastate}, -- devastate
     }},
-}
-,"warrior_protection.simc")
+})

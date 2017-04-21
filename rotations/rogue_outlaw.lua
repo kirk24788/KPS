@@ -18,7 +18,7 @@ Level 100: Marked for Death
 ]]--
 
 
-kps.rotations.register("ROGUE","OUTLAW",
+kps.rotations.register("ROGUE","OUTLAW","Icy Veins").setCombatTable(
 {
            -- Def CD's
     {{"nested"}, 'kps.defensive', {
@@ -57,5 +57,4 @@ kps.rotations.register("ROGUE","OUTLAW",
 
     -- 8. Cast Saber Slash to generate Combo Points.
     {spells.saberSlash},
-}
-,"Icy Veins")
+})

@@ -19,7 +19,7 @@ local env = kps.env.deathknight
 
 ]]
 
-kps.rotations.register("DEATHKNIGHT","UNHOLY",
+kps.rotations.register("DEATHKNIGHT","UNHOLY","Unholy PvE").setCombatTable(
 {
     -- Player Pet
     {spells.raiseDead, 'not player.hasPet'},
@@ -74,5 +74,4 @@ kps.rotations.register("DEATHKNIGHT","UNHOLY",
         {spells.deathCoil, 'player.hasBuff(spells.suddenDoom) or player.runicPower > 35'},
         {spells.scourgeStrike, 'target.debuffStacks(spells.festeringWound) >= 2'},
     }},
-}
-,"Unholy Pve")
+})

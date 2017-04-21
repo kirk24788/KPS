@@ -7,7 +7,7 @@ local spells = kps.spells.paladin
 local env = kps.env.paladin
 
 
-kps.rotations.register("PALADIN","PROTECTION",
+kps.rotations.register("PALADIN","PROTECTION","paladin_protection.simc").setCombatTable(
 {
 -- ERROR in 'speed_of_light,if=movement.remains>1': Spell 'speedOfLight' unknown!
     {spells.holyAvenger}, -- holy_avenger
@@ -45,5 +45,4 @@ kps.rotations.register("PALADIN","PROTECTION",
 -- ERROR in 'seal_of_righteousness,if=talent.empowered_seals.enabled&!seal.righteousness&buff.liadrins_righteousness.remains<=buff.uthers_insight.remains': Spell 'sealOfRighteousness' unknown!
 -- ERROR in 'sacred_shield': Spell 'sacredShield' unknown!
 -- ERROR in 'flash_of_light,if=talent.selfless_healer.enabled&buff.selfless_healer.stack>=3': Spell 'kps.spells.paladin.selflessHealer' unknown (in expression: 'buff.selfless_healer.stack')!
-}
-,"paladin_protection.simc")
+})

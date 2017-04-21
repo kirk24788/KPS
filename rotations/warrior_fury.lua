@@ -7,7 +7,7 @@ local spells = kps.spells.warrior
 local env = kps.env.warrior
 
 
-kps.rotations.register("WARRIOR","FURY",
+kps.rotations.register("WARRIOR","FURY","Icy Veins").setCombatTable(
 {
     -- Charge enemy
     {{"nested"}, 'kps.cooldowns and target.distance > 5', {
@@ -62,5 +62,4 @@ kps.rotations.register("WARRIOR","FURY",
         {spells.ragingBlow},
         {spells.furiousSlash},
     }},
-}
-,"Icy Veins")
+})

@@ -7,7 +7,7 @@ local spells = kps.spells.hunter
 local env = kps.env.hunter
 
 
-kps.rotations.register("HUNTER","SURVIVAL",
+kps.rotations.register("HUNTER","SURVIVAL","hunter_survival.simc").setCombatTable(
 {
     {spells.explosiveTrap}, -- explosive_trap
     {spells.dragonsfireGrenade}, -- dragonsfire_grenade
@@ -26,5 +26,4 @@ kps.rotations.register("HUNTER","SURVIVAL",
     {spells.spittingCobra}, -- spitting_cobra
     {spells.throwingAxes}, -- throwing_axes
     {spells.raptorStrike, 'player.focus > 75 - spells.flankingStrike.cooldown * player.focusRegen'}, -- raptor_strike,if=focus>75-cooldown.flanking_strike.remains*focus.regen
-}
-,"hunter_survival.simc")
+})

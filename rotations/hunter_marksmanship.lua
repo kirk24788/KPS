@@ -16,7 +16,7 @@ Tier 5 ==> did not affect rotation
 Tier 6 ==> A Murder of Crows
 Tier 7 ==> Sidewinders
 ]]
-kps.rotations.register("HUNTER","MARKSMANSHIP",
+kps.rotations.register("HUNTER","MARKSMANSHIP","hunter marksmanship").setCombatTable(
 {
     --Survival
     {spells.exhilaration, 'player.hp<0.3'},
@@ -31,5 +31,4 @@ kps.rotations.register("HUNTER","MARKSMANSHIP",
     {spells.aMurderOfCrows},
     {spells.aimedShot, 'player.focus >= 130'},
 
-}
-,"hunter marksmanship", {-3, -2, 0, 3, 0, 1, 1})
+}).setExpectedTalents({-3, -2, 0, 3, 0, 1, 1})

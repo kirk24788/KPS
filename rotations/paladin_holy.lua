@@ -8,7 +8,6 @@ local spells = kps.spells.paladin
 local env = kps.env.paladin
 
 
-kps.rotations.register("PALADIN","HOLY",
+kps.rotations.register("PALADIN","HOLY","-empty-").setCombatTable(
 {
-}
-,"-empty-")
+})

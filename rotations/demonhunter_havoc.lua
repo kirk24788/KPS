@@ -18,7 +18,7 @@ Level 108: Master of the Glaive
 Level 110: Demonic
 ]]--
 
-kps.rotations.register("DEMONHUNTER","HAVOC",
+kps.rotations.register("DEMONHUNTER","HAVOC","Icy Veins").setCombatTable(
 {
     -- Def CD's
     {{"nested"}, 'kps.defensive', {
@@ -55,5 +55,4 @@ kps.rotations.register("DEMONHUNTER","HAVOC",
         {spells.chaosNova, 'player.fury >= 30 and target.distance <= 8'},
         {spells.chaosStrike, 'player.fury >= 70'},
     }},
-}
-,"Icy Veins")
+})

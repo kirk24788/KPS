@@ -6,7 +6,7 @@
 local spells = kps.spells.shaman
 local env = kps.env.shaman
 
-kps.rotations.register("SHAMAN","ENHANCEMENT",
+kps.rotations.register("SHAMAN","ENHANCEMENT","Shaman Enhancement").setCombatTable(
 {
     --Survival
     {spells.astralShift, 'player.hp<0.3'},
@@ -28,5 +28,4 @@ kps.rotations.register("SHAMAN","ENHANCEMENT",
     {spells.boulderfist},
     {spells.flametongue},
     {spells.lightningBolt, 'not spells.stormstrike.inRange(target)'},
-}
-,"shaman enhancement", {3,0,0,-1,-2,1,2})
+}).setExpectedTalents({3,0,0,-1,-2,1,2})

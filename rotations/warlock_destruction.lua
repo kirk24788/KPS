@@ -18,7 +18,7 @@ Level 90: Grimoire of Service
 Level 100: Soul Conduit
 ]]--
 
-kps.rotations.register("WARLOCK","DESTRUCTION",
+kps.rotations.register("WARLOCK","DESTRUCTION","Icy Veins").setCombatTable(
 {
     -- Deactivate Burning Rush if not moving for 1 second
     env.deactivateBurningRushIfNotMoving(1),
@@ -64,5 +64,4 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
 
     -- Cast Conflagrate to generate Soul Shards.
     {spells.incinerate},
-}
-,"Destruction 7.0.3", {0,0,0,0,0,2,0})
+}).setExpectedTalents({0,0,0,0,0,2,0})

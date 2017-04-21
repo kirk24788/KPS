@@ -16,7 +16,7 @@
 local spells = kps.spells.paladin -- REMOVE LINE (or comment out) IF ADDING TO EXISTING ROTATION
 local env = kps.env.paladin -- REMOVE LINE (or comment out) IF ADDING TO EXISTING ROTATION
 
-kps.rotations.register("PALADIN","RETRIBUTION",
+kps.rotations.register("PALADIN","RETRIBUTION","Icy Veins").setCombatTable(
 {
     -- Def CD's
     {{"nested"}, 'kps.defensive', {
@@ -57,19 +57,15 @@ kps.rotations.register("PALADIN","RETRIBUTION",
         {spells.divineStorm, 'player.holyPower >= 2 and target.hasMyDebuff(spells.judgment)'},
         {spells.divineStorm, 'player.holyPower >= 2 or player.hasBuff(spells.divinePurpose)'},
     }},
-}
-,"Icy Veins")
+})
 
-
-    kps.rotations.register("PALADIN","RETRIBUTION",
-    {
-
-        {{"nested"}, 'target.isAttackable', {
-            {spells.zeal, 'target.distance <= 10'},
-            {spells.judgment, 'target.distance <= 30 and target.distance >= 10'},
-            {spells.templarsVerdict},
-            {spells.divineStorm},
-            {spells.bladeOfWrath},
-        }},
-    }
-,"Spam Zeal")
+kps.rotations.register("PALADIN","RETRIBUTION","Spam Zeal").setCombatTable(
+{
+    {{"nested"}, 'target.isAttackable', {
+        {spells.zeal, 'target.distance <= 10'},
+        {spells.judgment, 'target.distance <= 30 and target.distance >= 10'},
+        {spells.templarsVerdict},
+        {spells.divineStorm},
+        {spells.bladeOfWrath},
+    }},
+})

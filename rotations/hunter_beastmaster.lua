@@ -7,7 +7,7 @@
 local spells = kps.spells.hunter
 local env = kps.env.hunter
 
-kps.rotations.register("HUNTER","BEASTMASTERY",
+kps.rotations.register("HUNTER","BEASTMASTERY","Beastmastery 7.0.3 MU").setCombatTable(
 {
     -- buffs
     {spells.callPet1, 'not player.hasPet'},
@@ -76,5 +76,4 @@ kps.rotations.register("HUNTER","BEASTMASTERY",
     {spells.cobraShot, 'player.focus > 90 and spells.bestialWrath.cooldown > 3 and not kps.multiTarget'},
     {{"macro"}, 'player.hasPet', "/petattack"},
 
-}
-,"Beastmastery 7.0.3 MU", {0, 0, 0, 0, 0, 0, 0})
+}).setExpectedTalents({0, 0, 0, 0, 0, 0, 0})

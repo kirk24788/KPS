@@ -18,7 +18,7 @@ Level 90: Guardian of Elune
 Level 100: Rend and Tear
 ]]--
 
-kps.rotations.register("DRUID","GUARDIAN",
+kps.rotations.register("DRUID","GUARDIAN","Icy Veins").setCombatTable(
 {
    -- bearForm Form
     {spells.bearForm, 'not player.hasBuff(spells.bearForm)'},
@@ -62,5 +62,4 @@ kps.rotations.register("DRUID","GUARDIAN",
         {spells.moonfire, 'player.hasBuff(spells.galacticGuardian)'},
         {spells.swipe},
     }},
-}
-,"Icy Veins")
+})

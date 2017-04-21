@@ -7,7 +7,7 @@ local spells = kps.spells.shaman
 local env = kps.env.shaman
 
 
-kps.rotations.register("SHAMAN","ELEMENTAL",
+kps.rotations.register("SHAMAN","ELEMENTAL","shaman_elemental.simc").setCombatTable(
 {
     {spells.windShear}, -- wind_shear
     {spells.bloodlust, 'target.hp < 25 or player.timeInCombat > 0.500'}, -- bloodlust,if=target.health.pct<25|time>0.500
@@ -41,5 +41,4 @@ kps.rotations.register("SHAMAN","ELEMENTAL",
         {spells.flameShock}, -- flame_shock,moving=1,target_if=refreshable
         {spells.flameShock}, -- flame_shock,moving=1
     }},
-}
-,"shaman_elemental.simc")
+})

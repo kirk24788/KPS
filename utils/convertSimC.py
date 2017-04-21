@@ -788,10 +788,10 @@ class SimCraftProfile(object):
             header += "local env = kps.env.%s\n\n" % self.kps_class
         else:
             header = "\n--GENERATED FROM SIMCRAFT PROFILE '%s'" % os.path.basename(self.filename)
-        rota = """kps.rotations.register("%s","%s",\n{\n""" % (self.kps_class.upper(),self.kps_spec.upper())
+        rota = """kps.rotations.register("%s","%s","%s").setCombatTable(\n{\n""" % (self.kps_class.upper(),self.kps_spec.upper(), self.kps_title)
         for r in simc.convert_to_action_list():
             rota += "%s\n" % r
-        rota += """}\n,"%s")""" % self.kps_title
+        rota += """})"""
         return header + "\n" + rota + "\n"
 
 if __name__ == "__main__":
