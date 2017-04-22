@@ -18,15 +18,16 @@ kps.rotations.register("PRIEST","SHADOW",{
     -- "Dispersion" 47585
     {spells.dispersion, 'player.hp < 0.40' },
     {{"macro"}, 'player.hasBuff(spells.dispersion) and player.hp > 0.90' , "/cancelaura "..dispersion },
+    {spells.fade, 'player.incomingDamage > player.incomingHeal and player.hp < 0.90' },
     {spells.fade, 'player.isTarget' },
     -- "Power Word: Shield" 17
-    {spells.powerWordShield, 'player.isMoving and player.hasTalent(2,2) and not player.hasBuff(spells.powerWordShield)' , "player" },
-    {spells.powerWordShield, 'player.hp < 0.80 and not player.hasBuff(spells.voidform) and not player.hasBuff(spells.powerWordShield)' , "player" },
+    {spells.powerWordShield, 'player.isMoving and player.hasTalent(2,2) and not player.hasBuff(spells.bodyAndSoul)' , "player" },
+    {spells.powerWordShield, 'not spells.powerWordShield.lastCasted(4) and player.hp < 0.80 and not player.hasBuff(spells.voidform) and not player.hasBuff(spells.powerWordShield)' , "player" },
     {spells.powerWordShield, 'mouseover.isHealable and mouseover.hp < 0.50 and not mouseover.hasBuff(spells.powerWordShield)' , "mouseover" },
     -- "Pierre de soins" 5512
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.60', "/use item:5512" },
     -- "Don des naaru" 59544
-    {kps.spells.racial.giftOfTheNaaru, 'player.hp < 0.70', "player" },
+    {spells.giftOfTheNaaru, 'player.hp < 0.70', "player" },
     -- "Etreinte vampirique" buff 15286 -- pendant 15 sec, vous permet de rendre à un allié proche, un montant de points de vie égal à 40% des dégâts d’Ombre que vous infligez avec des sorts à cible unique
     {spells.vampiricEmbrace, 'player.hasBuff(spells.voidform) and player.hp < 0.50' },
     {spells.vampiricEmbrace, 'player.hasBuff(spells.voidform) and heal.averageHpIncoming < 0.80' },
@@ -55,9 +56,9 @@ kps.rotations.register("PRIEST","SHADOW",{
     { spells.levitate, 'kps.defensive and player.isSwimming and not player.hasBuff(spells.levitate)' , "player" },
 
     -- "Shadow Word: Death" 32379
-    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges > 0 and player.insanity < 85' , env.DeathEnemyTarget },
+    {spells.shadowWordDeath, 'true' , env.DeathEnemyTarget },
+    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges > 0 and player.insanity < 85' , "target" },
     {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 2' , "target" },
-
 
     -- mindblast is highest priority spell out of voidform
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform)' , "target"  },

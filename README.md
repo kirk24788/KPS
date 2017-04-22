@@ -59,7 +59,7 @@ All DPS Specs have at least one rotation automatically generated from SimCraft -
 * Deathknight: Blood (7.0.3), Frost (7.0.3), Unholy (7.0.3)
 * Demonhunter: Havoc (7.0.3), Vengeance (7.0.3)
 * Druid: Balance (7.0.3), Feral (7.0.3), Guardian (7.0.3), Restoration (7.0.3)
-* Hunter: Beastmaster (7.0.3), Marksmanship (7.0.3)
+* Hunter: Beastmaster (7.2.0), Marksmanship (7.0.3)
 * Mage: Fire (7.0.3)
 * Monk: Mistweaver (7.0.3)
 * Paladin: Holy (7.0.3), Retribution (7.0.3)
@@ -603,6 +603,7 @@ kps.rotations.register(
  * `env.lua:28` - Clean UP!!! This code is a mess...
  * `gui/toggle.lua:75` - Right-Click Action
  * `libs/LibRangeCheck-2.0/LibRangeCheck-2.0.lua:31` - check if unit is valid, etc
+
  * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
  * `modules/unit/unit_casting.lua:63` - Blacklisted spells?
  * `modules/unit/unit_state.lua:13` - PvP

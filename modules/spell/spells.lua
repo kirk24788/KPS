@@ -120,8 +120,3 @@ kps.spells.battlerez.rebirth = kps.Spell.fromId(20484) -- Rebirth
 kps.spells.battlerez.raiseAlly = kps.Spell.fromId(61999) -- Raise Ally
 kps.spells.battlerez.soulstone = kps.Spell.fromId(20707) -- Soulstone
 kps.spells.battlerez.eternalGuardian = kps.Spell.fromId(126393) -- Eternal Guardian
-
-
--- Racial Spells
-kps.spells.racial = {}
-kps.spells.racial.giftOfTheNaaru = kps.Spell.fromId(59544) -- Gift of the Naaru

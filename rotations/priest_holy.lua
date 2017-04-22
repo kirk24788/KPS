@@ -6,6 +6,7 @@
 
 local spells = kps.spells.priest
 local env = kps.env.priest
+local holyWordSanctify = tostring(kps.spells.priest.holyWordSanctify)
 
 
 kps.rotations.register("PRIEST","HOLY",{
@@ -29,7 +30,7 @@ kps.rotations.register("PRIEST","HOLY",{
     -- Body and Mind
     {spells.bodyAndMind, 'player.isMoving and not player.hasBuff(spells.bodyAndMind)' , "player"},
     -- "Don des naaru" 59544
-    {kps.spells.racial.giftOfTheNaaru, 'player.hp < 0.60' , "player" },
+    {spells.giftOfTheNaaru, 'player.hp < 0.60' , "player" },
     -- "Pierre de soins" 5512
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.90' ,"/use item:5512" },
     -- renew
@@ -112,6 +113,7 @@ kps.rotations.register("PRIEST","HOLY",{
         {{spells.holyWordSanctify,spells.prayerOfHealing}, 'heal.countInRange > 3 and not player.isInRaid' , "player" },
         {{spells.holyWordSanctify,spells.prayerOfHealing}, 'heal.countInRange > 5 and player.isInRaid' , "player" },
     }},
+    {{"macro"}, 'keys.shift', "/cast [@cursor] "..holyWordSanctify },
     {spells.prayerOfHealing, 'not player.isMoving and heal.countInRange > 3 and not player.isInRaid and not spells.prayerOfHealing.isRecastAt("player")', "player" },
  
     -- "Soins rapides" 2060

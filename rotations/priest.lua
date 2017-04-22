@@ -6,11 +6,42 @@ Priest Environment Functions and Variables.
 
 kps.env.priest = {}
 
+local UnitIsUnit = UnitIsUnit
+local UnitExists = UnitExists
+local UnitIsDeadOrGhost = UnitIsDeadOrGhost
+local UnitHealth = UnitHealth
+local UnitHealthMax = UnitHealthMax
 local MindFlay = tostring(kps.spells.priest.mindFlay)
-local VoidFormBuff = tostring(kps.spells.priest.voidform)
+local VoidForm = tostring(kps.spells.priest.voidform)
 local Heal = tostring(kps.spells.priest.heal)
 local FlashHeal = tostring(kps.spells.priest.flashHeal)
 local PrayerOfHealing = tostring(kps.spells.priest.prayerOfHealing)
+local EnemyTable = {"mouseover", "focus", "target"}
+
+--------------------------------------------------------------------------------------------
+------------------------------- TEST FUNCTIONS
+--------------------------------------------------------------------------------------------
+
+function kps.env.priest.test()
+    if kps.multiTarget then return true end
+    return false
+end
+
+function kps.env.priest.testkps(arg)
+    if arg == true then return true end
+    return false
+end
+
+--{spells.mindFlay, env.test }, -- true/false
+--{spells.mindFlay, 'test()' }, -- lua error parser/lua:84 bad argument to unpack table expected got nil
+--{spells.mindFlay, 'test(1)' }, -- true/false
+
+--{spells.mindFlay, 'testkps(kps.multiTarget)' }, -- true/false
+--{spells.mindFlay, env.testkps(kps.multiTarget) }, -- always false
+
+--------------------------------------------------------------------------------------------
+------------------------------- LOCAL FUNCTIONS
+--------------------------------------------------------------------------------------------
 
 local UnitDebuffDuration = function(spell,unit)
     --if unit == nil then return "target" end
@@ -31,12 +62,6 @@ local UnitHasBuff = function(spell,unit)
     return false
 end
 
-local UnitIsUnit = UnitIsUnit
-local UnitExists = UnitExists
-local UnitIsDeadOrGhost = UnitIsDeadOrGhost
-local UnitHealth = UnitHealth
-local UnitHealthMax = UnitHealthMax
-
 local function UnitIsAttackable(unit)
     if UnitIsDeadOrGhost(unit) then return false end
     if not UnitExists(unit) then return false end
@@ -55,8 +80,8 @@ end
 
 function kps.env.priest.canCastvoidBolt()
     if kps.multiTarget then return false end
-    --if not kps["env"].player.hasBuff(self,VoidFormBuff) then return false end
-    if not UnitHasBuff(VoidFormBuff,"player") then return false end
+    --if not kps["env"].player.hasBuff(VoidForm) then return false end
+    if not UnitHasBuff(VoidForm,"player") then return false end
     if kps.spells.priest.voidEruption.cooldown > 0 then return false end
     local Channeling = UnitChannelInfo("player") -- "Mind Flay" is a channeling spell
     if Channeling ~= nil then
@@ -75,59 +100,42 @@ function kps.env.priest.canCastMindBlast()
     return false
 end
 
-function kps.env.priest.test()
-    if kps.multiTarget then return true end
-    return false
-end
-
-function kps.env.priest.testkps(arg)
-    if arg == true then return true end
-    return false
-end
-
---{spells.mindFlay, env.test }, -- true/false
---{spells.mindFlay, 'test()' }, -- lua error parser/lua:84 bad argument to unpack table expected got nil
---{spells.mindFlay, 'test(1)' }, -- true/false
-
---{spells.mindFlay, 'testkps(kps.multiTarget)' }, -- true/false
---{spells.mindFlay, env.testkps(kps.multiTarget) }, -- always false
-
-
-local Enemy = {"mouseover", "focus", "target" }
 function kps.env.priest.VoidBoltTarget()
     local VoidBoltTarget = "target"
     local VoidBoltTargetDuration = 24
-    for i=1,#Enemy do -- for _,unit in ipairs(EnemyUnit) do
-        local unit = Enemy[i]
-        local shadowWordPainDuration = UnitDebuffDuration(kps.spells.priest.shadowWordPain,unit)
-        local vampiricTouchDuration = UnitDebuffDuration(kps.spells.priest.vampiricTouch,unit)
+    for i=1,#EnemyTable do
+        local enemy = EnemyTable[i]
+        local shadowWordPainDuration = UnitDebuffDuration(kps.spells.priest.shadowWordPain,enemy)
+        local vampiricTouchDuration = UnitDebuffDuration(kps.spells.priest.vampiricTouch,enemy)
         if shadowWordPainDuration > 0 and vampiricTouchDuration > 0 then
             local duration = math.min(shadowWordPainDuration,vampiricTouchDuration)
             if duration < VoidBoltTargetDuration then
                 VoidBoltTargetDuration = duration
-                VoidBoltTarget = unit
+                VoidBoltTarget = enemy
             end
         end
     end
     return VoidBoltTarget
 end
 
+-- UnitHealthMax returns the maximum health of the specified unit, returns 0 if the specified unit does not exist (eg. "target" given but there is no target)
 function kps.env.priest.DeathEnemyTarget()
-    local EnemyTarget = "target"
-    for i=1,#Enemy do -- for _,unit in ipairs(EnemyUnit) do
-        local unit = Enemy[i]
-        local unitHealth = UnitHealth(unit) / UnitHealthMax(unit)
-        if PlayerHasTalent(4,2) and unitHealth < 0.35 then
-            EnemyTarget = unit
-        elseif unitHealth < 0.20 then
-            EnemyTarget = unit
+    local DeathTarget = "target"
+    local HealthTarget = 1
+    for i=1,#EnemyTable do
+        local enemy = EnemyTable[i]
+        if UnitExists(enemy) then HealthTarget = UnitHealth(enemy) / UnitHealthMax(enemy) end
+        if PlayerHasTalent(4,2) and HealthTarget < 0.35 and UnitIsAttackable(enemy) then
+            DeathTarget = enemy
+        elseif HealthTarget < 0.20 then
+            DeathTarget = enemy
         end
     end
-    return EnemyTarget
+    return DeathTarget
 end
 
+-- Config FOCUS with MOUSEOVER
 function kps.env.priest.TargetMouseover()
-    -- Config FOCUS with MOUSEOVER
     if not UnitExists("focus") and UnitIsAttackable("mouseover") then
         if UnitIsUnit("mouseovertarget","player") and not UnitIsUnit("target","mouseover") then
             kps.runMacro("/focus mouseover")
@@ -149,7 +157,9 @@ function kps.env.priest.TargetMouseover()
     return nil, nil
 end
 
--- AVOID OVERHEALING -- env.ShouldInterruptCasting(InterruptTable, CountInRange, AvgHealthRaid)
+--------------------------------------------------------------------------------------------
+------------------------------- AVOID OVERHEALING
+--------------------------------------------------------------------------------------------
 
 local SerenityOnCD = function()
     if kps.spells.priest.holyWordSerenity.cooldown == 0 then return false end 
@@ -192,5 +202,42 @@ kps.env.priest.ShouldInterruptCasting = function()
     local countInRange = kps["env"].heal.countInRange
     local lowestHealth = kps["env"].heal.lowestInRaid.hp
     return ShouldInterruptCasting(InterruptTable, countInRange, lowestHealth)
+end
+
+
+--------------------------------------------------------------------------------------------
+------------------------------- TRAIL OF LIGHT
+--------------------------------------------------------------------------------------------
+
+local Unit = kps.Unit.prototype
+
+local healEvents = {
+        ["SPELL_HEAL"] = true,
+        ["SPELL_PERIODIC_HEAL"] = true,
+}
+
+local favoriteSpell = 2061 -- usefull for holy priest with hasTalent(1,1) kps.spells.priest.trailOfLight
+local lastCastedUnit = "player"
+local lastCastedSpell = function(unit)
+    if lastCastedUnit == unit then return true end
+    return false
+end
+
+local combatLogUpdate = function ( ... )
+    if healEvents[event] then
+        local sourceName = select(5,...)
+        local spellID = select(12, ...)
+        local destName = select(9,...)
+		if sourceName == GetUnitName("player") and spellID == favoriteSpell then
+            lastCastedUnit = destName
+        end
+    end
+end
+
+--[[[
+@function `<UNIT>.lastCastedUnit` - returns true if the unit was the last casted spell kps.spells.priest.flashHeal usefull for holy priest with hasTalent(1,1) kps.spells.priest.trailOfLight
+]]--
+function Unit.lastCastedUnit(self)
+    return lastCastedSpell(self.name)
 end
 

@@ -14,13 +14,13 @@ how often it is called (i.e. within an onUpdate event).
 @param fn function which generates the value
 @param updateInterval [i]Optional:[/i] max age in seconds before the function is called again - defaults to [code]kps.config.updateInterval[/code]
 ]]--
-local maxTime = 0
 function kps.utils.cachedFunction(fn,updateInterval)
     if not updateInterval then updateInterval = kps.config.updateInterval end
+    local maxAge = 0
     return function()
-        if maxTime < GetTime() then
+        if maxAge < GetTime() then
             fn()
-            maxTime = GetTime() + updateInterval
+            maxAge = GetTime() + updateInterval
         end
     end
 end
@@ -34,15 +34,14 @@ a function which generates the value which will be called every [code]updateInte
 @param updateInterval [i]Optional:[/i] max age in seconds before the value is fetched again from the function - defaults to [code]kps.config.updateInterval[/code]
 @returns A function which will return the cached value
 ]]--
-local updateAge = GetTime()
 function kps.utils.cachedValue(fn,updateInterval)
     if not updateInterval then updateInterval = kps.config.updateInterval end
     local value = fn()
-    local maxAge = updateAge + updateInterval
+    local maxAge = GetTime() + updateInterval
     return function()
         if maxAge < GetTime() then
             value = fn()
-            updateAge = GetTime()
+            maxAge = GetTime() + updateInterval
         end
         return value
     end
@@ -83,3 +82,14 @@ function kps.utils.functionCache(key, fn)
         return unpack(spellcache[a])
     end
 end
+
+local function tableCopy(obj, seen)
+  if type(obj) ~= 'table' then return obj end
+  if seen and seen[obj] then return seen[obj] end
+  local s = seen or {}
+  local res = setmetatable({}, getmetatable(obj))
+  s[obj] = res
+  for k, v in pairs(obj) do res[tableCopy(k, s)] = tableCopy(v, s) end
+  return res
+end
+kps.utils.tableCopy = tableCopy
