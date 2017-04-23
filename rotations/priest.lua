@@ -127,7 +127,7 @@ function kps.env.priest.DeathEnemyTarget()
         if UnitExists(enemy) then HealthTarget = UnitHealth(enemy) / UnitHealthMax(enemy) end
         if PlayerHasTalent(4,2) and HealthTarget < 0.35 and UnitIsAttackable(enemy) then
             DeathTarget = enemy
-        elseif HealthTarget < 0.20 then
+        elseif HealthTarget < 0.20 and UnitIsAttackable(enemy) then
             DeathTarget = enemy
         end
     end
