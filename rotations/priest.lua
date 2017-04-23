@@ -228,7 +228,7 @@ local combatLogUpdate = function ( ... )
         local sourceName = select(5,...)
         local spellID = select(12, ...)
         local destName = select(9,...)
-		if sourceName == GetUnitName("player") and spellID == favoriteSpell then
+        if sourceName == GetUnitName("player") and spellID == favoriteSpell then
             lastCastedUnit = destName
         end
     end
