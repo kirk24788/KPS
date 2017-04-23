@@ -18,6 +18,8 @@ kps.rotations.register("PRIEST","SHADOW",{
     -- "Dispersion" 47585
     {spells.dispersion, 'player.hp < 0.40' },
     {{"macro"}, 'player.hasBuff(spells.dispersion) and player.hp > 0.90' , "/cancelaura "..dispersion },
+    {{"macro"}, 'player.hasBuff(spells.dispersion)' , "/stopcasting" },
+
     {spells.fade, 'player.incomingDamage > player.incomingHeal and player.hp < 0.90' },
     {spells.fade, 'player.isTarget' },
     -- "Power Word: Shield" 17

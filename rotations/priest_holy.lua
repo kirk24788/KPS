@@ -115,6 +115,7 @@ kps.rotations.register("PRIEST","HOLY",{
     }},
     {{"macro"}, 'keys.shift', "/cast [@cursor] "..holyWordSanctify },
     {spells.prayerOfHealing, 'not player.isMoving and heal.countInRange > 3 and not player.isInRaid and not spells.prayerOfHealing.isRecastAt("player")', "player" },
+    {spells.prayerOfHealing, 'not player.isMoving and heal.countInRange > 5 and player.isInRaid and not spells.prayerOfHealing.isRecastAt("player")', "player" },
  
     -- "Soins rapides" 2060
     {spells.flashHeal, 'not player.isMoving and player.hasTalent(1,1) and heal.countInRange < 4 and heal.lowestInRaid.hp < 0.70 and not heal.lowestInRaid.lastCastedUnit' , kps.heal.lowestInRaid},
@@ -125,18 +126,18 @@ kps.rotations.register("PRIEST","HOLY",{
     {{"nested"}, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.80' , {
         {spells.flashHeal, 'heal.lowestTargetInRaid.hp < 0.70' , kps.heal.lowestTargetInRaid},
         {spells.flashHeal, 'spells.holyWordSerenity.cooldown > 0' , kps.heal.lowestTargetInRaid},
-        {spells.flashHeal, '(heal.lowestTargetInRaid.incomingDamage - heal.lowestTargetInRaid.incomingHeal)*2 > heal.lowestTargetInRaid.hp' , kps.heal.lowestTargetInRaid},
+        {spells.flashHeal, 'heal.lowestTargetInRaid.incomingDamage > heal.lowestTargetInRaid.incomingHeal' , kps.heal.lowestTargetInRaid},
     }},
     {{"nested"}, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.80' , {
         {spells.flashHeal, 'heal.lowestTankInRaid.hp < 0.70' , kps.heal.lowestTankInRaid},
         {spells.flashHeal, 'spells.holyWordSerenity.cooldown > 0' , kps.heal.lowestTankInRaid},
-        {spells.flashHeal, '(heal.lowestTankInRaid.incomingDamage - heal.lowestTankInRaid.incomingHeal)*2 > heal.lowestTankInRaid.hp' , kps.heal.lowestTankInRaid},
+        {spells.flashHeal, 'heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal' , kps.heal.lowestTankInRaid},
     }},
     -- "Renew" 139
     {spells.renew, 'heal.countInRange < 4 and heal.lowestInRaid.myBuffDuration(spells.renew) < 3 and heal.lowestInRaid.hpIncoming < 0.95' , kps.heal.lowestInRaid},
     -- "Soins rapides" 2060
     {{"nested"}, 'not player.isMoving and heal.lowestInRaid.hp < 0.70' , {
-        {spells.flashHeal, '(heal.lowestInRaid.incomingDamage - heal.lowestInRaid.incomingHeal)*2 > heal.lowestInRaid.hp' , kps.heal.lowestInRaid},
+        {spells.flashHeal, 'heal.lowestInRaid.incomingDamage > heal.lowestInRaid.incomingHeal' , kps.heal.lowestInRaid},
         {spells.flashHeal, 'heal.countInRange < 4' , kps.heal.lowestInRaid},
     }},
     

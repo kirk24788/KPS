@@ -32,12 +32,17 @@ function kps.env.priest.testkps(arg)
     return false
 end
 
---{spells.mindFlay, env.test }, -- true/false
---{spells.mindFlay, 'test()' }, -- lua error parser/lua:84 bad argument to unpack table expected got nil
---{spells.mindFlay, 'test(1)' }, -- true/false
+--kps.rotations.register("PRIEST","SHADOW",{
 
+--{spells.mindFlay, env.test }, -- true/false
+--{spells.mindFlay, 'test()' }, -- -- true/false
+--{spells.mindFlay, 'test(1)' }, -- true/false
 --{spells.mindFlay, 'testkps(kps.multiTarget)' }, -- true/false
 --{spells.mindFlay, env.testkps(kps.multiTarget) }, -- always false
+--{spells.mindFlay, env.testkps }, -- always false
+--{spells.mindBlast, 'not player.isMoving' },
+
+--},"TEST Priest")
 
 --------------------------------------------------------------------------------------------
 ------------------------------- LOCAL FUNCTIONS
