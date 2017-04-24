@@ -6,7 +6,7 @@
 
 local spells = kps.spells.priest
 local env = kps.env.priest
-local holyWordSanctify = tostring(kps.spells.priest.holyWordSanctify)
+local holyWordSanctify = tostring(spells.holyWordSanctify)
 
 
 kps.rotations.register("PRIEST","HOLY",{

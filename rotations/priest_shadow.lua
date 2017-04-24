@@ -6,7 +6,7 @@
 
 local spells = kps.spells.priest
 local env = kps.env.priest
-local dispersion = tostring(kps.spells.priest.dispersion)
+local dispersion = tostring(spells.dispersion)
 
 kps.rotations.register("PRIEST","SHADOW",{
 
