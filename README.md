@@ -351,6 +351,7 @@ Members:
  * `<UNIT>.isInterruptable` - returns true if the unit is currently casting (or channeling) a spell which can be interrupted.
  * `<UNIT>.incomingDamage` - returns incoming damage of the unit over last 4 seconds
  * `<UNIT>.incomingHeal` - returns incoming heal of the unit over last 4 seconds
+ * `<UNIT>.lastCastedUnit` - returns true if the unit was the last casted spell kps.spells.priest.flashHeal usefull for holy priest with hasTalent(1,1) kps.spells.priest.trailOfLight
  * `<UNIT>.name` - returns the unit name
  * `<UNIT>.guid` - returns the unit guid
  * `<UNIT>.npcId` - returns the unit id (as seen on wowhead)
