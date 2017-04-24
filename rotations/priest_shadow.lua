@@ -12,7 +12,6 @@ kps.rotations.register("PRIEST","SHADOW",{
 
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
-    {{"macro"}, 'not target.isAttackable and targettarget.isAttackable and targettarget.inCombat' , "/target targettarget" },
     env.TargetMouseover,
 
     -- "Dispersion" 47585
@@ -34,7 +33,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.vampiricEmbrace, 'player.hasBuff(spells.voidform) and player.hp < 0.50' },
     {spells.vampiricEmbrace, 'player.hasBuff(spells.voidform) and heal.averageHpIncoming < 0.80' },
     -- "Guérison de l’ombre" 186263 -- debuff "Shadow Mend" 187464 10 sec
-    {spells.shadowMend, 'not spells.shadowMend.lastCasted(4) and not player.isMoving and not player.hasBuff(spells.voidform) and player.hp < 0.60 and not playerHasBuff(spells.vampiricEmbrace)' , "player" },
+    {spells.shadowMend, 'not spells.shadowMend.lastCasted(4) and not player.isMoving and not player.hasBuff(spells.voidform) and player.hp < 0.60 and not player.hasBuff(spells.vampiricEmbrace)' , "player" },
 
     -- "Purify Disease" 213634
     {{"nested"}, 'kps.cooldowns',{
@@ -58,9 +57,13 @@ kps.rotations.register("PRIEST","SHADOW",{
     { spells.levitate, 'kps.defensive and player.isSwimming and not player.hasBuff(spells.levitate)' , "player" },
 
     -- "Shadow Word: Death" 32379
-    {spells.shadowWordDeath, 'true' , env.DeathEnemyTarget },
-    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges > 0 and player.insanity < 85' , "target" },
-    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 2' , "target" },
+    --{spells.shadowWordDeath, 'true' , env.DeathEnemyTarget },
+    {spells.shadowWordDeath, 'mouseover.hp < 0.20 and spells.shadowWordDeath.charges > 0 and player.insanity < 85' , "mouseover" },
+    {spells.shadowWordDeath, 'mouseover.hp < 0.20 and spells.shadowWordDeath.charges == 2' , "mouseover" },
+    {spells.shadowWordDeath, 'focus.hp < 0.20 and spells.shadowWordDeath.charges > 0 and player.insanity < 85' , "focus" },
+    {spells.shadowWordDeath, 'focus.hp < 0.20 and spells.shadowWordDeath.charges == 2' , "focus" },
+    {spells.shadowWordDeath, 'target.hp < 0.20 and spells.shadowWordDeath.charges > 0 and player.insanity < 85' , "target" },
+    {spells.shadowWordDeath, 'target.hp < 0.20 and spells.shadowWordDeath.charges == 2' , "target" },
 
     -- mindblast is highest priority spell out of voidform
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform)' , "target"  },

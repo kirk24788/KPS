@@ -11,8 +11,8 @@ local holyWordSanctify = tostring(kps.spells.priest.holyWordSanctify)
 
 kps.rotations.register("PRIEST","HOLY",{
 
-    {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
-    {{"macro"}, 'not target.exists and targettarget.isAttackable and targettarget.inCombat' , "/target targettarget" },
+    {{"macro"}, 'not target.exists and mouseover.inCombat' , "/target mouseover" },
+    {{"macro"}, 'not target.exists and mouseover.isAttackable' , "/target mouseover" },
     env.ShouldInterruptCasting,
 
     {{"nested"}, 'player.hasBuff(spells.spiritOfRedemption)' ,{
@@ -119,6 +119,7 @@ kps.rotations.register("PRIEST","HOLY",{
  
     -- "Soins rapides" 2060
     {spells.flashHeal, 'not player.isMoving and player.hasTalent(1,1) and heal.countInRange < 4 and heal.lowestInRaid.hp < 0.70 and not heal.lowestInRaid.lastCastedUnit' , kps.heal.lowestInRaid},
+    {spells.flashHeal, 'not player.isMoving and player.hasTalent(1,1) and heal.countInRange < 4 and heal.lowestInRaid.hp < 0.70 and heal.lowestTankInRaid.lastCastedUnit' , kps.heal.lowestInRaid},
     -- "Renew" 139
     {spells.renew, 'heal.lowestTankInRaid.myBuffDuration(spells.renew) < 3 and heal.lowestTankInRaid.hp < 0.95' , kps.heal.lowestTankInRaid},
     {spells.renew, 'heal.lowestTargetInRaid.myBuffDuration(spells.renew) < 3 and heal.lowestTargetInRaid.hp < 0.95' , kps.heal.lowestTargetInRaid},
