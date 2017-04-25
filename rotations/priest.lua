@@ -13,9 +13,6 @@ local UnitHealth = UnitHealth
 local UnitHealthMax = UnitHealthMax
 local MindFlay = tostring(kps.spells.priest.mindFlay)
 local VoidForm = tostring(kps.spells.priest.voidform)
-local Heal = tostring(kps.spells.priest.heal)
-local FlashHeal = tostring(kps.spells.priest.flashHeal)
-local PrayerOfHealing = tostring(kps.spells.priest.prayerOfHealing)
 local EnemyTable = {"mouseover", "focus", "target"}
 
 --------------------------------------------------------------------------------------------
@@ -171,10 +168,14 @@ local SerenityOnCD = function()
     return true
 end
 
+local Heal = tostring(kps.spells.priest.heal)
+local FlashHeal = tostring(kps.spells.priest.flashHeal)
+local PrayerOfHealing = tostring(kps.spells.priest.prayerOfHealing)
+
 local InterruptTable = {
     {FlashHeal, 0.85 , SerenityOnCD() },
     {Heal, 0.95 , SerenityOnCD() },
-    {PrayerOfHealing, 3 , true },
+    {PrayerOfHealing, 3 , false },
 }
 
 local ShouldInterruptCasting = function (InterruptTable, CountInRange, LowestHealth)

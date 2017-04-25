@@ -166,7 +166,7 @@ kps.rotations.register("PRIEST","HOLY",{
         {spells.heal, 'heal.lowestTargetInRaid.hp < 0.90' , kps.heal.lowestTargetInRaid},
         {spells.heal, 'heal.aggroTank.hp < 0.90' , kps.heal.aggroTank},
         {spells.heal, 'heal.lowestInRaid.hp < 0.90' , kps.heal.lowestInRaid},
-        {spells.heal, 'spells.holyWordSerenity.cooldown > 1' , kps.heal.lowestTankInRaid},
+        {spells.heal, 'spells.holyWordSerenity.cooldown > 0' , kps.heal.lowestTankInRaid},
     }},
 
     -- "Nova sacrée" 132157

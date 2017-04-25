@@ -81,6 +81,7 @@ function Unit.isHealable(self)
         or Unit.inVehicle(self)
         or not select(1,UnitInRange(self.unit)) -- return FALSE when not in a party/raid reason why to be true for player GetUnitName("player") == GetUnitName(unit)
         or Unit.isDead(self)
+        or Unit.lineOfSight(self) == false
         then
         return false
     end
