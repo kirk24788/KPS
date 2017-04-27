@@ -207,6 +207,7 @@ Members:
  * `player.lastEmpowermentCast` - returns the time of the last cast of Demonic Empowerment
  * `player.demons` - returns the number of active demons
  * `player.empoweredDemons` - returns the number of empowered demons
+ * `player.empoweredDemonsDuration` - returns the remaning duration of for currently empowered demons - if the empowerment was casted twice, the lowest duration will be used so the duration matches all demons counted by `player.empowerDemons`.
  * `player.eclipseDirLunar` - returns true if the balance bar is currently going towards Lunar
  * `player.eclipseDirSolar` - returns true if the balance bar is currently going towards Solar
  * `player.eclipsePower` - returns current eclipse power - ranges from 100(solar) to -100(lunar)

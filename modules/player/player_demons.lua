@@ -6,8 +6,10 @@ Player demons: Functions which count player demons and empowerment (demonology w
 local Player = kps.Player.prototype
 local demonDespawnTime = {}
 local demonEmpowermentTime = {}
+local demonEmpowermentExpiration = {}
 local demonCount = 0
-local lastEmpowermentCast = 0;
+local lastEmpowermentCast = 0
+local DEMON_EMPOWERMENT_DURATION = 12
 
 local loaded = false
 local demonDB = {
@@ -42,6 +44,7 @@ local function registerEventsIfNecessary()
                 if despawnTime < currentTime then
                     demonDespawnTime[guid] = nil
                     demonEmpowermentTime[guid] = nil
+                    demonEmpowermentExpiration[guid] = nil
                     demonCount = demonCount - 1
                     --print(("Demon timed out. Count: |cff00ff00%d|r"):format(demonCount))
                 end
@@ -53,6 +56,7 @@ local function registerEventsIfNecessary()
                     if destGUID == guid then
                         demonDespawnTime[guid] = nil
                         demonEmpowermentTime[guid] = nil
+                        demonEmpowermentExpiration[guid] = nil
                         demonCount = demonCount - 1
                         --print(("Demon died. Count: |cff00ff00%d|r"):format(demonCount))
                     end
@@ -65,6 +69,7 @@ local function registerEventsIfNecessary()
                 -- empower demons
                 for guid, time in pairs(demonDespawnTime) do
                     demonEmpowermentTime[guid] = currentTime
+                    demonEmpowermentExpiration[guid] = currentTime + DEMON_EMPOWERMENT_DURATION
                     --print(("Empowering: |cff00ff00%s|r"):format(guid))
                 end
             end
@@ -74,6 +79,7 @@ local function registerEventsIfNecessary()
                 for guid, despawnTime in pairs(demonDespawnTime) do
                     demonDespawnTime[guid] = nil
                     demonEmpowermentTime[guid] = nil
+                    demonEmpowermentExpiration[guid] = nil
                 end
                 demonCount = 0
                 --print(("Implosion. Count: |cff00ff00%d|r"):format(demonCount))
@@ -87,6 +93,7 @@ local function registerEventsIfNecessary()
                     if demonId == currentDemonId then
                         demonDespawnTime[destGUID] = currentTime + demonData.duration
                         demonEmpowermentTime[destGUID] = 0
+                        demonEmpowermentExpiration[guid] = 0
                         demonCount = demonCount + 1
                         --print(("%s spawned. Count: |cff00ff00%d|r"):format(demonData.name, demonCount))
                         return
@@ -126,7 +133,7 @@ function Player.empoweredDemons(self)
     registerEventsIfNecessary()
     local count = 0
     for guid, empoweredTime in pairs(demonEmpowermentTime) do
-        if demonEmpowermentTime[guid] ~= nil and demonEmpowermentTime[guid]+10 > GetTime() then
+        if demonEmpowermentTime[guid] ~= nil and demonEmpowermentExpiration[guid] >= GetTime() then
             count = count + 1
         end
     end
@@ -134,5 +141,24 @@ function Player.empoweredDemons(self)
         return count + 1
     else
         return count
+    end
+end
+
+--[[[
+@function `player.empoweredDemonsDuration` - returns the remaning duration of for currently empowered demons - if the empowerment was casted twice, the lowest duration will be used so the duration matches all demons counted by `player.empowerDemons`.
+]]--
+function Player.empoweredDemonsDuration(self)
+    registerEventsIfNecessary()
+    local lowestDuration = DEMON_EMPOWERMENT_DURATION * 100 -- use high value to make sure the lowest is taken
+    for guid, empoweredExpiration in pairs(demonEmpowermentExpiration) do
+        if empoweredExpiration and empoweredExpiration > 0 then
+            local duration = empoweredExpiration - GetTime()
+            if duration < lowestDuration then lowestDuration = duration end
+        end
+    end
+    if lowestDuration > DEMON_EMPOWERMENT_DURATION then
+        return 0
+    else
+        return lowestDuration
     end
 end
