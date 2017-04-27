@@ -19,7 +19,9 @@ function kps.write(...)
 end
 
 kps.useItem = function(bagItem)
-    return true
+    return function ()
+
+    end
     -- TODO: Return a FUNCTION which uses Item!
     --[[
 
@@ -119,7 +121,7 @@ hooksecurefunc("UseAction", function(...)
             end
         end
         if stype == "item" then
-            priorityAction = kps.useItem(id) -- TODO kps.useItem
+            priorityAction = kps.useItem(id)
         end
         if stype == "macro" then
             macroText = select(3, GetMacroInfo(id))

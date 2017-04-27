@@ -595,7 +595,7 @@ kps.rotations.register(
 
 
 ### Open Issues
- * `core/kps.lua:23` - Return a FUNCTION which uses Item!
+ * `core/kps.lua:25` - Return a FUNCTION which uses Item!
  * `core/logger.lua:33` - Check if DEFAULT_CHAT_FRAME:AddMessage() has any significant advantages
  * `core/parser.lua:132` - syntax error in
  * `core/parser.lua:139` - Error Handling!
