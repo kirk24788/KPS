@@ -129,18 +129,19 @@ kps.rotations.register("PRIEST","HOLY",{
 
     -- "Soins rapides" 2060    
     {{"nested"}, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.80' , {
-        {spells.flashHeal, 'heal.lowestTargetInRaid.hp < 0.70' , kps.heal.lowestTargetInRaid},
-        {spells.flashHeal, 'spells.holyWordSerenity.cooldown > 0' , kps.heal.lowestTargetInRaid},
+        {spells.flashHeal, 'heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTargetInRaid},
         {spells.flashHeal, 'heal.lowestTargetInRaid.incomingDamage > heal.lowestTargetInRaid.incomingHeal' , kps.heal.lowestTargetInRaid},
+        {spells.flashHeal, 'heal.lowestTargetInRaid.hp < 0.70' , kps.heal.lowestTargetInRaid},
     }},
     {{"nested"}, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.80' , {
-        {spells.flashHeal, 'heal.lowestTankInRaid.hp < 0.70' , kps.heal.lowestTankInRaid},
-        {spells.flashHeal, 'spells.holyWordSerenity.cooldown > 0' , kps.heal.lowestTankInRaid},
+        {spells.flashHeal, 'heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
         {spells.flashHeal, 'heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal' , kps.heal.lowestTankInRaid},
+        {spells.flashHeal, 'heal.lowestTankInRaid.hp < 0.70' , kps.heal.lowestTankInRaid},
     }},
     {{"nested"}, 'not player.isMoving and heal.lowestInRaid.hp < 0.80 and heal.countInRange < 4' , {
-        {spells.flashHeal, 'heal.lowestInRaid.hp < 0.70' , kps.heal.lowestInRaid},
+        {spells.flashHeal, 'heal.lowestInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestInRaid},
         {spells.flashHeal, 'heal.lowestInRaid.incomingDamage > heal.lowestInRaid.incomingHeal' , kps.heal.lowestInRaid },
+        {spells.flashHeal, 'heal.lowestInRaid.hp < 0.70' , kps.heal.lowestInRaid},
     }},
 
     -- "Prayer of Healing" 596 -- A powerful prayer that heals the target and the 4 nearest allies within 40 yards for (250% of Spell power)
@@ -159,7 +160,7 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.circleOfHealing, 'player.isMoving and heal.averageHpIncoming < 0.80' , kps.heal.lowestInRaid},
 
     -- "Renew" 139
-    {spells.renew, 'heal.lowestInRaid.myBuffDuration(spells.renew) < 3 and heal.lowestInRaid.hpIncoming < 0.95' , kps.heal.lowestInRaid},
+    {spells.renew, 'heal.lowestInRaid.myBuffDuration(spells.renew) < 3 and heal.lowestInRaid.hpIncoming < 0.95 and not heal.lowestInRaid.hasBuff(spells.echoOfLight)' , kps.heal.lowestInRaid},
 
     -- "Soins" 2060 -- "Renouveau constant" 200153
     {{"nested"}, 'not player.isMoving',{
