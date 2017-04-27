@@ -196,6 +196,3 @@ function Unit.incomingHeal(self)
     end
     return totalHeal
 end
-
-
-

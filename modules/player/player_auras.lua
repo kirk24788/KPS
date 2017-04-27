@@ -100,6 +100,7 @@ function Player.hasGlyph(self)
     return hasGlyph
 end
 
+
 --[[[
 @function `player.useItem(<ITEMID>)` - returns true if the player has the given item and cooldown == 0
 ]]--
@@ -125,6 +126,7 @@ end
 function Player.useItem(self)
     return useItem
 end
+
 
 --[[[
 @function `player.useTrinket(<SLOT>)` - returns true if the player has the given trinket and cooldown == 0

@@ -1,3 +1,4 @@
+
 --[[[
 @module Hunter Beastmaster Rotation
 @author blackcardi

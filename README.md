@@ -207,6 +207,7 @@ Members:
  * `player.lastEmpowermentCast` - returns the time of the last cast of Demonic Empowerment
  * `player.demons` - returns the number of active demons
  * `player.empoweredDemons` - returns the number of empowered demons
+ * `player.empoweredDemonsDuration` - returns the remaning duration of for currently empowered demons - if the empowerment was casted twice, the lowest duration will be used so the duration matches all demons counted by `player.empowerDemons`.
  * `player.eclipseDirLunar` - returns true if the balance bar is currently going towards Lunar
  * `player.eclipseDirSolar` - returns true if the balance bar is currently going towards Solar
  * `player.eclipsePower` - returns current eclipse power - ranges from 100(solar) to -100(lunar)
@@ -351,7 +352,6 @@ Members:
  * `<UNIT>.isInterruptable` - returns true if the unit is currently casting (or channeling) a spell which can be interrupted.
  * `<UNIT>.incomingDamage` - returns incoming damage of the unit over last 4 seconds
  * `<UNIT>.incomingHeal` - returns incoming heal of the unit over last 4 seconds
- * `<UNIT>.lastCastedUnit` - returns true if the unit was the last casted spell kps.spells.priest.flashHeal usefull for holy priest with hasTalent(1,1) kps.spells.priest.trailOfLight
  * `<UNIT>.name` - returns the unit name
  * `<UNIT>.guid` - returns the unit guid
  * `<UNIT>.npcId` - returns the unit id (as seen on wowhead)
@@ -598,7 +598,7 @@ kps.rotations.register(
 
 
 ### Open Issues
- * `core/kps.lua:23` - Return a FUNCTION which uses Item!
+ * `core/kps.lua:25` - Return a FUNCTION which uses Item!
  * `core/logger.lua:33` - Check if DEFAULT_CHAT_FRAME:AddMessage() has any significant advantages
  * `core/parser.lua:132` - syntax error in
  * `core/parser.lua:139` - Error Handling!
