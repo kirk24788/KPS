@@ -40,12 +40,12 @@ kps.rotations.register("PRIEST","HOLY",{
     -- "Soins de lien" 32546
     {spells.bindingHeal, 'heal.lowestInRaid.hp < 0.70 and player.hp < 0.70 and player.hp > heal.lowestInRaid.hp' , kps.heal.lowestInRaid},
 
-    {spells.guardianSpirit, 'player.hp < 0.30' , kps.heal.lowestTankInRaid},
+    {spells.guardianSpirit, 'player.hp < 0.30' , kps.heal.lowestTargetInRaid},
     {{"nested"}, 'kps.interrupt' ,{
-        {spells.guardianSpirit, 'heal.lowestTankInRaid.hp < 0.30' , kps.heal.lowestTankInRaid},
-        {spells.guardianSpirit, 'heal.lowestTargetInRaid.hp < 0.30' , kps.heal.lowestTargetInRaid},
-        {spells.guardianSpirit, 'heal.aggroTank.hp < 0.30' , kps.heal.aggroTank},
-        {spells.guardianSpirit, 'heal.lowestInRaid.hp < 0.30' , kps.heal.lowestInRaid},
+        {spells.guardianSpirit, 'heal.lowestTankInRaid.hp < 0.30 and not heal.lowestTankInRaid.hasBuff(spells.guardianSpirit)' , kps.heal.lowestTankInRaid},
+        {spells.guardianSpirit, 'heal.lowestTargetInRaid.hp < 0.30 and not heal.lowestTargetInRaid.hasBuff(spells.guardianSpirit)' , kps.heal.lowestTargetInRaid},
+        {spells.guardianSpirit, 'heal.aggroTank.hp < 0.30 and not heal.aggroTank.hasBuff(spells.guardianSpirit)' , kps.heal.aggroTank},
+        {spells.guardianSpirit, 'heal.lowestInRaid.hp < 0.30 and not heal.lowestInRaid.hasBuff(spells.guardianSpirit)' , kps.heal.lowestInRaid},
      }},
 
     -- TRINKETS "Trinket0Slot" est slotId  13 "Trinket1Slot" est slotId  14
@@ -54,7 +54,7 @@ kps.rotations.register("PRIEST","HOLY",{
     { spells.apotheosis, 'player.hasTalent(7,1) and heal.lowestInRaid.hp < 0.40 and spells.guardianSpirit.cooldown > 0' },
     { spells.apotheosis, 'player.hasTalent(7,1) and heal.lowestInRaid.hp < 0.60 and heal.countInRange > 3' },
     
-       -- Surge Of Light
+    -- Surge Of Light
     {{"nested"}, 'player.hasBuff(spells.surgeOfLight)' , {
         {spells.flashHeal, 'player.hp < 0.85' , "player"},
         {spells.flashHeal, 'heal.lowestTankInRaid.hp < 0.85' , kps.heal.lowestTankInRaid},
@@ -65,10 +65,10 @@ kps.rotations.register("PRIEST","HOLY",{
     }},
 
     -- Holy Word: Serenity
-    {spells.holyWordSerenity, 'player.hp < 0.50' , "player"},
-    {spells.holyWordSerenity, 'heal.lowestTankInRaid.hp < 0.50' , kps.heal.lowestTankInRaid},
-    {spells.holyWordSerenity, 'heal.lowestTargetInRaid.hp < 0.50' , kps.heal.lowestTargetInRaid},
-    {spells.holyWordSerenity, 'heal.aggroTank.hp < 0.50' , kps.heal.aggroTank},
+    {spells.holyWordSerenity, 'player.hp < 0.40' , "player"},
+    {spells.holyWordSerenity, 'heal.lowestTankInRaid.hp < 0.40' , kps.heal.lowestTankInRaid},
+    {spells.holyWordSerenity, 'heal.lowestTargetInRaid.hp < 0.40' , kps.heal.lowestTargetInRaid},
+    {spells.holyWordSerenity, 'heal.aggroTank.hp < 0.40' , kps.heal.aggroTank},
     {spells.holyWordSerenity, 'heal.lowestInRaid.hp < 0.40' , kps.heal.lowestInRaid},
 
     -- "Dispel" "Purifier" 527
@@ -94,7 +94,8 @@ kps.rotations.register("PRIEST","HOLY",{
         {spells.purify, 'mouseover.isDispellable("Magic")' , "mouseover" },
         {spells.holyWordSerenity, 'mouseover.hp < 0.40' , "mouseover" },
         {spells.guardianSpirit, 'mouseover.hp < 0.30' , "mouseover" },
-        {spells.prayerOfHealing, 'not player.isMoving and heal.countInRange > 3' , "mouseover" },
+        {spells.prayerOfHealing, 'not player.isMoving and heal.countInRange > 3 and not player.isInRaid' , "mouseover" },
+        {spells.prayerOfHealing, 'not player.isMoving and heal.countInRange > 5 and player.isInRaid' , "mouseover" }, 
         {spells.lightOfTuure, 'mouseover.hp < 0.70' , "mouseover" },
         {spells.flashHeal, 'not player.isMoving and mouseover.hp < 0.70' , "mouseover" },
         {spells.renew, 'mouseover.myBuffDuration(spells.renew) < 3 and mouseover.hp < 0.90' , "mouseover" },
@@ -114,18 +115,19 @@ kps.rotations.register("PRIEST","HOLY",{
         {{spells.holyWordSanctify,spells.prayerOfHealing}, 'heal.countInRange > 5 and player.isInRaid' , "player" },
     }},
     {{"macro"}, 'keys.shift', "/cast [@cursor] "..holyWordSanctify },
-    {spells.prayerOfHealing, 'not player.isMoving and heal.countInRange > 3 and not player.isInRaid and player.hasBuff(spells.divinity) and spells.holyWordSanctify.cooldown == 0', "player" },
-    {spells.prayerOfHealing, 'not player.isMoving and heal.countInRange > 3 and player.isInRaid and player.hasBuff(spells.divinity) and spells.holyWordSanctify.cooldown == 0', "player" },
+    {spells.prayerOfHealing, 'not player.isMoving and heal.countInRange > 3 and not player.isInRaid and player.hasBuff(spells.divinity) and spells.holyWordSanctify.cooldown > 0', "player" },
+    {spells.prayerOfHealing, 'not player.isMoving and heal.countInRange > 3 and player.isInRaid and player.hasBuff(spells.divinity) and spells.holyWordSanctify.cooldown > 0', "player" },
     {spells.prayerOfHealing, 'not player.isMoving and heal.countInRange > 3 and not player.isInRaid and not spells.prayerOfHealing.isRecastAt("player")', "player" },
     {spells.prayerOfHealing, 'not player.isMoving and heal.countInRange > 5 and player.isInRaid and not spells.prayerOfHealing.isRecastAt("player")', "player" },
  
     -- "Soins rapides" 2060
-    {spells.flashHeal, 'not player.isMoving and player.hasTalent(1,1) and heal.countInRange < 4 and heal.lowestInRaid.hp < 0.70 and not heal.lowestInRaid.lastCastedUnit' , kps.heal.lowestInRaid},
-    {spells.flashHeal, 'not player.isMoving and player.hasTalent(1,1) and heal.countInRange < 4 and heal.lowestInRaid.hp < 0.70 and heal.lowestTankInRaid.lastCastedUnit' , kps.heal.lowestInRaid},
+    {spells.flashHeal, 'not player.isMoving and player.hasTalent(1,1) and heal.lowestInRaid.hp < 0.70 and not heal.lowestInRaid.lastCastedUnit' , kps.heal.lowestInRaid},
+
     -- "Renew" 139
     {spells.renew, 'heal.lowestTankInRaid.myBuffDuration(spells.renew) < 3 and heal.lowestTankInRaid.hp < 0.95' , kps.heal.lowestTankInRaid},
     {spells.renew, 'heal.lowestTargetInRaid.myBuffDuration(spells.renew) < 3 and heal.lowestTargetInRaid.hp < 0.95' , kps.heal.lowestTargetInRaid},
-    
+
+    -- "Soins rapides" 2060    
     {{"nested"}, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.80' , {
         {spells.flashHeal, 'heal.lowestTargetInRaid.hp < 0.70' , kps.heal.lowestTargetInRaid},
         {spells.flashHeal, 'spells.holyWordSerenity.cooldown > 0' , kps.heal.lowestTargetInRaid},
@@ -136,29 +138,28 @@ kps.rotations.register("PRIEST","HOLY",{
         {spells.flashHeal, 'spells.holyWordSerenity.cooldown > 0' , kps.heal.lowestTankInRaid},
         {spells.flashHeal, 'heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal' , kps.heal.lowestTankInRaid},
     }},
-    -- "Renew" 139
-    {spells.renew, 'heal.countInRange < 4 and heal.lowestInRaid.myBuffDuration(spells.renew) < 3 and heal.lowestInRaid.hpIncoming < 0.95' , kps.heal.lowestInRaid},
-    -- "Soins rapides" 2060
-    {spells.flashHeal, 'not player.isMoving and heal.countInRange < 4 and heal.lowestInRaid.hp < 0.70' , kps.heal.lowestInRaid},
-    
+    {{"nested"}, 'not player.isMoving and heal.lowestInRaid.hp < 0.80 and heal.countInRange < 4' , {
+        {spells.flashHeal, 'heal.lowestInRaid.hp < 0.70' , kps.heal.lowestInRaid},
+        {spells.flashHeal, 'heal.lowestInRaid.incomingDamage > heal.lowestInRaid.incomingHeal' , kps.heal.lowestInRaid },
+    }},
+
     -- "Prayer of Healing" 596 -- A powerful prayer that heals the target and the 4 nearest allies within 40 yards for (250% of Spell power)
     -- "Holy Word: Sanctify" gives buff  "Divinity" 197030 When you heal with a Holy Word spell, your healing is increased by 15% for 8 sec.    
     {{"nested"}, 'not player.isMoving and heal.countInRange > 3 and not player.isInRaid' ,{
         {spells.prayerOfHealing, 'player.hasBuff(spells.divinity)', "player" },
         {spells.holyWordSanctify, 'heal.lowestTargetInRaid.distance < 20' },
         {spells.prayerOfHealing, 'true' , "player" },
-
     }},
     {{"nested"}, 'not player.isMoving and heal.countInRange > 5 and player.isInRaid' ,{
         {spells.prayerOfHealing, 'player.hasBuff(spells.divinity)' , "player" },
         {spells.holyWordSanctify, 'heal.lowestTargetInRaid.distance < 20' },
         {spells.prayerOfHealing, 'true' , "player" },
-    }},     
-
+    }},
     -- "Circle of Healing" 204883
     {spells.circleOfHealing, 'player.isMoving and heal.averageHpIncoming < 0.80' , kps.heal.lowestInRaid},
+
     -- "Renew" 139
-    {spells.renew, 'heal.lowestInRaid.myBuffDuration(spells.renew) < 3 and heal.lowestInRaid.hpIncoming < 0.95 ' , kps.heal.lowestInRaid},
+    {spells.renew, 'heal.lowestInRaid.myBuffDuration(spells.renew) < 3 and heal.lowestInRaid.hpIncoming < 0.95' , kps.heal.lowestInRaid},
 
     -- "Soins" 2060 -- "Renouveau constant" 200153
     {{"nested"}, 'not player.isMoving',{
@@ -178,17 +179,5 @@ kps.rotations.register("PRIEST","HOLY",{
 
 }
 ,"Holy heal")
-
---kps.rotations.register("PRIEST","HOLY",
---{
---    {spells.powerInfusion, 'player.hasTalent(5, 2)'}, -- power_infusion,if=talent.power_infusion.enabled
---    {spells.shadowfiend, 'not player.hasTalent(3, 2)'}, -- shadowfiend,if=!talent.mindbender.enabled
---    {spells.mindbender, 'player.hasTalent(3, 2)'}, -- mindbender,if=talent.mindbender.enabled
---    {spells.shadowWordPain, 'not target.hasMyDebuff(spells.shadowWordPain)'}, -- shadow_word_pain,cycle_targets=1,max_cycle_targets=5,if=miss_react&!ticking
---    {spells.holyFire}, -- holy_fire
---    {spells.smite}, -- smite
---    {spells.holyWordChastise}, -- holy_word,moving=1
---}
---,"Holy damage")
 
 

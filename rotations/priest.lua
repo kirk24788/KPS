@@ -209,3 +209,31 @@ kps.env.priest.ShouldInterruptCasting = function()
     local lowestHealth = kps["env"].heal.lowestInRaid.hp
     return ShouldInterruptCasting(InterruptTable, countInRange, lowestHealth)
 end
+
+
+--------------------------------------------------------------------------------------------
+------------------------------- TRAIL OF LIGHT
+--------------------------------------------------------------------------------------------
+-- for holy priest with hasTalent(1,1) kps.spells.priest.trailOfLight
+
+local Unit = kps.Unit.prototype
+
+local favoriteSpell = 2061 
+local lastCastedUnit = "player"
+local lastCastedSpell = function(unit)
+    if lastCastedUnit == unit then return true end
+    return false
+end
+
+kps.events.register("UNIT_SPELLCAST_SUCCEEDED", function(unitID,spellname,_,_,spellID)
+    if unitID == "player" and spellID == favoriteSpell then
+        lastCastedUnit = kps.lastTargetGUID
+    end
+end)
+            
+--[[[
+@function `<UNIT>.lastCastedUnit` - returns true if the unit was the last casted spell kps.spells.priest.flashHeal usefull for holy priest with hasTalent(1,1) kps.spells.priest.trailOfLight
+]]--
+function Unit.lastCastedUnit(self)
+    return lastCastedSpell(self.guid)
+end

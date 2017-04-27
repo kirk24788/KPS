@@ -41,22 +41,19 @@ local CHECK_INTERVAL = 2
 local GetTime = GetTime
 local unitExclude = {}
 
-kps.events.registerCombatLog("UI_ERROR_MESSAGE", function ( arg1, arg2 )
+kps.events.register("UI_ERROR_MESSAGE", function ( arg1, arg2 )
     if arg2 == SPELL_FAILED_LINE_OF_SIGHT then
-		unitExclude[kps.lastTargetGUID] = GetTime()
+        -- 50 / Cible hors du champ de vision
+        unitExclude[kps.lastTargetGUID] = GetTime()
     end
 end)
 
 local unitLineOfSigh = function(unitguid)
-	if unitExclude[unitguid] == nil then return true end
-	if (GetTime() - unitExclude[unitguid]) >= CHECK_INTERVAL then return true end
-	return false
+    if unitExclude[unitguid] == nil then return true end
+    if (GetTime() - unitExclude[unitguid]) >= CHECK_INTERVAL then return true end
+    return false
 end
 
 function Unit.lineOfSight(self)
     return unitLineOfSigh(self.guid)
 end
-
-
-
-    	

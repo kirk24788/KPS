@@ -26,13 +26,6 @@ local updateincomingHeal = function()
     end
 end
 
-local favoriteSpell = 2061 -- usefull for holy priest with hasTalent(1,1) kps.spells.priest.trailOfLight
-local lastCastedUnit = "player"
-local lastCastedSpell = function(unit)
-    if lastCastedUnit == unit then return true end
-    return false
-end
-
 -------------------------------------------------------
 -------- COMBAT_LOG_EVENT_UNFILTERED FUNCTIONS --------
 -------------------------------------------------------
@@ -99,8 +92,8 @@ local combatLogUpdate = function ( ... )
 
     -- HEAL TABLE -- Incoming Heal on Enemy from Enemy Healers UnitGUID
     if healEvents[event] then
-        local spellID = select(12, ...)
         if isDestEnemy and isSourceEnemy then
+            local spellID = select(12, ...)
             local addEnemyHealer = false
             local classHealer = kps.spells.healer[spellID]
             if classHealer and UnitCanAttack("player",destName) then
@@ -108,17 +101,12 @@ local combatLogUpdate = function ( ... )
                 if addEnemyHealer then EnemyHealer[sourceGUID] = {classHealer,sourceName} end
             end
         end
-
     -- HEAL TABLE -- Incoming Heal on Friend from Friend Healers UnitGUID
         if isDestFriend and UnitCanAssist("player",destName) then
             local heal = select(15,...)
             -- Table of Incoming Heal on Friend IncomingHeal[destGUID] = ( {GetTime(),heal,destName}, ... )
             if incomingHeal[destGUID] == nil then incomingHeal[destGUID] = {} end
             tinsert(incomingHeal[destGUID],1,{GetTime(),heal,destName})
-        
-            if sourceName == GetUnitName("player") and spellID == favoriteSpell then
-                lastCastedUnit = destName
-            end
         end
     end
 
@@ -207,13 +195,6 @@ function Unit.incomingHeal(self)
         end
     end
     return totalHeal
-end
-
---[[[
-@function `<UNIT>.lastCastedUnit` - returns true if the unit was the last casted spell kps.spells.priest.flashHeal usefull for holy priest with hasTalent(1,1) kps.spells.priest.trailOfLight
-]]--
-function Unit.lastCastedUnit(self)
-    return lastCastedSpell(self.name)
 end
 
 
