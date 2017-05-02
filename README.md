@@ -605,7 +605,6 @@ kps.rotations.register(
  * `env.lua:28` - Clean UP!!! This code is a mess...
  * `gui/toggle.lua:75` - Right-Click Action
  * `libs/LibRangeCheck-2.0/LibRangeCheck-2.0.lua:31` - check if unit is valid, etc
-
  * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
  * `modules/unit/unit_casting.lua:63` - Blacklisted spells?
  * `modules/unit/unit_state.lua:13` - PvP
