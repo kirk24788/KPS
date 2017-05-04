@@ -49,7 +49,8 @@ kps.rotations.register("PRIEST","HOLY",{
      }},
 
     -- TRINKETS "Trinket0Slot" est slotId  13 "Trinket1Slot" est slotId  14
-    {{"macro"}, 'player.useTrinket(1) and heal.countInRange > 3' , "/use 14"},
+    {{"macro"}, 'player.useTrinket(1) and heal.countInRange > 3 and not player.isInRaid' , "/use 14"},
+    {{"macro"}, 'player.useTrinket(1) and heal.countInRange > 5 and player.isInRaid' , "/use 14"},
     -- "Apotheosis" 200183 increasing the effects of Serendipity by 200% and reducing the cost of your Holy Words by 100%.
     { spells.apotheosis, 'player.hasTalent(7,1) and heal.lowestInRaid.hp < 0.40 and spells.guardianSpirit.cooldown > 0' },
     { spells.apotheosis, 'player.hasTalent(7,1) and heal.lowestInRaid.hp < 0.60 and heal.countInRange > 3' },
@@ -168,7 +169,6 @@ kps.rotations.register("PRIEST","HOLY",{
         {spells.heal, 'heal.lowestTargetInRaid.hp < 0.90' , kps.heal.lowestTargetInRaid},
         {spells.heal, 'heal.aggroTank.hp < 0.90' , kps.heal.aggroTank},
         {spells.heal, 'heal.lowestInRaid.hp < 0.90' , kps.heal.lowestInRaid},
-        {spells.heal, 'spells.holyWordSerenity.cooldown > 0' , kps.heal.lowestTankInRaid},
     }},
 
     -- "Nova sacrée" 132157

@@ -163,18 +163,13 @@ end
 ------------------------------- AVOID OVERHEALING
 --------------------------------------------------------------------------------------------
 
-local SerenityOnCD = function()
-    if kps.spells.priest.holyWordSerenity.cooldown == 0 then return false end 
-    return true
-end
-
 local Heal = tostring(kps.spells.priest.heal)
 local FlashHeal = tostring(kps.spells.priest.flashHeal)
 local PrayerOfHealing = tostring(kps.spells.priest.prayerOfHealing)
 
 local InterruptTable = {
-    {FlashHeal, 0.85 , SerenityOnCD() },
-    {Heal, 0.95 , SerenityOnCD() },
+    {FlashHeal, 0.85 , false },
+    {Heal, 0.95 , false },
     {PrayerOfHealing, 3 , false },
 }
 
@@ -209,7 +204,6 @@ kps.env.priest.ShouldInterruptCasting = function()
     local lowestHealth = kps["env"].heal.lowestInRaid.hp
     return ShouldInterruptCasting(InterruptTable, countInRange, lowestHealth)
 end
-
 
 --------------------------------------------------------------------------------------------
 ------------------------------- TRAIL OF LIGHT
