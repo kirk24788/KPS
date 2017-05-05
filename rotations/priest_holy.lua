@@ -33,13 +33,13 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.giftOfTheNaaru, 'player.hp < 0.60' , "player" },
     -- "Pierre de soins" 5512
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.90' ,"/use item:5512" },
-    -- renew
+    -- "Renew" 139
     {spells.renew, 'player.myBuffDuration(spells.renew) < 3 and player.hp < 0.95' , "player"},
     -- "Light of T'uure" 208065
     {spells.lightOfTuure, 'player.hp < 0.70 and not player.hasBuff(spells.lightOfTuure)' , "player"},
     -- "Soins de lien" 32546
     {spells.bindingHeal, 'heal.lowestInRaid.hp < 0.70 and player.hp < 0.70 and player.hp > heal.lowestInRaid.hp' , kps.heal.lowestInRaid},
-
+    -- "Guardian Spirit" 47788  -- track buff in case an other priest have casted guardianSpirit
     {spells.guardianSpirit, 'player.hp < 0.30' , kps.heal.lowestTargetInRaid},
     {{"nested"}, 'kps.interrupt' ,{
         {spells.guardianSpirit, 'heal.lowestTankInRaid.hp < 0.30 and not heal.lowestTankInRaid.hasBuff(spells.guardianSpirit)' , kps.heal.lowestTankInRaid},
@@ -122,7 +122,7 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.prayerOfHealing, 'not player.isMoving and heal.countInRange > 5 and player.isInRaid and not spells.prayerOfHealing.isRecastAt("player")', "player" },
  
     -- "Soins rapides" 2060
-    {spells.flashHeal, 'not player.isMoving and player.hasTalent(1,1) and heal.lowestInRaid.hp < 0.70 and not heal.lowestInRaid.lastCastedUnit' , kps.heal.lowestInRaid},
+    {spells.flashHeal, 'not player.isMoving and player.hasTalent(1,1) and not heal.lowestInRaid.lastCastedUnit and heal.lowestInRaid.hp < 0.70 ' , kps.heal.lowestInRaid},
 
     -- "Renew" 139
     {spells.renew, 'heal.lowestTankInRaid.myBuffDuration(spells.renew) < 3 and heal.lowestTankInRaid.hp < 0.95' , kps.heal.lowestTankInRaid},
