@@ -20,7 +20,7 @@ end
 
 kps.useItem = function(bagItem)
     return function ()
-
+    
     end
     -- TODO: Return a FUNCTION which uses Item!
     --[[
