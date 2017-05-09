@@ -55,6 +55,14 @@ kps.rotations.register("PRIEST","SHADOW",{
      -- "Levitate" 1706
     { spells.levitate, 'kps.defensive and player.isFallingFor(2) and not player.hasBuff(spells.levitate)' , "player" },
     { spells.levitate, 'kps.defensive and player.isSwimming and not player.hasBuff(spells.levitate)' , "player" },
+    
+    -- "Void Eruption" 228260
+    {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity > 64' },
+    {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidform) and player.insanity == 100' },
+       --{{"macro"}, 'canCastvoidBolt()' , "/stopcasting" },
+    {{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > 0.5' , "/stopcasting" },
+    {spells.voidEruption, 'player.hasBuff(spells.voidform)' , env.VoidBoltTarget },
+    {spells.voidTorrent, 'player.hasBuff(spells.voidform) and not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
 
     -- "Shadow Word: Death" 32379
     --{spells.shadowWordDeath, 'true' , env.DeathEnemyTarget },
@@ -77,13 +85,6 @@ kps.rotations.register("PRIEST","SHADOW",{
     --{{"macro"}, 'player.useTrinket(1)' , "/use 14"},
     -- "Infusion de puissance"  -- Confère un regain de puissance pendant 20 sec, ce qui augmente la hâte de 25%
     {spells.powerInfusion, 'player.buffStacks(spells.voidform) > 14 and player.buffStacks(spells.voidform) < 22' },
-
-    {spells.voidEruption , 'not player.isMoving and target.isAttackable and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity > 64' },
-    {spells.voidEruption , 'not player.isMoving and target.isAttackable and not player.hasBuff(spells.voidform) and player.insanity == 100' },
-    --{{"macro"}, 'canCastvoidBolt()' , "/stopcasting" },
-    {{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > 0.5' , "/stopcasting" },
-    {spells.voidEruption, 'player.hasBuff(spells.voidform)' , env.VoidBoltTarget },
-    {spells.voidTorrent, 'player.hasBuff(spells.voidform) and not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
 
     --{{"macro"}, env.canCastMindBlast , "/stopcasting" },
     --{{"macro"}, 'canCastMindBlast()' , "/stopcasting" },
