@@ -16,6 +16,7 @@ kps.Unit.metatable = {}
 --[[[
 @function `<UNIT>.exists` - returns true if this unit exists
 ]]--
+-- UnitIsDeadOrGhost(unit) Returns false for priests who are currently in [Spirit of Redemption] form, having died once and are about to die again
 function kps.Unit.prototype.exists(self)
     if self.unit == nil then return false end
     if UnitExists(self.unit)== false then return false end

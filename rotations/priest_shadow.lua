@@ -77,7 +77,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform)' , "target"  },
     
     -- TRINKETS "Trinket0Slot" est slotId  13 "Trinket1Slot" est slotId  14
-    --{{"macro"}, 'player.useTrinket(1)' , "/use 14"},
+    {{"macro"}, 'player.useTrinket(1)' , "/use 14"},
     -- "Infusion de puissance"  -- Confère un regain de puissance pendant 20 sec, ce qui augmente la hâte de 25%
     {spells.powerInfusion, 'player.buffStacks(spells.voidform) > 14 and player.buffStacks(spells.voidform) < 22' },
 

@@ -69,7 +69,7 @@ local function UnitIsAttackable(unit)
     if not UnitExists(unit) then return false end
     if (string.match(GetUnitName(unit), kps.locale["Dummy"])) then return true end
     if UnitCanAttack("player",unit) == false then return false end
-    if UnitIsEnemy("player",unit) == false then return false end
+    --if UnitIsEnemy("player",unit) == false then return false end
     if not kps.env.harmSpell.inRange(unit) then return false end
     return true
 end
@@ -220,7 +220,7 @@ local lastCastedSpell = function(unit)
 end
 
 kps.events.register("UNIT_SPELLCAST_SUCCEEDED", function(unitID,spellname,_,_,spellID)
-    if unitID == "player" and spellID == favoriteSpell then
+    if unitID == "player" and PlayerHasTalent(1,1) and spellID == favoriteSpell then
         lastCastedUnit = kps.lastTargetGUID
     end
 end)
