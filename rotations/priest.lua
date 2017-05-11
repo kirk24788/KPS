@@ -231,3 +231,33 @@ end)
 function Unit.lastCastedUnit(self)
     return lastCastedSpell(self.guid)
 end
+
+--------------------------------------------------------------------------------------------
+------------------------------- MESSAGE ON SCREEN
+--------------------------------------------------------------------------------------------
+
+function CreateMessage(message)
+    local msg = CreateFrame("MessageFrame", nil, UIParent)
+    msg:SetPoint("LEFT", UIParent)
+    msg:SetPoint("RIGHT", UIParent)
+    msg:SetPoint("TOP", 0, -700) -- set vertical position here
+    msg:SetWidth(128)
+    msg:SetHeight(64)
+    msg:SetInsertMode("TOP")
+    msg:SetFrameStrata("HIGH")
+    msg:SetTimeVisible(1)
+    msg:SetFadeDuration(2)
+    msg:SetFont(STANDARD_TEXT_FONT, 25, "OUTLINE")
+    msg:AddMessage(message,1,0,0,1)
+end
+
+local function holyWordSanctifyOnScreen()
+    if kps.spells.priest.holyWordSanctify.cooldown == 0 and kps.timers.check("holyWordSanctify") == 0 then
+        kps.timers.create("holyWordSanctify", 5 )
+        CreateMessage("holyWordSanctify Ready")
+    end
+end
+
+kps.env.priest.ScreenMessage = function()
+   return holyWordSanctifyOnScreen()
+end
