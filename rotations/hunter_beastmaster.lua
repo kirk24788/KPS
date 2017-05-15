@@ -42,7 +42,6 @@ kps.rotations.register("HUNTER","BEASTMASTERY",
             { {"macro"}, 'player.hasPet', "/petattack"}, -- loops
             -- cooldown racial
             { {"macro"}, 'kps.cooldowns', "/cast Blood Fury" },
-
         }},
     }},
 

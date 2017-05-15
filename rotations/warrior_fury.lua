@@ -11,7 +11,7 @@ kps.rotations.register("WARRIOR","FURY",
 {
     -- Charge enemy
     {{"nested"}, 'kps.cooldowns and target.distance > 5', {
-        {spells.charge}, -- charge
+        {spells.charge},
     }},
 
     -- Cooldowns

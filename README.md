@@ -343,6 +343,7 @@ Members:
  * `<UNIT>.buffCount(<SPELL>)` - returns the number of different buffs (not counting the stacks!) on for the given <SPELL> on this unit
  * `<UNIT>.myDebuffCount(<SPELL>)` - returns the number of different debuffs (not counting the stacks!) on for the given <SPELL> on this unit if the spells were cast by the player
  * `<UNIT>.myBuffCount(<SPELL>)` - returns the number of different buffs (not counting the stacks!) on for the given <SPELL> on this unit if the spells were cast by the player
+ * `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. : player.buffAmount(spells.echoOfLight)
  * `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit is dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". player.isDispellable("Magic")
  * `<UNIT>.castTimeLeft` - returns the casting time left for this unit or 0 if it is not casting
  * `<UNIT>.channelTimeLeft` - returns the channeling time left for this unit or 0 if it is not channeling
@@ -369,6 +370,7 @@ Members:
  * `<UNIT>.distance` - returns the approximated distance to the given unit (same as `<UNIT.distanceMax`).
  * `<UNIT>.distanceMin` - returns the min. approximated distance to the given unit.
  * `<UNIT>.distanceMax` - returns the max. approximated distance to the given unit.
+ * `<UNIT>.lineOfSight` - returns true or false during 2 seconds if unit is out of line sight
  * `<UNIT>.isAttackable` - returns true if the given unit can be attacked by the player.
  * `<UNIT>.isPVP` - returns true if the given unit is in PVP.
  * `<UNIT>.inCombat` - returns true if the given unit is in Combat.

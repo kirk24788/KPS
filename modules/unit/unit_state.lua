@@ -75,15 +75,13 @@ end
 ]]--
 function Unit.isHealable(self)
     if GetUnitName("player") == GetUnitName(self.unit) then return true end
-    if not Unit.exists(self)
-        or UnitCanAssist("player",self.unit)==false -- UnitCanAssist(unitToAssist, unitToBeAssisted) return 1 if the unitToAssist can assist the unitToBeAssisted, nil otherwise
-        or UnitIsFriend("player", self.unit)==false -- UnitIsFriend("unit","otherunit") return 1 if otherunit is friendly to unit, nil otherwise.
-        or Unit.inVehicle(self)
-        or not select(1,UnitInRange(self.unit)) -- return FALSE when not in a party/raid reason why to be true for player GetUnitName("player") == GetUnitName(unit)
-        or Unit.isDead(self)
-        then
-        return false
-    end
+    if Unit.hasBuff(self)(kps.Spell.fromId(20711)) then return false end
+    if not Unit.exists(self) then return false end
+    if Unit.inVehicle(self) then return false end
+    if not UnitCanAssist("player",self.unit) then return false end -- UnitCanAssist(unitToAssist, unitToBeAssisted) return 1 if the unitToAssist can assist the unitToBeAssisted, nil otherwise
+    if not UnitIsFriend("player", self.unit) then return false end -- UnitIsFriend("unit","otherunit") return 1 if otherunit is friendly to unit, nil otherwise.
+    if not select(1,UnitInRange(self.unit)) then return false end -- return FALSE when not in a party/raid reason why to be true for player GetUnitName("player") == GetUnitName(unit)
+    if not Unit.lineOfSight(self) then return false end
     return true
 end
 
