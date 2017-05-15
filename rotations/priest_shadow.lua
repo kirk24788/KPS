@@ -74,12 +74,15 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.shadowWordDeath, 'target.hp < 0.20 and spells.shadowWordDeath.charges == 2' , "target" },
 
     -- mindblast is highest priority spell out of voidform
-    {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform)' , "target"  },
+    {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform)' , "target" },
     
     -- TRINKETS "Trinket0Slot" est slotId  13 "Trinket1Slot" est slotId  14
     {{"macro"}, 'player.useTrinket(1) and player.hasBuff(spells.voidform)' , "/use 14"},
     -- "Infusion de puissance"  -- Confère un regain de puissance pendant 20 sec, ce qui augmente la hâte de 25%
     {spells.powerInfusion, 'player.buffStacks(spells.voidform) > 14 and player.buffStacks(spells.voidform) < 22' },
+    -- "Ombrefiel" cd 3 min duration 12sec -- "Mindbender" cd 1 min duration 12 sec
+    {spells.shadowfiend, 'player.haste > 50' },
+    {spells.mindbender, 'player.haste > 50' },
 
     {spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
     {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
@@ -94,12 +97,8 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.vampiricTouch, 'mouseover.isAttackable and not player.isMoving and mouseover.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
     {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 
-    -- "Ombrefiel" cd 3 min duration 12sec
-    {spells.shadowfiend, 'player.haste > 50' },
-    -- "Mindbender" cd 1 min duration 12 sec
-    {spells.mindbender, 'player.haste > 50' },
-
     {spells.mindFlay, 'not player.isMoving and focus.myDebuffDuration(spells.shadowWordPain) > 4' , "focus" },
+    {spells.mindFlay, 'not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" },
     {spells.mindFlay, 'not player.isMoving' },
 
 },"Shadow Priest")
