@@ -171,7 +171,7 @@ local spiritOfRedemption = tostring(kps.spells.priest.spiritOfRedemption)
 local InterruptTable = {
     {FlashHeal, 0.85 , UnitHasBuff(spiritOfRedemption,"player") },
     {Heal, 0.95 , UnitHasBuff(spiritOfRedemption,"player") },
-    {PrayerOfHealing, 3 , UnitHasBuff(spiritOfRedemption,"player") },
+    {PrayerOfHealing, 2 , UnitHasBuff(spiritOfRedemption,"player") },
 }
 
 local ShouldInterruptCasting = function (InterruptTable, CountInRange, LowestHealth)

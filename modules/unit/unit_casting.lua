@@ -55,14 +55,18 @@ end
 --[[[
 @function `<UNIT>.isInterruptable` - returns true if the unit is currently casting (or channeling) a spell which can be interrupted.
 ]]--
+-- name, nameSubtext, text, texture, startTime, endTime, isTradeSkill, castID, notInterruptible = UnitCastingInfo("unit")
+-- notInterruptible Boolean - if true, indicates that this cast cannot be interrupted with abilities
+-- name, nameSubtext, text, texture, startTime, endTime, isTradeSkill, notInterruptible = UnitCastingInfo("unit")
+-- notInterruptible Boolean - if true, indicates that this cast cannot be interrupted with abilities
 function Unit.isInterruptable(self)
     if UnitCanAttack("player", self.unit) == false then return false end
     if UnitIsEnemy("player",self.unit) == false then return false end
     local targetSpell, _, _, _, _, _, _, spellInterruptable = UnitCastingInfo(self.unit)
     local targetChannel, _, _, _, _, _, channelInterruptable = UnitChannelInfo(self.unit)
     -- TODO: Blacklisted spells?
-    if (targetSpell and spellInterruptable) or (targetChannel and channelInterruptable) then
-        return true
+    if targetSpell and spellInterruptable == false then return true
+    elseif targetChannel and channelInterruptable == false then return true
     end
     return false
 end
