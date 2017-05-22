@@ -255,8 +255,9 @@ function CreateMessage(message)
     msg:AddMessage(message,1,0,0,1)
 end
 
+local buffdivinity = tostring(kps.spells.priest.divinity)
 local function holyWordSanctifyOnScreen()
-    if kps.spells.priest.holyWordSanctify.cooldown == 0 and kps.timers.check("holyWordSanctify") == 0 then
+    if kps.spells.priest.holyWordSanctify.cooldown == 0 and kps.timers.check("holyWordSanctify") == 0 and not kps.env.player.hasBuff(buffdivinity) then
         kps.timers.create("holyWordSanctify", 10 )
         CreateMessage("holyWordSanctify Ready")
     end

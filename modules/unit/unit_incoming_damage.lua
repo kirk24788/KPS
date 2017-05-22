@@ -10,9 +10,8 @@ local moduleLoaded = false
 local incomingDamage = {}
 local updateincomingDamage = function()
     for unit,index in pairs(incomingDamage) do
-        local data = #index
         local delta = GetTime() - index[1][1]
-        if delta > 5 then incomingDamage[unit] = nil end
+        if delta > incomingTimeRange + 1 then incomingDamage[unit] = nil end
     end
 end
 
@@ -20,9 +19,8 @@ end
 local incomingHeal = {}
 local updateincomingHeal = function()
     for unit,index in pairs(incomingHeal) do
-        local data = #index
         local delta = GetTime() - index[1][1]
-        if delta > 5 then incomingHeal[unit] = nil end
+        if delta > incomingTimeRange + 1 then incomingHeal[unit] = nil end
     end
 end
 
@@ -144,8 +142,8 @@ end
 local function loadOnDemand()
     if not moduleLoaded then
         kps.events.registerOnUpdate(function()
-            kps.utils.cachedFunction(updateincomingHeal,1)
-            kps.utils.cachedFunction(updateincomingDamage,1)
+            kps.utils.cachedFunction(updateincomingHeal,incomingTimeRange)
+            kps.utils.cachedFunction(updateincomingDamage,incomingTimeRange)
         end)
         kps.events.register("COMBAT_LOG_EVENT_UNFILTERED", combatLogUpdate)
         moduleLoaded = true
@@ -157,7 +155,7 @@ end
 @function `<UNIT>.incomingDamage` - returns incoming damage of the unit over last 4 seconds
 ]]--
 function Unit.incomingDamage(self)
-    loadOnDemand()
+    --loadOnDemand()
     local totalDamage = 0
     if incomingDamage[self.guid] ~= nil then
         local dataset = incomingDamage[self.guid]
@@ -179,7 +177,7 @@ end
 @function `<UNIT>.incomingHeal` - returns incoming heal of the unit over last 4 seconds
 ]]--
 function Unit.incomingHeal(self)
-    loadOnDemand()
+    --loadOnDemand()
     local totalHeal = 0
     if incomingHeal[self.guid] ~= nil then
         local dataset = incomingHeal[self.guid]

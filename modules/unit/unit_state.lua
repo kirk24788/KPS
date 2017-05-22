@@ -95,3 +95,11 @@ function Unit.hasPet(self)
     if UnitIsDeadOrGhost(self.unit.."pet")==true then return false end
     return true
 end
+
+--[[[
+@function `<UNIT>.isMouseover` - returns true if the given unit is mouseover.
+]]--
+function Unit.isMouseover(self)
+	if UnitIsUnit(self.unit,"mouseover") then return true end
+	return false
+end

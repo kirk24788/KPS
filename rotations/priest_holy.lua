@@ -69,8 +69,8 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.holyWordSerenity, 'player.hp < 0.50' , "player"},
     {spells.holyWordSerenity, 'heal.lowestTankInRaid.hp < 0.65' , kps.heal.lowestTankInRaid},
     {spells.holyWordSerenity, 'heal.lowestTargetInRaid.hp < 0.65' , kps.heal.lowestTargetInRaid},
-    {spells.holyWordSerenity, 'heal.lowestInRaid.hp < 0.50' , kps.heal.lowestInRaid},
-    {spells.holyWordSerenity, 'heal.lowestInRaid.hpIncoming < 0.70 and spells.prayerOfMending.cooldown == 0' , kps.heal.lowestInRaid},
+    {spells.holyWordSerenity, 'heal.lowestInRaid.hp < 0.40' , kps.heal.lowestInRaid},
+    {spells.holyWordSerenity, 'heal.lowestInRaid.hpIncoming < 0.55 and spells.prayerOfMending.cooldown == 0' , kps.heal.lowestInRaid},
     {spells.holyWordSerenity, 'heal.lowestInRaid.hp < 0.70 and heal.lowestTargetInRaid.hp < 70 and heal.lowestInRaid.hp ~= heal.lowestTargetInRaid.hp' , kps.heal.lowestInRaid},
     {spells.holyWordSerenity, 'heal.lowestInRaid.hp < 0.70 and heal.lowestInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestInRaid},
 
@@ -91,11 +91,14 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.prayerOfMending, 'not player.isMoving and heal.lowestInRaid.hp > 0.50 and not heal.lowestTankInRaid.hasBuff(spells.prayerOfMending)' , kps.heal.lowestTankInRaid},
     {spells.prayerOfMending, 'not player.isMoving and heal.lowestInRaid.hp > 0.50 and not heal.lowestTargetInRaid.hasBuff(spells.prayerOfMending)' , kps.heal.lowestTargetInRaid},
     {spells.prayerOfMending, 'not player.isMoving and heal.lowestInRaid.hp > 0.50 and not heal.lowestInRaid.hasBuff(spells.prayerOfMending)' , kps.heal.lowestInRaid},
-    -- "Holy Word: Sanctify" and "Holy Word: Serenity" gives buff  "Divinity" 197030 When you heal with a Holy Word spell, your healing is increased by 15% for 8 sec. 
-    {{"macro"}, 'keys.shift and not player.hasBuff(spells.divinity)', "/cast [@cursor] "..holyWordSanctify },
+
     -- Holy Word: Serenity
     {spells.holyWordSerenity, 'heal.countInRange > 2 and not player.hasBuff(spells.divinity) and not player.isInRaid' , kps.heal.lowestInRaid},
     {spells.holyWordSerenity, 'heal.countInRange > 4 and not player.hasBuff(spells.divinity) and player.isInRaid' , kps.heal.lowestInRaid},
+    -- "Holy Word: Sanctify" and "Holy Word: Serenity" gives buff  "Divinity" 197030 When you heal with a Holy Word spell, your healing is increased by 15% for 8 sec. 
+    {{"macro"}, 'keys.shift', "/cast [@cursor] "..holyWordSanctify },
+    --{spells.holyWordSanctify, 'heal.lowestTankInRaid.isMouseover and heal.countInRange > 2 and not player.hasBuff(spells.divinity) and not player.isInRaid' },
+    --{spells.holyWordSanctify, 'heal.lowestTankInRaid.isMouseover and heal.countInRange > 4 and not player.hasBuff(spells.divinity) and player.isInRaid' },
     -- "Divine Hymn" 64843
     {spells.divineHymn , 'not player.isMoving and heal.countInRange * 2 >= heal.maxcountInRange and heal.averageHpIncoming < 0.70 and heal.maxcountInRange > 4' },
     
@@ -160,12 +163,10 @@ kps.rotations.register("PRIEST","HOLY",{
     -- "Prayer of Healing" 596 -- A powerful prayer that heals the target and the 4 nearest allies within 40 yards for (250% of Spell power)   
     {{"nested"}, 'not player.isMoving and heal.countInRange > 3 and not player.isInRaid' ,{
         {spells.prayerOfHealing, 'player.hasBuff(spells.divinity)', kps.heal.lowestTankInRaid },
-        {spells.holyWordSanctify, 'not player.hasBuff(spells.divinity) and mouseover.isHealable and mouseover.distance < 20' },
         {spells.prayerOfHealing, 'true' , "player" },
     }},
     {{"nested"}, 'not player.isMoving and heal.countInRange > 5 and player.isInRaid' ,{
         {spells.prayerOfHealing, 'player.hasBuff(spells.divinity)' , kps.heal.lowestTankInRaid },
-        {spells.holyWordSanctify, 'not player.hasBuff(spells.divinity) and mouseover.isHealable and mouseover.distance < 20' },
         {spells.prayerOfHealing, 'true' , "player" },
     }},
     -- "Circle of Healing" 204883
