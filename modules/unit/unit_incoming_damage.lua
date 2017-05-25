@@ -140,14 +140,14 @@ end
 
 
 local function loadOnDemand()
-    if not moduleLoaded then
-        kps.events.registerOnUpdate(function()
-            kps.utils.cachedFunction(updateincomingHeal,incomingTimeRange)
-            kps.utils.cachedFunction(updateincomingDamage,incomingTimeRange)
-        end)
-        kps.events.register("COMBAT_LOG_EVENT_UNFILTERED", combatLogUpdate)
-        moduleLoaded = true
-    end
+   if not moduleLoaded then
+       kps.events.registerOnUpdate(function()
+           kps.utils.cachedFunction(updateincomingHeal,1)
+           kps.utils.cachedFunction(updateincomingDamage,1)
+       end)
+       kps.events.register("COMBAT_LOG_EVENT_UNFILTERED", combatLogUpdate)
+       moduleLoaded = true
+   end
 end
 
 

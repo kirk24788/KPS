@@ -36,9 +36,9 @@ end
 local isCastingSpell = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            local name, _, _, _, startTime, endTime, _, interrupt = UnitCastingInfo(unit)
+            local name,_,_,_,_,endTime,_,_,_= UnitCastingInfo(unit)
             if endTime == nil then 
-                local name,_,_,_,_,endTime,_,_,_ = UnitChannelInfo(unit)
+                local name,_,_,_,_,endTime,_,_ = UnitChannelInfo(unit)
                 if endTime == nil then return false end
                 if tostring(spell.name) == tostring(name) then return true end
             end
@@ -57,13 +57,13 @@ end
 ]]--
 -- name, nameSubtext, text, texture, startTime, endTime, isTradeSkill, castID, notInterruptible = UnitCastingInfo("unit")
 -- notInterruptible Boolean - if true, indicates that this cast cannot be interrupted with abilities
--- name, nameSubtext, text, texture, startTime, endTime, isTradeSkill, notInterruptible = UnitCastingInfo("unit")
+-- name, nameSubtext, text, texture, startTime, endTime, isTradeSkill, notInterruptible = UnitChannelInfo("unit")
 -- notInterruptible Boolean - if true, indicates that this cast cannot be interrupted with abilities
 function Unit.isInterruptable(self)
     if UnitCanAttack("player", self.unit) == false then return false end
     if UnitIsEnemy("player",self.unit) == false then return false end
-    local targetSpell, _, _, _, _, _, _, spellInterruptable = UnitCastingInfo(self.unit)
-    local targetChannel, _, _, _, _, _, channelInterruptable = UnitChannelInfo(self.unit)
+    local targetSpell, _, _, _, _, _, _, _, spellInterruptable = UnitCastingInfo(self.unit)
+    local targetChannel, _, _, _, _, _, _, channelInterruptable = UnitChannelInfo(self.unit)
     -- TODO: Blacklisted spells?
     if targetSpell and spellInterruptable == false then return true
     elseif targetChannel and channelInterruptable == false then return true

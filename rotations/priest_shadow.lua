@@ -16,10 +16,9 @@ kps.rotations.register("PRIEST","SHADOW",{
 
     -- "Dispersion" 47585
     {spells.dispersion, 'player.hp < 0.40' },
-    {{"macro"}, 'player.hasBuff(spells.dispersion) and player.hp > 0.90' , "/cancelaura "..dispersion },
+    {{"macro"}, 'player.hasBuff(spells.dispersion) and player.hp > 0.90 and player.insanity > 90' , "/cancelaura "..dispersion },
     {{"macro"}, 'player.hasBuff(spells.dispersion)' , "/stopcasting" },
 
-    {spells.fade, 'player.incomingDamage > player.incomingHeal and player.hp < 0.90' },
     {spells.fade, 'player.isTarget' },
     -- "Power Word: Shield" 17
     {spells.powerWordShield, 'player.isMoving and player.hasTalent(2,2) and not player.hasBuff(spells.bodyAndSoul)' , "player" },
@@ -34,6 +33,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.vampiricEmbrace, 'player.hasBuff(spells.voidform) and heal.averageHpIncoming < 0.80' },
     -- "Guérison de l’ombre" 186263 -- debuff "Shadow Mend" 187464 10 sec
     {spells.shadowMend, 'not spells.shadowMend.lastCasted(4) and not player.isMoving and not player.hasBuff(spells.voidform) and player.hp < 0.60 and not player.hasBuff(spells.vampiricEmbrace)' , "player" },
+    {spells.shadowMend, 'not spells.shadowMend.lastCasted(4) and not player.isMoving and not player.hasBuff(spells.voidform) and player.incomingDamage > player.incomingHeal and not player.hasBuff(spells.vampiricEmbrace)' , "player" },
 
     -- "Purify Disease" 213634
     {{"nested"}, 'kps.cooldowns',{
@@ -57,7 +57,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     { spells.levitate, 'kps.defensive and player.isSwimming and not player.hasBuff(spells.levitate)' , "player" },
     
     -- "Void Eruption" 228260
-    {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity > 64' },
+    {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity > 65' },
     {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidform) and player.insanity == 100' },
        --{{"macro"}, 'canCastvoidBolt()' , "/stopcasting" },
     {{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > 0.5' , "/stopcasting" },
@@ -65,7 +65,6 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.voidTorrent, 'player.hasBuff(spells.voidform) and not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
 
     -- "Shadow Word: Death" 32379
-    --{spells.shadowWordDeath, 'true' , env.DeathEnemyTarget },
     {spells.shadowWordDeath, 'mouseover.hp < 0.20 and spells.shadowWordDeath.charges > 0 and player.insanity < 85' , "mouseover" },
     {spells.shadowWordDeath, 'mouseover.hp < 0.20 and spells.shadowWordDeath.charges == 2' , "mouseover" },
     {spells.shadowWordDeath, 'focus.hp < 0.20 and spells.shadowWordDeath.charges > 0 and player.insanity < 85' , "focus" },
@@ -87,6 +86,8 @@ kps.rotations.register("PRIEST","SHADOW",{
     -- "Ombrefiel" cd 3 min duration 12sec -- "Mindbender" cd 1 min duration 12 sec
     {spells.shadowfiend, 'player.haste > 50' },
     {spells.mindbender, 'player.haste > 50' },
+    
+    {spells.mindFlay, 'not player.isMoving and player.plateCount > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" },
 
     {spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
     {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
