@@ -166,12 +166,12 @@ end
 local Heal = tostring(kps.spells.priest.heal)
 local FlashHeal = tostring(kps.spells.priest.flashHeal)
 local PrayerOfHealing = tostring(kps.spells.priest.prayerOfHealing)
-local spiritOfRedemption = tostring(kps.spells.priest.spiritOfRedemption)
+local SpiritOfRedemption = tostring(kps.spells.priest.spiritOfRedemption)
 
 local InterruptTable = {
-    {FlashHeal, 0.85 , UnitHasBuff(spiritOfRedemption,"player") },
-    {Heal, 0.95 , UnitHasBuff(spiritOfRedemption,"player") },
-    {PrayerOfHealing, 2 , UnitHasBuff(spiritOfRedemption,"player") },
+    {FlashHeal, 0.85 , UnitHasBuff(SpiritOfRedemption,"player") },
+    {Heal, 0.95 , UnitHasBuff(SpiritOfRedemption,"player") },
+    {PrayerOfHealing, 2 , UnitHasBuff(SpiritOfRedemption,"player") },
 }
 
 local ShouldInterruptCasting = function (InterruptTable, CountInRange, LowestHealth)
@@ -190,7 +190,8 @@ local ShouldInterruptCasting = function (InterruptTable, CountInRange, LowestHea
             elseif spellName == Heal and TargetHealth > breakpoint then
                 SpellStopCasting()
                 DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..","..kps.lastTarget.." has enough hp!",0, 0.5, 0.8)
-            elseif spellName == Heal and LowestHealth < 0.40 then
+                -- SPELL_POWER_MANA value 0
+            elseif spellName == Heal and LowestHealth < 0.40 and UnitPower("player",0) / UnitPowerMax("player",0) > 0.10 then
                 SpellStopCasting()
                 local Lowest = kps["env"].heal.lowestInRaid.name
                 DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING "..spellName..","..Lowest.." has critical hp!",0, 0.5, 0.8)

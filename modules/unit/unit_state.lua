@@ -73,9 +73,18 @@ end
 --[[[
 @function `<UNIT>.isHealable` - returns true if the give unit is healable by the player.
 ]]--
+local SpiritOfRedemption = tostring(kps.Spell.fromId(20711))
+local UnitHasBuff = function(spell,unit)
+    --if unit == nil then unit = "player" end
+    local spellname = tostring(spell)
+    if spellname == nil then return false end
+    if select(1,UnitBuff(unit,spellname)) then return true end
+    return false
+end
+
 function Unit.isHealable(self)
     if GetUnitName("player") == GetUnitName(self.unit) then return true end
-    if Unit.hasBuff(self)(kps.Spell.fromId(20711)) then return false end
+    if Unit.hasBuff(self)(kps.Spell.fromId(20711)) then return false end -- -- UnitIsDeadOrGhost(unit) Returns false for priests who are currently in [Spirit of Redemption] form
     if not Unit.exists(self) then return false end
     if Unit.inVehicle(self) then return false end
     if not UnitCanAssist("player",self.unit) then return false end -- UnitCanAssist(unitToAssist, unitToBeAssisted) return 1 if the unitToAssist can assist the unitToBeAssisted, nil otherwise

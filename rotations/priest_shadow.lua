@@ -24,6 +24,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.powerWordShield, 'player.isMoving and player.hasTalent(2,2) and not player.hasBuff(spells.bodyAndSoul)' , "player" },
     {spells.powerWordShield, 'player.hp < 0.70 and not player.hasBuff(spells.voidform) and not player.hasBuff(spells.powerWordShield)' , "player" },
     {spells.powerWordShield, 'mouseover.isHealable and mouseover.hp < 0.50 and not mouseover.hasBuff(spells.powerWordShield)' , "mouseover" },
+    --{spells.powerWordShield, 'targettarget.isHealable and targettarget.hp < 0.50 and not targettarget.hasBuff(spells.powerWordShield)' , "targettarget" },
     -- "Pierre de soins" 5512
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.60', "/use item:5512" },
     -- "Don des naaru" 59544
@@ -74,6 +75,7 @@ kps.rotations.register("PRIEST","SHADOW",{
 
     -- mindblast is highest priority spell out of voidform
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform)' , "target" },
+    {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform) and targettarget.isAttackable' , "targettarget" },
     --{{"macro"}, env.canCastMindBlast , "/stopcasting" },
     --{{"macro"}, 'canCastMindBlast()' , "/stopcasting" },
     {{"macro"}, 'spells.mindBlast.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > 0.5' , "/stopcasting" },
@@ -96,8 +98,10 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.vampiricTouch, 'mouseover.isAttackable and not player.isMoving and mouseover.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
     {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 
+    {spells.mindFlay, 'not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" },
     {spells.mindFlay, 'not player.isMoving and focus.myDebuffDuration(spells.shadowWordPain) > 4' , "focus" },
     {spells.mindFlay, 'not player.isMoving' },
+    {spells.mindFlay, 'not player.isMoving and targettarget.isAttackable' , "targettarget" },
 
 },"Shadow Priest")
 
