@@ -84,7 +84,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     -- TRINKETS "Trinket0Slot" est slotId  13 "Trinket1Slot" est slotId  14
     {{"macro"}, 'player.useTrinket(1) and player.hasBuff(spells.voidform)' , "/use 14"},
     -- "Infusion de puissance"  -- Confère un regain de puissance pendant 20 sec, ce qui augmente la hâte de 25%
-    {spells.powerInfusion, 'player.buffStacks(spells.voidform) > 14 and player.insanity > 50 ' },
+    {spells.powerInfusion, 'not player.isMoving and player.buffStacks(spells.voidform) > 14 and player.insanity > 50 ' },
     -- "Ombrefiel" cd 3 min duration 12sec -- "Mindbender" cd 1 min duration 12 sec
     {spells.shadowfiend, 'player.haste > 50' },
     {spells.mindbender, 'player.haste > 50' },
