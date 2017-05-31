@@ -83,8 +83,8 @@ local UnitHasBuff = function(spell,unit)
 end
 
 function Unit.isHealable(self)
-    if GetUnitName("player") == GetUnitName(self.unit) then return true end
     if Unit.hasBuff(self)(kps.Spell.fromId(20711)) then return false end -- -- UnitIsDeadOrGhost(unit) Returns false for priests who are currently in [Spirit of Redemption] form
+    if GetUnitName("player") == GetUnitName(self.unit) then return true end
     if not Unit.exists(self) then return false end
     if Unit.inVehicle(self) then return false end
     if not UnitCanAssist("player",self.unit) then return false end -- UnitCanAssist(unitToAssist, unitToBeAssisted) return 1 if the unitToAssist can assist the unitToBeAssisted, nil otherwise
