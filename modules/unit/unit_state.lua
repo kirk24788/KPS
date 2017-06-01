@@ -112,3 +112,11 @@ function Unit.isMouseover(self)
 	if UnitIsUnit(self.unit,"mouseover") then return true end
 	return false
 end
+
+--[[[
+@function `<UNIT>.isMouseover` - returns true if the given unit is player.
+]]--
+function Unit.isPlayer(self)
+	if UnitIsUnit(self.unit,"player") then return true end
+	return false
+end
