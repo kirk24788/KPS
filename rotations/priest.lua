@@ -32,7 +32,7 @@ end
 --kps.rotations.register("PRIEST","SHADOW",{
 
 --{spells.mindFlay, env.test }, -- true/false
---{spells.mindFlay, 'test()' }, -- -- true/false
+--{spells.mindFlay, 'test()' }, -- true/false
 --{spells.mindFlay, 'test(1)' }, -- true/false
 --{spells.mindFlay, 'testkps(kps.multiTarget)' }, -- true/false
 --{spells.mindFlay, env.testkps(kps.multiTarget) }, -- always false
@@ -131,7 +131,7 @@ function kps.env.priest.DeathEnemyTarget()
             DeathTarget = enemy
         elseif HealthTarget < 0.20 and UnitIsAttackable(enemy) then
             DeathTarget = enemy
-        end
+        break end
     end
     return DeathTarget
 end

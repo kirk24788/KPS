@@ -18,6 +18,12 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.dispersion, 'player.hp < 0.40' },
     {{"macro"}, 'player.hasBuff(spells.dispersion) and player.hp > 0.90 and player.insanity > 90' , "/cancelaura "..dispersion },
     {{"macro"}, 'player.hasBuff(spells.dispersion)' , "/stopcasting" },
+    
+    -- "Purify Disease" 213634
+    {{"nested"}, 'kps.cooldowns',{
+        {spells.purifyDisease, 'player.isDispellable("Disease")' , "player" },
+        {spells.purifyDisease, 'mouseover.isDispellable("Disease")' , "mouseover" },
+    }},
 
     {spells.fade, 'player.isTarget' },
     -- "Power Word: Shield" 17
@@ -35,12 +41,6 @@ kps.rotations.register("PRIEST","SHADOW",{
     -- "Guérison de l’ombre" 186263 -- debuff "Shadow Mend" 187464 10 sec
     {spells.shadowMend, 'not spells.shadowMend.lastCasted(4) and not player.isMoving and not player.hasBuff(spells.voidform) and player.hp < 0.60 and not player.hasBuff(spells.vampiricEmbrace)' , "player" },
     {spells.shadowMend, 'not spells.shadowMend.lastCasted(4) and not player.isMoving and not player.hasBuff(spells.voidform) and player.incomingDamage > player.incomingHeal and not player.hasBuff(spells.vampiricEmbrace)' , "player" },
-
-    -- "Purify Disease" 213634
-    {{"nested"}, 'kps.cooldowns',{
-        {spells.purifyDisease, 'player.isDispellable("Disease")' , "player" },
-        {spells.purifyDisease, 'mouseover.isDispellable("Disease")' , "mouseover" },
-    }},
 
     -- interrupts
     {{"nested"}, 'kps.interrupt',{
