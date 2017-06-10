@@ -4,6 +4,13 @@ Unit State: Functions which handle unit state
 
 local Unit = kps.Unit.prototype
 
+local UnitHasBuff = function(spell,unit)
+    local spellname = tostring(spell)
+    if spellname == nil then return false end
+    if select(1,UnitBuff(unit,spellname)) then return true end
+    return false
+end
+
 
 --[[[
 @function `<UNIT>.isAttackable` - returns true if the given unit can be attacked by the player.
@@ -60,7 +67,7 @@ end
 @function `<UNIT>.isDrinking` - returns true if the given unit is currently eating/drinking.
 ]]--
 function Unit.isDrinking(self)
-    return Unit.hasBuff(self)(kps.Spell.fromId(431)) -- doesn't matter which drinking buff we're using, all of them have the same name!
+    return UnitHasBuff(kps.Spell.fromId(431),self.unit) -- Unit.hasBuff(self)(kps.Spell.fromId(431)) -- doesn't matter which drinking buff we're using, all of them have the same name!
 end
 
 --[[[
@@ -73,17 +80,8 @@ end
 --[[[
 @function `<UNIT>.isHealable` - returns true if the give unit is healable by the player.
 ]]--
-local SpiritOfRedemption = tostring(kps.Spell.fromId(20711))
-local UnitHasBuff = function(spell,unit)
-    --if unit == nil then unit = "player" end
-    local spellname = tostring(spell)
-    if spellname == nil then return false end
-    if select(1,UnitBuff(unit,spellname)) then return true end
-    return false
-end
-
 function Unit.isHealable(self)
-    if Unit.hasBuff(self)(kps.Spell.fromId(20711)) then return false end -- -- UnitIsDeadOrGhost(unit) Returns false for priests who are currently in [Spirit of Redemption] form
+    if UnitHasBuff(kps.Spell.fromId(20711),self.unit) then return false end -- -- UnitIsDeadOrGhost(unit) Returns false for priests who are currently in [Spirit of Redemption] form
     if GetUnitName("player") == GetUnitName(self.unit) then return true end
     if not Unit.exists(self) then return false end
     if Unit.inVehicle(self) then return false end
@@ -106,17 +104,17 @@ function Unit.hasPet(self)
 end
 
 --[[[
-@function `<UNIT>.isMouseover` - returns true if the given unit is mouseover.
+@function `<UNIT>.isUnit(<UNIT>)` - returns true if the given unit is otherunit.
 ]]--
-function Unit.isMouseover(self)
-	if UnitIsUnit(self.unit,"mouseover") then return true end
-	return false
-end
-
---[[[
-@function `<UNIT>.isMouseover` - returns true if the given unit is player.
-]]--
-function Unit.isPlayer(self)
-	if UnitIsUnit(self.unit,"player") then return true end
-	return false
+local isUnit = setmetatable({}, {
+    __index = function(t, unit)
+        local val = function (otherunit)
+            if UnitIsUnit(unit,otherunit) then return true end
+            return false
+        end
+        t[unit] = val
+        return val
+    end})
+function Unit.isUnit(self)
+    return isUnit[self.unit]
 end

@@ -19,25 +19,46 @@ local EnemyTable = {"mouseover", "focus", "target"}
 ------------------------------- TEST FUNCTIONS
 --------------------------------------------------------------------------------------------
 
-function kps.env.priest.test()
+function kps.env.priest.booltest()
     if kps.multiTarget then return true end
     return false
 end
 
-function kps.env.priest.testkps(arg)
+function kps.env.priest.strtest()
+    if kps.multiTarget then return "a" end
+    return "b"
+end
+
+function kps.env.priest.boolval(arg)
     if arg == true then return true end
     return false
 end
 
+function kps.env.priest.strval(arg)
+    if arg == true then return "a" end
+    return "b"
+end
+
 --kps.rotations.register("PRIEST","SHADOW",{
 
---{spells.mindFlay, env.test }, -- true/false
---{spells.mindFlay, 'test()' }, -- true/false
---{spells.mindFlay, 'test(1)' }, -- true/false
---{spells.mindFlay, 'testkps(kps.multiTarget)' }, -- true/false
---{spells.mindFlay, env.testkps(kps.multiTarget) }, -- always false
---{spells.mindFlay, env.testkps }, -- always false
---{spells.mindBlast, 'not player.isMoving' },
+--{spells.mindFlay, env.booltest }, -- true/false
+--{spells.mindFlay, env.booltest() }, -- always false
+--{spells.mindFlay, 'env.booltest' }, -- nil value
+--{spells.mindFlay, 'env.booltest()' }, -- nil value
+--{spells.mindFlay, 'booltest()' }, -- true/false
+--{spells.mindFlay, 'booltest' }, -- always true
+
+--{spells.mindFlay, env.strtest == "a" }, -- always false
+--{spells.mindFlay, env.strtest() == "a" }, -- always false
+--{spells.mindFlay, 'env.strtest == "a"' }, -- nil value
+--{spells.mindFlay, 'env.strtest() == "a"' }, -- nil value
+--{spells.mindFlay, 'strtest() == "a"' }, -- true/false
+--{spells.mindFlay, 'strtest == "a"' }, -- always false
+
+--{spells.mindFlay, env.strval(kps.multiTarget) == "a" }, -- always false
+--{spells.mindFlay, 'env.strval(kps.multiTarget) == "a"' }, -- nil value
+--{spells.mindFlay, strval(kps.multiTarget) == "a" }, -- nil value
+--{spells.mindFlay, 'strval(kps.multiTarget) == "a"' }, -- true/false
 
 --},"TEST Priest")
 
@@ -173,10 +194,11 @@ local Heal = tostring(kps.spells.priest.heal)
 local FlashHeal = tostring(kps.spells.priest.flashHeal)
 local PrayerOfHealing = tostring(kps.spells.priest.prayerOfHealing)
 local SpiritOfRedemption = tostring(kps.spells.priest.spiritOfRedemption)
+local holyWordSerenityOnCD = kps.spells.priest.holyWordSerenity.cooldown > 0
 
 local InterruptTable = {
-    {FlashHeal, 0.90 , UnitHasBuff(SpiritOfRedemption,"player") },
-    {Heal, 0.95 , UnitHasBuff(SpiritOfRedemption,"player") },
+    {FlashHeal, 0.90 , UnitHasBuff(SpiritOfRedemption,"player") or holyWordSerenity},
+    {Heal, 0.95 , UnitHasBuff(SpiritOfRedemption,"player") or holyWordSerenity},
     {PrayerOfHealing, 2 , UnitHasBuff(SpiritOfRedemption,"player") },
 }
 
@@ -192,18 +214,18 @@ local ShouldInterruptCasting = function (InterruptTable, CountInRange, LowestHea
         if spellName == spellCasting and healSpellTable[3] == false then
             if spellName == PrayerOfHealing and CountInRange < breakpoint then
                 SpellStopCasting()
-                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..", raid has enough hp!",0, 0.5, 0.8)
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..", raid has enough hp: "..CountInRange,0, 0.5, 0.8)
             elseif spellName == Heal and TargetHealth > breakpoint then
                 SpellStopCasting()
-                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..","..kps.lastTarget.." has enough hp!",0, 0.5, 0.8)
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..","..kps.lastTarget.." has enough hp: "..TargetHealth,0, 0.5, 0.8)
                 -- SPELL_POWER_MANA value 0
             elseif spellName == Heal and LowestHealth < 0.40 and UnitPower("player",0) / UnitPowerMax("player",0) > 0.10 then
                 SpellStopCasting()
                 local Lowest = kps["env"].heal.lowestInRaid.name
-                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING "..spellName..","..Lowest.." has critical hp!",0, 0.5, 0.8)
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING "..spellName..","..Lowest.." has critical hp: "..LowestHealth,0, 0.5, 0.8)
             elseif spellName == FlashHeal and TargetHealth > breakpoint then
                 SpellStopCasting()
-                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..","..kps.lastTarget.." has enough hp!",0, 0.5, 0.8)
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..","..kps.lastTarget.." has enough hp: "..TargetHealth,0, 0.5, 0.8)
             end
         end
     end
@@ -214,33 +236,6 @@ kps.env.priest.ShouldInterruptCasting = function()
     local countInRange = kps["env"].heal.countInRange
     local lowestHealth = kps["env"].heal.lowestInRaid.hp
     return ShouldInterruptCasting(InterruptTable, countInRange, lowestHealth)
-end
-
---------------------------------------------------------------------------------------------
-------------------------------- TRAIL OF LIGHT
---------------------------------------------------------------------------------------------
--- for holy priest with hasTalent(1,1) kps.spells.priest.trailOfLight
-
-local Unit = kps.Unit.prototype
-
-local favoriteSpell = 2061 
-local lastCastedUnit = "player"
-local lastCastedSpell = function(unit)
-    if lastCastedUnit == unit then return true end
-    return false
-end
-
-kps.events.register("UNIT_SPELLCAST_SUCCEEDED", function(unitID,spellname,_,_,spellID)
-    if PlayerHasTalent(1,1) and unitID == "player" and spellID == favoriteSpell then
-        lastCastedUnit = kps.lastTargetGUID
-    end
-end)
-            
---[[[
-@function `<UNIT>.lastCastedUnit` - returns true if the unit was the last casted spell kps.spells.priest.flashHeal usefull for holy priest with hasTalent(1,1) kps.spells.priest.trailOfLight
-]]--
-function Unit.lastCastedUnit(self)
-    return lastCastedSpell(self.guid)
 end
 
 --------------------------------------------------------------------------------------------

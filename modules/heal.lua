@@ -201,7 +201,7 @@ kps.RaidStatus.prototype.averageHpIncoming = kps.utils.cachedValue(function()
     local hpIncCount = 0
     for name, unit in pairs(raidStatus) do
         if unit.isHealable then
-            hpIncTotal = hpIncTotal + unit.hpIncoming
+            hpIncTotal = hpIncTotal + unit.hp
             hpIncCount = hpIncCount + 1
         end
     end
@@ -219,7 +219,7 @@ local countInRange = function(pct)
     for name, unit in pairs(raidStatus) do
         if unit.isHealable then
             maxcount = maxcount + 1
-            if unit.hpIncoming < pct then
+            if unit.hp < pct then
                 count = count + 1
             end
         end
@@ -323,6 +323,18 @@ kps.RaidStatus.prototype.isMagicDispellable = kps.utils.cachedValue(function()
     end
     return nil
 end)
+
+--[[[
+@function `heal.isDiseaseDispellable` - Returns the raid unit with disease debuff to dispel
+]]--
+
+kps.RaidStatus.prototype.isDiseaseDispellable = kps.utils.cachedValue(function()
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and unit.isDispellable("Disease") then return unit end
+    end
+    return nil
+end)
+
 
 -- Here comes the tricky part - use an instance of RaidStatus which calls it's members
 -- for 'kps.env.heal' - so we can write 'heal.defaultTarget.hp < xxx' in our rotations
