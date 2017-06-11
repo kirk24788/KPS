@@ -61,7 +61,9 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.prayerOfMending, 'not player.isMoving and heal.lowestInRaid.hpIncoming > 0.55 and not heal.lowestTankInRaid.hasBuff(spells.prayerOfMending)' , kps.heal.lowestTankInRaid},
     {spells.prayerOfMending, 'not player.isMoving and heal.lowestInRaid.hpIncoming > 0.55 and not heal.lowestTargetInRaid.hasBuff(spells.prayerOfMending)' , kps.heal.lowestTargetInRaid},
     {spells.prayerOfMending, 'not player.isMoving and heal.lowestInRaid.hpIncoming > 0.55 and not heal.lowestInRaid.hasBuff(spells.prayerOfMending)' , kps.heal.lowestInRaid},
-    
+
+    -- "Holy Word: Sanctify" and "Holy Word: Serenity" gives buff  "Divinity" 197030 When you heal with a Holy Word spell, your healing is increased by 15% for 8 sec.
+    {{"macro"}, 'keys.shift', "/cast [@cursor] "..HolyWordSanctify },
     {{"nested"}, 'kps.defensive and mouseover.isHealable' , {
         {spells.holyWordSerenity, 'mouseover.hp < 0.40' , "mouseover" },
         {spells.guardianSpirit, 'mouseover.hp < 0.30' , "mouseover" },
@@ -79,8 +81,6 @@ kps.rotations.register("PRIEST","HOLY",{
         {spells.smite },
         {spells.holyNova, 'player.isMoving and target.distance < 10' , "target" },
     }},
-    
-    {{"macro"}, 'kps.defensive' , "/stopcasting" },
 
     -- TRINKETS "Trinket0Slot" est slotId  13 "Trinket1Slot" est slotId  14
     {{"macro"}, 'player.useTrinket(1) and heal.countInRange > 2 and not player.isInRaid' , "/use 14"},
@@ -122,13 +122,11 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.60 and heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
     {spells.flashHeal, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.60 and heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTargetInRaid},
    	{spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.60 and heal.lowestInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestInRaid},
-    
-    -- "Holy Word: Sanctify" and "Holy Word: Serenity" gives buff  "Divinity" 197030 When you heal with a Holy Word spell, your healing is increased by 15% for 8 sec. 
-    {{"macro"}, 'keys.shift', "/cast [@cursor] "..HolyWordSanctify },
-    {spells.holyWordSanctify, 'heal.countInRange * 2 >= heal.maxcountInRange' },
+ 
     -- "Prayer of Healing" 596 -- spells.powerOfTheNaaru Casting Holy Word: Sanctify increases healing done by Prayer of Healing by 6% for 15 sec.
     {{spells.holyWordSanctify,spells.prayerOfHealing}, 'not player.isMoving and heal.countInRange > 2 and not player.isInRaid and spells.holyWordSanctify.cooldown == 0' , "player" },
     {{spells.holyWordSanctify,spells.prayerOfHealing}, 'not player.isMoving and heal.countInRange > 4 and player.isInRaid and spells.holyWordSanctify.cooldown == 0' , "player" },
+    {spells.holyWordSanctify, 'heal.countInRange * 2 >= heal.maxcountInRange and heal.averageHpIncoming < 0.80' },
     -- "Divine Hymn" 64843
     {spells.divineHymn , 'not player.isMoving and heal.countInRange * 2 >= heal.maxcountInRange and heal.averageHpIncoming < 0.70 and heal.maxcountInRange > 4' },
     -- "Prayer of Healing" 596 -- A powerful prayer that heals the target and the 4 nearest allies within 40 yards for (250% of Spell power)
