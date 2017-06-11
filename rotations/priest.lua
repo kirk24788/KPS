@@ -194,11 +194,14 @@ local Heal = tostring(kps.spells.priest.heal)
 local FlashHeal = tostring(kps.spells.priest.flashHeal)
 local PrayerOfHealing = tostring(kps.spells.priest.prayerOfHealing)
 local SpiritOfRedemption = tostring(kps.spells.priest.spiritOfRedemption)
-local holyWordSerenityOnCD = kps.spells.priest.holyWordSerenity.cooldown > 0
+local holyWordSerenityOnCD = function()
+	if kps.spells.priest.holyWordSerenity.cooldown > 0 then return true end
+	return false
+end
 
 local InterruptTable = {
-    {FlashHeal, 0.90 , UnitHasBuff(SpiritOfRedemption,"player") or holyWordSerenityOnCD},
-    {Heal, 0.95 , UnitHasBuff(SpiritOfRedemption,"player") or holyWordSerenityOnCD},
+    {FlashHeal, 0.90 , UnitHasBuff(SpiritOfRedemption,"player") or holyWordSerenityOnCD()},
+    {Heal, 0.95 , UnitHasBuff(SpiritOfRedemption,"player") or holyWordSerenityOnCD()},
     {PrayerOfHealing, 2 , UnitHasBuff(SpiritOfRedemption,"player") },
 }
 

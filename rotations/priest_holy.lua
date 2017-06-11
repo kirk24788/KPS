@@ -163,10 +163,10 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.circleOfHealing, 'player.isMoving and heal.averageHpIncoming < 0.80' , kps.heal.lowestInRaid},
 
     -- "Soins" 2060 -- "Renouveau constant" 200153
-    {{"nested"}, 'not player.isMoving and heal.lowestInRaid.hp < 0.90',{
-        {spells.heal, 'heal.lowestTankInRaid.hp < 0.90' , kps.heal.lowestTankInRaid},
-        {spells.heal, 'heal.lowestTargetInRaid.hp < 0.90' , kps.heal.lowestTargetInRaid},
-        {spells.heal, 'heal.lowestInRaid.hp < 0.90' , kps.heal.lowestInRaid},
+    {{"nested"}, 'not player.isMoving and heal.lowestInRaid.hpIncoming < 0.90',{
+        {spells.heal, 'heal.lowestTankInRaid.hphpIncoming < 0.90' , kps.heal.lowestTankInRaid},
+        {spells.heal, 'heal.lowestTargetInRaid.hphpIncoming < 0.90' , kps.heal.lowestTargetInRaid},
+        {spells.heal, 'heal.lowestInRaid.hphpIncoming < 0.90' , kps.heal.lowestInRaid},
     }},
     {spells.heal, 'not player.isMoving and spells.holyWordSerenity.cooldown > 0' , kps.heal.lowestInRaid},
 
