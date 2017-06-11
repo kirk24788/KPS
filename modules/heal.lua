@@ -335,6 +335,23 @@ kps.RaidStatus.prototype.isDiseaseDispellable = kps.utils.cachedValue(function()
     return nil
 end)
 
+--------------------------------------------------------------------------------------------
+------------------------------- RAIDTARGET
+--------------------------------------------------------------------------------------------
+
+--[[[
+@function `heal.raidTarget`
+]]--
+local vampiricTouch = tostring(kps.Spell.fromId(34914))
+kps.RaidStatus.prototype.raidTarget = kps.utils.cachedValue(function()
+    for name, player in pairs(raidStatus) do
+        local unit = player.unit
+    	local unitTarget = unit.."target"
+    	if player.hasAttackableTarget(vampiricTouch) then return unitTarget end
+    end
+    return nil
+end)
+
 
 -- Here comes the tricky part - use an instance of RaidStatus which calls it's members
 -- for 'kps.env.heal' - so we can write 'heal.defaultTarget.hp < xxx' in our rotations
@@ -342,3 +359,52 @@ kps.env.heal = kps.RaidStatus.new(true)
 -- And use another instance of RaidStatus which returns the functions so we can write
 -- kps.heal.defaultTarget as a target for our rotation tables...
 kps.heal = kps.RaidStatus.new(false)
+
+--------------------------------------------------------------------------------------------
+------------------------------- TEST
+--------------------------------------------------------------------------------------------
+
+function kpsTest()
+
+--for name, unit in pairs(raidStatus) do
+--    print("|cffffffffName: ",name,"Unit: ",unit.unit,"Guid: ",unit.guid)
+--    print("|cffff8000TARGET: ",unit.isTarget)
+--    print("|cff1eff00HEAL: ",unit.incomingHeal)
+--    print("|cFFFF0000DMG: ",unit.incomingDamage)
+--end
+
+print("|cff1eff00LOWEST|cffffffff", kps["env"].heal.lowestInRaid.name)
+print("|cffff8000TARGET:|cffffffff", kps["env"].heal.lowestTargetInRaid.name)
+print("|cffff8000AGGRO:|cffffffff", kps["env"].heal.aggroTank.name)
+print("|cff1eff00HEAL:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingHeal)
+print("|cFFFF0000DMG:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingDamage)
+print("|cffff8000COUNT80:|cffffffff", kps["env"].heal.countInRange)
+print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHpIncoming)
+print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
+print("|cffff8000raidTarget:|cffffffff", kps["env"].heal.raidTarget)
+
+
+--print("|cffff8000BuffValue:|cffffffff", kps["env"].player.buffDuration(kps.spells.priest.echoOfLight))
+--print("|cffff8000BuffValue:|cffffffff", kps["env"].player.buffValue(kps.spells.priest.echoOfLight))
+
+--print("test",kps["env"].player.isCastingSpell(kps.spells.priest.mindFlay))
+--print("test",kps["env"].player.isCastingSpell(kps.spells.priest.mindBlast))
+--print("test",kps["env"].target.isAttackable)
+--print("test",kps["env"].player.isInRaid)
+--print("|cffff8000AVG:|cffffffff", kps["env"].player.useItem(5512))
+
+
+end
+
+
+--[[
+|cffe5cc80 = beige (artifact)
+|cffff8000 = orange (legendary)
+|cffa335ee = purple (epic)
+|cff0070dd = blue (rare)
+|cff1eff00 = green (uncommon)
+|cffffffff = white (normal)
+|cff9d9d9d = gray (crappy)
+|cFFFFff00 = yellow
+|cFFFF0000 = red
+]]

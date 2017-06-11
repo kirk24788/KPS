@@ -197,8 +197,8 @@ local SpiritOfRedemption = tostring(kps.spells.priest.spiritOfRedemption)
 local holyWordSerenityOnCD = kps.spells.priest.holyWordSerenity.cooldown > 0
 
 local InterruptTable = {
-    {FlashHeal, 0.90 , UnitHasBuff(SpiritOfRedemption,"player") or holyWordSerenity},
-    {Heal, 0.95 , UnitHasBuff(SpiritOfRedemption,"player") or holyWordSerenity},
+    {FlashHeal, 0.90 , UnitHasBuff(SpiritOfRedemption,"player") or holyWordSerenityOnCD},
+    {Heal, 0.95 , UnitHasBuff(SpiritOfRedemption,"player") or holyWordSerenityOnCD},
     {PrayerOfHealing, 2 , UnitHasBuff(SpiritOfRedemption,"player") },
 }
 

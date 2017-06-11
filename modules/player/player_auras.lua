@@ -169,39 +169,3 @@ end
 function Player.useTrinket(self)
     return useTrinket
 end
-
---[[[
-@function `player.raidTarget`
-]]--
-
-local PvPTarget = {"arena1", "arena2", "arena3", "arenapet1", "arenapet2", "arenapet3" }
-local PvETarget = {"raid1target", "raid2target", "raid3target", "raid4target", "raid5target", "raid6target", "raid7target", "raid8target", "raid9target", "raid10target", "party1target", "party2target", "party3target", "party4target" }
-
-local UnitExists = UnitExists
-local UnitCanAttack = UnitCanAttack
-local vampiricTouch = tostring(kps.Spell.fromId(34914))
-
-local UnitDebuffDuration = function(spell,unit)
-    local spellname = tostring(spell)
-    local name,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,spellname)
-    if caster ~= "player" then return 0 end
-    if endTime == nil then return 0 end
-    local timeLeft = endTime - GetTime()
-    if timeLeft < 0 then return 0 end
-    return timeLeft
-end
-
-local function raidTarget()
-    local debuffTarget = "target"
-    for i=1,#PvETarget do
-        local enemy = PvETarget[i]
-        if UnitExists(enemy) and UnitCanAttack("player",enemy) then
-        	if UnitDebuffDuration(vampiricTouch,enemy) < 2 then debuffTarget = enemy break end
-        end
-    end
-    return debuffTarget
-end
-
-function Player.raidTarget(self)
-    return raidTarget()
-end

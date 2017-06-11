@@ -79,11 +79,11 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform)' , "target" },
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform) and targettarget.isAttackable' , "targettarget" },
 
-    -- MultiTarget
-    --{spells.vampiricTouch, 'not player.isMoving and not spells.vampiricTouch.isRecastAt(player.raidTarget)' , kps.env.player.raidTarget },
-
+    -- MultiTarget -- Mind Flay If the target is afflicted with Shadow Word: Pain you will also deal splash damage to nearby targets.
+    {spells.vampiricTouch, 'heal.raidTarget ~= nil and not spells.vampiricTouch.isRecastAt(heal.raidTarget)' , kps.heal.raidTarget }, 
     {{"nested"}, 'player.plateCount > 4',{
         {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
+        {spells.shadowWordPain, 'focus.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("focus")' , 'focus' },
         {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },    
         {spells.mindFlay, 'not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" },
     }},
@@ -110,8 +110,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.vampiricTouch, 'mouseover.isAttackable and not player.isMoving and mouseover.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
     {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 
-    {spells.mindFlay, 'not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" },
-    {spells.mindFlay, 'not player.isMoving and focus.myDebuffDuration(spells.shadowWordPain) > 4' , "focus" },
+    {spells.mindFlay, 'not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) < 4 and focus.myDebuffDuration(spells.shadowWordPain) > 4' , "focus" },
     {spells.mindFlay, 'not player.isMoving' },
     {spells.mindFlay, 'not player.isMoving and targettarget.isAttackable' , "targettarget" },
 
