@@ -81,7 +81,7 @@ kps.rotations.register("PRIEST","SHADOW",{
 
     -- MultiTarget -- Mind Flay If the target is afflicted with Shadow Word: Pain you will also deal splash damage to nearby targets.
     {spells.vampiricTouch, 'heal.raidTarget ~= nil and not spells.vampiricTouch.isRecastAt(heal.raidTarget)' , kps.heal.raidTarget }, 
-    {{"nested"}, 'player.plateCount > 4',{
+    {{"nested"}, 'player.plateCount > 4 or kps.multiTarget',{
         {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
         {spells.shadowWordPain, 'focus.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("focus")' , 'focus' },
         {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },    
@@ -102,7 +102,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     --{{"macro"}, 'player.useTrinket(0) and player.hasBuff(spells.voidform)' , "/use 13"},
     {{"macro"}, 'player.useTrinket(1) and player.hasBuff(spells.voidform)' , "/use 14"},
     -- "Infusion de puissance"  -- Confère un regain de puissance pendant 20 sec, ce qui augmente la hâte de 25%
-    {spells.powerInfusion, 'not player.isMoving and player.buffStacks(spells.voidform) > 14 and player.insanity > 50 ' },
+    {spells.powerInfusion, 'kps.cooldowns and not player.isMoving and player.buffStacks(spells.voidform) > 14 and player.insanity > 50 ' },
     -- "Ombrefiel" cd 3 min duration 12sec -- "Mindbender" cd 1 min duration 12 sec
     {spells.shadowfiend, 'player.haste > 50' },
     {spells.mindbender, 'player.haste > 50' },
