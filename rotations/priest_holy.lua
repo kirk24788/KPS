@@ -119,8 +119,8 @@ kps.rotations.register("PRIEST","HOLY",{
     -- "Soins rapides" 2060
     {spells.flashHeal, 'not player.isMoving and kps.lastCast["name"] == spells.prayerOfHealing and heal.lowestInRaid.hp < 0.60' , kps.heal.lowestInRaid},
     {spells.flashHeal, 'not player.isMoving and kps.lastCast["id"] == 596 and heal.lowestInRaid.hp < 0.60' , kps.heal.lowestInRaid},
-    {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.60 and heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
-    {spells.flashHeal, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.60 and heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTargetInRaid},
+    {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.70 and heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
+    {spells.flashHeal, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.70 and heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTargetInRaid},
    	{spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.60 and heal.lowestInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestInRaid},
  
     -- "Prayer of Healing" 596 -- spells.powerOfTheNaaru Casting Holy Word: Sanctify increases healing done by Prayer of Healing by 6% for 15 sec.
@@ -164,9 +164,9 @@ kps.rotations.register("PRIEST","HOLY",{
 
     -- "Soins" 2060 -- "Renouveau constant" 200153
     {{"nested"}, 'not player.isMoving and heal.lowestInRaid.hpIncoming < 0.90',{
-        {spells.heal, 'heal.lowestTankInRaid.hphpIncoming < 0.90' , kps.heal.lowestTankInRaid},
-        {spells.heal, 'heal.lowestTargetInRaid.hphpIncoming < 0.90' , kps.heal.lowestTargetInRaid},
-        {spells.heal, 'heal.lowestInRaid.hphpIncoming < 0.90' , kps.heal.lowestInRaid},
+        {spells.heal, 'heal.lowestTankInRaid.hpIncoming < 0.90' , kps.heal.lowestTankInRaid},
+        {spells.heal, 'heal.lowestTargetInRaid.hpIncoming < 0.90' , kps.heal.lowestTargetInRaid},
+        {spells.heal, 'heal.lowestInRaid.hpIncoming < 0.90' , kps.heal.lowestInRaid},
     }},
     {spells.heal, 'not player.isMoving and spells.holyWordSerenity.cooldown > 0' , kps.heal.lowestInRaid},
 
