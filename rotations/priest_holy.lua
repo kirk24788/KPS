@@ -163,12 +163,10 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.circleOfHealing, 'player.isMoving and heal.averageHpIncoming < 0.80' , kps.heal.lowestInRaid},
 
     -- "Soins" 2060 -- "Renouveau constant" 200153
-    {{"nested"}, 'not player.isMoving and heal.lowestInRaid.hpIncoming < 0.90',{
-        {spells.heal, 'heal.lowestTankInRaid.hpIncoming < 0.90' , kps.heal.lowestTankInRaid},
-        {spells.heal, 'heal.lowestTargetInRaid.hpIncoming < 0.90' , kps.heal.lowestTargetInRaid},
-        {spells.heal, 'heal.lowestInRaid.hpIncoming < 0.90' , kps.heal.lowestInRaid},
-    }},
-    {spells.heal, 'not player.isMoving and spells.holyWordSerenity.cooldown > 0' , kps.heal.lowestInRaid},
+    {spells.heal, 'not player.isMoving and heal.lowestTankInRaid.hpIncoming < 0.90' , kps.heal.lowestTankInRaid},
+    {spells.heal, 'not player.isMoving and heal.lowestTargetInRaid.hpIncoming < 0.90' , kps.heal.lowestTargetInRaid},
+    {spells.heal, 'not player.isMoving and heal.lowestInRaid.hpIncoming < 0.90' , kps.heal.lowestInRaid},
+    {spells.heal, 'not player.isMoving and holyWordSerenityOnCD()' , kps.heal.lowestInRaid},
 
     -- "Renew" 139
     {spells.renew, 'heal.lowestInRaid.hpIncoming < 0.95 and heal.lowestInRaid.myBuffDuration(spells.renew) < 3' , kps.heal.lowestInRaid},

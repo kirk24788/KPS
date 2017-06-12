@@ -105,7 +105,7 @@ function kps.env.priest.canCastvoidBolt()
     if kps.multiTarget then return false end
     --if not kps["env"].player.hasBuff(VoidForm) then return false end
     if not UnitHasBuff(VoidForm,"player") then return false end
-    if kps.spells.priest.voidEruption.cooldown > 0 then return false end
+    if kps.spells.priest.voidEruption.cooldown > kps.gcd then return false end
     local Channeling = UnitChannelInfo("player") -- "Mind Flay" is a channeling spell
     if Channeling ~= nil then
       if tostring(Channeling) == MindFlay then return true end
@@ -115,7 +115,7 @@ end
 
 function kps.env.priest.canCastMindBlast()
     if kps.multiTarget then return false end
-    if kps.spells.priest.mindBlast.cooldown > 0 then return false end
+    if kps.spells.priest.mindBlast.cooldown > kps.gcd then return false end
     local Channeling = UnitChannelInfo("player") -- "Mind Flay" is a channeling spell
     if Channeling ~= nil then
         if tostring(Channeling) == MindFlay then return true end
@@ -194,14 +194,13 @@ local Heal = tostring(kps.spells.priest.heal)
 local FlashHeal = tostring(kps.spells.priest.flashHeal)
 local PrayerOfHealing = tostring(kps.spells.priest.prayerOfHealing)
 local SpiritOfRedemption = tostring(kps.spells.priest.spiritOfRedemption)
-local holyWordSerenityOnCD = function()
-	if kps.spells.priest.holyWordSerenity.cooldown > 0 then return true end
-	return false
+function kps.env.priest.holyWordSerenityOnCD()
+	return kps.spells.priest.holyWordSerenity.cooldown > kps.gcd
 end
 
 local InterruptTable = {
-    {FlashHeal, 0.90 , UnitHasBuff(SpiritOfRedemption,"player") or holyWordSerenityOnCD()},
-    {Heal, 0.95 , UnitHasBuff(SpiritOfRedemption,"player") or holyWordSerenityOnCD()},
+    {FlashHeal, 0.90 , UnitHasBuff(SpiritOfRedemption,"player") or kps.env.priest.holyWordSerenityOnCD()},
+    {Heal, 0.95 , UnitHasBuff(SpiritOfRedemption,"player") or kps.env.priest.holyWordSerenityOnCD()},
     {PrayerOfHealing, 2 , UnitHasBuff(SpiritOfRedemption,"player") },
 }
 
@@ -262,7 +261,7 @@ end
 
 local buffdivinity = tostring(kps.spells.priest.divinity)
 local function holyWordSanctifyOnScreen()
-    if kps.spells.priest.holyWordSanctify.cooldown == 0 and kps.timers.check("holyWordSanctify") == 0 and not UnitHasBuff(buffdivinity,"player") then
+    if kps.spells.priest.holyWordSanctify.cooldown < kps.gcd and kps.timers.check("holyWordSanctify") == 0 and not UnitHasBuff(buffdivinity,"player") then
         kps.timers.create("holyWordSanctify", 10 )
         CreateMessage("holyWordSanctify Ready")
     end
