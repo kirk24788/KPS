@@ -216,7 +216,7 @@ local ShouldInterruptCasting = function (interruptTable, countInRange, lowestHea
         local breakpoint = healSpellTable[2]
         local spellName = tostring(healSpellTable[1])
         if spellName == spellCasting and healSpellTable[3] == false then
-            if spellName == PrayerOfHealing and CountInRange < breakpoint then
+            if spellName == PrayerOfHealing and countInRange < breakpoint then
                 SpellStopCasting()
                 DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..", raid has enough hp: "..CountInRange, 0, 0.5, 0.8)
 
