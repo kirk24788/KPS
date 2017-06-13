@@ -41,7 +41,7 @@ kps.rotations.register("PALADIN","RETRIBUTION",
     
     -- Multi Target Rotation
     {{"nested"}, 'kps.multiTarget and target.isAttackable', {
-    	{spells.consecration},
+        {spells.consecration},
         {spells.judgment},
         {spells.bladeOfWrath, 'player.holyPower < 4'},
         {spells.zeal, 'player.holyPower < 5'},
@@ -51,13 +51,13 @@ kps.rotations.register("PALADIN","RETRIBUTION",
     }},
 
     -- Single Target Rotation
-	{spells.judgment},
-	{spells.bladeOfJustice}, -- Generates 2 Holy Power.
-	{spells.bladeOfWrath, 'player.holyPower < 4'}, -- Your auto attacks have a chance to reset the cooldown of Blade of Justice.
-	{spells.crusaderStrike, 'player.holyPower < 5'},
-	{spells.zeal, 'player.holyPower < 5'},
-	{spells.templarsVerdict, 'player.holyPower >= 2 and target.hasMyDebuff(spells.judgment)'},
-	{spells.templarsVerdict, 'player.holyPower >= 2 or player.hasBuff(spells.divinePurpose)'},
+    {spells.judgment},
+    {spells.bladeOfJustice}, -- Generates 2 Holy Power.
+    {spells.bladeOfWrath, 'player.holyPower < 4'}, -- Your auto attacks have a chance to reset the cooldown of Blade of Justice.
+    {spells.crusaderStrike, 'player.holyPower < 5'},
+    {spells.zeal, 'player.holyPower < 5'},
+    {spells.templarsVerdict, 'player.holyPower >= 2 and target.hasMyDebuff(spells.judgment)'},
+    {spells.templarsVerdict, 'player.holyPower >= 2 or player.hasBuff(spells.divinePurpose)'},
 
 
 
@@ -68,12 +68,12 @@ kps.rotations.register("PALADIN","RETRIBUTION",
 --kps.rotations.register("PALADIN","RETRIBUTION",
 --{
 --
---	{{"nested"}, 'target.isAttackable', {
---		{spells.zeal, 'target.distance <= 10'},
---		{spells.judgment, 'target.distance <= 30 and target.distance >= 10'},
---		{spells.templarsVerdict},
---		{spells.divineStorm},
---		{spells.bladeOfWrath},
---	}},
+--  {{"nested"}, 'target.isAttackable', {
+--      {spells.zeal, 'target.distance <= 10'},
+--      {spells.judgment, 'target.distance <= 30 and target.distance >= 10'},
+--      {spells.templarsVerdict},
+--      {spells.divineStorm},
+--      {spells.bladeOfWrath},
+--  }},
 --}
 --,"Spam Zeal")

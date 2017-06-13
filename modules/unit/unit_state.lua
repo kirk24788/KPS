@@ -135,12 +135,12 @@ end
 local hasAttackableTarget = setmetatable({}, {
     __index = function(t, unit)
         local val = function (debuff)
-			local unitTarget = unit.."target"
-			if UnitExists(unitTarget) and UnitCanAttack("player",unitTarget) then
-				if UnitDebuffDuration(debuff,unitTarget) < 2 then return unitTarget end
-			end
-			return nil
-		end
+            local unitTarget = unit.."target"
+            if UnitExists(unitTarget) and UnitCanAttack("player",unitTarget) then
+                if UnitDebuffDuration(debuff,unitTarget) < 2 then return unitTarget end
+            end
+            return nil
+        end
         t[unit] = val
         return val
     end})

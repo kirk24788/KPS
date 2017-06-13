@@ -346,8 +346,8 @@ local vampiricTouch = tostring(kps.Spell.fromId(34914))
 kps.RaidStatus.prototype.raidTarget = kps.utils.cachedValue(function()
     for name, player in pairs(raidStatus) do
         local unit = player.unit
-    	local unitTarget = unit.."target"
-    	if player.hasAttackableTarget(vampiricTouch) then return unitTarget end
+        local unitTarget = unit.."target"
+        if player.hasAttackableTarget(vampiricTouch) then return unitTarget end
     end
     return nil
 end)

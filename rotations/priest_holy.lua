@@ -120,7 +120,7 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.flashHeal, 'not player.isMoving and kps.lastCast["id"] == 596 and heal.lowestInRaid.hp < 0.60' , kps.heal.lowestInRaid},
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.70 and heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
     {spells.flashHeal, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.70 and heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTargetInRaid},
-   	{spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.70 and heal.lowestInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestInRaid},
+    {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.70 and heal.lowestInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestInRaid},
  
     -- "Prayer of Healing" 596 -- spells.powerOfTheNaaru Casting Holy Word: Sanctify increases healing done by Prayer of Healing by 6% for 15 sec.
     {{spells.holyWordSanctify,spells.prayerOfHealing}, 'not player.isMoving and heal.countInRange > 2 and not player.isInRaid' , "player" },
@@ -130,9 +130,9 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.divineHymn , 'not player.isMoving and heal.countInRange * 2 >= heal.maxcountInRange and heal.averageHpIncoming < 0.70 and heal.maxcountInRange > 4' },
     -- "Prayer of Healing" 596 -- A powerful prayer that heals the target and the 4 nearest allies within 40 yards for (250% of Spell power)
     {{"nested"}, 'not player.isMoving and heal.countInRange > 4 and player.isInRaid' ,{
-    	{spells.prayerOfHealing, 'player.hasBuff(spells.divinity)' , kps.heal.lowestTankInRaid },
-    	{spells.prayerOfHealing, 'player.hasBuff(spells.powerOfTheNaaru)' , kps.heal.lowestTankInRaid },
-    	{spells.prayerOfHealing, 'not spells.prayerOfHealing.isRecastAt("player")', "player" },
+        {spells.prayerOfHealing, 'player.hasBuff(spells.divinity)' , kps.heal.lowestTankInRaid },
+        {spells.prayerOfHealing, 'player.hasBuff(spells.powerOfTheNaaru)' , kps.heal.lowestTankInRaid },
+        {spells.prayerOfHealing, 'not spells.prayerOfHealing.isRecastAt("player")', "player" },
     }},
     {{"nested"}, 'not player.isMoving and heal.countInRange > 2 and not player.isInRaid' ,{
         {spells.prayerOfHealing, 'player.hasBuff(spells.divinity)' , kps.heal.lowestTankInRaid },
@@ -179,15 +179,15 @@ kps.rotations.register("PRIEST","HOLY",{
 }
 ,"Holy heal")
 
---For Raiding:	Enlightment
---For Dungeons:	Trail of Light
---For Raiding:	Light of the Naaru
---For Dungeons:	Guardian Angel
---For Raiding:	Piety
---For Dungeons:	Surge of Light
---For Raiding:	Divinity
---For Dungeons:	Divinity
---For Raiding:	Benediction
---For Dungeons:	Apotheosis
+--For Raiding:  Enlightment
+--For Dungeons: Trail of Light
+--For Raiding:  Light of the Naaru
+--For Dungeons: Guardian Angel
+--For Raiding:  Piety
+--For Dungeons: Surge of Light
+--For Raiding:  Divinity
+--For Dungeons: Divinity
+--For Raiding:  Benediction
+--For Dungeons: Apotheosis
 
 

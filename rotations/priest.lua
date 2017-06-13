@@ -180,11 +180,11 @@ function kps.env.priest.FocusMouseover()
     elseif UnitExists("focus") and not UnitIsAttackable("focus") then
         kps.runMacro("/clearfocus")
     elseif UnitExists("focus") and UnitIsAttackable("mouseover") and not UnitIsUnit("target","mouseover") and not UnitIsUnit("focus","mouseover") then
-    	if UnitDebuffDuration(kps.spells.priest.vampiricTouch,"focus") > 4 and UnitDebuffDuration(kps.spells.priest.shadowWordPain,"focus") > 4 then
-    		if UnitDebuffDuration(kps.spells.priest.vampiricTouch,"mouseover") < 2 and UnitDebuffDuration(kps.spells.priest.shadowWordPain,"mouseover") < 2 then
-    			kps.runMacro("/focus mouseover")
-    		end
-    	end
+        if UnitDebuffDuration(kps.spells.priest.vampiricTouch,"focus") > 4 and UnitDebuffDuration(kps.spells.priest.shadowWordPain,"focus") > 4 then
+            if UnitDebuffDuration(kps.spells.priest.vampiricTouch,"mouseover") < 2 and UnitDebuffDuration(kps.spells.priest.shadowWordPain,"mouseover") < 2 then
+                kps.runMacro("/focus mouseover")
+            end
+        end
     end
     return nil, nil
 end
@@ -200,9 +200,9 @@ local SpiritOfRedemption = tostring(kps.spells.priest.spiritOfRedemption)
 local holyWordSerenity = tostring(kps.spells.priest.holyWordSerenity)
 
 function kps.env.priest.holyWordSerenityOnCD()
-	if UnitHasBuff(SpiritOfRedemption,"player") then return true end
-	if kps.spells.priest.holyWordSerenity.cooldown > kps.gcd then return true end
-	return false
+    if UnitHasBuff(SpiritOfRedemption,"player") then return true end
+    if kps.spells.priest.holyWordSerenity.cooldown > kps.gcd then return true end
+    return false
 end
 
 local interruptTableUpdate = function()
