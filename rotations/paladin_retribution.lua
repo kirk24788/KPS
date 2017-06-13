@@ -28,7 +28,7 @@ kps.rotations.register("PALADIN","RETRIBUTION",
 
      -- Cooldowns (Other CD's are within  Single/AoE Target Rotation)
     {{"nested"}, 'kps.cooldowns', {
-        {spells.avengingWrath, 'not player.hasBuff(spells.avengingWrath) and and target.hasMyDebuff(spells.judgment)'},
+        {spells.avengingWrath, 'not player.hasBuff(spells.avengingWrath) and target.hasMyDebuff(spells.judgment)'},
         {spells.wakeOfAshes, 'player.hasBuff(spells.avengingWrath) and player.holyPower < 1'},
     }},
 
@@ -54,10 +54,10 @@ kps.rotations.register("PALADIN","RETRIBUTION",
     {spells.judgment},
     {spells.bladeOfJustice}, -- Generates 2 Holy Power.
     {spells.bladeOfWrath, 'player.holyPower < 4'}, -- Your auto attacks have a chance to reset the cooldown of Blade of Justice.
-    {spells.crusaderStrike, 'player.holyPower < 5'},
+    {spells.crusaderStrike, 'player.holyPower < 5'}, -- Generates 1 Holy Power.
     {spells.zeal, 'player.holyPower < 5'},
-    {spells.templarsVerdict, 'player.holyPower >= 2 and target.hasMyDebuff(spells.judgment)'},
-    {spells.templarsVerdict, 'player.holyPower >= 2 or player.hasBuff(spells.divinePurpose)'},
+    {spells.templarsVerdict, 'player.holyPower > 1 and target.hasMyDebuff(spells.judgment)'},
+    {spells.templarsVerdict, 'player.holyPower > 1 or player.hasBuff(spells.divinePurpose)'},
 
 
 
