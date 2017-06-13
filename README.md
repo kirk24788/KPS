@@ -177,6 +177,8 @@ Members:
  * `heal.aggroTank` - Returns the tank or unit if overnuked with highest aggro and lowest health Without otherunit specified.
  * `heal.lowestTargetInRaid` - Returns the raid unit with lowest health targeted by enemy nameplate.
  * `heal.isMagicDispellable` - Returns the raid unit with magic debuff to dispel
+ * `heal.isDiseaseDispellable` - Returns the raid unit with disease debuff to dispel
+ * `heal.raidTarget`
 
 
 #### Keys
@@ -378,8 +380,10 @@ Members:
  * `<UNIT>.isDead` - returns true if the unit is dead.
  * `<UNIT>.isDrinking` - returns true if the given unit is currently eating/drinking.
  * `<UNIT>.inVehicle` - returns true if the given unit is inside a vehicle.
- * `<UNIT>.isHealable` - returns true if the give unit is healable by the player.
+ * `<UNIT>.isHealable` - returns true if the given unit is healable by the player.
  * `<UNIT>.hasPet` - returns true if the given unit has a pet.
+ * `<UNIT>.isUnit(<UNIT>)` - returns true if the given unit is otherunit.
+ * `<UNIT>.hasAttackableTarget(<SPELL>)` - returns true if the given unit has attackable target
 
 
 ### Rotations
@@ -602,13 +606,12 @@ kps.rotations.register(
  * `core/logger.lua:33` - Check if DEFAULT_CHAT_FRAME:AddMessage() has any significant advantages
  * `core/parser.lua:132` - syntax error in
  * `core/parser.lua:139` - Error Handling!
- * `env.lua:28` - Clean UP!!! This code is a mess...
  * `gui/toggle.lua:75` - Right-Click Action
  * `libs/LibRangeCheck-2.0/LibRangeCheck-2.0.lua:31` - check if unit is valid, etc
  * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
- * `modules/unit/unit_casting.lua:63` - Blacklisted spells?
- * `modules/unit/unit_state.lua:13` - PvP
- * `modules/unit/unit_state.lua:26` - if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
+ * `modules/unit/unit_casting.lua:67` - Blacklisted spells?
+ * `modules/unit/unit_state.lua:20` - PvP
+ * `modules/unit/unit_state.lua:33` - if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
  * `rotations/mage.lua:52` - Implement pyroChain sequence
 
 
