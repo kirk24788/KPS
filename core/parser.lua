@@ -152,7 +152,7 @@ local function fnParseMacro(macroText, conditionFn)
                 kps.runMacro(macroText)
             elseif kps["env"].player.isCasting and string.find(macroText,"/stopcasting") ~= nil then
                kps.runMacro("/stopcasting")
-               if kps.debug then print("StopCasting") end
+               if kps.debug then print("|cffa335eeStopCasting") end
             end
         end
         -- Macro's always return nil,nil to allow other spells to be cast! Actual macro casting is done within this function!

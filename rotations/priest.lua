@@ -12,7 +12,7 @@ local UnitIsDeadOrGhost = UnitIsDeadOrGhost
 local UnitHealth = UnitHealth
 local UnitHealthMax = UnitHealthMax
 local MindFlay = tostring(kps.spells.priest.mindFlay)
-local VoidForm = tostring(kps.spells.priest.voidform)
+local VoidForm = tostring(kps.spells.priest.voidForm)
 local EnemyTable = {"mouseover", "focus", "target"}
 
 --------------------------------------------------------------------------------------------
@@ -103,9 +103,8 @@ end
 
 function kps.env.priest.canCastvoidBolt()
     if kps.multiTarget then return false end
-    --if not kps["env"].player.hasBuff(VoidForm) then return false end
     if not UnitHasBuff(VoidForm,"player") then return false end
-    if kps.spells.priest.voidEruption.cooldown > kps.gcd then return false end
+    if kps.spells.priest.voidEruption.cooldown > 0 then return false end
     local Channeling = UnitChannelInfo("player") -- "Mind Flay" is a channeling spell
     if Channeling ~= nil then
       if tostring(Channeling) == MindFlay then return true end
@@ -115,7 +114,7 @@ end
 
 function kps.env.priest.canCastMindBlast()
     if kps.multiTarget then return false end
-    if kps.spells.priest.mindBlast.cooldown > kps.gcd then return false end
+    if kps.spells.priest.mindBlast.cooldown > 0 then return false end
     local Channeling = UnitChannelInfo("player") -- "Mind Flay" is a channeling spell
     if Channeling ~= nil then
         if tostring(Channeling) == MindFlay then return true end
@@ -159,7 +158,7 @@ end
 
 -- Config FOCUS with MOUSEOVER
 function kps.env.priest.TargetMouseover()
-    if not UnitExists("focus") and UnitIsAttackable("mouseover") and not UnitIsUnit("target","mouseover") then
+    if not UnitExists("focus") and not UnitIsUnit("target","mouseover") and UnitIsAttackable("mouseover")  then
         if UnitIsUnit("mouseovertarget","player") then
             kps.runMacro("/focus mouseover")
         elseif UnitDebuffDuration(kps.spells.priest.shadowWordPain,"mouseover") < 2 and UnitDebuffDuration(kps.spells.priest.vampiricTouch,"mouseover") < 2 then 
@@ -172,6 +171,10 @@ function kps.env.priest.TargetMouseover()
             kps.runMacro("/focus mouseover")
         end
     end
+    return nil, nil
+end
+
+function kps.env.priest.FocusMouseover()
     if UnitExists("focus") and UnitIsUnit("target","focus") then
         kps.runMacro("/clearfocus")
     elseif UnitExists("focus") and not UnitIsAttackable("focus") then
