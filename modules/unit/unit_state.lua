@@ -4,6 +4,13 @@ Unit State: Functions which handle unit state
 
 local Unit = kps.Unit.prototype
 
+local UnitHasBuff = function(spell,unit)
+    local spellname = tostring(spell)
+    if spellname == nil then return false end
+    if select(1,UnitBuff(unit,spellname)) then return true end
+    return false
+end
+
 
 --[[[
 @function `<UNIT>.isAttackable` - returns true if the given unit can be attacked by the player.
@@ -60,7 +67,7 @@ end
 @function `<UNIT>.isDrinking` - returns true if the given unit is currently eating/drinking.
 ]]--
 function Unit.isDrinking(self)
-    return Unit.hasBuff(self)(kps.Spell.fromId(431)) -- doesn't matter which drinking buff we're using, all of them have the same name!
+    return UnitHasBuff(kps.Spell.fromId(431),self.unit) -- doesn't matter which drinking buff we're using, all of them have the same name!
 end
 
 --[[[
@@ -71,19 +78,17 @@ function Unit.inVehicle(self)
 end
 
 --[[[
-@function `<UNIT>.isHealable` - returns true if the give unit is healable by the player.
+@function `<UNIT>.isHealable` - returns true if the given unit is healable by the player.
 ]]--
 function Unit.isHealable(self)
+    if UnitHasBuff(kps.Spell.fromId(20711),self.unit) then return false end -- UnitIsDeadOrGhost(unit) Returns false for priests who are currently in [Spirit of Redemption] form
     if GetUnitName("player") == GetUnitName(self.unit) then return true end
-    if not Unit.exists(self)
-        or UnitCanAssist("player",self.unit)==false -- UnitCanAssist(unitToAssist, unitToBeAssisted) return 1 if the unitToAssist can assist the unitToBeAssisted, nil otherwise
-        or UnitIsFriend("player", self.unit)==false -- UnitIsFriend("unit","otherunit") return 1 if otherunit is friendly to unit, nil otherwise.
-        or Unit.inVehicle(self)
-        or not select(1,UnitInRange(self.unit)) -- return FALSE when not in a party/raid reason why to be true for player GetUnitName("player") == GetUnitName(unit)
-        or Unit.isDead(self)
-        then
-        return false
-    end
+    if not Unit.exists(self) then return false end
+    if Unit.inVehicle(self) then return false end
+    if not UnitCanAssist("player",self.unit) then return false end -- UnitCanAssist(unitToAssist, unitToBeAssisted) return 1 if the unitToAssist can assist the unitToBeAssisted, nil otherwise
+    if not UnitIsFriend("player", self.unit) then return false end -- UnitIsFriend("unit","otherunit") return 1 if otherunit is friendly to unit, nil otherwise.
+    if not select(1,UnitInRange(self.unit)) then return false end -- return FALSE when not in a party/raid reason why to be true for player GetUnitName("player") == GetUnitName(unit)
+    if not Unit.lineOfSight(self) then return false end
     return true
 end
 
@@ -97,3 +102,49 @@ function Unit.hasPet(self)
     if UnitIsDeadOrGhost(self.unit.."pet")==true then return false end
     return true
 end
+
+--[[[
+@function `<UNIT>.isUnit(<UNIT>)` - returns true if the given unit is otherunit.
+]]--
+local isUnit = setmetatable({}, {
+    __index = function(t, unit)
+        local val = function (otherunit)
+            if UnitIsUnit(unit,otherunit) then return true end
+            return false
+        end
+        t[unit] = val
+        return val
+    end})
+function Unit.isUnit(self)
+    return isUnit[self.unit]
+end
+
+--[[[
+@function `<UNIT>.hasAttackableTarget(<SPELL>)` - returns true if the given unit has attackable target
+]]--
+local UnitDebuffDuration = function(spell,unit)
+    local spellname = tostring(spell)
+    local name,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,spellname)
+    if caster ~= "player" then return 0 end
+    if endTime == nil then return 0 end
+    local timeLeft = endTime - GetTime()
+    if timeLeft < 0 then return 0 end
+    return timeLeft
+end
+
+local hasAttackableTarget = setmetatable({}, {
+    __index = function(t, unit)
+        local val = function (debuff)
+            local unitTarget = unit.."target"
+            if UnitExists(unitTarget) and UnitCanAttack("player",unitTarget) then
+                if UnitDebuffDuration(debuff,unitTarget) < 2 then return unitTarget end
+            end
+            return nil
+        end
+        t[unit] = val
+        return val
+    end})
+    
+function Unit.hasAttackableTarget(self)
+    return hasAttackableTarget[self.unit]
+end  

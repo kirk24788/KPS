@@ -79,7 +79,7 @@ kps.combatStep = function ()
         local activeRotation = kps.rotations.getActive()
         if not activeRotation then return end
         activeRotation.checkTalents()
-        local spell, target = activeRotation.getSpell()
+        local spell, target, message = activeRotation.getSpell()
         if spell ~= nil and not player.isCasting then
             if priorityMacro ~= nil then
                 kps.runMacro(priorityMacro)
@@ -104,7 +104,7 @@ kps.combatStep = function ()
                 castSequenceTarget = target
             else
                 LOG.debug("Casting %s for next cast.", spell.name)
-                spell.cast(target)
+                spell.cast(target, message)
             end
         end
     end
