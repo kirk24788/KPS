@@ -89,8 +89,9 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.apotheosis, 'player.hasTalent(7,1) and heal.lowestInRaid.hp < 0.60 and heal.countInRange > 2 and not player.isInRaid' },
     {spells.apotheosis, 'player.hasTalent(7,1) and heal.lowestInRaid.hp < 0.60 and heal.countInRange > 4 and player.isInRaid' },
     -- "Light of T'uure" 208065 -- track buff in case an other priest have casted lightOfTuure
-    {spells.lightOfTuure, 'heal.lowestTankInRaid.hpIncoming < 0.80 and not heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
-    {spells.lightOfTuure, 'heal.lowestTargetInRaid.hpIncoming < 0.80 and not heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTargetInRaid},
+    {spells.lightOfTuure, 'player.hp < 0.70 and not player.hasBuff(spells.lightOfTuure)' , "player"},
+    {spells.lightOfTuure, 'heal.lowestTankInRaid.hpIncoming < 0.70 and not heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
+    {spells.lightOfTuure, 'heal.lowestTargetInRaid.hpIncoming < 0.70 and not heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTargetInRaid},
     {spells.lightOfTuure, 'heal.lowestInRaid.hpIncoming < 0.70 and not heal.lowestInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestInRaid},
     
     -- "Surge Of Light"
@@ -103,21 +104,22 @@ kps.rotations.register("PRIEST","HOLY",{
     }},
 
     -- "Holy Word: Serenity"
-    {spells.holyWordSerenity, 'player.hp < 0.50' , "player"},
-    {spells.holyWordSerenity, 'heal.lowestTankInRaid.hp < 0.50' , kps.heal.lowestTankInRaid},
-    {spells.holyWordSerenity, 'heal.lowestTargetInRaid.hp < 0.50' , kps.heal.lowestTargetInRaid},
-    {spells.holyWordSerenity, 'heal.lowestInRaid.hp < 0.40' , kps.heal.lowestInRaid},
-    {spells.holyWordSerenity, 'heal.lowestTargetInRaid.hp < 0.60 and heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTargetInRaid},
-    {spells.holyWordSerenity, 'heal.lowestTankInRaid.hp < 0.60 and heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
+    {spells.holyWordSerenity, 'player.hp < 0.55' , "player"},
+    {spells.holyWordSerenity, 'heal.lowestTankInRaid.hp < 0.55' , kps.heal.lowestTankInRaid},
+    {spells.holyWordSerenity, 'heal.lowestTargetInRaid.hp < 0.55' , kps.heal.lowestTargetInRaid},
+    {spells.holyWordSerenity, 'heal.lowestInRaid.hp < 0.45' , kps.heal.lowestInRaid},
     {spells.holyWordSerenity, 'heal.countInRange > 2 and not player.hasBuff(spells.divinity) and not player.isInRaid' , kps.heal.lowestInRaid},
     {spells.holyWordSerenity, 'heal.countInRange > 4 and not player.hasBuff(spells.divinity) and player.isInRaid' , kps.heal.lowestInRaid},
     
     -- "Soins de lien" 32546
     {spells.bindingHeal, 'heal.lowestInRaid.hp < 0.70 and player.hp < 0.70 and player.hp > heal.lowestInRaid.hp' , kps.heal.lowestInRaid},
-    {spells.flashHeal, 'not player.isMoving and player.hp < 0.50 and not spells.flashHeal.isRecastAt("player")' , "player"},
+    {spells.flashHeal, 'not player.isMoving and player.hp < 0.55 and not spells.flashHeal.isRecastAt("player")' , "player"},
+    {spells.flashHeal, 'not player.isMoving and player.hp < 0.70 and heal.lowestInRaid.isUnit("player")' , "player"},
     -- "Soins rapides" 2060
     {spells.flashHeal, 'not player.isMoving and kps.lastCast["name"] == spells.prayerOfHealing and heal.lowestInRaid.hp < 0.60' , kps.heal.lowestInRaid},
     {spells.flashHeal, 'not player.isMoving and kps.lastCast["id"] == 596 and heal.lowestInRaid.hp < 0.60' , kps.heal.lowestInRaid},
+    -- "Soins rapides" 2060
+    {spells.flashHeal, 'not player.isMoving and player.hp < 0.70 and player.hasBuff(spells.lightOfTuure)' , "player"},
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.70 and heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
     {spells.flashHeal, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.70 and heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTargetInRaid},
     {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.70 and heal.lowestInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestInRaid},
@@ -148,7 +150,6 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hpIncoming < 0.80 and heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal' , kps.heal.lowestTankInRaid},
     {spells.flashHeal, 'not player.isMoving and heal.lowestTargetInRaid.hpIncoming < 0.80 and heal.lowestTargetInRaid.incomingDamage > heal.lowestTargetInRaid.incomingHeal' , kps.heal.lowestTargetInRaid},
     {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hpIncoming < 0.70 and heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal and player.isInRaid' , kps.heal.lowestInRaid},
-    {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hpIncoming < 0.80 and heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal and not player.isInRaid' , kps.heal.lowestInRaid},
 
     -- "Renew" 139
     {spells.renew, 'heal.lowestTankInRaid.myBuffDuration(spells.renew) < 3' , kps.heal.lowestTankInRaid},
@@ -162,7 +163,7 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.heal, 'not player.isMoving and heal.lowestTankInRaid.hpIncoming < 0.90' , kps.heal.lowestTankInRaid},
     {spells.heal, 'not player.isMoving and heal.lowestTargetInRaid.hpIncoming < 0.90' , kps.heal.lowestTargetInRaid},
     {spells.heal, 'not player.isMoving and heal.lowestInRaid.hpIncoming < 0.90' , kps.heal.lowestInRaid},
-    {spells.heal, 'not player.isMoving and holyWordSerenityOnCD()' , kps.heal.lowestInRaid},
+    {spells.heal, 'not player.isMoving and holyWordSerenityOnCD()' , kps.heal.lowestInRaid, "SERENITY" },
 
     -- "Renew" 139
     {spells.renew, 'heal.lowestInRaid.hpIncoming < 0.95 and heal.lowestInRaid.myBuffDuration(spells.renew) < 3' , kps.heal.lowestInRaid},
