@@ -157,19 +157,19 @@ end
 
 local function fnParseMessage(message)
     if type(message) == "function" then
-    	return function()
-    		local messageData = message()
-    		return messageData
-    	end
-	elseif type(message) == "string" then
-   		return function()
-   			return message
-   		end
-	else
+        return function()
+            local messageData = message()
+            return messageData
+        end
+    elseif type(message) == "string" then
+        return function()
+            return message
+        end
+    else
         return function()
             return ""
         end
-	end
+    end
 end
 
 local function fnParseSpell(spell)
