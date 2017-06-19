@@ -221,11 +221,12 @@ local ShouldInterruptCasting = function (interruptTable, countInRange, lowestHea
         if spellName == spellCasting and healSpellTable[3] == false then
             if spellName == PrayerOfHealing and countInRange < breakpoint then
                 SpellStopCasting()
-                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..", raid has enough hp: "..CountInRange, 0, 0.5, 0.8)
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..", raid has enough hp: "..countInRange, 0, 0.5, 0.8)
 
             elseif spellName == Heal and lowestHealth < 0.40 and UnitPower("player",0)/UnitPowerMax("player",0) > 0.10 then
                 -- SPELL_POWER_MANA value 0
                 SpellStopCasting()
+                kps.timers.create("criticalHP", 4 )
                 DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING "..spellName.." Lowest has critical hp: "..lowestHealth, 0, 0.5, 0.8)
 
             elseif spellName == Heal and targetHealth > breakpoint then

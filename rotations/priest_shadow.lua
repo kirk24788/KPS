@@ -89,7 +89,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     {{"nested"}, 'player.plateCount > 4 or kps.multiTarget',{
         {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
         {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },    
-        {spells.mindFlay, 'not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" },
+        {spells.mindFlay, 'not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "MULTITARGET" },
     }},
 
     {spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
@@ -113,7 +113,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.vampiricTouch, 'mouseover.isAttackable and not player.isMoving and mouseover.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
     {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 
-    {spells.mindFlay, 'not player.isMoving' , "target" , "FOUET MENTAL" },
+    {spells.mindFlay, 'not player.isMoving' , "target" },
     {spells.mindFlay, 'not player.isMoving and targettarget.isAttackable' , "targettarget"  },
 
 },"Shadow Priest")

@@ -66,7 +66,7 @@ kps.combatStep = function ()
         if castSequence[castSequenceIndex] ~= nil and (castSequenceStartTime + kps.maxCastSequenceLength > GetTime()) then
             local spell = castSequence[castSequenceIndex]()
             if spell.canBeCastAt(castSequenceTarget) then
-                kps.write("Cast-Sequence: "..spell)
+                kps.write("Cast-Sequence: |cffffffff"..spell)
                 LOG.debug("Cast-Sequence: %s. %s", castSequenceIndex, spell)
                 spell.cast(castSequenceTarget)
                 castSequenceIndex = castSequenceIndex + 1
