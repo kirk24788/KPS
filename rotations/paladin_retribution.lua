@@ -28,7 +28,7 @@ kps.rotations.register("PALADIN","RETRIBUTION",
 
      -- Cooldowns (Other CD's are within  Single/AoE Target Rotation)
     {{"nested"}, 'kps.cooldowns', {
-        {spells.avengingWrath, 'not player.hasBuff(spells.avengingWrath) and and target.hasMyDebuff(spells.judgment)'},
+        {spells.avengingWrath, 'not player.hasBuff(spells.avengingWrath) and target.hasMyDebuff(spells.judgment)'},
         {spells.wakeOfAshes, 'player.hasBuff(spells.avengingWrath) and player.holyPower < 1'},
     }},
 
@@ -36,20 +36,12 @@ kps.rotations.register("PALADIN","RETRIBUTION",
     {{"nested"}, 'kps.interrupt and target.isInterruptable', {
         {spells.rebuke},
         {spells.hammerOfJustice, 'target.distance <= 10'},
+        {spells.blindingLight} -- disorients all enemies within a 10 yard radius around you
     }},
-
-    -- Single Target Rotation
-    {{"nested"}, 'activeEnemies.count <= 1', {
-        {spells.judgment},
-        {spells.bladeOfWrath, 'player.holyPower < 4'},
-        {spells.crusaderStrike, 'player.holyPower < 5'},
-        {spells.zeal, 'player.holyPower < 5'},
-        {spells.templarsVerdict, 'player.holyPower >= 2 and target.hasMyDebuff(spells.judgment)'},
-        {spells.templarsVerdict, 'player.holyPower >= 2 or player.hasBuff(spells.divinePurpose)'},
-    }},
-
+    
     -- Multi Target Rotation
-    {{"nested"}, 'activeEnemies.count > 1 and target.isAttackable', {
+    {{"nested"}, 'kps.multiTarget and target.isAttackable', {
+        {spells.consecration},
         {spells.judgment},
         {spells.bladeOfWrath, 'player.holyPower < 4'},
         {spells.zeal, 'player.holyPower < 5'},
@@ -57,19 +49,31 @@ kps.rotations.register("PALADIN","RETRIBUTION",
         {spells.divineStorm, 'player.holyPower >= 2 and target.hasMyDebuff(spells.judgment)'},
         {spells.divineStorm, 'player.holyPower >= 2 or player.hasBuff(spells.divinePurpose)'},
     }},
+
+    -- Single Target Rotation
+    {spells.judgment},
+    {spells.bladeOfJustice}, -- Generates 2 Holy Power.
+    {spells.bladeOfWrath, 'player.holyPower < 4'}, -- Your auto attacks have a chance to reset the cooldown of Blade of Justice.
+    {spells.crusaderStrike, 'player.holyPower < 5'}, -- Generates 1 Holy Power.
+    {spells.zeal, 'player.holyPower < 5'},
+    {spells.templarsVerdict, 'player.holyPower > 1 and target.hasMyDebuff(spells.judgment)'},
+    {spells.templarsVerdict, 'player.holyPower > 1 or player.hasBuff(spells.divinePurpose)'},
+
+
+
 }
 ,"Icy Veins")
 
 
-    kps.rotations.register("PALADIN","RETRIBUTION",
-    {
-
-        {{"nested"}, 'target.isAttackable', {
-            {spells.zeal, 'target.distance <= 10'},
-            {spells.judgment, 'target.distance <= 30 and target.distance >= 10'},
-            {spells.templarsVerdict},
-            {spells.divineStorm},
-            {spells.bladeOfWrath},
-        }},
-    }
-,"Spam Zeal")
+--kps.rotations.register("PALADIN","RETRIBUTION",
+--{
+--
+--  {{"nested"}, 'target.isAttackable', {
+--      {spells.zeal, 'target.distance <= 10'},
+--      {spells.judgment, 'target.distance <= 30 and target.distance >= 10'},
+--      {spells.templarsVerdict},
+--      {spells.divineStorm},
+--      {spells.bladeOfWrath},
+--  }},
+--}
+--,"Spam Zeal")

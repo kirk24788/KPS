@@ -27,7 +27,7 @@ function kps.env.warlock.deactivateBurningRushIfNotMoving(seconds)
         else
             local nonMovingDuration = GetTime() - burningRushLastMovement
             if nonMovingDuration >= seconds then
-                RunMacroText("/cancelaura " .. kps.spells.warlock.burningRush)
+                RunMacroText("/cancelaura "..kps.spells.warlock.burningRush)
             end
         end
     end
