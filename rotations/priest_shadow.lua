@@ -78,10 +78,10 @@ kps.rotations.register("PRIEST","SHADOW",{
     
     -- "Void Eruption" 228260
     {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidForm) and player.insanity == 100' },
-    {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidForm) and player.hasTalent(7,1) and player.insanity > 65 and target.myDebuffDuration(spells.vampiricTouch) > 0 and target.myDebuffDuration(spells.shadowWordPain) > 0' },
+    {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidForm) and player.hasTalent(7,1) and player.insanity > 65 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
 
     -- "Mindblast" is highest priority spell out of voidForm
-    {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidForm)' , "target" , "MINDBLAST" },
+    {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidForm)' , "target" },
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidForm) and targettarget.isAttackable' , "targettarget" },
 
     -- MultiTarget -- Mind Flay If the target is afflicted with Shadow Word: Pain you will also deal splash damage to nearby targets.
@@ -114,7 +114,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 
     {spells.mindFlay, 'not player.isMoving' , "target" },
-    {spells.mindFlay, 'not player.isMoving and targettarget.isAttackable' , "targettarget"  },
+    {spells.mindFlay, 'not player.isMoving and targettarget.isAttackable' , "targettarget" },
 
 },"Shadow Priest")
 
