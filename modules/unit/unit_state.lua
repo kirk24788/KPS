@@ -7,7 +7,7 @@ local Unit = kps.Unit.prototype
 local UnitHasBuff = function(spell,unit)
     local spellname = tostring(spell)
     if spellname == nil then return false end
-    if select(1,UnitBuff(unit,spellname)) then return true end
+    if select(1,UnitBuff(unit,spellname)) ~= nil then return true end
     return false
 end
 
@@ -28,8 +28,8 @@ function Unit.isAttackable(self)
     end
     ]]
     if (string.match(GetUnitName(self.unit), kps.locale["Dummy"])) then return true end
-    if UnitCanAttack("player", self.unit)==false then return false end-- UnitCanAttack(attacker, attacked) return 1 if the attacker can attack the attacked, nil otherwise.
-    --if UnitIsEnemy("player",self.unit)==false then return false end -- WARNING a unit is hostile to you or not Returns either 1 ot nil -- Raider's Training returns nil with UnitIsEnemy
+    if not UnitCanAttack("player", self.unit) then return false end-- UnitCanAttack(attacker, attacked) return 1 if the attacker can attack the attacked, nil otherwise.
+    if UnitIsFriend("player", self.unit) then return false end
     --TODO: if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
     if not kps.env.harmSpell.inRange(self.unit) then return false end
     return true
@@ -81,14 +81,15 @@ end
 @function `<UNIT>.isHealable` - returns true if the given unit is healable by the player.
 ]]--
 function Unit.isHealable(self)
-    if UnitHasBuff(kps.Spell.fromId(20711),self.unit) then return false end -- UnitIsDeadOrGhost(unit) Returns false for priests who are currently in [Spirit of Redemption] form
-    if GetUnitName("player") == GetUnitName(self.unit) then return true end
+    if unit == "player" and UnitHasBuff(kps.Spell.fromId(20711),"player") then return false end
+    if unit == "player" and not UnitIsDeadOrGhost("player") then return true end -- UnitIsDeadOrGhost(unit) Returns false for priests who are currently in [Spirit of Redemption] form
     if not Unit.exists(self) then return false end
     if Unit.inVehicle(self) then return false end
+    if not Unit.lineOfSight(self) then return false end
     if not UnitCanAssist("player",self.unit) then return false end -- UnitCanAssist(unitToAssist, unitToBeAssisted) return 1 if the unitToAssist can assist the unitToBeAssisted, nil otherwise
     if not UnitIsFriend("player", self.unit) then return false end -- UnitIsFriend("unit","otherunit") return 1 if otherunit is friendly to unit, nil otherwise.
-    if not select(1,UnitInRange(self.unit)) then return false end -- return FALSE when not in a party/raid reason why to be true for player GetUnitName("player") == GetUnitName(unit)
-    if not Unit.lineOfSight(self) then return false end
+    local inRange,_ = UnitInRange(self.unit)
+    if not inRange then return false end -- UnitInRange return FALSE when not in a party/raid reason why to be true for player "player" == unit
     return true
 end
 

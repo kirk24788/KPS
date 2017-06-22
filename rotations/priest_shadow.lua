@@ -42,7 +42,6 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.vampiricEmbrace, 'player.hasBuff(spells.voidForm) and heal.averageHpIncoming < 0.80' },
     -- "Guérison de l’ombre" 186263 -- debuff "Shadow Mend" 187464 10 sec
     {spells.shadowMend, 'not player.isMoving and not spells.shadowMend.lastCasted(4) and not player.hasBuff(spells.voidForm) and player.hp < 0.60 and not player.hasBuff(spells.vampiricEmbrace)' , "player" },
-    {spells.shadowMend, 'not player.isMoving and not spells.shadowMend.lastCasted(4) and and not player.hasBuff(spells.voidForm) and player.hp < 0.90 and player.incomingDamage*2 > player.incomingHeal and not player.hasBuff(spells.vampiricEmbrace)' , "player" },
 
     -- interrupts
     {{"nested"}, 'kps.interrupt',{
