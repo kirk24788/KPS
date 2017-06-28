@@ -277,5 +277,22 @@ local function holyWordSanctifyOnScreen()
 end
 
 kps.env.priest.ScreenMessage = function()
-   return holyWordSanctifyOnScreen()
+    return holyWordSanctifyOnScreen()
 end
+
+
+-- SendChatMessage("msg" [, "chatType" [, languageIndex [, "channel"]]])
+-- Sends a chat message of the specified in 'msg' (ex. "Hey!"), to the system specified in 'chatType' ("SAY", "WHISPER", "EMOTE", "CHANNEL", "PARTY", "INSTANCE_CHAT", "GUILD", "OFFICER", "YELL", "RAID", "RAID_WARNING", "AFK", "DND"),
+-- in the language specified in 'languageID', to the player or channel specified in 'channel'(ex. "1", "Bob").
+
+
+--kps.events.register("UNIT_SPELLCAST_START", function(unitID,spellname,_,_,spellID)
+--    if unitID == "player" and spellID ~= nil then
+--    end
+--end)
+
+kps.events.register("UNIT_SPELLCAST_CHANNEL_START", function(unitID,spellname,_,_,spellID)
+    if unitID == "player" and spellID ~= nil then
+		if spellID == 64843 then SendChatMessage("Casting DIVINE HYMN" , "RAID" ) end
+    end
+end)

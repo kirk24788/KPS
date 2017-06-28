@@ -384,8 +384,8 @@ print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 print("|cffff8000raidTarget:|cffffffff", kps["env"].heal.raidTarget)
 
 
---print("|cffff8000BuffValue:|cffffffff", kps["env"].player.buffDuration(kps.spells.priest.echoOfLight))
---print("|cffff8000BuffValue:|cffffffff", kps["env"].player.buffValue(kps.spells.priest.echoOfLight))
+--print("|cffff8000BuffValue:|cffffffff", kps["env"].player.buffDuration(kps.spells.priest.masteryEchoOfLight))
+--print("|cffff8000BuffValue:|cffffffff", kps["env"].player.buffValue(kps.spells.priest.masteryEchoOfLight))
 
 --print("test",kps["env"].player.isCastingSpell(kps.spells.priest.mindFlay))
 --print("test",kps["env"].player.isCastingSpell(kps.spells.priest.mindBlast))

@@ -30,7 +30,7 @@ function Unit.isAttackable(self)
     if (string.match(GetUnitName(self.unit), kps.locale["Dummy"])) then return true end
     if not UnitCanAttack("player", self.unit) then return false end-- UnitCanAttack(attacker, attacked) return 1 if the attacker can attack the attacked, nil otherwise.
     if UnitIsFriend("player", self.unit) then return false end
-    --TODO: if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
+    if not Unit.lineOfSight(self) then return false end
     if not kps.env.harmSpell.inRange(self.unit) then return false end
     return true
 end
@@ -121,7 +121,7 @@ function Unit.isUnit(self)
 end
 
 --[[[
-@function `<UNIT>.hasAttackableTarget(<SPELL>)` - returns true if the given unit has attackable target
+@function `<UNIT>.hasAttackableTarget(<SPELL>)` - returns true if the given unit has attackable target without a spell debuff
 ]]--
 local UnitDebuffDuration = function(spell,unit)
     local spellname = tostring(spell)

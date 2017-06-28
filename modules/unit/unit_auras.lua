@@ -288,7 +288,7 @@ function Unit.myBuffCount(self)
 end
 
 --[[[
-@function `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. : player.buffAmount(spells.echoOfLight)
+@function `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. : player.buffAmount(spells.masteryEchoOfLight)
 ]]--
 
 local buffValue = setmetatable({}, {
