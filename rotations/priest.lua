@@ -293,6 +293,6 @@ end
 
 kps.events.register("UNIT_SPELLCAST_CHANNEL_START", function(unitID,spellname,_,_,spellID)
     if unitID == "player" and spellID ~= nil then
-		if spellID == 64843 then SendChatMessage("Casting DIVINE HYMN" , "RAID" ) end
+        if spellID == 64843 then SendChatMessage("Casting DIVINE HYMN" , "RAID" ) end
     end
 end)
