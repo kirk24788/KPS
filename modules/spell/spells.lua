@@ -98,7 +98,6 @@ kps.spells.ignore.breathOfFire = kps.Spell.fromId(115181) -- Breath of Fire (if 
 kps.spells.ignore.provoke = kps.Spell.fromId(115546) -- Provoke (prevents you from wasting your taunt)
 kps.spells.ignore.tigereyeBrew = kps.Spell.fromId(116740) -- Tigereye Brew (prevents you from wasting your stacks and resetting your buff)
 kps.spells.ignore.burningRush = kps.Spell.fromId(111400) -- warlock burning rush
-kps.spells.ignore.alterTime = kps.Spell.fromId(108978) -- Alter Time
 kps.spells.ignore.evocation = kps.Spell.fromId(12051) -- Evocation
 kps.spells.ignore.blink = kps.Spell.fromId(1953) -- Blink
 kps.spells.ignore.deterrence = kps.Spell.fromId(19263) -- Deterrence

@@ -9,9 +9,9 @@ local env = kps.env.warrior
 
 kps.rotations.register("WARRIOR","PROTECTION",
 {
-    {spells.charge}, -- charge
+    {spells.charge, 'target.distance > 10 '}, -- charge
     {spells.berserkerRage, 'not player.hasBuff(spells.enrage)'}, -- berserker_rage,if=buff.enrage.down
-    {{"nested"}, 'True', { -- call_action_list,name=prot
+
         {spells.shieldBlock, 'not ( player.hasBuff(spells.demoralizingShout) or player.hasBuff(spells.ravager) or player.hasBuff(spells.shieldWall) or player.hasBuff(spells.lastStand) or player.hasBuff(spells.enragedRegeneration) or player.hasBuff(spells.shieldBlock) )'}, -- shield_block,if=!(debuff.demoralizing_shout.up|buff.ravager_protection.up|buff.shield_wall.up|buff.last_stand.up|buff.enraged_regeneration.up|buff.shield_block.up)
         {spells.demoralizingShout, 'player.incomingDamage > player.hpMax * 0.1 and not ( player.hasBuff(spells.demoralizingShout) or player.hasBuff(spells.ravager) or player.hasBuff(spells.shieldWall) or player.hasBuff(spells.lastStand) or player.hasBuff(spells.enragedRegeneration) or player.hasBuff(spells.shieldBlock) or player.hasStrProc )'}, -- demoralizing_shout,if=incoming_damage_2500ms>health.max*0.1&!(debuff.demoralizing_shout.up|buff.ravager_protection.up|buff.shield_wall.up|buff.last_stand.up|buff.enraged_regeneration.up|buff.shield_block.up|buff.potion.up)
         {spells.enragedRegeneration, 'player.incomingDamage > player.hpMax * 0.1 and not ( player.hasBuff(spells.demoralizingShout) or player.hasBuff(spells.ravager) or player.hasBuff(spells.shieldWall) or player.hasBuff(spells.lastStand) or player.hasBuff(spells.enragedRegeneration) or player.hasBuff(spells.shieldBlock) or player.hasStrProc )'}, -- enraged_regeneration,if=incoming_damage_2500ms>health.max*0.1&!(debuff.demoralizing_shout.up|buff.ravager_protection.up|buff.shield_wall.up|buff.last_stand.up|buff.enraged_regeneration.up|buff.shield_block.up|buff.potion.up)
@@ -46,6 +46,6 @@ kps.rotations.register("WARRIOR","PROTECTION",
         {spells.victoryRush, 'not player.hasTalent(2, 3) and spells.shieldSlam.cooldown <= spells.victoryRush.castTime'}, -- victory_rush,if=!talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
 -- ERROR in 'execute,if=buff.sudden_death.react': Spell 'kps.spells.warrior.suddenDeath' unknown (in expression: 'buff.sudden_death.react')!
         {spells.devastate}, -- devastate
-    }},
+
 }
 ,"warrior_protection.simc")
