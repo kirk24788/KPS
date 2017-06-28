@@ -383,7 +383,7 @@ Members:
  * `<UNIT>.isHealable` - returns true if the given unit is healable by the player.
  * `<UNIT>.hasPet` - returns true if the given unit has a pet.
  * `<UNIT>.isUnit(<UNIT>)` - returns true if the given unit is otherunit.
- * `<UNIT>.hasAttackableTarget(<SPELL>)` - returns true if the given unit has attackable target
+ * `<UNIT>.hasAttackableTarget(<SPELL>)` - returns true if the given unit has attackable target without a spell debuff
 
 
 ### Rotations
@@ -608,11 +608,9 @@ kps.rotations.register(
  * `core/parser.lua:120` - Error Handling!
  * `gui/toggle.lua:75` - Right-Click Action
  * `libs/LibRangeCheck-2.0/LibRangeCheck-2.0.lua:31` - check if unit is valid, etc
-
  * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
  * `modules/unit/unit_casting.lua:67` - Blacklisted spells?
  * `modules/unit/unit_state.lua:20` - PvP
- * `modules/unit/unit_state.lua:33` - if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
  * `rotations/mage.lua:52` - Implement pyroChain sequence
 
 
