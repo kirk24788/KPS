@@ -25,9 +25,6 @@ kps.events.registerOnUpdate(function()
     end
 end)
 
---TODO: Clean UP!!! This code is a mess...
-
-
 function kps.env.min(a,b)
     if a < b then
         return a
