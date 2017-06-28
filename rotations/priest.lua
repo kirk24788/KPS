@@ -12,7 +12,7 @@ local UnitIsDeadOrGhost = UnitIsDeadOrGhost
 local UnitHealth = UnitHealth
 local UnitHealthMax = UnitHealthMax
 local MindFlay = tostring(kps.spells.priest.mindFlay)
-local VoidForm = tostring(kps.spells.priest.voidForm)
+local VoidForm = tostring(kps.spells.priest.voidform)
 local EnemyTable = {"mouseover", "focus", "target"}
 
 --------------------------------------------------------------------------------------------
