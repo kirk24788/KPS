@@ -34,9 +34,8 @@ function Unit.distanceMax(self)
 end
 
 --[[[
-@function `<UNIT>.lineOfSight` - returns true or false during 2 seconds if unit is out of line sight
+@function `<UNIT>.lineOfSight` - returns false during 2 seconds if unit is out of line sight either returns true
 ]]--
-
 local CHECK_INTERVAL = 2
 local GetTime = GetTime
 local unitExclude = {}

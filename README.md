@@ -372,7 +372,7 @@ Members:
  * `<UNIT>.distance` - returns the approximated distance to the given unit (same as `<UNIT.distanceMax`).
  * `<UNIT>.distanceMin` - returns the min. approximated distance to the given unit.
  * `<UNIT>.distanceMax` - returns the max. approximated distance to the given unit.
- * `<UNIT>.lineOfSight` - returns true or false during 2 seconds if unit is out of line sight
+ * `<UNIT>.lineOfSight` - returns true during 2 seconds if unit is out of line sight
  * `<UNIT>.isAttackable` - returns true if the given unit can be attacked by the player.
  * `<UNIT>.isPVP` - returns true if the given unit is in PVP.
  * `<UNIT>.inCombat` - returns true if the given unit is in Combat.
@@ -608,6 +608,7 @@ kps.rotations.register(
  * `core/parser.lua:120` - Error Handling!
  * `gui/toggle.lua:75` - Right-Click Action
  * `libs/LibRangeCheck-2.0/LibRangeCheck-2.0.lua:31` - check if unit is valid, etc
+
  * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
  * `modules/unit/unit_casting.lua:67` - Blacklisted spells?
  * `modules/unit/unit_state.lua:20` - PvP
