@@ -177,6 +177,8 @@ Members:
  * `heal.aggroTank` - Returns the tank or unit if overnuked with highest aggro and lowest health Without otherunit specified.
  * `heal.lowestTargetInRaid` - Returns the raid unit with lowest health targeted by enemy nameplate.
  * `heal.isMagicDispellable` - Returns the raid unit with magic debuff to dispel
+ * `heal.isDiseaseDispellable` - Returns the raid unit with disease debuff to dispel
+ * `heal.raidTarget`
 
 
 #### Keys
@@ -343,6 +345,7 @@ Members:
  * `<UNIT>.buffCount(<SPELL>)` - returns the number of different buffs (not counting the stacks!) on for the given <SPELL> on this unit
  * `<UNIT>.myDebuffCount(<SPELL>)` - returns the number of different debuffs (not counting the stacks!) on for the given <SPELL> on this unit if the spells were cast by the player
  * `<UNIT>.myBuffCount(<SPELL>)` - returns the number of different buffs (not counting the stacks!) on for the given <SPELL> on this unit if the spells were cast by the player
+ * `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. : player.buffAmount(spells.masteryEchoOfLight)
  * `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit is dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". player.isDispellable("Magic")
  * `<UNIT>.castTimeLeft` - returns the casting time left for this unit or 0 if it is not casting
  * `<UNIT>.channelTimeLeft` - returns the channeling time left for this unit or 0 if it is not channeling
@@ -369,6 +372,7 @@ Members:
  * `<UNIT>.distance` - returns the approximated distance to the given unit (same as `<UNIT.distanceMax`).
  * `<UNIT>.distanceMin` - returns the min. approximated distance to the given unit.
  * `<UNIT>.distanceMax` - returns the max. approximated distance to the given unit.
+ * `<UNIT>.lineOfSight` - returns true during 2 seconds if unit is out of line sight
  * `<UNIT>.isAttackable` - returns true if the given unit can be attacked by the player.
  * `<UNIT>.isPVP` - returns true if the given unit is in PVP.
  * `<UNIT>.inCombat` - returns true if the given unit is in Combat.
@@ -376,8 +380,10 @@ Members:
  * `<UNIT>.isDead` - returns true if the unit is dead.
  * `<UNIT>.isDrinking` - returns true if the given unit is currently eating/drinking.
  * `<UNIT>.inVehicle` - returns true if the given unit is inside a vehicle.
- * `<UNIT>.isHealable` - returns true if the give unit is healable by the player.
+ * `<UNIT>.isHealable` - returns true if the given unit is healable by the player.
  * `<UNIT>.hasPet` - returns true if the given unit has a pet.
+ * `<UNIT>.isUnit(<UNIT>)` - returns true if the given unit is otherunit.
+ * `<UNIT>.hasAttackableTarget(<SPELL>)` - returns true if the given unit has attackable target without a spell debuff
 
 
 ### Rotations
@@ -598,15 +604,14 @@ kps.rotations.register(
 ### Open Issues
  * `core/kps.lua:25` - Return a FUNCTION which uses Item!
  * `core/logger.lua:33` - Check if DEFAULT_CHAT_FRAME:AddMessage() has any significant advantages
- * `core/parser.lua:132` - syntax error in
- * `core/parser.lua:139` - Error Handling!
- * `env.lua:28` - Clean UP!!! This code is a mess...
+ * `core/parser.lua:113` - syntax error in
+ * `core/parser.lua:120` - Error Handling!
  * `gui/toggle.lua:75` - Right-Click Action
  * `libs/LibRangeCheck-2.0/LibRangeCheck-2.0.lua:31` - check if unit is valid, etc
+
  * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
- * `modules/unit/unit_casting.lua:63` - Blacklisted spells?
- * `modules/unit/unit_state.lua:13` - PvP
- * `modules/unit/unit_state.lua:26` - if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
+ * `modules/unit/unit_casting.lua:67` - Blacklisted spells?
+ * `modules/unit/unit_state.lua:20` - PvP
  * `rotations/mage.lua:52` - Implement pyroChain sequence
 
 

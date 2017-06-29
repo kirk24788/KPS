@@ -98,6 +98,7 @@ function kps.rotations.register(class,spec,table,tooltip, expectedTalents)
     addRotationToTable(rotations[key],rotation)
     activeRotation = #(rotations[key])
     kps.rotations.reset()
+    return rotation
 end
 -- reset talent check after fight ends
 kps.events.register("PLAYER_LEAVE_COMBAT", function ()

@@ -56,7 +56,6 @@ kps.rotations.register("DRUID","GUARDIAN",
     }},
     -- Multi Target Rotation
     {{"nested"}, 'activeEnemies.count > 1', {
-        {spells.markOfUrsol, 'player.hasBuff(spells.guardianOfElune) or player.buffDuration(spells.markOfUrsol) <= 3'},
         {spells.mangle},
         {spells.thrash},
         {spells.moonfire, 'player.hasBuff(spells.galacticGuardian)'},
