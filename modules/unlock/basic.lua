@@ -11,7 +11,7 @@ kps.BasicActiveEnemies.metatable = {}
 
 function kps.BasicActiveEnemies.prototype.count(self)
     if kps.multiTarget then
-        return 6
+        return 5
     else
         return 1
     end
