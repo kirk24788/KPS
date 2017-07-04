@@ -125,7 +125,7 @@ end
 ]]--
 function Unit.hasAttackableTarget(self)
     local unit = self.unit
-	local unitTarget = unit.."target"
-	if UnitExists(unitTarget) and UnitCanAttack("player",unitTarget) then return true end
+    local unitTarget = unit.."target"
+    if UnitExists(unitTarget) and UnitCanAttack("player",unitTarget) then return true end
     return false
 end  
