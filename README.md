@@ -383,7 +383,7 @@ Members:
  * `<UNIT>.isHealable` - returns true if the given unit is healable by the player.
  * `<UNIT>.hasPet` - returns true if the given unit has a pet.
  * `<UNIT>.isUnit(<UNIT>)` - returns true if the given unit is otherunit.
- * `<UNIT>.hasAttackableTarget(<SPELL>)` - returns true if the given unit has attackable target without a spell debuff
+ * `<UNIT>.hasAttackableTarget` - returns true if the given unit has attackable target
 
 
 ### Rotations
