@@ -22,7 +22,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     {{"macro"}, 'player.hasBuff(spells.dispersion)' , "/stopcasting" },
     
     --{{"macro"}, 'canCastvoidBolt()' , "/stopcasting" },
-    {{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > 0.5' , "/stopcasting" },
+    {{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },
     {spells.voidEruption, 'player.hasBuff(spells.voidform)' , env.VoidBoltTarget , "VOIDERUPTION"},
     {spells.voidTorrent, 'player.hasBuff(spells.voidform) and not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
 
@@ -95,20 +95,22 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform)' , "target" },
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform) and targettarget.isAttackable' , "targettarget" },
     
+    -- Mind Flay If the target is afflicted with Shadow Word: Pain you will also deal splash damage to nearby targets.    
+    {spells.mindFlay, 'player.plateCount > 4 and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "PLATECOUNT" },
+    {spells.mindFlay, 'kps.multiTarget and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "MULTITARGET" },
+
     {spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
     {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },    
     {spells.vampiricTouch, 'not player.isMoving and focus.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("focus")' , 'focus' },
     {spells.shadowWordPain, 'focus.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("focus")' , 'focus' },
-
-    -- MultiTarget -- Mind Flay If the target is afflicted with Shadow Word: Pain you will also deal splash damage to nearby targets.
-    {{spells.vampiricTouch,spells.shadowWordPain}, 'kps.multiTarget and not player.isMoving and heal.raidTarget ~= nil and not spells.vampiricTouch.isRecastAt(heal.raidTarget)' , kps.heal.raidTarget },
     {spells.vampiricTouch, 'mouseover.isAttackable and not player.isMoving and mouseover.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
     {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
-    {spells.mindFlay, 'kps.multiTarget and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "MULTITARGET" },
-    {spells.mindFlay, 'player.plateCount > 4 and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "PLATECOUNT" },
+
+    {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and target.isAttackable and target.myDebuffDuration(spells.vampiricTouch) == 0 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
+    {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and focus.isAttackable and focus.myDebuffDuration(spells.vampiricTouch) == 0 and not spells.vampiricTouch.isRecastAt("focus")' , 'focus' },
 
     --{{"macro"}, 'canCastMindBlast()' , "/stopcasting" },
-    {{"macro"}, 'spells.mindBlast.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > 0.5' , "/stopcasting" },
+    {{"macro"}, 'spells.mindBlast.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },
     {spells.mindBlast, 'not player.isMoving' , "target" , "MINDBLAST" },
 
     {spells.mindFlay, 'not player.isMoving' , "target" },

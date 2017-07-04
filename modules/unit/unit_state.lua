@@ -82,7 +82,7 @@ end
 ]]--
 function Unit.isHealable(self)
     if unit == "player" and UnitHasBuff(kps.Spell.fromId(20711),"player") then return false end
-    if unit == "player" and not UnitIsDeadOrGhost("player") then return true end -- UnitIsDeadOrGhost(unit) Returns false for priests who are currently in [Spirit of Redemption] form
+    if UnitIsUnit("player",self.unit) and not UnitIsDeadOrGhost("player") then return true end -- UnitIsDeadOrGhost(unit) Returns false for priests who are currently in [Spirit of Redemption] form
     if not Unit.exists(self) then return false end
     if Unit.inVehicle(self) then return false end
     if not Unit.lineOfSight(self) then return false end
@@ -121,31 +121,11 @@ function Unit.isUnit(self)
 end
 
 --[[[
-@function `<UNIT>.hasAttackableTarget(<SPELL>)` - returns true if the given unit has attackable target without a spell debuff
+@function `<UNIT>.hasAttackableTarget` - returns true if the given unit has attackable target
 ]]--
-local UnitDebuffDuration = function(spell,unit)
-    local spellname = tostring(spell)
-    local name,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,spellname)
-    if caster ~= "player" then return 0 end
-    if endTime == nil then return 0 end
-    local timeLeft = endTime - GetTime()
-    if timeLeft < 0 then return 0 end
-    return timeLeft
-end
-
-local hasAttackableTarget = setmetatable({}, {
-    __index = function(t, unit)
-        local val = function (debuff)
-            local unitTarget = unit.."target"
-            if UnitExists(unitTarget) and UnitCanAttack("player",unitTarget) then
-                if UnitDebuffDuration(debuff,unitTarget) < 2 then return unitTarget end
-            end
-            return nil
-        end
-        t[unit] = val
-        return val
-    end})
-    
 function Unit.hasAttackableTarget(self)
-    return hasAttackableTarget[self.unit]
+    local unit = self.unit
+	local unitTarget = unit.."target"
+	if UnitExists(unitTarget) and UnitCanAttack("player",unitTarget) then return true end
+    return false
 end  

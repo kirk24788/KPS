@@ -102,7 +102,6 @@ local function PlayerHasTalent(row,talent)
 end
 
 function kps.env.priest.canCastvoidBolt()
-    if kps.multiTarget then return false end
     if not UnitHasBuff(VoidForm,"player") then return false end
     if kps.spells.priest.voidEruption.cooldown > 0 then return false end
     local Channeling = UnitChannelInfo("player") -- "Mind Flay" is a channeling spell
@@ -113,7 +112,6 @@ function kps.env.priest.canCastvoidBolt()
 end
 
 function kps.env.priest.canCastMindBlast()
-    if kps.multiTarget then return false end
     if kps.spells.priest.mindBlast.cooldown > 0 then return false end
     local Channeling = UnitChannelInfo("player") -- "Mind Flay" is a channeling spell
     if Channeling ~= nil then

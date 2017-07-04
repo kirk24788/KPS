@@ -117,6 +117,8 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.lightOfTuure, 'heal.lowestTargetInRaid.hpIncoming < 0.70 and not heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTargetInRaid},
     {spells.lightOfTuure, 'heal.lowestInRaid.hpIncoming < 0.70 and not heal.lowestInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestInRaid},
 
+    --{{spells.lightOfTuure,spells.flashHeal}, 'spells.lightOfTuure.cooldown == 0 and heal.lowestInRaid.hpIncoming < 0.70 and not heal.lowestInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestInRaid},
+
     -- "Soins rapides" 2060
     {spells.flashHeal, 'not player.isMoving and player.hp < 0.60 and not spells.flashHeal.isRecastAt("player")' , "player"},
     {spells.flashHeal, 'not player.isMoving and player.hp < 0.40 and heal.lowestInRaid.isUnit("player")' , "player"},

@@ -342,12 +342,11 @@ end)
 --[[[
 @function `heal.raidTarget`
 ]]--
-local vampiricTouch = tostring(kps.Spell.fromId(34914))
 kps.RaidStatus.prototype.raidTarget = kps.utils.cachedValue(function()
     for name, player in pairs(raidStatus) do
         local unit = player.unit
         local unitTarget = unit.."target"
-        if player.hasAttackableTarget(vampiricTouch) then return unitTarget end
+        if player.hasAttackableTarget then return unitTarget end
     end
     return nil
 end)
@@ -382,6 +381,8 @@ print("|cffff8000COUNT80:|cffffffff", kps["env"].heal.countInRange)
 print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHpIncoming)
 print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 print("|cffff8000raidTarget:|cffffffff", kps["env"].heal.raidTarget)
+
+print("|cffff8000Healable:|cffffffff", kps["env"].player.isHealable)
 
 
 --print("|cffff8000BuffValue:|cffffffff", kps["env"].player.buffDuration(kps.spells.priest.masteryEchoOfLight))

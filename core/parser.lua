@@ -231,7 +231,7 @@ local function fnParseDefault(spell, condition, target, message)
         local target = targetFn()
         if conditionFn() then
             local message = messageFn()
-            if spell.id == nil then -- Cast Sequence!
+            if spell.id == nil then -- Cast Sequence
                 return spell, target
             elseif spell.canBeCastAt(target) then
                 return spell, target, message
@@ -934,12 +934,12 @@ local function compileTable(hydraTable)
             elseif spellTable[1][1] == "nested" then
                 compiledSubTable = compileTable(spellTable[3])
                 table.insert(compiledTable, fnParseSpellTable(compiledSubTable, conditionFn))
+            -- cast sequence: { {spell_1, spell_2, ...}, [[, condition(Fn)[, target(Fn)]]}
             else
-                -- cast sequence: { {spell_1, spell_2, ...}, [[, condition(Fn)[, target(Fn)]]}
                 table.insert(compiledTable, fnParseDefault(fnParseCastSequence(spellTable[1]), spellTable[2], spellTable[3]))
             end
-        -- default: {spell(Fn)[[, condition(Fn)[, target(Fn)]]}
         else
+            -- default: {spell(Fn)[[, condition(Fn)[, target(Fn)]]}
             table.insert(compiledTable, fnParseDefault(spellTable[1], spellTable[2], spellTable[3], spellTable[4]))
         end
     end
