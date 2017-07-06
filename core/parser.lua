@@ -89,25 +89,6 @@ local function ERROR(condition,msg)
 end
 
 
-
-local function fnMessageEval(message)
-    if message == nil then
-        return ""
-    elseif type(message) == "string" then
-        return message
-    end
-end
-
-local function fnTargetEval(target)
-    if target == nil then
-        return "target"
-    elseif type(target) == "function" then
-        return target()
-    else
-        return target
-    end
-end
-
 local function alwaysTrue() return true end
 local function alwaysFalse() return false end
 local function fnParseCondition(conditions)
@@ -152,7 +133,7 @@ local function fnParseMacro(macroText, conditionFn)
                 kps.runMacro(macroText)
             elseif kps["env"].player.isCasting and string.find(macroText,"/stopcasting") ~= nil then
                kps.runMacro("/stopcasting")
-               if kps.debug then print("StopCasting") end
+               if kps.debug then print("|cffa335eeStopCasting") end
             end
         end
         -- Macro's always return nil,nil to allow other spells to be cast! Actual macro casting is done within this function!
@@ -164,13 +145,30 @@ local function fnParseSpellTable(compiledTable, fnCondition)
     return function ()
         if fnCondition() then
             for _, spellFn in pairs(compiledTable) do
-                local spell, target = spellFn()
+                local spell, target, message = spellFn()
                 if spell ~= nil and target ~= nil then
-                    return spell, target
+                    return spell, target, message
                 end
             end
         end
         return nil, nil
+    end
+end
+
+local function fnParseMessage(message)
+    if type(message) == "function" then
+        return function()
+            local messageData = message()
+            return messageData
+        end
+    elseif type(message) == "string" then
+        return function()
+            return message
+        end
+    else
+        return function()
+            return ""
+        end
     end
 end
 
@@ -218,10 +216,11 @@ local function fnParseCastSequence(spellList)
     end
 end
 
-local function fnParseDefault(spell, condition, target)
+local function fnParseDefault(spell, condition, target, message)
     local spellFn = fnParseSpell(spell)
     local conditionFn = fnParseCondition(condition)
     local targetFn = fnParseTarget(target)
+    local messageFn = fnParseMessage(message)
     return function ( )
         if LOG.isDebugEnabled then
             local conditionStr = "true"
@@ -231,10 +230,11 @@ local function fnParseDefault(spell, condition, target)
         local spell = spellFn()
         local target = targetFn()
         if conditionFn() then
-            if spell.id == nil then -- Cast Sequence!
+            local message = messageFn()
+            if spell.id == nil then -- Cast Sequence
                 return spell, target
             elseif spell.canBeCastAt(target) then
-                return spell, target
+                return spell, target, message
             end
         end
         return nil, nil
@@ -918,9 +918,13 @@ local function compileSpellTable(unparsedTable)
     return unparsedTable
 end
 
+--ipairs iterates over sequential integer keys, starting at 1 and breaking on the first nil pair.
+--pairs iterates over all key value pairs in the table. Note that this is not guaranteed to iterate in a specific order.
+
 local function compileTable(hydraTable)
     local compiledTable = {}
-    for _, spellTable in pairs(hydraTable) do
+    --for _, spellTable in pairs(hydraTable) do
+    for _, spellTable in ipairs(hydraTable) do
         -- Spell-Table is already a function - just add it!
         if type(spellTable) == "function" then
             table.insert(compiledTable, spellTable)
@@ -934,13 +938,13 @@ local function compileTable(hydraTable)
             elseif spellTable[1][1] == "nested" then
                 compiledSubTable = compileTable(spellTable[3])
                 table.insert(compiledTable, fnParseSpellTable(compiledSubTable, conditionFn))
+            -- cast sequence: { {spell_1, spell_2, ...}, [[, condition(Fn)[, target(Fn)]]}
             else
-                -- cast sequence: { {spell_1, spell_2, ...}, [[, condition(Fn)[, target(Fn)]]}
                 table.insert(compiledTable, fnParseDefault(fnParseCastSequence(spellTable[1]), spellTable[2], spellTable[3]))
             end
-        -- default: {spell(Fn)[[, condition(Fn)[, target(Fn)]]}
         else
-            table.insert(compiledTable, fnParseDefault(spellTable[1], spellTable[2], spellTable[3]))
+            -- default: {spell(Fn)[[, condition(Fn)[, target(Fn)]]}
+            table.insert(compiledTable, fnParseDefault(spellTable[1], spellTable[2], spellTable[3], spellTable[4]))
         end
     end
     return compiledTable
@@ -951,9 +955,9 @@ function kps.parser.parseSpellTable(hydraTable)
     local compiledTable = compileTable(hydraTable)
     return function ()
         for _, spellFn in pairs(compiledTable) do
-            local spell, target = spellFn()
+            local spell, target, message = spellFn()
             if spell ~= nil and target ~= nil then
-                return spell, target
+                return spell, target, message
             end
         end
         return nil, nil
