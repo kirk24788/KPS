@@ -98,6 +98,9 @@ kps.rotations.register("PRIEST","SHADOW",{
     -- Mind Flay If the target is afflicted with Shadow Word: Pain you will also deal splash damage to nearby targets.    
     {spells.mindFlay, 'player.plateCount > 4 and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "PLATECOUNT" },
     {spells.mindFlay, 'kps.multiTarget and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "MULTITARGET" },
+    
+    {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and target.isAttackable and target.myDebuffDuration(spells.vampiricTouch) == 0 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
+    {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and focus.isAttackable and focus.myDebuffDuration(spells.vampiricTouch) == 0 and not spells.vampiricTouch.isRecastAt("focus")' , 'focus' },
 
     {spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
     {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },    
@@ -105,9 +108,6 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.shadowWordPain, 'focus.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("focus")' , 'focus' },
     {spells.vampiricTouch, 'mouseover.isAttackable and not player.isMoving and mouseover.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
     {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
-
-    {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and target.isAttackable and target.myDebuffDuration(spells.vampiricTouch) == 0 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
-    {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and focus.isAttackable and focus.myDebuffDuration(spells.vampiricTouch) == 0 and not spells.vampiricTouch.isRecastAt("focus")' , 'focus' },
 
     --{{"macro"}, 'canCastMindBlast()' , "/stopcasting" },
     {{"macro"}, 'spells.mindBlast.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },

@@ -918,9 +918,13 @@ local function compileSpellTable(unparsedTable)
     return unparsedTable
 end
 
+--ipairs iterates over sequential integer keys, starting at 1 and breaking on the first nil pair.
+--pairs iterates over all key value pairs in the table. Note that this is not guaranteed to iterate in a specific order.
+
 local function compileTable(hydraTable)
     local compiledTable = {}
-    for _, spellTable in pairs(hydraTable) do
+    --for _, spellTable in pairs(hydraTable) do
+    for _, spellTable in ipairs(hydraTable) do
         -- Spell-Table is already a function - just add it!
         if type(spellTable) == "function" then
             table.insert(compiledTable, spellTable)
