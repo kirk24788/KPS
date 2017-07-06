@@ -939,7 +939,7 @@ local function compileTable(hydraTable)
                 compiledSubTable = compileTable(spellTable[3])
                 table.insert(compiledTable, fnParseSpellTable(compiledSubTable, conditionFn))
             -- cast sequence: { {spell_1, spell_2, ...}, [[, condition(Fn)[, target(Fn)]]}
-            else
+            elseif spellTable[1][1].name ~= nil then
                 table.insert(compiledTable, fnParseDefault(fnParseCastSequence(spellTable[1]), spellTable[2], spellTable[3]))
             end
         else
