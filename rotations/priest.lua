@@ -179,7 +179,7 @@ function kps.env.priest.FocusMouseover()
         kps.runMacro("/clearfocus")
     elseif UnitExists("focus") and UnitIsAttackable("mouseover") and not UnitIsUnit("target","mouseover") and not UnitIsUnit("focus","mouseover") then
         if UnitDebuffDuration(kps.spells.priest.vampiricTouch,"focus") > 4 and UnitDebuffDuration(kps.spells.priest.shadowWordPain,"focus") > 4 then
-            if UnitDebuffDuration(kps.spells.priest.vampiricTouch,"mouseover") < 2 and UnitDebuffDuration(kps.spells.priest.shadowWordPain,"mouseover") < 2 then
+            if UnitDebuffDuration(kps.spells.priest.vampiricTouch,"mouseover") < 2 or UnitDebuffDuration(kps.spells.priest.shadowWordPain,"mouseover") < 2 then
                 kps.runMacro("/focus mouseover")
             end
         end
@@ -204,7 +204,9 @@ function kps.env.priest.holyWordSerenityOnCD()
 end
 
 local interruptTableUpdate = function()
-    return { {FlashHeal, 0.90 , kps.env.priest.holyWordSerenityOnCD()}, {Heal, 0.95 , kps.env.priest.holyWordSerenityOnCD()}, {PrayerOfHealing, 2 , UnitHasBuff(SpiritOfRedemption,"player")} }
+    local onCD = kps.env.priest.holyWordSerenityOnCD()
+    local buffPlayer = UnitHasBuff(SpiritOfRedemption,"player")
+    return { {FlashHeal, 0.90 , OnCD}, {Heal, 0.95 , OnCD}, {PrayerOfHealing, 2 , buffPlayer} }
 end
 
 local ShouldInterruptCasting = function (interruptTable, countInRange, lowestHealth)

@@ -20,7 +20,8 @@ end
 @function `<SPELL>.cooldown` - returns the current cooldown of this spell 
 ]]--
 function Spell.cooldown(spell)
-    if not IsUsableSpell(spell.name) then return 999 end
+    local usable, nomana = IsUsableSpell(spell.name) -- usable, nomana = IsUsableSpell("spellName" or spellID)
+    if not usable then return 999 end
     local start,duration,_ = GetSpellCooldown(spell.name)
     if start == nil or duration == nil then return 0 end
     local cd = start+duration-GetTime()
@@ -118,7 +119,6 @@ local canBeCastAt = setmetatable({}, {
             if not self.needsSelect then
                 if not UnitExists(unit) and not self.isBattleRez then return false end -- kps.env[unit].exists coz env for unit..target returns nil value and 
             end
-
             local usable, nomana = IsUsableSpell(self.name) -- usable, nomana = IsUsableSpell("spellName" or spellID)
             if not usable then return false end
             if nomana then return false end

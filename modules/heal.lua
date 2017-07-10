@@ -383,6 +383,9 @@ print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 print("|cffff8000raidTarget:|cffffffff", kps["env"].heal.raidTarget)
 
 print("|cffff8000Healable:|cffffffff", kps["env"].player.isHealable)
+local spell = kps.spells.priest.shadowWordDeath
+local usable, nomana = IsUsableSpell(spell.name)
+print("|cffff8000Spell:|cffffffff", spell.charges, usable, nomana)
 
 
 --print("|cffff8000BuffValue:|cffffffff", kps["env"].player.buffDuration(kps.spells.priest.masteryEchoOfLight))
