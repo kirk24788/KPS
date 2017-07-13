@@ -179,8 +179,10 @@ function kps.env.priest.FocusMouseover()
         kps.runMacro("/clearfocus")
     elseif UnitExists("focus") and UnitIsAttackable("mouseover") and not UnitIsUnit("target","mouseover") and not UnitIsUnit("focus","mouseover") then
         if UnitDebuffDuration(kps.spells.priest.vampiricTouch,"focus") > 4 and UnitDebuffDuration(kps.spells.priest.shadowWordPain,"focus") > 4 then
-            if UnitDebuffDuration(kps.spells.priest.vampiricTouch,"mouseover") < 2 or UnitDebuffDuration(kps.spells.priest.shadowWordPain,"mouseover") < 2 then
+            if UnitDebuffDuration(kps.spells.priest.vampiricTouch,"mouseover") == 0 then
                 kps.runMacro("/focus mouseover")
+            elseif UnitDebuffDuration(kps.spells.priest.shadowWordPain,"mouseover") == 0 then
+            	kps.runMacro("/focus mouseover")
             end
         end
     end

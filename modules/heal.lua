@@ -374,6 +374,7 @@ function kpsTest()
 
 print("|cff1eff00LOWEST|cffffffff", kps["env"].heal.lowestInRaid.name)
 print("|cffff8000TARGET:|cffffffff", kps["env"].heal.lowestTargetInRaid.name)
+print("|cffff8000TANK:|cffffffff", kps["env"].heal.lowestTankInRaid.name)
 print("|cffff8000AGGRO:|cffffffff", kps["env"].heal.aggroTank.name)
 print("|cff1eff00HEAL:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingHeal)
 print("|cFFFF0000DMG:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingDamage)
@@ -382,10 +383,10 @@ print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHpIncoming)
 print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 print("|cffff8000raidTarget:|cffffffff", kps["env"].heal.raidTarget)
 
-print("|cffff8000Healable:|cffffffff", kps["env"].player.isHealable)
-local spell = kps.spells.priest.shadowWordDeath
-local usable, nomana = IsUsableSpell(spell.name)
-print("|cffff8000Spell:|cffffffff", spell.charges, usable, nomana)
+--print("|cffff8000Healable:|cffffffff", kps["env"].player.isHealable)
+--local spell = kps.spells.priest.shadowWordDeath
+--local usable, nomana = IsUsableSpell(spell.name)
+--print("|cffff8000Spell:|cffffffff", spell.charges, usable, nomana)
 
 
 --print("|cffff8000BuffValue:|cffffffff", kps["env"].player.buffDuration(kps.spells.priest.masteryEchoOfLight))

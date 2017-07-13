@@ -29,8 +29,8 @@ kps.rotations.register("PRIEST","SHADOW",{
     -- "Shadow Word: Death" 32379
     {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 2 and mouseover.isAttackable and mouseover.inCombat and mouseover.hp < 0.20' , "mouseover" , "DEATH_MOUSEOVER" },
     {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 2 and target.hp < 0.20' , "target" , "DEATH_TARGET" },
-    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 1 and player.insanity < 85 and mouseover.isAttackable and mouseover.inCombat and mouseover.hp < 0.20' , "mouseover" },
-    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 1 and player.insanity < 85 and target.hp < 0.20' , "target" },
+    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 1 and player.insanity < 80 and mouseover.isAttackable and mouseover.inCombat and mouseover.hp < 0.20' , "mouseover" },
+    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 1 and player.insanity < 80 and target.hp < 0.20' , "target" },
     
     --{{"macro"}, 'canCastMindBlast()' , "/stopcasting" },
     {{"macro"}, 'player.hasBuff(spells.voidform) and spells.mindBlast.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },
@@ -82,8 +82,8 @@ kps.rotations.register("PRIEST","SHADOW",{
     -- "Infusion de puissance" -- Confère un regain de puissance pendant 20 sec, ce qui augmente la hâte de 25%
     {spells.powerInfusion, 'kps.cooldowns and not player.isMoving and player.buffStacks(spells.voidform) > 18 and player.insanity > 50' },
     -- "Ombrefiel" cd 3 min duration 12sec -- "Mindbender" cd 1 min duration 12 sec
-    {spells.shadowfiend, 'player.hasBuff(spells.voidform) and player.haste > 50' },
-    {spells.mindbender, 'player.hasBuff(spells.voidform) and player.haste > 50 and player.insanity < 85' },
+    {spells.shadowfiend, 'player.hasBuff(spells.voidform) and player.haste > 50' , "target" },
+    {spells.mindbender, 'player.hasBuff(spells.voidform) and player.haste > 50 and player.insanity < 80' , "target" },
 
     -- "Void Eruption" 228260
     {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidform) and player.insanity == 100' },
@@ -97,8 +97,8 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform)' , "target" },
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform) and targettarget.isAttackable' , "targettarget" },
 
-    {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and target.isAttackable and target.myDebuffDuration(spells.vampiricTouch) == 0 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
-    {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and focus.isAttackable and focus.myDebuffDuration(spells.vampiricTouch) == 0 and not spells.vampiricTouch.isRecastAt("focus")' , 'focus' },
+    {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and target.isAttackable and target.myDebuffDuration(spells.shadowWordPain) == 0 and target.myDebuffDuration(spells.vampiricTouch) == 0 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
+    {{spells.vampiricTouch,spells.shadowWordPain}, 'not player.isMoving and focus.isAttackable and focus.myDebuffDuration(spells.shadowWordPain) == 0 and focus.myDebuffDuration(spells.vampiricTouch) == 0 and not spells.vampiricTouch.isRecastAt("focus")' , 'focus' },
 
     {spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
     {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },    
