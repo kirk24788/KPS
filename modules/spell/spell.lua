@@ -20,7 +20,7 @@ local GetUnitName = GetUnitName
 
 local castAt = setmetatable({}, {
     __index = function(t, self)
-        local val = function (target)
+        local val = function (target,message)
             if target == nil then target = "target" end
 
             if self.needsSelect then
@@ -33,13 +33,14 @@ local castAt = setmetatable({}, {
                 CastSpellByName(self.name,target)
             end
 
-            if kps.debug then print(self.name,"|cff1eff00","|",GetUnitName(target)) end
+            if kps.debug then print(self.name,"|cff1eff00","|",GetUnitName(target),"|cffffffff|",target,"|cffa335ee",message) end
             kps.gui.updateSpellTexture(self)
 
             local _, gcd = GetSpellCooldown(61304) -- Global Cooldown Spell
             kps.gcd = gcd
             kps.lastCast = self
             kps.lastTargetGUID = UnitGUID(target)
+            kps.lastTarget = target
             self.lastCast = GetTime()
         end
         t[self] = val

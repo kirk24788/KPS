@@ -32,6 +32,21 @@ function Player.isFallingFor(self)
     return IsFallingFor
 end
 
+local IsMovingFor = function(delay)
+    if delay == nil then delay = 1 end
+    local playerIsMoving = select(1,GetUnitSpeed("player")) > 0
+    if not playerIsMoving then kps.timers.reset("Moving") end
+    if playerIsMoving then
+        if kps.timers.check("Moving") == 0 then kps.timers.create("Moving", delay * 2 ) end
+    end
+    if playerIsMoving and kps.timers.check("Moving") > 0 and kps.timers.check("Moving") < delay then return true end
+    return false
+end
+
+function Player.isMovingFor(self)
+    return IsMovingFor
+end
+
 --[[[
 @function `player.IsSwimming` - returns true if the player is currently swimming.
 ]]--

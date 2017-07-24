@@ -11,7 +11,7 @@ kps.BasicActiveEnemies.metatable = {}
 
 function kps.BasicActiveEnemies.prototype.count(self)
     if kps.multiTarget then
-        return 6
+        return 5
     else
         return 1
     end
@@ -38,8 +38,6 @@ kps.BasicActiveEnemies.metatable.__index = function (table, key)
             unlockerStatus = nil
         end
     end
-
-
     local fn = kps.BasicActiveEnemies.prototype[key]
     if fn == nil then
         error("Unknown Keys-Property '" .. key .. "'!")
