@@ -20,6 +20,7 @@ kps.multiTarget = false
 -- Spell Info - will be updated after each spell cast
 kps.gcd = 1.5
 kps.lastCast = nil
+kps.lastTarget = nil
 kps.lastTargetGUID = nil
 kps.autoAttackEnabled = false
 
