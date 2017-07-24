@@ -169,7 +169,8 @@ Members:
     * lowest tank in raid
     When used as a _target_ in your rotation, you *must* write `kps.heal.defaultTank`!
  * `heal.averageHpIncoming` - Returns the average hp incoming for all raid members
- * `heal.countInRange()` - Returns the count for all raid members below threshold 0.80 health pct
+ * `heal.countInRange` - Returns the count for all raid members below threshold health pct default 0.80
+ * `heal.countLossInRange<PCT>)` - Returns the count for all raid members below threshold health pct default 0.80
  * `heal.aggroTankTarget` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
     When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTankTarget`!
  * `heal.aggroTankFocus` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
@@ -178,7 +179,8 @@ Members:
  * `heal.lowestTargetInRaid` - Returns the raid unit with lowest health targeted by enemy nameplate.
  * `heal.isMagicDispellable` - Returns the raid unit with magic debuff to dispel
  * `heal.isDiseaseDispellable` - Returns the raid unit with disease debuff to dispel
- * `heal.raidTarget`
+ * `heal.hasRaidDebuff(<DEBUFF>)` - Returns the raid unit with with a specific Debuff to dispel or heal
+ * `heal.hasRaidBuff(<BUFF>)` - Returns the raid unit with a specific Buff
 
 
 #### Keys
