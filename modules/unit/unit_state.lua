@@ -53,7 +53,7 @@ end
 @function `<UNIT>.isMoving` - returns true if the given unit is currently moving.
 ]]--
 function Unit.isMoving(self)
-    return GetUnitSpeed(self.unit) > 0
+    return select(1,GetUnitSpeed(self.unit)) > 0
 end
 
 --[[[

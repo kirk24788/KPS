@@ -20,6 +20,7 @@ kps.spells.ae = {}
 kps.spells.ae.bindingShot = kps.Spell.fromId(109248) -- Binding Shot
 kps.spells.ae.shadowfury = kps.Spell.fromId(30283) -- Shadowfury
 kps.spells.ae.massDispel = kps.Spell.fromId(32375) -- Mass Dispel
+kps.spells.ae.holyWordSanctify = kps.Spell.fromId(34861) -- Holy Word: Sanctify
 kps.spells.ae.deathAndDecay = kps.Spell.fromId(43265) -- Death and Decay
 kps.spells.ae.powerWordBarrier = kps.Spell.fromId(62618) -- Power Word: Barrier
 kps.spells.ae.flamestrike = kps.Spell.fromId(2120) -- Flamestrike

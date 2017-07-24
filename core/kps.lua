@@ -94,7 +94,7 @@ kps.combatStep = function ()
                     prioritySpell = nil
                 else
                     if prioritySpell.cooldown > 3 then prioritySpell = nil end
-                    spell.cast(target)
+                    spell.cast(target,message)
                 end
             elseif spell.id == nil then
                 LOG.debug("Starting Cast-Sequence...")

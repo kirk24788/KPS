@@ -21,7 +21,6 @@ local function updateRaidStatus()
     table.wipe(_raidStatus[_raidStatusIdx])
     local newRaidStatusSize = 0
     local healTargets = nil
-    local unit = nil
 
     if IsInRaid() then
         healTargets = raidHealTargets
@@ -209,11 +208,11 @@ kps.RaidStatus.prototype.averageHpIncoming = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.countInRange()` - Returns the count for all raid members below threshold 0.80 health pct
+@function `heal.countInRange` - Returns the count for all raid members below threshold health pct default 0.80
 ]]--
 
 local countInRange = function(pct)
-    if pct == nil then pct = 1 end
+    if pct == nil then pct = 0.80 end
     local count = 0
     local maxcount = 0
     for name, unit in pairs(raidStatus) do
@@ -232,10 +231,18 @@ kps.RaidStatus.prototype.countInRange = kps.utils.cachedValue(function()
     return count
 end)
 
-
 kps.RaidStatus.prototype.maxcountInRange = kps.utils.cachedValue(function()
     local _,maxcount = countInRange(0.80)
     return maxcount
+end)
+
+--[[[
+@function `heal.countLossInRange<PCT>)` - Returns the count for all raid members below threshold health pct default 0.80
+]]--
+
+kps.RaidStatus.prototype.countLossInRange = kps.utils.cachedValue(function()
+    local count,_ = countInRange
+    return count
 end)
 
 --[[[
@@ -336,19 +343,37 @@ kps.RaidStatus.prototype.isDiseaseDispellable = kps.utils.cachedValue(function()
 end)
 
 --------------------------------------------------------------------------------------------
-------------------------------- RAIDTARGET
+------------------------------- RAID DEBUFF
 --------------------------------------------------------------------------------------------
 
 --[[[
-@function `heal.raidTarget`
+@function `heal.hasRaidDebuff(<DEBUFF>)` - Returns the raid unit with with a specific Debuff to dispel or heal
 ]]--
-kps.RaidStatus.prototype.raidTarget = kps.utils.cachedValue(function()
-    for name, player in pairs(raidStatus) do
-        local unit = player.unit
-        local unitTarget = unit.."target"
-        if player.hasAttackableTarget then return unitTarget end
+
+local unitDebuff = function(spell)
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and unit.hasDebuff(spell) then return unit end
     end
     return nil
+end
+
+kps.RaidStatus.prototype.hasRaidDebuff = kps.utils.cachedValue(function()
+    return unitDebuff
+end)
+
+--[[[
+@function `heal.hasRaidBuff(<BUFF>)` - Returns the raid unit with a specific Buff
+]]--
+
+local unitBuff = function(spell)
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and unit.hasBuff(spell) then return unit end
+    end
+    return nil
+end
+
+kps.RaidStatus.prototype.hasRaidBuff = kps.utils.cachedValue(function()
+    return unitBuff
 end)
 
 
@@ -356,7 +381,7 @@ end)
 -- for 'kps.env.heal' - so we can write 'heal.defaultTarget.hp < xxx' in our rotations
 kps.env.heal = kps.RaidStatus.new(true)
 -- And use another instance of RaidStatus which returns the functions so we can write
--- kps.heal.defaultTarget as a target for our rotation tables...
+-- kps.heal.defaultTarget as a target for our rotation tables.
 kps.heal = kps.RaidStatus.new(false)
 
 --------------------------------------------------------------------------------------------
@@ -372,22 +397,27 @@ function kpsTest()
 --    print("|cFFFF0000DMG: ",unit.incomingDamage)
 --end
 
-print("|cff1eff00LOWEST|cffffffff", kps["env"].heal.lowestInRaid.name)
+print("|cff1eff00LOWEST|cffffffff", kps["env"].heal.lowestInRaid.name,"/",kps["env"].heal.lowestInRaid.hp)
 print("|cffff8000TARGET:|cffffffff", kps["env"].heal.lowestTargetInRaid.name)
 print("|cffff8000TANK:|cffffffff", kps["env"].heal.lowestTankInRaid.name)
 print("|cffff8000AGGRO:|cffffffff", kps["env"].heal.aggroTank.name)
 print("|cff1eff00HEAL:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingHeal)
 print("|cFFFF0000DMG:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingDamage)
-print("|cffff8000COUNT80:|cffffffff", kps["env"].heal.countInRange)
+print("|cffff8000COUNT80:|cffffffff", kps["env"].heal.countInRange,"/",kps["env"].heal.maxcountInRange)
+print("|cffff8000COUNT70:|cffffffff", kps["env"].heal.countLossInRange(0.70),"/",kps["env"].heal.maxcountInRange)
 print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHpIncoming)
 print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
-print("|cffff8000raidTarget:|cffffffff", kps["env"].heal.raidTarget)
+
+local renew = kps.Spell.fromId(139)
+local mending = kps.Spell.fromId(33076)
+print("|cffff8000hasDebuff:|cffffffff", kps["env"].heal.hasRaidBuff(mending))
+
+
 
 --print("|cffff8000Healable:|cffffffff", kps["env"].player.isHealable)
 --local spell = kps.spells.priest.shadowWordDeath
 --local usable, nomana = IsUsableSpell(spell.name)
 --print("|cffff8000Spell:|cffffffff", spell.charges, usable, nomana)
-
 
 --print("|cffff8000BuffValue:|cffffffff", kps["env"].player.buffDuration(kps.spells.priest.masteryEchoOfLight))
 --print("|cffff8000BuffValue:|cffffffff", kps["env"].player.buffValue(kps.spells.priest.masteryEchoOfLight))
@@ -398,9 +428,7 @@ print("|cffff8000raidTarget:|cffffffff", kps["env"].heal.raidTarget)
 --print("test",kps["env"].player.isInRaid)
 --print("|cffff8000AVG:|cffffffff", kps["env"].player.useItem(5512))
 
-
 end
-
 
 --[[
 |cffe5cc80 = beige (artifact)

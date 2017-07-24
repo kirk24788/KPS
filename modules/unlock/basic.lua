@@ -38,8 +38,6 @@ kps.BasicActiveEnemies.metatable.__index = function (table, key)
             unlockerStatus = nil
         end
     end
-
-
     local fn = kps.BasicActiveEnemies.prototype[key]
     if fn == nil then
         error("Unknown Keys-Property '" .. key .. "'!")
