@@ -232,6 +232,9 @@ local function fnParseDefault(spell, condition, target, message)
         if conditionFn() then
             local message = messageFn()
             if spell.id == nil then -- Cast Sequence
+                for _,spellCast in ipairs(spell) do
+                    if not spellCast().canBeCastAt(target) then return nil,nil end
+                end
                 return spell, target
             elseif spell.canBeCastAt(target) then
                 return spell, target, message

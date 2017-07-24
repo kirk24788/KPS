@@ -192,7 +192,7 @@ eventLoop.combatLogHandlerAttached = false
 function eventLoop.attachCombatLogHandler()
     if eventLoop.combatLogHandlerAttached then return end
     kps.events.register("COMBAT_LOG_EVENT_UNFILTERED", function(timeStamp, event, ...)
-        if kps.enabled and UnitAffectingCombat("player") == 1 and combatLogEventTable[event] then
+        if kps.enabled and UnitAffectingCombat("player") and combatLogEventTable[event] then
             LOG.debug("CombatLogEventUntfiltered: %s", event)
             if enableUnfilteredProfiling and enableProfiling then startProfileMemory("COMBAT_LOG_EVENT_UNFILTERED::"..event) end
             for _,fn in pairs(combatLogEventTable[event]) do
