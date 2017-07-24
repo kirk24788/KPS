@@ -53,7 +53,7 @@ spells.poly.add_spell(51514) # Hex
 
 # Spells which require a select (cast ond ground) - usually AE Spells
 spells.group("ae","Spells which require a select (cast ond ground) - usually AE Spells")
-spells.ae.add_all_spells([109248,30283,34861,32375,43265,62618,2120,114158, 115313, 6544, 33395, 116011, 115315, 152108,61882])
+spells.ae.add_all_spells([109248,30283,32375,34861,43265,62618,2120,114158, 115313, 6544, 33395, 116011, 115315, 152108,61882])
 spells.ae.add_spell(5740,"Channeled") # Rain of Fire (Channeled)
 spells.ae.add_spell(73920) # Healing Rain
 spells.ae.add_spell(13813) # Explosive Trap
