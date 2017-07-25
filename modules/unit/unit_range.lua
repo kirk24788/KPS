@@ -32,3 +32,27 @@ function Unit.distanceMax(self)
     if maxRange == nil then return 99 end
     return maxRange
 end
+
+--[[[
+@function `<UNIT>.lineOfSight` - returns false during 2 seconds if unit is out of line sight either returns true
+]]--
+local CHECK_INTERVAL = 2
+local GetTime = GetTime
+local unitExclude = {}
+
+kps.events.register("UI_ERROR_MESSAGE", function (arg1, arg2)
+    if arg2 == SPELL_FAILED_LINE_OF_SIGHT and UnitAffectingCombat("player") then
+        -- 50 / Cible hors du champ de vision
+        unitExclude[kps.lastTargetGUID] = GetTime()
+    end
+end)
+
+local unitLineOfSigh = function(unitguid)
+    if unitExclude[unitguid] == nil then return true end
+    if (GetTime() - unitExclude[unitguid]) >= CHECK_INTERVAL then return true end
+    return false
+end
+
+function Unit.lineOfSight(self)
+    return unitLineOfSigh(self.guid)
+end

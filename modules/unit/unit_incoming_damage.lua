@@ -6,14 +6,12 @@ local Unit = kps.Unit.prototype
 local incomingTimeRange = 4
 local moduleLoaded = false
 
-
 -- incomingDamage
 local incomingDamage = {}
-local updateincomingDamage = function(duration)
+local updateincomingDamage = function()
     for unit,index in pairs(incomingDamage) do
-        local data = #index
         local delta = GetTime() - index[1][1]
-        if delta > 5 then incomingDamage[unit] = nil end
+        if delta > incomingTimeRange + 1 then incomingDamage[unit] = nil end
     end
 end
 
@@ -21,14 +19,10 @@ end
 local incomingHeal = {}
 local updateincomingHeal = function()
     for unit,index in pairs(incomingHeal) do
-        local data = #index
         local delta = GetTime() - index[1][1]
-        if delta > 5 then incomingHeal[unit] = nil end
+        if delta > incomingTimeRange + 1 then incomingHeal[unit] = nil end
     end
 end
-
-
-
 
 -------------------------------------------------------
 -------- COMBAT_LOG_EVENT_UNFILTERED FUNCTIONS --------
@@ -76,7 +70,8 @@ local COMBATLOG_OBJECT_AFFILIATION_OUTSIDER = COMBATLOG_OBJECT_AFFILIATION_OUTSI
 local RAID_AFFILIATION = bit.bor(COMBATLOG_OBJECT_AFFILIATION_PARTY, COMBATLOG_OBJECT_AFFILIATION_RAID, COMBATLOG_OBJECT_AFFILIATION_MINE)
 local COMBATLOG_OBJECT_CONTROL_PLAYER = COMBATLOG_OBJECT_CONTROL_PLAYER
 local bitband = bit.band
-
+local GetUnitName = GetUnitName
+local GetTime = GetTime
 
 local combatLogUpdate = function ( ... )
     local currentTime = GetTime()
@@ -104,10 +99,10 @@ local combatLogUpdate = function ( ... )
                 if addEnemyHealer then EnemyHealer[sourceGUID] = {classHealer,sourceName} end
             end
         end
-
-    -- HEAL TABLE -- Incoming Heal on Friend
+    -- HEAL TABLE -- Incoming Heal on Friend from Friend Healers UnitGUID
         if isDestFriend and UnitCanAssist("player",destName) then
             local heal = select(15,...)
+            -- Table of Incoming Heal on Friend IncomingHeal[destGUID] = ( {GetTime(),heal,destName}, ... )
             if incomingHeal[destGUID] == nil then incomingHeal[destGUID] = {} end
             tinsert(incomingHeal[destGUID],1,{GetTime(),heal,destName})
         end
@@ -136,7 +131,7 @@ local combatLogUpdate = function ( ... )
             end
             damage = swingdmg + spelldmg + envdmg
 
-            -- Table of Incoming Damage on Friend
+            -- Table of Incoming Damage on Friend IncomingDamage[destGUID] = { {GetTime(),damage,destName}, ... }
             if incomingDamage[destGUID] == nil then incomingDamage[destGUID] = {} end
             table.insert(incomingDamage[destGUID],1,{GetTime(),damage,destName})
         end
@@ -145,14 +140,14 @@ end
 
 
 local function loadOnDemand()
-    if not moduleLoaded then
-        kps.events.registerOnUpdate(function()
-            kps.utils.cachedFunction(updateincomingHeal,1)
-            kps.utils.cachedFunction(updateincomingDamage,1)
-        end)
-        kps.events.register("COMBAT_LOG_EVENT_UNFILTERED", combatLogUpdate)
-        moduleLoaded = true
-    end
+   if not moduleLoaded then
+--       kps.events.registerOnUpdate(function()
+--           kps.utils.cachedFunction(updateincomingHeal,1)
+--           kps.utils.cachedFunction(updateincomingDamage,1)
+--       end)
+       kps.events.register("COMBAT_LOG_EVENT_UNFILTERED", combatLogUpdate)
+       moduleLoaded = true
+   end
 end
 
 
