@@ -208,7 +208,7 @@ end
 local interruptTableUpdate = function()
     local onCD = kps.env.priest.holyWordSerenityOnCD()
     local buffPlayer = UnitHasBuff(SpiritOfRedemption,"player")
-    return { {FlashHeal, 0.90 , OnCD}, {Heal, 0.95 , OnCD}, {PrayerOfHealing, 2 , buffPlayer} }
+    return { {FlashHeal, 0.90 , onCD}, {Heal, 0.95 , onCD}, {PrayerOfHealing, 2 , buffPlayer} }
 end
 
 local ShouldInterruptCasting = function (interruptTable, countInRange, lowestHealth)
@@ -216,7 +216,7 @@ local ShouldInterruptCasting = function (interruptTable, countInRange, lowestHea
     local spellCasting, _, _, _, _, endTime, _ = UnitCastingInfo("player")
     if spellCasting == nil then return false end
     local targetHealth = UnitHealth(kps.lastTarget) / UnitHealthMax(kps.lastTarget)
-    
+
     for key, healSpellTable in pairs(interruptTable) do
         local breakpoint = healSpellTable[2]
         local spellName = tostring(healSpellTable[1])

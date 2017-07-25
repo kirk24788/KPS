@@ -408,9 +408,9 @@ print("|cffff8000COUNT70:|cffffffff", kps["env"].heal.countLossInRange(0.70),"/"
 print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHpIncoming)
 print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 
-local renew = kps.Spell.fromId(139)
-local mending = kps.Spell.fromId(33076)
-print("|cffff8000hasDebuff:|cffffffff", kps["env"].heal.hasRaidBuff(mending))
+--local renew = kps.Spell.fromId(139)
+--local mending = kps.Spell.fromId(33076)
+--print("|cffff8000hasDebuff:|cffffffff", kps["env"].heal.hasRaidBuff(mending))
 
 
 
