@@ -208,7 +208,7 @@ end
 local interruptTableUpdate = function()
     local onCD = kps.env.priest.holyWordSerenityOnCD()
     local buffPlayer = UnitHasBuff(SpiritOfRedemption,"player")
-    return { {FlashHeal, 0.90 , onCD}, {Heal, 0.95 , onCD}, {PrayerOfHealing, 2 , buffPlayer} }
+    return { {FlashHeal, 0.90 , onCD}, {Heal, 0.985 , onCD}, {PrayerOfHealing, 2 , buffPlayer} }
 end
 
 local ShouldInterruptCasting = function (interruptTable, countInRange, lowestHealth)
@@ -225,7 +225,7 @@ local ShouldInterruptCasting = function (interruptTable, countInRange, lowestHea
                 SpellStopCasting()
                 DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..", raid has enough hp: "..countInRange, 0, 0.5, 0.8)
 
-            elseif spellName == Heal and lowestHealth < 0.40 and UnitPower("player",0)/UnitPowerMax("player",0) > 0.10 then
+            elseif spellName == Heal and lowestHealth < 0.50 and UnitPower("player",0)/UnitPowerMax("player",0) > 0.10 then
                 -- SPELL_POWER_MANA value 0
                 SpellStopCasting()
                 kps.timers.create("criticalHP", 4 )

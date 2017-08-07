@@ -104,6 +104,7 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.flashHeal, 'not player.isMoving and kps.lastCast["name"] == spells.prayerOfHealing and heal.lowestInRaid.hp < 0.60' , kps.heal.lowestInRaid},
     {spells.flashHeal, 'not player.isMoving and kps.lastCast["id"] == 596 and heal.lowestTankInRaid.hp < 0.60' , kps.heal.lowestTankInRaid },
     {spells.flashHeal, 'not player.isMoving and kps.lastCast["id"] == 596 and heal.lowestInRaid.hp < 0.60' , kps.heal.lowestInRaid},
+    {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.40 and not spells.flashHeal.isRecastAt(heal.lowestInRaid.unit)' , kps.heal.lowestInRaid , "FLASH_URG" },
 
     {{"nested"}, 'kps.defensive and mouseover.isHealable' , {
         {spells.guardianSpirit, 'mouseover.hp < 0.30' , "mouseover" },
@@ -155,10 +156,10 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.renew, 'not player.isInRaid and heal.lowestInRaid.hpIncoming < 0.95 and heal.lowestInRaid.hp > 0.70 and heal.lowestInRaid.myBuffDuration(spells.renew) < 3' , kps.heal.lowestInRaid, "RENEW_PARTY" },
 
     -- "Soins rapides" 2060
-    {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.80 and heal.lowestTankInRaid.hp > heal.lowestInRaid.hp and not player.isInRaid' , kps.heal.lowestInRaid , "FLASH_PARTY" },
-    {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.80 and not player.isInRaid' , kps.heal.lowestTankInRaid , "FLASHEAL_TANK" },
-    {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.70 and heal.lowestTankInRaid.hp > heal.lowestInRaid.hp and player.isInRaid' , kps.heal.lowestInRaid , "FLASH_RAID" },
-    {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.70 and player.isInRaid' , kps.heal.lowestTankInRaid , "FLASHEAL_TANK" },
+    {spells.flashHeal, 'not player.isMoving and not player.isInRaid and heal.lowestInRaid.hp < 0.80 and heal.lowestTankInRaid.hp > heal.lowestInRaid.hp' , kps.heal.lowestInRaid , "FLASH_PARTY" },
+    {spells.flashHeal, 'not player.isMoving and not player.isInRaid and heal.lowestTankInRaid.hp < 0.80' , kps.heal.lowestTankInRaid , "FLASHEAL_TANK" },
+    {spells.flashHeal, 'not player.isMoving and player.isInRaid and heal.lowestInRaid.hp < 0.70 and heal.lowestTankInRaid.hp > heal.lowestInRaid.hp' , kps.heal.lowestInRaid , "FLASH_RAID" },
+    {spells.flashHeal, 'not player.isMoving and player.isInRaid and heal.lowestTankInRaid.hp < 0.70' , kps.heal.lowestTankInRaid , "FLASHEAL_TANK" },
     
     -- "Soins" 2060 -- "Renouveau constant" 200153
     {spells.heal, 'not player.isMoving and heal.lowestTankInRaid.hpIncoming < 0.92' , kps.heal.lowestTankInRaid, "HEAL_TANK" },

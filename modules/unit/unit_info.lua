@@ -79,7 +79,7 @@ end)
 function Unit.plateCount(self)
     local plateCount = 0
     for unit,_ in pairs(activeUnitPlates) do
-        if UnitAffectingCombat(unit) then plateCount = plateCount + 1 end
+        if UnitAffectingCombat(self.unit) then plateCount = plateCount + 1 end
     end
     return plateCount
 end
