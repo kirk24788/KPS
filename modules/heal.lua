@@ -407,6 +407,9 @@ print("|cffff8000COUNT80:|cffffffff", kps["env"].heal.countInRange,"/",kps["env"
 print("|cffff8000COUNT70:|cffffffff", kps["env"].heal.countLossInRange(0.70),"/",kps["env"].heal.maxcountInRange)
 print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHpIncoming)
 print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
+print("|cffff8000GCD:|cffffffff", kps.gcd)
+
+
 
 --local renew = kps.Spell.fromId(139)
 --local mending = kps.Spell.fromId(33076)

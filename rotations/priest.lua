@@ -206,9 +206,9 @@ function kps.env.priest.holyWordSerenityOnCD()
 end
 
 local interruptTableUpdate = function()
-    local onCD = kps.env.priest.holyWordSerenityOnCD()
-    local buffPlayer = UnitHasBuff(SpiritOfRedemption,"player")
-    return { {FlashHeal, 0.90 , onCD}, {Heal, 0.985 , onCD}, {PrayerOfHealing, 2 , buffPlayer} }
+    local onCD = kps.env.priest.holyWordSerenityOnCD() or kps.defensive -- case I want heal with mouseover
+    local buffPlayer = UnitHasBuff(SpiritOfRedemption,"player") or kps.defensive
+    return { {FlashHeal, 0.90 , onCD}, {Heal, 0.98 , onCD}, {PrayerOfHealing, 3 , buffPlayer} }
 end
 
 local ShouldInterruptCasting = function (interruptTable, countInRange, lowestHealth)
@@ -223,7 +223,7 @@ local ShouldInterruptCasting = function (interruptTable, countInRange, lowestHea
         if spellName == spellCasting and healSpellTable[3] == false then
             if spellName == PrayerOfHealing and countInRange < breakpoint then
                 SpellStopCasting()
-                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..", raid has enough hp: "..countInRange, 0, 0.5, 0.8)
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..", has enough hp: "..countInRange, 0, 0.5, 0.8)
 
             elseif spellName == Heal and lowestHealth < 0.50 and UnitPower("player",0)/UnitPowerMax("player",0) > 0.10 then
                 -- SPELL_POWER_MANA value 0
