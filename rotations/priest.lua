@@ -208,7 +208,7 @@ end
 local interruptTableUpdate = function()
     local onCD = kps.env.priest.holyWordSerenityOnCD() or kps.defensive -- case I want heal with mouseover
     local buffPlayer = UnitHasBuff(SpiritOfRedemption,"player") or kps.defensive
-    return { {FlashHeal, 0.90 , onCD}, {Heal, 0.98 , onCD}, {PrayerOfHealing, 3 , buffPlayer} }
+    return { {FlashHeal, 0.885 , onCD}, {Heal, 0.995 , onCD}, {PrayerOfHealing, 3 , buffPlayer} }
 end
 
 local ShouldInterruptCasting = function (interruptTable, countInRange, lowestHealth)

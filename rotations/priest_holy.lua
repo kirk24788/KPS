@@ -148,22 +148,20 @@ kps.rotations.register("PRIEST","HOLY",{
     
     -- "Renew" 139 PARTY
     {spells.renew, 'not player.isInRaid and heal.lowestInRaid.hpIncoming < 0.90 and heal.lowestInRaid.hpIncoming > 0.70 and heal.lowestInRaid.myBuffDuration(spells.renew) < 3 and not heal.lowestInRaid.hasBuff(spells.masteryEchoOfLight)' , kps.heal.lowestInRaid, "RENEW_PARTY" }, 
-    {spells.bindingHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.90 and heal.lowestInRaid.hp > 0.70 and not heal.lowestInRaid.isUnit("player") and heal.lowestTankInRaid.hp < 0.90 and heal.lowestTankInRaid.hp > 0.70 and not heal.lowestTankInRaid.isUnit("player")' , kps.heal.lowestTankInRaid ,"BINDINGHEAL_TANK" },
-    {spells.bindingHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.90 and heal.lowestInRaid.hp > 0.70 and not heal.lowestInRaid.isUnit("player") and heal.lowestTankInRaid.hp > heal.lowestInRaid.hp' , kps.heal.lowestInRaid ,"BINDINGHEAL" },
+    {spells.bindingHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.90 and heal.lowestInRaid.hp > 0.70 and not heal.lowestInRaid.isUnit("player") and heal.lowestTankInRaid.hp < heal.lowestInRaid.hp and not heal.lowestTankInRaid.isUnit("player")' , kps.heal.lowestTankInRaid ,"BINDINGHEAL_TANK" },
+    {spells.bindingHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.90 and heal.lowestInRaid.hp > 0.70 and not heal.lowestInRaid.isUnit("player") and heal.lowestTankInRaid.hp > heal.lowestInRaid.hp and not heal.lowestTankInRaid.isUnit("player")' , kps.heal.lowestInRaid ,"BINDINGHEAL" },
 
     -- "Soins rapides" 2060
     {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.70 and heal.lowestTankInRaid.hp > heal.lowestInRaid.hp' , kps.heal.lowestInRaid , "FLASH_LOWEST" },
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.70' , kps.heal.lowestTankInRaid , "FLASH_TANK" },
    
     -- "Soins de lien" 32546
-    {spells.bindingHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.90 and not heal.lowestInRaid.isUnit("player") and heal.countLossInRange(0.90) >= 2' , kps.heal.lowestInRaid ,"BINDINGHEAL_LOWEST" },
-    {spells.bindingHeal, 'not player.isMoving and heal.lowestTankInRaid.hpIncoming < 0.98 and not heal.lowestTankInRaid.isUnit("player") and holyWordSerenityOnCD()' , kps.heal.lowestTankInRaid ,"BINDINGHEAL_SERENITY" },
-    {spells.bindingHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.90 and not heal.lowestInRaid.isUnit("player") and holyWordSerenityOnCD()' , kps.heal.lowestInRaid ,"BINDINGHEAL_SERENITY" },
+    {spells.bindingHeal, 'not player.isMoving and not heal.lowestTankInRaid.isUnit("player") and holyWordSerenityOnCD()' , kps.heal.lowestTankInRaid ,"BINDINGHEAL_SERENITY" },
+    {spells.bindingHeal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player") and holyWordSerenityOnCD()' , kps.heal.lowestInRaid ,"BINDINGHEAL_SERENITY" },
 
     -- "Soins" 2060 -- "Renouveau constant" 200153
-    {spells.heal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.90' , kps.heal.lowestTankInRaid, "HEAL_TANK" },
-    {spells.heal, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.90' , kps.heal.lowestTargetInRaid, "HEAL_TANK" },
-    {spells.heal, 'not player.isMoving and heal.lowestInRaid.hp < 0.90' , kps.heal.lowestInRaid , "HEAL_LOWEST" },
+    {spells.heal, 'not player.isMoving and heal.lowestTankInRaid.hp < 1' , kps.heal.lowestTankInRaid, "HEAL_TANK" },
+    {spells.heal, 'not player.isMoving and heal.lowestInRaid.hp < 1' , kps.heal.lowestInRaid , "HEAL_LOWEST" },
     {spells.heal, 'not player.isMoving and holyWordSerenityOnCD()' , kps.heal.lowestInRaid , "HEAL_SERENITY" },
 
     -- "Renew" 139
