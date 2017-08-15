@@ -347,7 +347,7 @@ end)
 --------------------------------------------------------------------------------------------
 
 --[[[
-@function `heal.hasRaidDebuff(<DEBUFF>)` - Returns the raid unit with with a specific Debuff to dispel or heal
+@function `heal.hasRaidDebuff(<DEBUFF>)` - Returns the raid unit with for a specific Debuff (to dispel or heal)
 ]]--
 
 local unitDebuff = function(spell)
@@ -362,7 +362,7 @@ kps.RaidStatus.prototype.hasRaidDebuff = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.hasRaidBuff(<BUFF>)` - Returns the raid unit with a specific Buff
+@function `heal.hasRaidBuff(<BUFF>)` - Returns the raid unit for a specific Buff
 ]]--
 
 local unitBuff = function(spell)
@@ -374,6 +374,25 @@ end
 
 kps.RaidStatus.prototype.hasRaidBuff = kps.utils.cachedValue(function()
     return unitBuff
+end)
+
+--[[[
+@function `heal.hasRaidBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on on raid
+]]--
+
+local unitBuffStacks = function(spell)
+    local charge = 0
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and unit.hasBuff(spell) then
+        	local stacks = unit.buffStacks(spell)
+        	charge = charge + stacks
+        end
+    end
+    return charge
+end
+
+kps.RaidStatus.prototype.hasRaidBuffStacks = kps.utils.cachedValue(function()
+    return unitBuffStacks
 end)
 
 
@@ -411,9 +430,9 @@ print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 --print("|cffff8000GCD:|cffffffff", kps.gcd)
 --print("|cffff8000GCD:|cffffffff", kps["env"].player.isInRaid)
 
---local renew = kps.Spell.fromId(139)
---local mending = kps.Spell.fromId(33076)
---print("|cffff8000hasDebuff:|cffffffff", kps["env"].heal.hasRaidBuff(mending))
+local mending = kps.Spell.fromId(33076)
+--print("|cffff8000hasBuff:|cffffffff", kps["env"].heal.hasRaidBuff(mending))
+print("|cffff8000hasBuffStacks:|cffffffff", kps["env"].heal.hasRaidBuffStacks(mending))
 
 
 
