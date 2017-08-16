@@ -105,7 +105,7 @@ function Unit.hasPet(self)
 end
 
 --[[[
-@function `<UNIT>.isUnit(<UNIT>)` - returns true if the given unit is otherunit.
+@function `<UNIT>.isUnit(<UNIT-STRING>)` - returns true if the given unit is otherunit. heal.lowestInRaid.isUnit("player")
 ]]--
 local isUnit = setmetatable({}, {
     __index = function(t, unit)
