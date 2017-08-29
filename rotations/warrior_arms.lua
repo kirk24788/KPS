@@ -11,7 +11,7 @@ kps.rotations.register("WARRIOR","ARMS",
 {
     -- Charge enemy
     {{"nested"}, 'kps.cooldowns and target.distance > 5', {
-        {spells.charge}, -- charge
+        {spells.charge},
     }},
 
     -- Cooldowns
@@ -29,22 +29,23 @@ kps.rotations.register("WARRIOR","ARMS",
         {spells.commandingShout, 'player.hp < 0.6'},
         { {"macro"}, 'kps.useBagItem and player.hp < 0.8', "/use Healthstone" },
     }},
+    
+    -- Multi Target
+    {{"nested"}, 'kps.multitarget', {
+        {spells.warbreaker, 'kps.cooldowns'},
+        {spells.bladestorm, 'kps.cooldowns and target.hasMyDebuff(spells.colossusSmash) or target.hasMyDebuff(spells.shatteredDefenses)'},
+        {spells.cleave},
+        {spells.whirlwind},
+    }},
 
     -- Single Target
-    {{"nested"}, 'activeEnemies.count <= 1', {
+
         {spells.colossusSmash, 'not target.hasMyDebuff(spells.colossusSmash) or not target.hasMyDebuff(spells.shatteredDefenses)'},
         {spells.focusedRage, 'player.buffStacks(spells.focusedRage) < 3'},
         {spells.mortalStrike, 'target.hasMyDebuff(spells.colossusSmash) and player.buffStacks(spells.focusedRage) = 3 or player.hasBuff(spells.battleCry)'},
         {spells.execute},
         {spells.mortalStrike},
         {spells.slam, 'player.rage >= 70'},
-    }},
-    -- Multi Target
-    {{"nested"}, 'activeEnemies.count > 1', {
-        {spells.warbreaker, 'kps.cooldowns'},
-        {spells.bladestorm, 'kps.cooldowns and target.hasMyDebuff(spells.colossusSmash) or target.hasMyDebuff(spells.shatteredDefenses)'},
-        {spells.cleave},
-        {spells.whirlwind},
-    }},
+
 }
 ,"Icy Veins")

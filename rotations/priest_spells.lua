@@ -232,3 +232,5 @@ kps.spells.priest.voidTorrent = kps.Spell.fromId(205065)
 kps.spells.priest.voidform = kps.Spell.fromId(185916)
 kps.spells.priest.willOfTheConclave = kps.Spell.fromId(241148)
 kps.spells.priest.wordsOfHealing = kps.Spell.fromId(196430)
+-- Artifact buff
+kps.spells.priest.emptyMind = kps.Spell.fromId(247226)

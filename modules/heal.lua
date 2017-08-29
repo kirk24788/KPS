@@ -435,7 +435,6 @@ local mending = kps.Spell.fromId(33076)
 print("|cffff8000hasBuffStacks:|cffffffff", kps["env"].heal.hasRaidBuffStacks(mending))
 
 
-
 --print("|cffff8000Healable:|cffffffff", kps["env"].player.isHealable)
 --local spell = kps.spells.priest.shadowWordDeath
 --local usable, nomana = IsUsableSpell(spell.name)
