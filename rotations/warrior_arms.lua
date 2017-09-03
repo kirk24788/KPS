@@ -31,7 +31,7 @@ kps.rotations.register("WARRIOR","ARMS",
     }},
     
     -- Multi Target
-    {{"nested"}, 'kps.multitarget', {
+    {{"nested"}, 'kps.multiTarget', {
         {spells.warbreaker, 'kps.cooldowns'},
         {spells.bladestorm, 'kps.cooldowns and target.hasMyDebuff(spells.colossusSmash) or target.hasMyDebuff(spells.shatteredDefenses)'},
         {spells.cleave},

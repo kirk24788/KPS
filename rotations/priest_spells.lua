@@ -232,5 +232,5 @@ kps.spells.priest.voidTorrent = kps.Spell.fromId(205065)
 kps.spells.priest.voidform = kps.Spell.fromId(185916)
 kps.spells.priest.willOfTheConclave = kps.Spell.fromId(241148)
 kps.spells.priest.wordsOfHealing = kps.Spell.fromId(196430)
--- Artifact buff
+-- "Vide mental" "Empty Mind" Artifact buff -- Mind Flay damage increases the damage of your next Mind Blast by 3% and its Insanity generation by 1. Stacks up to 10 times.
 kps.spells.priest.emptyMind = kps.Spell.fromId(247226)

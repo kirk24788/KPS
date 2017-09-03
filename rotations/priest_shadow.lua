@@ -13,7 +13,13 @@ kps.rotations.register("PRIEST","SHADOW",{
 
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
+    {{"macro"}, 'not target.isAttackable' , "/cleartarget"},
     env.TargetMouseover,
+    --{{"macro"}, 'not focus.exists and not target.isUnit("mouseover") and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.vampiricTouch) == 0'  ,"/focus mouseover" },
+    --{{"macro"}, 'not focus.exists and not target.isUnit("mouseover") and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) == 0'  ,"/focus mouseover" },
+    --{{"macro"}, 'not focus.exists and not target.isUnit("mouseover") and mouseover.isAttackable and mouseover.inCombat'  ,"/focus mouseover" },
+    {{"macro"}, 'focus.exists and target.isUnit("focus")' , "/clearfocus" },
+    {{"macro"}, 'focus.exists and not focus.isAttackable' , "/clearfocus" },
     env.FocusMouseover,
 
     -- "Dispersion" 47585
@@ -28,10 +34,13 @@ kps.rotations.register("PRIEST","SHADOW",{
     {{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },
     {spells.voidEruption, 'player.hasBuff(spells.voidform)' , env.VoidBoltTarget },
     -- "Shadow Word: Death" 32379
-    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 2 and mouseover.isAttackable and mouseover.inCombat and mouseover.hp < 0.20' , "mouseover" , "DEATH_MOUSEOVER_2" },
-    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 2 and target.hp < 0.20' , "target" , "DEATH_TARGET_2" },
-    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 1 and player.insanity < 80 and mouseover.isAttackable and mouseover.inCombat and mouseover.hp < 0.20' , "mouseover" , "DEATH_MOUSEOVER_1" },
-    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 1 and player.insanity < 80 and target.hp < 0.20' , "target" , "DEATH_TARGET_1" },
+    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 2 and mouseover.isAttackable and mouseover.inCombat and mouseover.hp < 0.20' , "mouseover" , "DEATH_MOUSEOVER" },
+    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 2 and target.hp < 0.20' , "target" , "DEATH_TARGET" },
+    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 1 and player.insanity < 80 and mouseover.isAttackable and mouseover.inCombat and mouseover.hp < 0.20' , "mouseover" , "DEATH_MOUSEOVER" },
+    {spells.shadowWordDeath, 'spells.shadowWordDeath.charges == 1 and player.insanity < 80 and target.hp < 0.20' , "target" , "DEATH_TARGET" },
+    -- "Mindblast" is highest priority spell out of voidform
+    {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity < 65' , "target" },
+    {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform) and not player.hasTalent(7,1) and player.insanity < 100' , "target" },
 
     -- interrupts
     {{"nested"}, 'kps.interrupt',{
@@ -64,15 +73,28 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.giftOfTheNaaru, 'player.hp < 0.70', "player" },
     
     -- Mind Flay If the target is afflicted with Shadow Word: Pain you will also deal splash damage to nearby targets
-    {{"nested"}, 'player.plateCount > 4 or kps.multiTarget',{
-        {spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
-        {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("target")' , 'target' }, 
+    {{"nested"}, 'kps.multiTarget',{
+        {spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
+        {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
         {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidform) and player.insanity == 100' },
-        {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
-        {spells.voidTorrent, 'player.hasBuff(spells.voidform) and not player.isMoving' },
+        {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
+        {spells.voidTorrent, 'not player.isMoving and player.hasBuff(spells.voidform) and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
         {spells.mindFlay, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "PLATECOUNT" },
     }},
 
+    {spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
+    {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
+    {spells.vampiricTouch, 'not player.isMoving and focus.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("focus")' , 'focus' },
+    {spells.shadowWordPain, 'focus.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("focus")' , 'focus' },
+    {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
+
+    --{{"macro"}, 'canCastMindBlast()' , "/stopcasting" },
+    --{{"macro"}, 'not player.isMoving and player.hasBuff(spells.voidform) and spells.mindBlast.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },
+    {spells.mindBlast, 'not player.isMoving and player.hasBuff(spells.voidform)' , "target" , "MINDBLAST" },
+    {spells.mindBlast, 'not player.isMoving and player.hasBuff(spells.voidform) and targettarget.isAttackable ' , "targettarget" , "MINDBLAST" },
+    --{spells.mindBlast, 'not player.isMoving and player.hasBuff(spells.voidform) and player.hasBuff(spells.emptyMind)' , "target" , "MINDBLAST" },
+    --{spells.mindBlast, 'not player.isMoving and player.hasBuff(spells.voidform) and player.hasBuff(spells.emptyMind)' , "targettarget" , "MINDBLAST" },
+    
     -- TRINKETS "Trinket0Slot" est slotId  13 "Trinket1Slot" est slotId  14
     --{{"macro"}, 'player.useTrinket(0) and player.hasBuff(spells.voidform)' , "/use 13"},
     {{"macro"}, 'player.useTrinket(1) and player.hasBuff(spells.voidform)' , "/use 14"},
@@ -80,29 +102,16 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.powerInfusion, 'kps.cooldowns and not player.isMoving and player.buffStacks(spells.voidform) > 22 and player.insanity > 50' },
     -- "Ombrefiel" cd 3 min duration 12sec -- "Mindbender" cd 1 min duration 12 sec
     {spells.shadowfiend, 'not player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.haste > 50' , "target" },
-    {spells.mindbender, 'player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 27 and spells.voidTorrent.cooldown > 30' , "target" },
-
-    -- "Mindblast" is highest priority spell out of voidform
-    {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity < 65' , "target" },
-    {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform) and not player.hasTalent(7,1) and player.insanity < 100' , "target" },   
-    --{{"macro"}, 'canCastMindBlast()' , "/stopcasting" },
-    --{{"macro"}, 'not player.isMoving and player.hasBuff(spells.voidform) and spells.mindBlast.cooldown == 0 and spells.mindFlay.castTimeLeft("player") > kps.gcd' , "/stopcasting" },
-    {spells.mindBlast, 'not player.isMoving and player.hasBuff(spells.voidform)' , "target" , "MINDBLAST" },
-    {spells.mindBlast, 'not player.isMoving and player.hasBuff(spells.voidform) and targettarget.isAttackable ' , "targettarget" , "MINDBLAST" },
-    --{spells.mindBlast, 'not player.isMoving and player.hasBuff(spells.voidform) and player.hasBuff(spells.emptyMind)' , "target" , "MINDBLAST" },
-    --{spells.mindBlast, 'not player.isMoving and player.hasBuff(spells.voidform) and player.hasBuff(spells.emptyMind)' , "targettarget" , "MINDBLAST" },
+    {spells.mindbender, 'player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 29 and spells.voidTorrent.cooldown > 30' , "target" },
+    {spells.mindbender, 'player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 19 and player.insanity < 60 and spells.voidTorrent.cooldown > 30' , "target" },
 
     -- "Void Eruption" 228260
-    {spells.voidTorrent, 'player.hasBuff(spells.voidform) and not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4 and player.buffStacks(spells.voidform) > 9' },
+    {spells.voidTorrent, 'not player.isMoving and player.hasBuff(spells.voidform) and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4 and player.buffStacks(spells.voidform) > 7' },
     {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidform) and player.insanity == 100' },
     {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity > 64 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
-   
-    {spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
-    {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },    
-    {spells.vampiricTouch, 'not player.isMoving and focus.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("focus")' , 'focus' },
-    {spells.shadowWordPain, 'focus.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("focus")' , 'focus' },
-    {spells.vampiricTouch, 'mouseover.isAttackable and mouseover.inCombat and not player.isMoving and mouseover.myDebuffDuration(spells.vampiricTouch) < 4 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
-    {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 4 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
+
+    {spells.vampiricTouch, 'mouseover.isAttackable and mouseover.inCombat and not player.isMoving and mouseover.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
+    {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 
     -- "Guérison de l’ombre" 186263 -- debuff "Shadow Mend" 187464 10 sec
     {spells.shadowMend, 'not player.isMoving and not spells.shadowMend.lastCasted(4) and not player.hasBuff(spells.voidform) and player.hp < 0.60 and not player.hasBuff(spells.vampiricEmbrace)' , "player" },

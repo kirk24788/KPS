@@ -9,15 +9,18 @@ local env = kps.env.warrior
 
 kps.rotations.register("WARRIOR","PROTECTION",
 {
+    {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
+    {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
+
     {spells.charge, 'target.distance > 10 '}, -- charge
     {spells.berserkerRage, 'not player.hasBuff(spells.enrage)'}, -- berserker_rage,if=buff.enrage.down
 
         {spells.shieldBlock, 'not ( player.hasBuff(spells.demoralizingShout) or player.hasBuff(spells.ravager) or player.hasBuff(spells.shieldWall) or player.hasBuff(spells.lastStand) or player.hasBuff(spells.enragedRegeneration) or player.hasBuff(spells.shieldBlock) )'}, -- shield_block,if=!(debuff.demoralizing_shout.up|buff.ravager_protection.up|buff.shield_wall.up|buff.last_stand.up|buff.enraged_regeneration.up|buff.shield_block.up)
-        {spells.demoralizingShout, 'player.incomingDamage > player.hpMax * 0.1 and not ( player.hasBuff(spells.demoralizingShout) or player.hasBuff(spells.ravager) or player.hasBuff(spells.shieldWall) or player.hasBuff(spells.lastStand) or player.hasBuff(spells.enragedRegeneration) or player.hasBuff(spells.shieldBlock) or player.hasStrProc )'}, -- demoralizing_shout,if=incoming_damage_2500ms>health.max*0.1&!(debuff.demoralizing_shout.up|buff.ravager_protection.up|buff.shield_wall.up|buff.last_stand.up|buff.enraged_regeneration.up|buff.shield_block.up|buff.potion.up)
-        {spells.enragedRegeneration, 'player.incomingDamage > player.hpMax * 0.1 and not ( player.hasBuff(spells.demoralizingShout) or player.hasBuff(spells.ravager) or player.hasBuff(spells.shieldWall) or player.hasBuff(spells.lastStand) or player.hasBuff(spells.enragedRegeneration) or player.hasBuff(spells.shieldBlock) or player.hasStrProc )'}, -- enraged_regeneration,if=incoming_damage_2500ms>health.max*0.1&!(debuff.demoralizing_shout.up|buff.ravager_protection.up|buff.shield_wall.up|buff.last_stand.up|buff.enraged_regeneration.up|buff.shield_block.up|buff.potion.up)
-        {spells.shieldWall, 'player.incomingDamage > player.hpMax * 0.1 and not ( player.hasBuff(spells.demoralizingShout) or player.hasBuff(spells.ravager) or player.hasBuff(spells.shieldWall) or player.hasBuff(spells.lastStand) or player.hasBuff(spells.enragedRegeneration) or player.hasBuff(spells.shieldBlock) or player.hasStrProc )'}, -- shield_wall,if=incoming_damage_2500ms>health.max*0.1&!(debuff.demoralizing_shout.up|buff.ravager_protection.up|buff.shield_wall.up|buff.last_stand.up|buff.enraged_regeneration.up|buff.shield_block.up|buff.potion.up)
-        {spells.lastStand, 'player.incomingDamage > player.hpMax * 0.1 and not ( player.hasBuff(spells.demoralizingShout) or player.hasBuff(spells.ravager) or player.hasBuff(spells.shieldWall) or player.hasBuff(spells.lastStand) or player.hasBuff(spells.enragedRegeneration) or player.hasBuff(spells.shieldBlock) or player.hasStrProc )'}, -- last_stand,if=incoming_damage_2500ms>health.max*0.1&!(debuff.demoralizing_shout.up|buff.ravager_protection.up|buff.shield_wall.up|buff.last_stand.up|buff.enraged_regeneration.up|buff.shield_block.up|buff.potion.up)
-        {{"nested"}, 'activeEnemies.count > 3', { -- call_action_list,name=prot_aoe,if=active_enemies>3
+        {spells.demoralizingShout, 'player.incomingDamage > player.hpMax * 0.15 and not ( player.hasBuff(spells.demoralizingShout) or player.hasBuff(spells.ravager) or player.hasBuff(spells.shieldWall) or player.hasBuff(spells.lastStand) or player.hasBuff(spells.enragedRegeneration) or player.hasBuff(spells.shieldBlock) or player.hasStrProc )'}, -- demoralizing_shout,if=incoming_damage_2500ms>health.max*0.1&!(debuff.demoralizing_shout.up|buff.ravager_protection.up|buff.shield_wall.up|buff.last_stand.up|buff.enraged_regeneration.up|buff.shield_block.up|buff.potion.up)
+        {spells.enragedRegeneration, 'player.incomingDamage > player.hpMax * 0.15 and not ( player.hasBuff(spells.demoralizingShout) or player.hasBuff(spells.ravager) or player.hasBuff(spells.shieldWall) or player.hasBuff(spells.lastStand) or player.hasBuff(spells.enragedRegeneration) or player.hasBuff(spells.shieldBlock) or player.hasStrProc )'}, -- enraged_regeneration,if=incoming_damage_2500ms>health.max*0.1&!(debuff.demoralizing_shout.up|buff.ravager_protection.up|buff.shield_wall.up|buff.last_stand.up|buff.enraged_regeneration.up|buff.shield_block.up|buff.potion.up)
+        {spells.shieldWall, 'player.incomingDamage > player.hpMax * 0.15 and not ( player.hasBuff(spells.demoralizingShout) or player.hasBuff(spells.ravager) or player.hasBuff(spells.shieldWall) or player.hasBuff(spells.lastStand) or player.hasBuff(spells.enragedRegeneration) or player.hasBuff(spells.shieldBlock) or player.hasStrProc )'}, -- shield_wall,if=incoming_damage_2500ms>health.max*0.1&!(debuff.demoralizing_shout.up|buff.ravager_protection.up|buff.shield_wall.up|buff.last_stand.up|buff.enraged_regeneration.up|buff.shield_block.up|buff.potion.up)
+        {spells.lastStand, 'player.incomingDamage > player.hpMax * 0.15 and not ( player.hasBuff(spells.demoralizingShout) or player.hasBuff(spells.ravager) or player.hasBuff(spells.shieldWall) or player.hasBuff(spells.lastStand) or player.hasBuff(spells.enragedRegeneration) or player.hasBuff(spells.shieldBlock) or player.hasStrProc )'}, -- last_stand,if=incoming_damage_2500ms>health.max*0.1&!(debuff.demoralizing_shout.up|buff.ravager_protection.up|buff.shield_wall.up|buff.last_stand.up|buff.enraged_regeneration.up|buff.shield_block.up|buff.potion.up)
+        {{"nested"}, 'kps.multiTarget', { -- call_action_list,name=prot_aoe,if=active_enemies>3
             {spells.bloodbath}, -- bloodbath
             {spells.avatar}, -- avatar
             {spells.thunderClap, 'not target.hasMyDebuff(spells.deepWounds)'}, -- thunder_clap,if=!dot.deep_wounds.ticking
@@ -32,7 +35,6 @@ kps.rotations.register("WARRIOR","PROTECTION",
             {spells.shieldSlam}, -- shield_slam
             {spells.stormBolt}, -- storm_bolt
             {spells.shieldSlam}, -- shield_slam
--- ERROR in 'execute,if=buff.sudden_death.react': Spell 'kps.spells.warrior.suddenDeath' unknown (in expression: 'buff.sudden_death.react')!
             {spells.devastate}, -- devastate
         }},
         {spells.bloodbath, 'player.hasTalent(6, 2) and ( ( spells.dragonRoar.cooldown == 0 and player.hasTalent(4, 3) ) or ( spells.stormBolt.cooldown == 0 and player.hasTalent(4, 1) ) or player.hasTalent(4, 2) )'}, -- bloodbath,if=talent.bloodbath.enabled&((cooldown.dragon_roar.remains=0&talent.dragon_roar.enabled)|(cooldown.storm_bolt.remains=0&talent.storm_bolt.enabled)|talent.shockwave.enabled)
@@ -44,7 +46,6 @@ kps.rotations.register("WARRIOR","PROTECTION",
         {spells.dragonRoar}, -- dragon_roar
         {spells.impendingVictory, 'player.hasTalent(2, 3) and spells.shieldSlam.cooldown <= spells.impendingVictory.castTime'}, -- impending_victory,if=talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
         {spells.victoryRush, 'not player.hasTalent(2, 3) and spells.shieldSlam.cooldown <= spells.victoryRush.castTime'}, -- victory_rush,if=!talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
--- ERROR in 'execute,if=buff.sudden_death.react': Spell 'kps.spells.warrior.suddenDeath' unknown (in expression: 'buff.sudden_death.react')!
         {spells.devastate}, -- devastate
 
 }
