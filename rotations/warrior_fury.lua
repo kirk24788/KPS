@@ -55,6 +55,7 @@ kps.rotations.register("WARRIOR","FURY",
 
     {spells.execute, 'player.hasBuff(spells.enrage) and target.hp < 0.20' },
     {spells.execute, 'player.rage > 50 and target.hp < 0.20' },
+    {spells.rampage, 'not player.hasBuff(spells.enrage)' , "target" , "rampage_NO_enrage" },
     {spells.rampage, 'player.rage == 100' , "target" , "rampage_RAGE" },
     {spells.ragingBlow, 'player.hasBuff(spells.enrage)' , "target", "ragingBlow_enrage" },
     {spells.odynsFury , 'kps.multiTarget and player.hasBuff(spells.enrage) and target.distance < 10', "target" , "odynsFury_multiTarget" }, -- 45 sec cd
@@ -62,8 +63,6 @@ kps.rotations.register("WARRIOR","FURY",
     {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and focus.exists and target.distance < 10' , "target" , "whirlwind_focus" },
     {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and player.plateCount > 3 and target.distance < 10' , "target" , "whirlwind_plateCount" },
     {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and kps.multiTarget and target.distance < 10' , "target" , "whirlwind_multiTarget" },
-
-    {spells.rampage, 'not player.hasBuff(spells.enrage)' , "target" , "rampage_NO_enrage" },
     {spells.bloodthirst, 'not player.hasBuff(spells.enrage)' , "target" , "bloodthirst_NO_enrage" },
     {spells.whirlwind, 'kps.multiTarget and player.hasTalent(3,1) and player.hasBuff(spells.enrage) and player.hasBuff(spells.wreckingBall) and target.distance < 10' },
     {spells.whirlwind, 'kps.multiTarget and player.hasBuff(spells.enrage) and target.distance < 10' },
