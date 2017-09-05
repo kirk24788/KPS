@@ -8,7 +8,7 @@ GENERATED FROM WOWHEAD SPELLS - DO NOT EDIT MANUALLY
 kps.spells.priest = {}
 kps.spells.priest.aegisOfWrath = kps.Spell.fromId(238135)
 kps.spells.priest.afterlife = kps.Spell.fromId(196707)
-kps.spells.priest.angelicFeather = kps.Spell.fromId(121536)
+kps.spells.priest.angelicFeather = kps.Spell.fromId(121536) -- buff 121557
 kps.spells.priest.apotheosis = kps.Spell.fromId(200183)
 kps.spells.priest.archangel = kps.Spell.fromId(197862)
 kps.spells.priest.artificialDamage = kps.Spell.fromId(213428)

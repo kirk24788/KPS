@@ -25,23 +25,11 @@ kps.rotations.register("WARRIOR","FURY",
     {spells.charge, 'not player.isInRaid and target.distance > 10' },
     
     -- interrupts
-    {{"nested"}, 'kps.interrupt',{
+    {{"nested"}, 'kps.interrupt and target.distance < 10',{
     	{spells.pummel, 'target.isInterruptable' , "target" },
         {spells.pummel, 'focus.isInterruptable' , "focus" },
     }},
-
-    -- Cooldowns
-    {spells.avatar, 'player.hasTalent(3,3) and spells.battleCry.cooldown == 0' }, -- 90 sec cd
-    {spells.battleCry, 'kps.cooldowns and target.exists and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
-    {{"nested"}, 'player.hasBuff(spells.battleCry)', {
-        {spells.whirlwind, 'kps.multiTarget and not player.hasBuff(spells.meatCleaver) and target.distance < 10' },
-        {spells.dragonRoar, 'player.hasTalent(7,3)' }, -- 25 sec cd
-        {spells.rampage , 'true', "target" , "rampage_battleCry" }, -- get enraged
-        {spells.ragingBlow , 'player.hasBuff(spells.enrage)', "target" , "ragingBlow_battleCry" },
-        {spells.odynsFury , 'player.hasBuff(spells.enrage)', "target" , "odynsFury_battleCry" }, -- 45 sec cd
-        {spells.bloodthirst , 'true', "target" , "bloodthirst_battleCry" },
-    }},
-
+    
     -- Def CD's
     -- "Pierre de soins" 5512
     {spells.stoneform, 'player.incomingDamage - player.incomingHeal > player.hpMax * 0.15' },
@@ -53,16 +41,28 @@ kps.rotations.register("WARRIOR","FURY",
         {spells.commandingShout, 'player.hp < 0.60' },
     }},
 
+    -- Cooldowns
+    {spells.avatar, 'player.hasTalent(3,3) and not player.isMoving and target.isAttackable and target.distance < 10 and spells.battleCry.cooldown == 0' }, -- 90 sec cd
+    {spells.battleCry, 'kps.cooldowns and not player.isMoving and target.isAttackable and target.distance < 10 and player.rage < 85' }, -- 50 sec cd -- generates 100 rage
+    {{"nested"}, 'player.hasBuff(spells.battleCry)', {
+        {spells.whirlwind, 'kps.multiTarget and not player.hasBuff(spells.meatCleaver) and target.distance < 10' },
+        {spells.dragonRoar, 'player.hasTalent(7,3)' }, -- 25 sec cd
+        {spells.rampage , 'true', "target" , "rampage_battleCry" }, -- get enraged
+        {spells.ragingBlow , 'player.hasBuff(spells.enrage)', "target" , "ragingBlow_battleCry" },
+        {spells.odynsFury , 'player.hasBuff(spells.enrage)', "target" , "odynsFury_battleCry" }, -- 45 sec cd
+        {spells.bloodthirst , 'true', "target" , "bloodthirst_battleCry" },
+    }},
+
     {spells.execute, 'player.hasBuff(spells.enrage) and target.hp < 0.20' },
     {spells.execute, 'player.rage > 50 and target.hp < 0.20' },
+    {spells.rampage, 'player.rage == 100' , "target" , "rampage_RAGE" },
     {spells.ragingBlow, 'player.hasBuff(spells.enrage)' , "target", "ragingBlow_enrage" },
+    {spells.odynsFury , 'kps.multiTarget and player.hasBuff(spells.enrage) and target.distance < 10', "target" , "odynsFury_multiTarget" }, -- 45 sec cd
     -- Meat Cleave -- Your next Bloodthirst or Rampage strikes up to 4 additional targets for 50% damage.
     {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and focus.exists and target.distance < 10' , "target" , "whirlwind_focus" },
     {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and player.plateCount > 3 and target.distance < 10' , "target" , "whirlwind_plateCount" },
     {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and kps.multiTarget and target.distance < 10' , "target" , "whirlwind_multiTarget" },
-    {spells.odynsFury , 'player.hasBuff(spells.enrage) and kps.multiTarget and target.distance < 10', "target" , "odynsFury_multiTarget" }, -- 45 sec cd
 
-    {spells.rampage, 'player.rage == 100' , "target" , "rampage_RAGE" },
     {spells.rampage, 'not player.hasBuff(spells.enrage)' , "target" , "rampage_NO_enrage" },
     {spells.bloodthirst, 'not player.hasBuff(spells.enrage)' , "target" , "bloodthirst_NO_enrage" },
     {spells.whirlwind, 'kps.multiTarget and player.hasTalent(3,1) and player.hasBuff(spells.enrage) and player.hasBuff(spells.wreckingBall) and target.distance < 10' },

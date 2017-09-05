@@ -347,7 +347,7 @@ end)
 --------------------------------------------------------------------------------------------
 
 --[[[
-@function `heal.hasRaidDebuff(<DEBUFF>)` - Returns the raid unit with for a specific Debuff (to dispel or heal)
+@function `heal.hasRaidDebuff(<DEBUFF>)` - Returns the raid unit for a specific Debuff (to dispel or heal)
 ]]--
 
 local unitDebuff = function(spell)
@@ -395,6 +395,25 @@ kps.RaidStatus.prototype.hasRaidBuffStacks = kps.utils.cachedValue(function()
     return unitBuffStacks
 end)
 
+
+--[[[
+@function `heal.hasAbsorptionDebuff` - Returns the raid unit witn an absorption Debuff
+]]--
+
+local healAbsorptionDebuff = function(spell)
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and unit.absorptionDebuff then return unit end
+    end
+    return nil
+end
+
+kps.RaidStatus.prototype.hasAbsorptionDebuff = kps.utils.cachedValue(function()
+    return healAbsorptionDebuff
+end)
+
+--------------------------------------------------------------------------------------------
+------------------------------- TRICKY
+--------------------------------------------------------------------------------------------
 
 -- Here comes the tricky part - use an instance of RaidStatus which calls it's members
 -- for 'kps.env.heal' - so we can write 'heal.defaultTarget.hp < xxx' in our rotations

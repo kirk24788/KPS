@@ -336,5 +336,15 @@ function Unit.isDispellable(self)
     return isDispellable[self.unit]
 end
 
+--[[[
+@function `<UNIT>.absorptionDebuff` - returns true if the unit has a Healing Absorption Debuff
+]]--
+function Unit.absorptionDebuff(self)
+    for _,spell in pairs(kps.spells.absorptionDebuff) do
+        if self.hasDebuff(spell) then return true end
+    end
+    return false
+end
+
 
 

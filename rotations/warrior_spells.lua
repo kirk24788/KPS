@@ -199,6 +199,7 @@ kps.spells.warrior.unrivaledStrength = kps.Spell.fromId(200860)
 kps.spells.warrior.unstoppable = kps.Spell.fromId(200853)
 kps.spells.warrior.unwaveringSentinel = kps.Spell.fromId(29144)
 kps.spells.warrior.vengeance = kps.Spell.fromId(202572)
+kps.spells.warrior.vengeanceIgnorePain = kps.Spell.fromId(202574)
 kps.spells.warrior.victoryRush = kps.Spell.fromId(34428)
 kps.spells.warrior.voidCleave = kps.Spell.fromId(209573)
 kps.spells.warrior.vrykulShieldTraining = kps.Spell.fromId(188635)
@@ -216,3 +217,5 @@ kps.spells.warrior.willOfTheFirstKing = kps.Spell.fromId(209548)
 kps.spells.warrior.willToSurvive = kps.Spell.fromId(188683)
 kps.spells.warrior.wrathAndFury = kps.Spell.fromId(200849)
 kps.spells.warrior.wreckingBall = kps.Spell.fromId(215569)
+
+

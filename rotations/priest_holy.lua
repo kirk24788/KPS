@@ -9,6 +9,7 @@ local env = kps.env.priest
 local HolyWordSanctify = tostring(spells.holyWordSanctify)
 local SpiritOfRedemption = tostring(spells.spiritOfRedemption)
 local MassDispel = tostring(spells.massDispel)
+local AngelicFeather = tostring(spells.angelicFeather)
 
 kps.rotations.register("PRIEST","HOLY",{
 
@@ -47,6 +48,7 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.apotheosis, 'player.hasTalent(7,1) and heal.countLossInRange(0.80) * 2 >= heal.maxcountInRange' },
     
     -- "Holy Word: Serenity"
+    {spells.holyWordSerenity, 'heal.hasAbsorptionDebuff ~= nil' , kps.heal.hasAbsorptionDebuff , "ABSORB" },
     {spells.holyWordSerenity, 'not heal.lowestTankInRaid.isUnit("player") and heal.lowestTankInRaid.hp < 0.60 and spells.flashHeal.isRecastAt(heal.lowestTankInRaid.unit)' , kps.heal.lowestTankInRaid, "SERENITY_TANK" },
     {spells.holyWordSerenity, 'heal.lowestTankInRaid.hp < 0.50' , kps.heal.lowestTankInRaid},
     {spells.holyWordSerenity, 'heal.lowestTargetInRaid.hp < 0.50' , kps.heal.lowestTargetInRaid},
@@ -61,19 +63,21 @@ kps.rotations.register("PRIEST","HOLY",{
         {spells.purify, 'player.isDispellable("Magic")' , "player" },
         {spells.purify, 'heal.isMagicDispellable ~= nil' , kps.heal.isMagicDispellable , "DISPEL" },
     }},
-    
+
     -- "Holy Word: Sanctify" and "Holy Word: Serenity" gives buff  "Divinity" 197030 When you heal with a Holy Word spell, your healing is increased by 15% for 8 sec.
     {{"macro"}, 'keys.shift', "/cast [@cursor] "..HolyWordSanctify },
     -- "Dissipation de masse" 32375
     {{"macro"}, 'keys.ctrl', "/cast [@cursor] "..MassDispel },
-    
+
     -- "Fade" 586 "Disparition"
     {spells.fade, 'player.isTarget' },
     -- "Pierre de soins" 5512
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.80' ,"/use item:5512" },
     -- "Prière du désespoir" 19236 "Desperate Prayer"
     {spells.desperatePrayer, 'player.hp < 0.70' , "player" },
-    -- Body and Mind
+    -- "Angelic Feather"
+    {{"macro"},'player.isMoving and not player.hasBuff(spells.angelicFeather)' , "/cast [@player] "..AngelicFeather },
+    -- "Body and Mind"
     {spells.bodyAndMind, 'player.isMoving and not player.hasBuff(spells.bodyAndMind)' , "player"},
     -- "Don des naaru" 59544
     {spells.giftOfTheNaaru, 'player.hp < 0.70' , "player" },
