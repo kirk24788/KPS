@@ -5,6 +5,7 @@
 ]]--
 local spells = kps.spells.warrior
 local env = kps.env.warrior
+local HeroicLeap = tostring(kps.spells.warrior.heroicLeap)
 
 
 kps.rotations.register("WARRIOR","FURY",
@@ -13,6 +14,7 @@ kps.rotations.register("WARRIOR","FURY",
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
     {{"macro"}, 'not target.isAttackable' , "/cleartarget"},
+    env.ScreenMessage,
 
     -- env.TargetMouseover,
     {{"macro"}, 'not focus.exists and not target.isUnit("mouseover") and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10'  ,"/focus mouseover" },
@@ -21,8 +23,9 @@ kps.rotations.register("WARRIOR","FURY",
     {{"macro"}, 'focus.exists and not focus.isAttackable' , "/clearfocus" },
 
     -- Charge enemy
-    {spells.heroicThrow, 'not player.isInRaid and target.distance > 10' },
-    {spells.charge, 'not player.isInRaid and target.distance > 10' },
+    {spells.heroicThrow, 'kps.defensive and target.isAttackable and target.distance > 10' },
+    {spells.charge, 'kps.defensive and target.isAttackable and target.distance > 10' },
+    {{"macro"}, 'keys.shift and not player.hasBuff(spells.battleCry)', "/cast [@cursor] "..HeroicLeap },
     
     -- interrupts
     {{"nested"}, 'kps.interrupt and target.distance < 10',{
@@ -32,14 +35,13 @@ kps.rotations.register("WARRIOR","FURY",
     
     -- Def CD's
     -- "Pierre de soins" 5512
-    {spells.stoneform, 'player.incomingDamage - player.incomingHeal > player.hpMax * 0.15' },
-    {spells.bloodthirst, 'player.hasBuff(spells.enragedRegeneration)' },
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.70', "/use item:5512" },
-    {{"nested"}, 'kps.defensive', {
-        --{spells.victoryRush}, -- No longer available to Fury
-        {spells.enragedRegeneration, 'player.hp < 0.50' },
-        {spells.commandingShout, 'player.hp < 0.60' },
-    }},
+
+    {spells.stoneform, 'player.incomingDamage - player.incomingHeal > player.hpMax * 0.10' },
+    {spells.bloodthirst, 'player.hasBuff(spells.enragedRegeneration)' },
+    {spells.enragedRegeneration, 'player.hp < 0.70' },
+    --{spells.victoryRush}, -- No longer available to Fury
+    {spells.commandingShout, 'player.hp < 0.60' },
 
     -- Cooldowns
     {spells.avatar, 'player.hasTalent(3,3) and not player.isMoving and target.isAttackable and target.distance < 10 and spells.battleCry.cooldown == 0' }, -- 90 sec cd
@@ -69,6 +71,8 @@ kps.rotations.register("WARRIOR","FURY",
     {spells.bloodthirst },
     {spells.ragingBlow },
     {spells.furiousSlash },
+    
+	{{"macro"}, 'true' , "/startattack" },
 
 }
 ,"Warrior Fury 7.3")

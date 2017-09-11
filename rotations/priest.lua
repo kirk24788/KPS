@@ -161,7 +161,7 @@ end
 
 -- Config FOCUS with MOUSEOVER
 function kps.env.priest.TargetMouseover()
-    if not UnitExists("focus") and not UnitIsUnit("target","mouseover") and UnitAffectingCombat("mouseover") and UnitIsAttackable("mouseover")  then
+    if not UnitExists("focus") and not UnitIsUnit("target","mouseover") and UnitIsAttackable("mouseover") and UnitAffectingCombat("mouseover") then
         if UnitDebuffDuration(kps.spells.priest.vampiricTouch,"mouseover") == 0 then
             kps.runMacro("/focus mouseover")
         elseif UnitDebuffDuration(kps.spells.priest.shadowWordPain,"mouseover") == 0 then
@@ -174,7 +174,7 @@ function kps.env.priest.TargetMouseover()
 end
 
 function kps.env.priest.FocusMouseover()
-    if UnitExists("focus") and UnitAffectingCombat("mouseover") and UnitIsAttackable("mouseover") and not UnitIsUnit("target","mouseover") and not UnitIsUnit("focus","mouseover") then
+    if UnitExists("focus") and not UnitIsUnit("target","mouseover") and UnitIsAttackable("mouseover") and UnitAffectingCombat("mouseover") then
         if UnitDebuffDuration(kps.spells.priest.vampiricTouch,"focus") > 4 and UnitDebuffDuration(kps.spells.priest.shadowWordPain,"focus") > 4 then
             if UnitDebuffDuration(kps.spells.priest.vampiricTouch,"mouseover") == 0 then
                 kps.runMacro("/focus mouseover")
@@ -249,21 +249,6 @@ end
 --------------------------------------------------------------------------------------------
 ------------------------------- MESSAGE ON SCREEN
 --------------------------------------------------------------------------------------------
-
-function CreateMessage(message)
-    local msg = CreateFrame("MessageFrame", nil, UIParent)
-    msg:SetPoint("LEFT", UIParent)
-    msg:SetPoint("RIGHT", UIParent)
-    msg:SetPoint("TOP", 0, -700) -- set vertical position here
-    msg:SetWidth(128)
-    msg:SetHeight(64)
-    msg:SetInsertMode("TOP")
-    msg:SetFrameStrata("HIGH")
-    msg:SetTimeVisible(1)
-    msg:SetFadeDuration(2)
-    msg:SetFont(STANDARD_TEXT_FONT, 25, "OUTLINE")
-    msg:AddMessage(message,1,0,0,1)
-end
 
 local buffdivinity = tostring(kps.spells.priest.divinity)
 local function holyWordSanctifyOnScreen()

@@ -13,8 +13,8 @@ kps.rotations.register("WARRIOR","PROTECTION",
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
 
     -- Charge enemy
-    {spells.heroicThrow, 'not player.isInRaid and target.distance > 10' },
-    {spells.intercept, 'not player.isInRaid and target.distance > 10' },
+    {spells.heroicThrow, 'target.isAttackable and target.distance > 10' },
+    {spells.intercept, 'target.isAttackable and target.distance > 10' },
     {spells.taunt, 'kps.defensive and not player.isTarget' },
     
     -- interrupts
@@ -23,23 +23,28 @@ kps.rotations.register("WARRIOR","PROTECTION",
         {spells.pummel, 'focus.isInterruptable' , "focus" },
     }},
 
-	{spells.impendingVictory, 'player.hasTalent(2,3) and spells.shieldSlam.cooldown <= spells.impendingVictory.castTime'}, -- impending_victory,if=talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
-	{spells.victoryRush, 'not player.hasTalent(2,3) and spells.shieldSlam.cooldown <= spells.victoryRush.castTime'}, -- victory_rush,if=!talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
-    {spells.berserkerRage, 'not player.hasBuff(spells.enrage)' },
-
-    {spells.shieldBlock, 'not player.hasBuff(spells.shieldBlock)' },
-	{spells.neltharionsFury, 'not player.hasBuff(spells.shieldBlock)' },
-    {spells.ignorePain, 'player.isTarget and player.hasBuff(spells.vengeanceIgnorePain) and player.hp < 0.70 and player.incomingDamage - player.incomingHeal > player.hpMax * 0.10' },
-
+    {spells.stoneform, 'player.incomingDamage - player.incomingHeal > player.hpMax * 0.10' },
+	{spells.impendingVictory, 'player.hasTalent(2,3)'}, -- impending_victory,if=talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
+	{spells.victoryRush, 'not player.hasTalent(2,3)'}, -- victory_rush,if=!talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
+    --{spells.berserkerRage, 'not player.hasBuff(spells.enrage)' },
+    
 	{spells.demoralizingShout, 'player.incomingDamage - player.incomingHeal > player.hpMax * 0.10' },
     {spells.shieldWall, 'player.incomingDamage - player.incomingHeal > player.hpMax * 0.10' },
-	{spells.lastStand, 'player.hp < 0.40 and not player.hasBuff(spells.shieldBlock)' },
+	{spells.lastStand, 'player.hp < 0.50 and not player.hasBuff(spells.shieldBlock)' },
 
+    {spells.battleCry, 'kps.cooldowns and not player.isMoving and target.isAttackable and target.distance < 10' },
 	{spells.shieldSlam},
-	{spells.revenge},
+    {spells.shieldBlock, 'not player.hasBuff(spells.shieldBlock)' },
+	{spells.neltharionsFury, 'not player.isMoving and not player.hasBuff(spells.shieldBlock)' },
+	
+	-- "Vengeance: Revenge" -- Rage cost of Revenge reduced by 35%. 15 seconds remaining
+    {spells.revenge, 'player.hasBuff(spells.vengeanceRevenge) and player.myBuffDuration(spells.ignorePain) < 4' , "target", "revenge_buff" },
+	{spells.revenge, 'not player.hasBuff(spells.vengeanceIgnorePain)' , "target", "revenge" },
+	-- "Vengeance: Ignore Pain" -- Rage cost of Ignore Pain reduced by 35%. 15 seconds remaining
+    {spells.ignorePain, 'player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 4' , "target", "ignorePain_buff" },
+
     {spells.thunderClap},
-    {spells.revenge},
-    {spells.devastate},
+    {spells.devastate, 'not player.hasTalent(5,1)' },
 
 	{{"nested"}, 'kps.multiTarget', {
 		{spells.avatar},
@@ -50,9 +55,21 @@ kps.rotations.register("WARRIOR","PROTECTION",
 		{spells.shockwave},
 	    {spells.devastate},
 	}},
+	
+	{{"macro"}, 'true' , "/startattack" },
 
 }
 ,"warrior_protection 7.3")
+
+
+
+-- Shield Slam generates 20 Rage.
+-- Thunder Clap generates 5 Rage.
+-- Intercept generates 15 Rage.
+-- Taking damage generates Rage.
+-- Auto attacks generate 5 Rage (if you have the Devastator talent).
+-- Demoralizing Shout generates 60 Rage (if you have the Booming Voice talent).
+
 
 --[[
 kps.rotations.register("WARRIOR","PROTECTION",
