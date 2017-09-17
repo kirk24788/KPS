@@ -1,7 +1,7 @@
 --[[[
 @module Warrior Protection Rotation
 @generated_from warrior_protection.simc
-@version 7.2
+@version 7.3
 ]]--
 local spells = kps.spells.warrior
 local env = kps.env.warrior
@@ -23,30 +23,27 @@ kps.rotations.register("WARRIOR","PROTECTION",
         {spells.pummel, 'focus.isInterruptable' , "focus" },
     }},
 
-    {spells.stoneform, 'player.incomingDamage - player.incomingHeal > player.hpMax * 0.10' },
+    {spells.stoneform, 'player.incomingDamage > player.hpMax * 0.10 and player.hp < 0.80 ' },
 	{spells.impendingVictory, 'player.hasTalent(2,3)'}, -- impending_victory,if=talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
 	{spells.victoryRush, 'not player.hasTalent(2,3)'}, -- victory_rush,if=!talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
     --{spells.berserkerRage, 'not player.hasBuff(spells.enrage)' },
     
-	{spells.demoralizingShout, 'player.incomingDamage - player.incomingHeal > player.hpMax * 0.10' },
+	{spells.demoralizingShout, 'player.incomingDamage > player.hpMax * 0.10' },
     {spells.shieldWall, 'player.incomingDamage - player.incomingHeal > player.hpMax * 0.10' },
 	{spells.lastStand, 'player.hp < 0.50 and not player.hasBuff(spells.shieldBlock)' },
+	{spells.lastStand, 'player.hp < 0.50 and not player.hasBuff(spells.ignorePain)' },
 
     {spells.battleCry, 'kps.cooldowns and not player.isMoving and target.isAttackable and target.distance < 10' },
-	{spells.shieldSlam},
     {spells.shieldBlock, 'not player.hasBuff(spells.shieldBlock)' },
+	{spells.shieldSlam},
 	{spells.neltharionsFury, 'not player.isMoving and not player.hasBuff(spells.shieldBlock)' },
-	
-	-- "Vengeance: Revenge" -- Rage cost of Revenge reduced by 35%. 15 seconds remaining
-    {spells.revenge, 'player.hasBuff(spells.vengeanceRevenge) and player.myBuffDuration(spells.ignorePain) < 4' , "target", "revenge_buff" },
-	{spells.revenge, 'not player.hasBuff(spells.vengeanceIgnorePain)' , "target", "revenge" },
 	-- "Vengeance: Ignore Pain" -- Rage cost of Ignore Pain reduced by 35%. 15 seconds remaining
-    {spells.ignorePain, 'player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 4' , "target", "ignorePain_buff" },
+    {spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 4' , "target", "ignorePain_buff" },
+	-- "Vengeance: Revenge" -- Rage cost of Revenge reduced by 35%. 15 seconds remaining
+    {spells.revenge, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceRevenge) and player.myBuffDuration(spells.ignorePain) < 4' , "target", "revenge_buff" },
+    {spells.revenge, 'player.hasTalent(6,1) and not player.hasBuff(spells.vengeanceIgnorePain)' , "target", "revenge" },
 
-    {spells.thunderClap},
-    {spells.devastate, 'not player.hasTalent(5,1)' },
-
-	{{"nested"}, 'kps.multiTarget', {
+	{{"nested"}, 'kps.multiTarget and target.distance < 10', {
 		{spells.avatar},
 		{spells.revenge},
 		{spells.thunderClap},
@@ -55,7 +52,9 @@ kps.rotations.register("WARRIOR","PROTECTION",
 		{spells.shockwave},
 	    {spells.devastate},
 	}},
-	
+
+    {spells.thunderClap, 'target.distance < 10'},
+    {spells.devastate, 'not player.hasTalent(5,1)' },	
 	{{"macro"}, 'true' , "/startattack" },
 
 }

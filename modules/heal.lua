@@ -119,9 +119,9 @@ kps.RaidStatus.prototype.lowestInRaid = kps.utils.cachedValue(function()
     local lowestUnit = kps["env"].player
     local lowestHp = 2
     for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.hp < lowestHp then
+        if unit.isHealable and unit.hpIncoming < lowestHp then
             lowestUnit = unit
-            lowestHp = lowestUnit.hp
+            lowestHp = lowestUnit.hpIncoming
         end
     end
     return lowestUnit
@@ -137,9 +137,9 @@ kps.RaidStatus.prototype.lowestTankInRaid = kps.utils.cachedValue(function()
     local lowestUnit = kps["env"].player
     local lowestHp = 2
     for _,unit in pairs(tanksInRaid()) do
-        if unit.isHealable and unit.hp < lowestHp then
+        if unit.isHealable and unit.hpIncoming < lowestHp then
             lowestUnit = unit
-            lowestHp = lowestUnit.hp
+            lowestHp = lowestUnit.hpIncoming
         end
     end
     return lowestUnit
@@ -200,7 +200,7 @@ kps.RaidStatus.prototype.averageHpIncoming = kps.utils.cachedValue(function()
     local hpIncCount = 0
     for name, unit in pairs(raidStatus) do
         if unit.isHealable then
-            hpIncTotal = hpIncTotal + unit.hp
+            hpIncTotal = hpIncTotal + unit.hpIncoming
             hpIncCount = hpIncCount + 1
         end
     end
@@ -218,7 +218,7 @@ local countInRange = function(pct)
     for name, unit in pairs(raidStatus) do
         if unit.isHealable then
             maxcount = maxcount + 1
-            if unit.hp < pct then
+            if unit.hpIncoming < pct then
                 count = count + 1
             end
         end
@@ -312,9 +312,9 @@ kps.RaidStatus.prototype.lowestTargetInRaid = kps.utils.cachedValue(function()
     local lowestUnit = kps["env"].player
     local lowestHp = 2
     for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.isTarget and unit.hp < lowestHp then
+        if unit.isHealable and unit.isTarget and unit.hpIncoming < lowestHp then
             lowestUnit = unit
-            lowestHp = lowestUnit.hp
+            lowestHp = lowestUnit.hpIncoming
         end
     end
     return lowestUnit
@@ -449,9 +449,9 @@ print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 --print("|cffff8000GCD:|cffffffff", kps.gcd)
 --print("|cffff8000GCD:|cffffffff", kps["env"].player.isInRaid)
 
-local mending = kps.Spell.fromId(33076)
+--local mending = kps.Spell.fromId(33076)
 --print("|cffff8000hasBuff:|cffffffff", kps["env"].heal.hasRaidBuff(mending))
-print("|cffff8000hasBuffStacks:|cffffffff", kps["env"].heal.hasRaidBuffStacks(mending))
+--print("|cffff8000hasBuffStacks:|cffffffff", kps["env"].heal.hasRaidBuffStacks(mending))
 
 
 --print("|cffff8000Healable:|cffffffff", kps["env"].player.isHealable)

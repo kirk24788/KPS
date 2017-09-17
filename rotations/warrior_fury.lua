@@ -18,7 +18,7 @@ kps.rotations.register("WARRIOR","FURY",
 
     -- env.TargetMouseover,
     {{"macro"}, 'not focus.exists and not target.isUnit("mouseover") and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10'  ,"/focus mouseover" },
-    --env.FocusMouseover,
+    -- env.FocusMouseover,
     {{"macro"}, 'focus.exists and target.isUnit("focus")' , "/clearfocus" },
     {{"macro"}, 'focus.exists and not focus.isAttackable' , "/clearfocus" },
 
@@ -32,42 +32,52 @@ kps.rotations.register("WARRIOR","FURY",
     	{spells.pummel, 'target.isInterruptable' , "target" },
         {spells.pummel, 'focus.isInterruptable' , "focus" },
     }},
-    
-    -- Def CD's
+
     -- "Pierre de soins" 5512
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.70', "/use item:5512" },
 
     {spells.stoneform, 'player.incomingDamage - player.incomingHeal > player.hpMax * 0.10' },
+    {spells.stoneform, 'player.incomingDamage > player.hpMax * 0.10 and player.hp < 0.80 ' },
     {spells.bloodthirst, 'player.hasBuff(spells.enragedRegeneration)' },
     {spells.enragedRegeneration, 'player.hp < 0.70' },
     --{spells.victoryRush}, -- No longer available to Fury
     {spells.commandingShout, 'player.hp < 0.60' },
+    {spells.berserkerRage, 'player.hasTalent(3,2) and not player.hasBuff(spells.enrage)' },
 
     -- Cooldowns
-    {spells.avatar, 'player.hasTalent(3,3) and not player.isMoving and target.isAttackable and target.distance < 10 and spells.battleCry.cooldown == 0' }, -- 90 sec cd
-    {spells.battleCry, 'kps.cooldowns and not player.isMoving and target.isAttackable and target.distance < 10 and player.rage < 85' }, -- 50 sec cd -- generates 100 rage
+    {spells.avatar, 'spells.battleCry.cooldown == 0 and not player.isMoving and target.isAttackable and target.distance < 10' }, -- 90 sec cd
+    -- Rampage can be used prior to Battle Cry even with less than 100 rage. You should not delay Battle Cry to ensure either Rampage is used first
+    -- Only use Rampage with 100 rage once the Frothing Berserker buff is up
+    {spells.rampage, 'spells.battleCry.cooldown < kps.gcd and target.isAttackable and target.distance < 10' , "rampage_CD" },
+    -- "Berserker écumant" "Frothing Berserker" -- Lorsque vous atteignez 100 point de rage, vos dégâts sont augmentés de 15% et votre vitesse de déplacement de 30% pendant 6 sec.
+    {spells.rampage, 'player.hasBuff(spells.frothingBerserker) and spells.battleCry.cooldown < 43' , "target" , "rampage_BERSERKER" },
+    {spells.battleCry, 'kps.cooldowns and not player.isMoving and target.isAttackable and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
     {{"nested"}, 'player.hasBuff(spells.battleCry)', {
-        {spells.whirlwind, 'kps.multiTarget and not player.hasBuff(spells.meatCleaver) and target.distance < 10' },
-        {spells.dragonRoar, 'player.hasTalent(7,3)' }, -- 25 sec cd
-        {spells.rampage , 'true', "target" , "rampage_battleCry" }, -- get enraged
         {spells.ragingBlow , 'player.hasBuff(spells.enrage)', "target" , "ragingBlow_battleCry" },
+        {spells.rampage , 'true', "target" , "rampage_battleCry" }, -- get enraged
         {spells.odynsFury , 'player.hasBuff(spells.enrage)', "target" , "odynsFury_battleCry" }, -- 45 sec cd
         {spells.bloodthirst , 'true', "target" , "bloodthirst_battleCry" },
+        {spells.whirlwind, 'kps.multiTarget and target.distance < 10' , "target" , "whirlwind_battleCry" },
+        {spells.furiousSlash , 'true', "target" , "furiousSlash_battleCry" },
+    }},
+ 
+     -- Meat Cleave -- Your next Bloodthirst or Rampage strikes up to 4 additional targets for 50% damage.   
+    {{"nested"}, 'kps.multiTarget', {
+        {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and target.distance < 10' , "target" },
+        {spells.rampage, 'player.hasBuff(spells.frothingBerserker)' , "target" },
+        {spells.rampage, 'not player.hasBuff(spells.enrage)' , "target" },
+        {spells.bloodthirst, 'player.hasBuff(spells.meatCleaver)' },
+        {spells.odynsFury, 'player.hasBuff(spells.enrage)' , "target" },
+        {spells.ragingBlow, 'player.hasBuff(spells.enrage) and player.plateCount < 4' , "target" },
+        {spells.whirlwind, 'target.distance < 10' , "target" },
     }},
 
-    {spells.execute, 'player.hasBuff(spells.enrage) and target.hp < 0.20' },
-    {spells.execute, 'player.rage > 50 and target.hp < 0.20' },
-    {spells.rampage, 'not player.hasBuff(spells.enrage)' , "target" , "rampage_NO_enrage" },
-    {spells.rampage, 'player.rage == 100' , "target" , "rampage_RAGE" },
+    {spells.odynsFury, 'player.hasBuff(spells.enrage) and target.hp < 0.20' , "target", "odynsFury_enrage" },
+    {spells.execute, 'player.hasBuff(spells.enrage) and target.hp < 0.20' , "target", "execute_enrage" },
     {spells.ragingBlow, 'player.hasBuff(spells.enrage)' , "target", "ragingBlow_enrage" },
-    {spells.odynsFury , 'kps.multiTarget and player.hasBuff(spells.enrage) and target.distance < 10', "target" , "odynsFury_multiTarget" }, -- 45 sec cd
-    -- Meat Cleave -- Your next Bloodthirst or Rampage strikes up to 4 additional targets for 50% damage.
     {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and focus.exists and target.distance < 10' , "target" , "whirlwind_focus" },
-    {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and player.plateCount > 3 and target.distance < 10' , "target" , "whirlwind_plateCount" },
-    {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and kps.multiTarget and target.distance < 10' , "target" , "whirlwind_multiTarget" },
-    {spells.bloodthirst, 'not player.hasBuff(spells.enrage)' , "target" , "bloodthirst_NO_enrage" },
-    {spells.whirlwind, 'kps.multiTarget and player.hasTalent(3,1) and player.hasBuff(spells.enrage) and player.hasBuff(spells.wreckingBall) and target.distance < 10' },
-    {spells.whirlwind, 'kps.multiTarget and player.hasBuff(spells.enrage) and target.distance < 10' },
+    {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and player.plateCount >= 3 and target.distance < 10' , "target" , "whirlwind_plateCount" },
+    {spells.rampage, 'not player.hasBuff(spells.enrage)' , "target" , "rampage_NO_enrage" },
     {spells.bloodthirst },
     {spells.ragingBlow },
     {spells.furiousSlash },

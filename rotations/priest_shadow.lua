@@ -41,9 +41,10 @@ kps.rotations.register("PRIEST","SHADOW",{
     
     --{{"macro"}, 'canCastvoidBolt()' , "/stopcasting" },
     {{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") < kps.gcd' , "/stopcasting" },
+    {spells.voidEruption, 'player.hasBuff(spells.voidform)' , "target" },
     {spells.voidEruption, 'player.hasBuff(spells.voidform)' , env.VoidBoltTarget },
-    {spells.voidTorrent, 'not player.isMoving and player.hasBuff(spells.voidform) and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4 and player.buffStacks(spells.voidform) > 9' },
-    
+    {spells.voidTorrent, 'not player.isMoving and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 7' },
+
     -- "Dissipation de masse" 32375
     {{"macro"}, 'keys.ctrl', "/cast [@cursor] "..MassDispel },
     -- "Purify Disease" 213634
@@ -69,31 +70,37 @@ kps.rotations.register("PRIEST","SHADOW",{
     -- "Mindblast" is highest priority spell out of voidform
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity < 65' , "target" },
     {spells.mindBlast, 'not player.isMoving and not player.hasBuff(spells.voidform) and not player.hasTalent(7,1) and player.insanity < 100' , "target" },
-    
-     -- "Void Eruption" 228260
-    {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidform) and player.insanity == 100 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
-    {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity > 64 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
 
-    {spells.shadowWordPain, 'kps.multiTarget and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
     {spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
     {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
     {spells.vampiricTouch, 'not player.isMoving and focus.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("focus")' , 'focus' },
     {spells.shadowWordPain, 'focus.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("focus")' , 'focus' },
+
+    -- MultiTarget
+    {spells.shadowWordPain, 'kps.multiTarget and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
+    {spells.shadowWordPain, 'player.plateCount > 3 and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },  
+
+    -- "Void Eruption" 228260
+    {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidform) and player.insanity == 100 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
+    {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity >= 65 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
+
     {spells.vampiricTouch, 'mouseover.isAttackable and mouseover.inCombat and not player.isMoving and mouseover.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
     {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 
     -- TRINKETS "Trinket0Slot" est slotId  13 "Trinket1Slot" est slotId  14
     --{{"macro"}, 'player.useTrinket(0) and player.hasBuff(spells.voidform)' , "/use 13"},
     -- "Charm of the Rising Tide" -- While you remain stationary, gain 576 Haste every 1 sec stacking up to 10 times. Lasts 20 sec. (1 Min, 30 Sec Cooldown)
-    {{"macro"}, 'player.useTrinket(1) and player.hasBuff(spells.voidform) and spells.mindbender.cooldown > 40 and spells.mindbender.cooldown < 50' , "/use 14"},
+    {{"macro"}, 'player.useTrinket(1) and player.hasBuff(spells.voidform) and spells.mindbender.cooldown > 50' , "/use 14"},
     -- "Infusion de puissance" -- Confère un regain de puissance pendant 20 sec, ce qui augmente la hâte de 25%
     {spells.powerInfusion, 'kps.cooldowns and not player.isMoving and player.buffStacks(spells.voidform) > 29 and player.insanity > 50' },
     -- "Ombrefiel" cd 3 min duration 12sec -- "Mindbender" cd 1 min duration 12 sec
     {spells.shadowfiend, 'not player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.haste > 50' , "target" },
     {spells.mindbender, 'player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 29 and player.insanity < 80 and spells.voidTorrent.cooldown > 30' , "target" },
     {spells.mindbender, 'player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 19 and player.insanity < 60 and spells.voidTorrent.cooldown > 30' , "target" },
-    
+
+    -- MultiTarget
     {spells.mindFlay, 'kps.multiTarget and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "MULTITARGET" },
+    {spells.mindFlay, 'player.plateCount > 3 and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "MULTITARGET" },
 
     --{{"macro"}, 'canCastMindBlast()' , "/stopcasting" },
     --{{"macro"}, 'not player.isMoving and player.hasBuff(spells.voidform) and spells.mindBlast.cooldown == 0 and spells.mindFlay.castTimeLeft("player") < kps.gcd' , "/stopcasting" },

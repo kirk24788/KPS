@@ -17,7 +17,7 @@ local function UnitIsAttackable(unit)
 end
 
 function kps.env.warrior.TargetMouseover()
-    if not UnitExists("focus") and not UnitIsUnit("target","mouseover") and UnitAffectingCombat("mouseover") and UnitIsAttackable("mouseover") then
+    if not UnitExists("focus") and not UnitIsUnit("target","mouseover") and UnitIsAttackable("mouseover") and UnitAffectingCombat("mouseover") then
         kps.runMacro("/focus mouseover")
     end
     return nil, nil
@@ -32,9 +32,9 @@ function kps.env.warrior.FocusMouseover()
     return nil, nil
 end
 
-
+local UnitPower = UnitPower
 local function heroicLeapOnScreen()
-    if kps.spells.warrior.heroicLeap.cooldown < kps.gcd and kps.spells.warrior.heroicLeap.charges > 0 and kps.timers.check("heroicLeap") == 0 then
+    if kps.spells.warrior.heroicLeap.cooldown < kps.gcd and kps.spells.warrior.heroicLeap.charges > 0  and UnitPower("player", 1) < 50 and kps.timers.check("heroicLeap") == 0 then
         kps.timers.create("heroicLeap", 10 )
         CreateMessage("heroicLeap Ready")
     end
