@@ -43,6 +43,10 @@ kps.rotations.register("WARRIOR","FURY",
     --{spells.victoryRush}, -- No longer available to Fury
     {spells.commandingShout, 'player.hp < 0.60' },
     {spells.berserkerRage, 'player.hasTalent(3,2) and not player.hasBuff(spells.enrage)' },
+    
+    -- TRINKETS
+    -- "Souhait ardent de Kil'jaeden"
+    {{"macro"}, 'player.useTrinket(1) and player.plateCount >= 3' , "/use 14" },
 
     -- Cooldowns
     {spells.avatar, 'spells.battleCry.cooldown == 0 and not player.isMoving and target.isAttackable and target.distance < 10' }, -- 90 sec cd
@@ -61,14 +65,14 @@ kps.rotations.register("WARRIOR","FURY",
         {spells.furiousSlash , 'true', "target" , "furiousSlash_battleCry" },
     }},
  
-     -- Meat Cleave -- Your next Bloodthirst or Rampage strikes up to 4 additional targets for 50% damage.   
+    -- Meat Cleave -- Your next Bloodthirst or Rampage strikes up to 4 additional targets for 50% damage.
     {{"nested"}, 'kps.multiTarget', {
         {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and target.distance < 10' , "target" },
         {spells.rampage, 'player.hasBuff(spells.frothingBerserker)' , "target" },
         {spells.rampage, 'not player.hasBuff(spells.enrage)' , "target" },
         {spells.bloodthirst, 'player.hasBuff(spells.meatCleaver)' },
         {spells.odynsFury, 'player.hasBuff(spells.enrage)' , "target" },
-        {spells.ragingBlow, 'player.hasBuff(spells.enrage) and player.plateCount < 4' , "target" },
+        {spells.ragingBlow, 'player.hasBuff(spells.enrage) and player.plateCount <= 3' , "target" },
         {spells.whirlwind, 'target.distance < 10' , "target" },
     }},
 
