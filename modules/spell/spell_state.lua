@@ -42,7 +42,7 @@ end
 --[[[
 @function `<SPELL>.cost` - returns the cost (mana, rage...) for a given spell
 ]]--
--- GetSpellPowerCost is a table.concat
+-- GetSpellPowerCost is a table
 -- array are [hasRequiredAura] , [type] , [name] , [cost] , [minCost] , [requiredAuraID] , [costPercent] , [costPerSec]
 function Spell.cost(spell)
     local spelltable = GetSpellPowerCost(spell.name)[1]

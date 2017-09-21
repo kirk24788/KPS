@@ -38,18 +38,19 @@ kps.rotations.register("WARRIOR","PROTECTION",
 	{spells.lastStand, 'player.hp < 0.50 and not player.hasBuff(spells.ignorePain)' },
 
     {spells.battleCry, 'kps.cooldowns and not player.isMoving and target.isAttackable and target.distance < 10' },
-    {spells.shieldBlock, 'player.myBuffDuration(spells.shieldBlock) < 2' }, -- 15 rage
+    {spells.shieldBlock, 'player.myBuffDuration(spells.shieldBlock) < 2' , "target" , "shieldBlock" }, -- 15 rage
 	{spells.shieldSlam},
 	{spells.neltharionsFury, 'not player.isMoving and not player.hasBuff(spells.shieldBlock)' },
 	
-	-- "Vengeance: Revenge" -- Rage cost of Revenge reduced by 35%. 15 seconds remaining -- 19 rage
-	{spells.revenge, 'spells.revenge.cost == 0' , "target", "revenge_free" },
-    {spells.revenge, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceRevenge) and player.myBuffDuration(spells.ignorePain) < 4 and player.hasBuff(spells.ignorePain)' , "target", "revenge_buff" },
-    {spells.revenge, 'player.hasTalent(6,1) and not player.hasBuff(spells.vengeanceIgnorePain) and not player.hasBuff(spells.ignorePain) and player.hasBuff(spells.shieldWall)' , "target", "revenge" },
-
 	-- "Vengeance: Ignore Pain" -- Rage cost of Ignore Pain reduced by 35%. 15 seconds remaining -- 13 à 39 rage
-    {spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and not player.hasBuff(spells.ignorePain)' , "target", "ignorePain_buff" },
-    {spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and player.rage > (39 + 15)' , "target", "ignorePain_rage" },
+	{spells.revenge, 'spells.revenge.cost == 0' , "target", "revenge_free" },
+    {spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 4' , "target", "ignorePain_buff" },
+    {spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and player.rage > 100' , "target", "ignorePain_rage" },
+	
+	-- "Vengeance: Revenge" -- Rage cost of Revenge reduced by 35%. 15 seconds remaining -- 19 rage
+    {spells.revenge, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceRevenge) and not player.hasBuff(spells.vengeanceIgnorePain)' , "target", "revenge_buff" },
+    {spells.revenge, 'player.hasTalent(6,1) and not player.hasBuff(spells.vengeanceIgnorePain) and not player.hasBuff(spells.ignorePain) and player.hasBuff(spells.shieldBlock)' , "target", "revenge" },
+
 
 	{{"nested"}, 'kps.multiTarget and target.distance < 10', {
 		{spells.avatar},
