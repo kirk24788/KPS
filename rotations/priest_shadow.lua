@@ -37,7 +37,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.giftOfTheNaaru, 'player.hp < 0.70', "player" },
     -- "Etreinte vampirique" buff 15286 -- pendant 15 sec, vous permet de rendre à un allié proche, un montant de points de vie égal à 40% des dégâts d’Ombre que vous infligez avec des sorts à cible unique
     {spells.vampiricEmbrace, 'player.hasBuff(spells.voidform) and player.hp < 0.50' },
-    {spells.vampiricEmbrace, 'player.hasBuff(spells.voidform) and heal.countInRange > 2 and heal.averageHpIncoming < 0.80' },
+    {spells.vampiricEmbrace, 'player.hasBuff(spells.voidform) and heal.countLossInRange(0.80) > 2 and heal.averageHealthRaid < 0.80' },
     
     --{{"macro"}, 'canCastvoidBolt()' , "/stopcasting" },
     {{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") < kps.gcd' , "/stopcasting" },

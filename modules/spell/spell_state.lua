@@ -38,6 +38,17 @@ function Spell.cooldownTotal(spell)
     return duration
 end
 
+
+--[[[
+@function `<SPELL>.cost` - returns the cost (mana, rage...) for a given spell
+]]--
+-- GetSpellPowerCost is a table.concat
+-- array are [hasRequiredAura] , [type] , [name] , [cost] , [minCost] , [requiredAuraID] , [costPercent] , [costPerSec]
+function Spell.cost(spell)
+    local spelltable = GetSpellPowerCost(spell.name)[1]
+    return spelltable.cost
+end
+
 --[[[
 @function `<SPELL>.isRecastAt(<UNIT-STRING>)` - returns true if this was last casted spell and the last targetted unit was the given unit (e.g.: `spell.immolate.isRecastAt("target")`). 
 ]]--

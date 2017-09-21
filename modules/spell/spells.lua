@@ -122,6 +122,6 @@ kps.spells.battlerez.soulstone = kps.Spell.fromId(20707) -- Soulstone
 kps.spells.battlerez.eternalGuardian = kps.Spell.fromId(126393) -- Eternal Guardian
 
 -- Healing Absorption Debuff
-kps.spells.absorptionDebuff = {}
-kps.spells.absorptionDebuff.spearOfAnguish = kps.Spell.fromId(235933) -- Spear of Anguish -- Lance d'angoisse -- TOS Hote desolé Moteur des ames
-kps.spells.absorptionDebuff.EmbraceOfTheEclipse = kps.Spell.fromId(233263) -- Embrace of the Eclipse -- Etreinte de l'éclipse -- TOS Soeurs de la lune
+kps.spells.absorptionHeal = {}
+kps.spells.absorptionHeal.spearOfAnguish = kps.Spell.fromId(235933) -- Spear of Anguish -- Lance d'angoisse -- TOS Hote desolé Moteur des ames
+kps.spells.absorptionHeal.EmbraceOfTheEclipse = kps.Spell.fromId(233263) -- Embrace of the Eclipse -- Etreinte de l'éclipse -- TOS Soeurs de la lune

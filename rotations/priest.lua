@@ -206,7 +206,7 @@ local interruptTableUpdate = function()
     return { {FlashHeal, 0.885 , onCD}, {Heal, 0.995 , onCD}, {PrayerOfHealing, 3 , buffPlayer} }
 end
 
-local ShouldInterruptCasting = function (interruptTable, countInRange, lowestHealth)
+local ShouldInterruptCasting = function (interruptTable, countLossInRange, lowestHealth)
     if kps.lastTargetGUID == nil then return false end
     local spellCasting, _, _, _, _, endTime, _ = UnitCastingInfo("player")
     if spellCasting == nil then return false end
@@ -216,9 +216,9 @@ local ShouldInterruptCasting = function (interruptTable, countInRange, lowestHea
         local breakpoint = healSpellTable[2]
         local spellName = tostring(healSpellTable[1])
         if spellName == spellCasting and healSpellTable[3] == false then
-            if spellName == PrayerOfHealing and countInRange < breakpoint then
+            if spellName == PrayerOfHealing and countLossInRange < breakpoint then
                 SpellStopCasting()
-                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..", has enough hp: "..countInRange, 0, 0.5, 0.8)
+                DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..", has enough hp: "..countLossInRange, 0, 0.5, 0.8)
 
             elseif spellName == Heal and lowestHealth < 0.50 and UnitPower("player",0)/UnitPowerMax("player",0) > 0.10 then
                 -- SPELL_POWER_MANA value 0
@@ -240,10 +240,10 @@ local ShouldInterruptCasting = function (interruptTable, countInRange, lowestHea
 end
 
 kps.env.priest.ShouldInterruptCasting = function()
-    local countInRange = kps["env"].heal.countInRange
+    local countLossInRange = kps["env"].heal.countLossInRange(0.80)
     local lowestHealth = kps["env"].heal.lowestInRaid.hp
     local interruptTable = interruptTableUpdate()
-    return ShouldInterruptCasting(interruptTable, countInRange, lowestHealth)
+    return ShouldInterruptCasting(interruptTable, countLossInRange, lowestHealth)
 end
 
 --------------------------------------------------------------------------------------------

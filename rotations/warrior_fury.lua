@@ -51,9 +51,8 @@ kps.rotations.register("WARRIOR","FURY",
     -- Cooldowns
     {spells.avatar, 'spells.battleCry.cooldown == 0 and not player.isMoving and target.isAttackable and target.distance < 10' }, -- 90 sec cd
     -- Rampage can be used prior to Battle Cry even with less than 100 rage. You should not delay Battle Cry to ensure either Rampage is used first
-    -- Only use Rampage with 100 rage once the Frothing Berserker buff is up
-    {spells.rampage, 'spells.battleCry.cooldown < kps.gcd and target.isAttackable and target.distance < 10' , "rampage_CD" },
     -- "Berserker écumant" "Frothing Berserker" -- Lorsque vous atteignez 100 point de rage, vos dégâts sont augmentés de 15% et votre vitesse de déplacement de 30% pendant 6 sec.
+    {spells.rampage, 'spells.battleCry.cooldown < kps.gcd and target.isAttackable and target.distance < 10' , "rampage_CD" },
     {spells.rampage, 'player.hasBuff(spells.frothingBerserker) and spells.battleCry.cooldown < 43' , "target" , "rampage_BERSERKER" },
     {spells.battleCry, 'kps.cooldowns and not player.isMoving and target.isAttackable and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
     {{"nested"}, 'player.hasBuff(spells.battleCry)', {

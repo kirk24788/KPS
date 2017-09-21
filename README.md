@@ -168,8 +168,7 @@ Members:
     * `target` if the target is below 50% hp incoming (if the target is not healable, `targettarget` is checked instead)
     * lowest tank in raid
     When used as a _target_ in your rotation, you *must* write `kps.heal.defaultTank`!
- * `heal.averageHpIncoming` - Returns the average hp incoming for all raid members
- * `heal.countInRange` - Returns the count for all raid members below threshold health pct default 0.80
+ * `heal.averageHealthRaid` - Returns the average hp incoming for all raid members
  * `heal.countLossInRange<PCT>)` - Returns the count for all raid members below threshold health pct default 0.80
  * `heal.aggroTankTarget` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
     When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTankTarget`!

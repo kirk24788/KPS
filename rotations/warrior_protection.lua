@@ -5,16 +5,20 @@
 ]]--
 local spells = kps.spells.warrior
 local env = kps.env.warrior
+local Intercept = tostring(kps.spells.warrior.intercept)
 
 
 kps.rotations.register("WARRIOR","PROTECTION",
 {
-    {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
-    {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
+    
+    {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
+    {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
+    {{"macro"}, 'not target.isAttackable' , "/cleartarget"},
 
     -- Charge enemy
-    {spells.heroicThrow, 'target.isAttackable and target.distance > 10' },
-    {spells.intercept, 'target.isAttackable and target.distance > 10' },
+    {spells.heroicThrow, 'kps.defensive and target.isAttackable and target.distance > 10' },
+    {spells.intercept, 'kps.defensive and target.isAttackable and target.distance > 10' },
+    {{"macro"}, 'keys.shift and not player.hasBuff(spells.battleCry)', "/cast [@cursor] "..Intercept },
     {spells.taunt, 'kps.defensive and not player.isTarget' },
     
     -- interrupts
@@ -26,22 +30,26 @@ kps.rotations.register("WARRIOR","PROTECTION",
     {spells.stoneform, 'player.incomingDamage > player.hpMax * 0.10 and player.hp < 0.80 ' },
 	{spells.impendingVictory, 'player.hasTalent(2,3)'}, -- impending_victory,if=talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
 	{spells.victoryRush, 'not player.hasTalent(2,3)'}, -- victory_rush,if=!talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
-    --{spells.berserkerRage, 'not player.hasBuff(spells.enrage)' },
-    
+    {spells.berserkerRage, 'player.rage < 20' }, -- set T20 gives 20 rage
+
 	{spells.demoralizingShout, 'player.incomingDamage > player.hpMax * 0.10' },
     {spells.shieldWall, 'player.incomingDamage - player.incomingHeal > player.hpMax * 0.10' },
 	{spells.lastStand, 'player.hp < 0.50 and not player.hasBuff(spells.shieldBlock)' },
 	{spells.lastStand, 'player.hp < 0.50 and not player.hasBuff(spells.ignorePain)' },
 
     {spells.battleCry, 'kps.cooldowns and not player.isMoving and target.isAttackable and target.distance < 10' },
-    {spells.shieldBlock, 'not player.hasBuff(spells.shieldBlock)' },
+    {spells.shieldBlock, 'player.myBuffDuration(spells.shieldBlock) < 2' }, -- 15 rage
 	{spells.shieldSlam},
 	{spells.neltharionsFury, 'not player.isMoving and not player.hasBuff(spells.shieldBlock)' },
-	-- "Vengeance: Ignore Pain" -- Rage cost of Ignore Pain reduced by 35%. 15 seconds remaining
-    {spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 4' , "target", "ignorePain_buff" },
-	-- "Vengeance: Revenge" -- Rage cost of Revenge reduced by 35%. 15 seconds remaining
-    {spells.revenge, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceRevenge) and player.myBuffDuration(spells.ignorePain) < 4' , "target", "revenge_buff" },
-    {spells.revenge, 'player.hasTalent(6,1) and not player.hasBuff(spells.vengeanceIgnorePain)' , "target", "revenge" },
+	
+	-- "Vengeance: Revenge" -- Rage cost of Revenge reduced by 35%. 15 seconds remaining -- 19 rage
+	{spells.revenge, 'spells.revenge.cost == 0' , "target", "revenge_free" },
+    {spells.revenge, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceRevenge) and player.myBuffDuration(spells.ignorePain) < 4 and player.hasBuff(spells.ignorePain)' , "target", "revenge_buff" },
+    {spells.revenge, 'player.hasTalent(6,1) and not player.hasBuff(spells.vengeanceIgnorePain) and not player.hasBuff(spells.ignorePain) and player.hasBuff(spells.shieldWall)' , "target", "revenge" },
+
+	-- "Vengeance: Ignore Pain" -- Rage cost of Ignore Pain reduced by 35%. 15 seconds remaining -- 13 à 39 rage
+    {spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and not player.hasBuff(spells.ignorePain)' , "target", "ignorePain_buff" },
+    {spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and player.rage > (39 + 15)' , "target", "ignorePain_rage" },
 
 	{{"nested"}, 'kps.multiTarget and target.distance < 10', {
 		{spells.avatar},

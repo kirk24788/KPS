@@ -193,9 +193,9 @@ kps.RaidStatus.prototype.defaultTank = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.averageHpIncoming` - Returns the average hp incoming for all raid members
+@function `heal.averageHealthRaid` - Returns the average hp incoming for all raid members
 ]]--
-kps.RaidStatus.prototype.averageHpIncoming = kps.utils.cachedValue(function()
+kps.RaidStatus.prototype.averageHealthRaid = kps.utils.cachedValue(function()
     local hpIncTotal = 0
     local hpIncCount = 0
     for name, unit in pairs(raidStatus) do
@@ -208,41 +208,33 @@ kps.RaidStatus.prototype.averageHpIncoming = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.countInRange` - Returns the count for all raid members below threshold health pct default 0.80
+@function `heal.countLossInRange<PCT>)` - Returns the count for all raid members below threshold health pct default 0.80
 ]]--
 
 local countInRange = function(pct)
     if pct == nil then pct = 0.80 end
     local count = 0
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and unit.hpIncoming < pct then
+            count = count + 1
+        end
+    end
+    return count
+end
+
+kps.RaidStatus.prototype.countLossInRange = kps.utils.cachedValue(function()
+    local count = countInRange
+    return count
+end)
+
+kps.RaidStatus.prototype.countInRange = kps.utils.cachedValue(function()
     local maxcount = 0
     for name, unit in pairs(raidStatus) do
         if unit.isHealable then
             maxcount = maxcount + 1
-            if unit.hpIncoming < pct then
-                count = count + 1
-            end
         end
     end
-    return count, maxcount
-end
-
-kps.RaidStatus.prototype.countInRange = kps.utils.cachedValue(function()
-    local count,_ = countInRange(0.80)
-    return count
-end)
-
-kps.RaidStatus.prototype.maxcountInRange = kps.utils.cachedValue(function()
-    local _,maxcount = countInRange(0.80)
     return maxcount
-end)
-
---[[[
-@function `heal.countLossInRange<PCT>)` - Returns the count for all raid members below threshold health pct default 0.80
-]]--
-
-kps.RaidStatus.prototype.countLossInRange = kps.utils.cachedValue(function()
-    local count,_ = countInRange
-    return count
 end)
 
 --[[[
@@ -362,7 +354,7 @@ kps.RaidStatus.prototype.hasRaidDebuff = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.hasRaidBuff(<BUFF>)` - Returns the raid unit for a specific Buff
+@function `heal.hasRaidBuff(<BUFF>)` - Returns the raid unit for a specific Buff e.g. heal.hasRaidBuff(spells.prayerOfMending) ~= nil
 ]]--
 
 local unitBuff = function(spell)
@@ -377,7 +369,7 @@ kps.RaidStatus.prototype.hasRaidBuff = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.hasRaidBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on on raid
+@function `heal.hasRaidBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on on raid e.g. heal.hasRaidBuffStacks(spells.prayerOfMending) < 10
 ]]--
 
 local unitBuffStacks = function(spell)
@@ -397,18 +389,28 @@ end)
 
 
 --[[[
-@function `heal.hasAbsorptionDebuff` - Returns the raid unit witn an absorption Debuff
+@function `heal.hasAbsorptionHeal` - Returns the raid unit witn an absorption Debuff
 ]]--
 
-local healAbsorptionDebuff = function(spell)
+local healAbsorption = function(spell)
     for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.absorptionDebuff then return unit end
+        if unit.isHealable and unit.absorptionHeal then return unit end
     end
     return nil
 end
 
-kps.RaidStatus.prototype.hasAbsorptionDebuff = kps.utils.cachedValue(function()
-    return healAbsorptionDebuff
+kps.RaidStatus.prototype.hasAbsorptionHeal = kps.utils.cachedValue(function()
+    return healAbsorption
+end)
+
+kps.RaidStatus.prototype.hasAbsorptionHealCount = kps.utils.cachedValue(function()
+    local count = 0
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and unit.absorptionHeal then
+            count = count + 1
+        end
+    end
+    return count
 end)
 
 --------------------------------------------------------------------------------------------
@@ -441,10 +443,19 @@ print("|cffff8000TANK:|cffffffff", kps["env"].heal.lowestTankInRaid.name)
 print("|cffff8000AGGRO:|cffffffff", kps["env"].heal.aggroTank.name)
 print("|cff1eff00HEAL:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingHeal)
 print("|cFFFF0000DMG:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingDamage)
-print("|cffff8000COUNT80:|cffffffff", kps["env"].heal.countLossInRange(0.80),"/",kps["env"].heal.maxcountInRange)
-print("|cffff8000COUNT70:|cffffffff", kps["env"].heal.countLossInRange(0.70),"/",kps["env"].heal.maxcountInRange)
-print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHpIncoming)
+print("|cffff8000COUNT_80%:|cffffffff", kps["env"].heal.countLossInRange(0.80),"|cffff8000COUNT_MAX:|cffffffff",kps["env"].heal.countInRange)
+print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHealthRaid)
 print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
+print("|cffff8000absorbHEAL:|cffffffff", kps["env"].heal.hasAbsorptionHealCount)
+
+--local spell = kps.Spell.fromId(6572)
+--local spellname = spell.name -- tostring(kps.spells.warrior.revenge)
+--local spelltable = GetSpellPowerCost(spellname)[1] 
+--for i,j in pairs(spelltable) do
+--print(i," - ",j)
+--end
+
+
 
 --print("|cffff8000GCD:|cffffffff", kps.gcd)
 --print("|cffff8000GCD:|cffffffff", kps["env"].player.isInRaid)
