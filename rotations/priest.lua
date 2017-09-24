@@ -14,6 +14,9 @@ local UnitHealthMax = UnitHealthMax
 local MindFlay = tostring(kps.spells.priest.mindFlay)
 local VoidForm = tostring(kps.spells.priest.voidform)
 local EnemyTable = {"mouseover", "focus", "target"}
+local UnitDebuff = UnitDebuff
+local UnitBuff = UnitBuff
+local UnitChannelInfo = UnitChannelInfo
 
 --------------------------------------------------------------------------------------------
 ------------------------------- TEST FUNCTIONS
@@ -23,17 +26,14 @@ function kps.env.priest.booltest()
     if kps.multiTarget then return true end
     return false
 end
-
-function kps.env.priest.strtest()
-    if kps.multiTarget then return "a" end
-    return "b"
-end
-
 function kps.env.priest.boolval(arg)
     if arg == true then return true end
     return false
 end
-
+function kps.env.priest.strtest()
+    if kps.multiTarget then return "a" end
+    return "b"
+end
 function kps.env.priest.strval(arg)
     if arg == true then return "a" end
     return "b"
@@ -47,6 +47,10 @@ end
 --{spells.mindFlay, 'env.booltest()' }, -- nil value
 --{spells.mindFlay, 'booltest()' }, -- true/false
 --{spells.mindFlay, 'booltest' }, -- always true
+
+--{spells.mindFlay, env.boolval(kps.multiTarget) }, -- always false
+--{spells.mindFlay, 'env.boolval(kps.multiTarget)' }, -- nil value
+--{spells.mindFlay, 'boolval(kps.multiTarget)' }, -- always true
 
 --{spells.mindFlay, env.strtest == "a" }, -- always false
 --{spells.mindFlay, env.strtest() == "a" }, -- always false

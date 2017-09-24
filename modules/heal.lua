@@ -455,7 +455,7 @@ print("|cffff8000absorbHEAL:|cffffffff", kps["env"].heal.hasAbsorptionHealCount)
 --print(i," - ",j)
 --end
 
-
+--print("test:", kps["env"].player.buffValue(kps.spells.warrior.ignorePain))
 
 --print("|cffff8000GCD:|cffffffff", kps.gcd)
 --print("|cffff8000GCD:|cffffffff", kps["env"].player.isInRaid)

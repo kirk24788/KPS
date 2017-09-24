@@ -24,8 +24,7 @@ kps.rotations.register("PRIEST","SHADOW",{
 
     -- "Dispersion" 47585
     {spells.dispersion, 'player.hp < 0.40' },
-    {spells.dispersion, 'player.isMovingFor(1.2) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 29' },
-    --{spells.dispersion, 'spells.mindbender.cooldown > 44 and player.buffStacks(spells.voidform) > 39 and spells.voidTorrent.cooldown > 6' , "target", "DISPERSION_BUFF" },
+    {spells.dispersion, 'player.isMovingFor(1.2) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 29' , "target", "DISPERSION_BUFF" },
     {{"macro"}, 'player.hasBuff(spells.dispersion) and player.hp == 1 and player.insanity == 100' , "/cancelaura "..Dispersion },
     --"Fade" 586
     {spells.fade, 'player.isTarget' },

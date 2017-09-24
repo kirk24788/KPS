@@ -48,10 +48,19 @@ function Player.isMovingFor(self)
 end
 
 --[[[
-@function `player.IsSwimming` - returns true if the player is currently swimming.
+@function `player.isSwimming` - returns true if the player is currently swimming.
 ]]--
 function Player.isSwimming(self)
     return IsSwimming()
+end
+
+--[[[
+@function `player.hasFullControl` - Checks whether you have full control over your character (i.e. you are not feared, etc).
+]]--
+function Player.hasFullControl(self)
+	local fullcontrol = HasFullControl()
+    if fullcontrol then return true end
+    return false
 end
 
 --[[[

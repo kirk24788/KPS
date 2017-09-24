@@ -13,53 +13,56 @@ kps.rotations.register("WARRIOR","PROTECTION",
     
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
-    {{"macro"}, 'not target.isAttackable' , "/cleartarget"},
-
-    -- Charge enemy
-    {spells.heroicThrow, 'kps.defensive and target.isAttackable and target.distance > 10' },
-    {spells.intercept, 'kps.defensive and target.isAttackable and target.distance > 10' },
-    {{"macro"}, 'keys.shift and not player.hasBuff(spells.battleCry)', "/cast [@cursor] "..Intercept },
-    {spells.taunt, 'kps.defensive and not player.isTarget' },
+    {{"macro"}, 'not target.isAttackable' , "/cleartarget" },
+    env.ScreenMessage,
+    {spells.berserkerRage, 'not player.hasFullControl' },
+    {spells.berserkerRage, 'player.rage < 15 and player.myBuffDuration(spells.shieldBlock) < 2' }, -- set T20 gives 20 rage
     
-    -- interrupts
+    -- Interrupts
     {{"nested"}, 'kps.interrupt',{
     	{spells.pummel, 'target.isInterruptable' , "target" },
         {spells.pummel, 'focus.isInterruptable' , "focus" },
     }},
+    
+    -- Charge enemy
+    {{"macro"}, 'keys.shift and not player.hasBuff(spells.battleCry)', "/cast [@cursor] "..Intercept },
+    {spells.heroicThrow, 'kps.defensive and target.isAttackable and target.distance > 10' },
+    {spells.intercept, 'kps.defensive and target.isAttackable and target.distance > 10' },
+    {spells.taunt, 'kps.defensive and not player.isTarget' },
 
-    {spells.stoneform, 'player.incomingDamage > player.hpMax * 0.10 and player.hp < 0.80 ' },
-	{spells.impendingVictory, 'player.hasTalent(2,3)'}, -- impending_victory,if=talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
-	{spells.victoryRush, 'not player.hasTalent(2,3)'}, -- victory_rush,if=!talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
-    {spells.berserkerRage, 'player.rage < 20' }, -- set T20 gives 20 rage
-
+    -- Health
 	{spells.demoralizingShout, 'player.incomingDamage > player.hpMax * 0.10' },
-    {spells.shieldWall, 'player.incomingDamage - player.incomingHeal > player.hpMax * 0.10' },
-	{spells.lastStand, 'player.hp < 0.50 and not player.hasBuff(spells.shieldBlock)' },
-	{spells.lastStand, 'player.hp < 0.50 and not player.hasBuff(spells.ignorePain)' },
+	{spells.victoryRush, 'not player.hasTalent(2,3)'}, -- victory_rush,if=!talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
+	{spells.impendingVictory, 'player.hasTalent(2,3)'}, -- impending_victory,if=talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
+    {spells.stoneform, 'player.incomingDamage > player.hpMax * 0.10' },
+    {spells.shieldWall, 'player.incomingDamage > player.hpMax * 0.10 and player.hp < 0.60' },
+	{spells.lastStand, 'player.hp < 0.40' },
 
-    {spells.battleCry, 'kps.cooldowns and not player.isMoving and target.isAttackable and target.distance < 10' },
-    {spells.shieldBlock, 'player.myBuffDuration(spells.shieldBlock) < 2' , "target" , "shieldBlock" }, -- 15 rage
-	{spells.shieldSlam},
-	{spells.neltharionsFury, 'not player.isMoving and not player.hasBuff(spells.shieldBlock)' },
-	
-	-- "Vengeance: Ignore Pain" -- Rage cost of Ignore Pain reduced by 35%. 15 seconds remaining -- 13 à 39 rage
+    -- TRINKETS
+    -- "Souhait ardent de Kil'jaeden"
+    {{"macro"}, 'player.useTrinket(1) and player.plateCount >= 3' , "/use 14" },
+    {{"macro"}, 'player.useTrinket(1) and target.isElite' , "/use 14" },
+
+    {spells.battleCry, 'spells.shieldSlam.cooldown == 0 and target.isAttackable and target.distance < 10' },
 	{spells.revenge, 'spells.revenge.cost == 0' , "target", "revenge_free" },
-    {spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 4' , "target", "ignorePain_buff" },
-    {spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and player.rage > 100' , "target", "ignorePain_rage" },
-	
-	-- "Vengeance: Revenge" -- Rage cost of Revenge reduced by 35%. 15 seconds remaining -- 19 rage
-    {spells.revenge, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceRevenge) and not player.hasBuff(spells.vengeanceIgnorePain)' , "target", "revenge_buff" },
-    {spells.revenge, 'player.hasTalent(6,1) and not player.hasBuff(spells.vengeanceIgnorePain) and not player.hasBuff(spells.ignorePain) and player.hasBuff(spells.shieldBlock)' , "target", "revenge" },
+	{spells.shieldSlam},
+    {spells.shieldBlock, 'player.myBuffDuration(spells.shieldBlock) < 2' , "target" , "shieldBlock" }, -- 15 rage
+	{spells.neltharionsFury, 'not player.isMoving and not player.hasBuff(spells.shieldBlock) and target.isAttackable and target.distance < 10' },
 
+    -- "Vengeance: Ignore Pain" -- Rage cost of Ignore Pain reduced by 35%. 15 seconds remaining -- 13 à 39 rage -- cap 0,58 healthMax
+	{spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 4 and player.incomingDamage > 0' , "target", "ignorePain_bufftimer" },
+	{spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 14 and player.buffValue(spells.ignorePain) < player.hpMax * 0.40' , "target", "ignorePain_buffvalue" },
+    {spells.ignorePain, 'player.rage > 90' , "target", "ignorePain_rage" },
+	-- "Vengeance: Revenge" -- Rage cost of Revenge reduced by 35%. 15 seconds remaining -- 19 rage
+    {spells.revenge, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceRevenge) and not player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 8' , "target", "revenge_buff" },
+    {spells.revenge, 'player.hasTalent(6,1) and not player.hasBuff(spells.vengeanceIgnorePain) and not player.hasBuff(spells.ignorePain) and player.myBuffDuration(spells.shieldBlock) > 2' , "target", "revenge" },
+    {spells.revenge, 'player.rage > 90' , "target", "revenge_rage" },
 
 	{{"nested"}, 'kps.multiTarget and target.distance < 10', {
 		{spells.avatar},
-		{spells.revenge},
 		{spells.thunderClap},
-		{spells.shieldSlam},
 		{spells.ravager},
 		{spells.shockwave},
-	    {spells.devastate},
 	}},
 
     {spells.thunderClap, 'target.distance < 10'},

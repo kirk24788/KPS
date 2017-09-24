@@ -15,6 +15,8 @@ kps.rotations.register("WARRIOR","FURY",
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
     {{"macro"}, 'not target.isAttackable' , "/cleartarget"},
     env.ScreenMessage,
+    {spells.berserkerRage, 'not player.hasFullControl' },
+    {spells.berserkerRage, 'player.hasTalent(3,2) and not player.hasBuff(spells.enrage)' },
 
     -- env.TargetMouseover,
     {{"macro"}, 'not focus.exists and not target.isUnit("mouseover") and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10'  ,"/focus mouseover" },
@@ -35,25 +37,27 @@ kps.rotations.register("WARRIOR","FURY",
 
     -- "Pierre de soins" 5512
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.70', "/use item:5512" },
-
-    {spells.stoneform, 'player.incomingDamage - player.incomingHeal > player.hpMax * 0.10' },
-    {spells.stoneform, 'player.incomingDamage > player.hpMax * 0.10 and player.hp < 0.80 ' },
+    {spells.intimidatingShout, 'player.plateCount >= 3' },
+    {spells.intimidatingShout, 'target.isElite' , "target" , "intimidatingShout" },
+	{spells.intimidatingShout, 'player.incomingDamage > player.hpMax * 0.10' },
+    {spells.stoneform, 'player.incomingDamage > player.hpMax * 0.10' },
     {spells.bloodthirst, 'player.hasBuff(spells.enragedRegeneration)' },
     {spells.enragedRegeneration, 'player.hp < 0.70' },
     --{spells.victoryRush}, -- No longer available to Fury
     {spells.commandingShout, 'player.hp < 0.60' },
-    {spells.berserkerRage, 'player.hasTalent(3,2) and not player.hasBuff(spells.enrage)' },
-    
+
     -- TRINKETS
     -- "Souhait ardent de Kil'jaeden"
     {{"macro"}, 'player.useTrinket(1) and player.plateCount >= 3' , "/use 14" },
+    {{"macro"}, 'player.useTrinket(1) and target.isElite' , "/use 14" },
 
     -- Cooldowns
+    {spells.avatar, 'spells.battleCry.cooldown < 10 and not player.isMoving and target.isAttackable and target.distance < 10 and player.hasBuff(spells.frothingBerserker)' , "target" , "avatar_BERSERKER" }, -- 90 sec cd
     {spells.avatar, 'spells.battleCry.cooldown == 0 and not player.isMoving and target.isAttackable and target.distance < 10' }, -- 90 sec cd
     -- Rampage can be used prior to Battle Cry even with less than 100 rage. You should not delay Battle Cry to ensure either Rampage is used first
     -- "Berserker écumant" "Frothing Berserker" -- Lorsque vous atteignez 100 point de rage, vos dégâts sont augmentés de 15% et votre vitesse de déplacement de 30% pendant 6 sec.
-    {spells.rampage, 'spells.battleCry.cooldown < kps.gcd and target.isAttackable and target.distance < 10' , "rampage_CD" },
     {spells.rampage, 'player.hasBuff(spells.frothingBerserker) and spells.battleCry.cooldown < 43' , "target" , "rampage_BERSERKER" },
+    {spells.rampage, 'spells.battleCry.cooldown < kps.gcd and target.isAttackable and target.distance < 10' , "rampage_CD" },
     {spells.battleCry, 'kps.cooldowns and not player.isMoving and target.isAttackable and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
     {{"nested"}, 'player.hasBuff(spells.battleCry)', {
         {spells.ragingBlow , 'player.hasBuff(spells.enrage)', "target" , "ragingBlow_battleCry" },
@@ -63,7 +67,7 @@ kps.rotations.register("WARRIOR","FURY",
         {spells.whirlwind, 'kps.multiTarget and target.distance < 10' , "target" , "whirlwind_battleCry" },
         {spells.furiousSlash , 'true', "target" , "furiousSlash_battleCry" },
     }},
- 
+
     -- Meat Cleave -- Your next Bloodthirst or Rampage strikes up to 4 additional targets for 50% damage.
     {{"nested"}, 'kps.multiTarget', {
         {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and target.distance < 10' , "target" },
