@@ -80,20 +80,20 @@ function fakeAchievement(id)
     local month=  09
     local year= 17
 
-	local myGuid = UnitGUID("target")
-	local myName = UnitName("target")
+    local myGuid = UnitGUID("target")
+    local myName = UnitName("target")
 
-	if (myGuid == nil) or (myGuid == "") then
-		myGuid = UnitGUID("player")
-		myName = UnitName("player")
-	end
+    if (myGuid == nil) or (myGuid == "") then
+        myGuid = UnitGUID("player")
+        myName = UnitName("player")
+    end
 
-	myGuid = string.gsub(myGuid, '0x', '')
+    myGuid = string.gsub(myGuid, '0x', '')
 
-	local _, name = GetAchievementInfo(id)
-	--DEFAULT_CHAT_FRAME:AddMessage("Achievement for "..myName..": |cffffff00|Hachievement:"..id..":"..myGuid..":1:"..month..":"..day..":"..year..":4294967295:4294967295:4294967295:4294967295|h["..name.."]|h|r")
-	local link = "|cffffff00|Hachievement:"..id..":"..myGuid..":1:"..month..":"..day..":"..year..":4294967295:4294967295:4294967295:4294967295|h["..name.."]|h|r"
-	ChatEdit_InsertLink(link)
+    local _, name = GetAchievementInfo(id)
+    --DEFAULT_CHAT_FRAME:AddMessage("Achievement for "..myName..": |cffffff00|Hachievement:"..id..":"..myGuid..":1:"..month..":"..day..":"..year..":4294967295:4294967295:4294967295:4294967295|h["..name.."]|h|r")
+    local link = "|cffffff00|Hachievement:"..id..":"..myGuid..":1:"..month..":"..day..":"..year..":4294967295:4294967295:4294967295:4294967295|h["..name.."]|h|r"
+    ChatEdit_InsertLink(link)
 end
 
 

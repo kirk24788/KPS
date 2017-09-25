@@ -31,7 +31,7 @@ kps.rotations.register("WARRIOR","FURY",
     
     -- interrupts
     {{"nested"}, 'kps.interrupt and target.distance < 10',{
-    	{spells.pummel, 'target.isInterruptable' , "target" },
+        {spells.pummel, 'target.isInterruptable' , "target" },
         {spells.pummel, 'focus.isInterruptable' , "focus" },
     }},
 
@@ -39,7 +39,7 @@ kps.rotations.register("WARRIOR","FURY",
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.70', "/use item:5512" },
     {spells.intimidatingShout, 'player.plateCount >= 3' },
     {spells.intimidatingShout, 'target.isElite' , "target" , "intimidatingShout" },
-	{spells.intimidatingShout, 'player.incomingDamage > player.hpMax * 0.10' },
+    {spells.intimidatingShout, 'player.incomingDamage > player.hpMax * 0.10' },
     {spells.stoneform, 'player.incomingDamage > player.hpMax * 0.10' },
     {spells.bloodthirst, 'player.hasBuff(spells.enragedRegeneration)' },
     {spells.enragedRegeneration, 'player.hp < 0.70' },
@@ -89,7 +89,7 @@ kps.rotations.register("WARRIOR","FURY",
     {spells.ragingBlow },
     {spells.furiousSlash },
     
-	{{"macro"}, 'true' , "/startattack" },
+    {{"macro"}, 'true' , "/startattack" },
 
 }
 ,"Warrior Fury 7.3")

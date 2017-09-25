@@ -376,8 +376,8 @@ local unitBuffStacks = function(spell)
     local charge = 0
     for name, unit in pairs(raidStatus) do
         if unit.isHealable and unit.hasBuff(spell) then
-        	local stacks = unit.buffStacks(spell)
-        	charge = charge + stacks
+            local stacks = unit.buffStacks(spell)
+            charge = charge + stacks
         end
     end
     return charge

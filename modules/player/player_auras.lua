@@ -58,7 +58,7 @@ end
 @function `player.hasFullControl` - Checks whether you have full control over your character (i.e. you are not feared, etc).
 ]]--
 function Player.hasFullControl(self)
-	local fullcontrol = HasFullControl()
+    local fullcontrol = HasFullControl()
     if fullcontrol then return true end
     return false
 end
