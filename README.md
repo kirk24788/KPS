@@ -78,7 +78,7 @@ _(Might not be fully functional)_
 * Priest: Discipline (7.0.3)
 * Rogue: Assassination (7.0.3), Subtlety (7.0.3)
 * Shaman: Elemental (7.0.3)
-* Warrior: Protection (7.2)
+* Warrior: Protection (7.3)
 
 **Special Thanks for contributing to the KPS rotations:**
 
@@ -178,8 +178,10 @@ Members:
  * `heal.lowestTargetInRaid` - Returns the raid unit with lowest health targeted by enemy nameplate.
  * `heal.isMagicDispellable` - Returns the raid unit with magic debuff to dispel
  * `heal.isDiseaseDispellable` - Returns the raid unit with disease debuff to dispel
- * `heal.hasRaidDebuff(<DEBUFF>)` - Returns the raid unit with with a specific Debuff to dispel or heal
- * `heal.hasRaidBuff(<BUFF>)` - Returns the raid unit with a specific Buff
+ * `heal.hasRaidDebuff(<DEBUFF>)` - Returns the raid unit for a specific Debuff (to dispel or heal)
+ * `heal.hasRaidBuff(<BUFF>)` - Returns the raid unit for a specific Buff e.g. heal.hasRaidBuff(spells.prayerOfMending) ~= nil
+ * `heal.hasRaidBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on on raid e.g. heal.hasRaidBuffStacks(spells.prayerOfMending) < 10
+ * `heal.hasAbsorptionHeal` - Returns the raid unit witn an absorption Debuff
 
 
 #### Keys
@@ -200,7 +202,8 @@ Members:
 
  * `player.isMounted` - returns true if the player is mounted (exception: Nagrand Mounts do not count as mounted since you can cast while riding)
  * `player.isFalling` - returns true if the player is currently falling.
- * `player.IsSwimming` - returns true if the player is currently swimming.
+ * `player.isSwimming` - returns true if the player is currently swimming.
+ * `player.hasFullControl` - Checks whether you have full control over your character (i.e. you are not feared, etc).
  * `player.isInRaid` - returns true if the player is currently in Raid.
  * `player.timeInCombat` - returns number of seconds in combat
  * `player.hasTalent(<ROW>,<TALENT>)` - returns true if the player has the selected talent (row: 1-7, talent: 1-3).
@@ -294,6 +297,7 @@ Members:
  * `<SPELL>.castTime` - returns the total cast time of this spell
  * `<SPELL>.cooldown` - returns the current cooldown of this spell 
  * `<SPELL>.cooldownTotal` - returns the cooldown in seconds the spell has if casted - this is NOT the current cooldown of the spell! 
+ * `<SPELL>.cost` - returns the cost (mana, rage...) for a given spell
  * `<SPELL>.isRecastAt(<UNIT-STRING>)` - returns true if this was last casted spell and the last targetted unit was the given unit (e.g.: `spell.immolate.isRecastAt("target")`). 
  * `<SPELL>.castTimeLeft(<UNIT-STRING>)` - returns the castTimeLeft or channelTimeLeft in seconds the spell has if casted (e.g.: 'spells.mindFlay.castTimeLeft("player") > 0.5' )
  * `<SPELL>.needsSelect` - returns true this is an AoE spell which needs to be targetted on the ground.
@@ -348,6 +352,7 @@ Members:
  * `<UNIT>.myBuffCount(<SPELL>)` - returns the number of different buffs (not counting the stacks!) on for the given <SPELL> on this unit if the spells were cast by the player
  * `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. : player.buffAmount(spells.masteryEchoOfLight)
  * `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit is dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". player.isDispellable("Magic")
+ * `<UNIT>.absorptionHeal` - returns true if the unit has a Healing Absorption Debuff
  * `<UNIT>.castTimeLeft` - returns the casting time left for this unit or 0 if it is not casting
  * `<UNIT>.channelTimeLeft` - returns the channeling time left for this unit or 0 if it is not channeling
  * `<UNIT>.isCasting` - returns true if the unit is casting (or channeling) a spell
@@ -360,6 +365,7 @@ Members:
  * `<UNIT>.npcId` - returns the unit id (as seen on wowhead)
  * `<UNIT>.level` - returns the unit level
  * `<UNIT>.isRaidBoss` - returns true if the unit is a raid boss
+ * `<UNIT>.isElite` - returns true if the unit is a elite mob
  * `<UNIT>.plateCount` - e.g. 'player.plateCount' returns namePlates count in combat (actives enemies)
  * `<UNIT>.isTarget` - returns true if the unit is targeted by an enemy nameplate
  * `<UNIT>.hp` - returns the unit hp (in a range between 0.0 and 1.0).
@@ -383,7 +389,7 @@ Members:
  * `<UNIT>.inVehicle` - returns true if the given unit is inside a vehicle.
  * `<UNIT>.isHealable` - returns true if the given unit is healable by the player.
  * `<UNIT>.hasPet` - returns true if the given unit has a pet.
- * `<UNIT>.isUnit(<UNIT>)` - returns true if the given unit is otherunit.
+ * `<UNIT>.isUnit(<UNIT-STRING>)` - returns true if the given unit is otherunit. heal.lowestInRaid.isUnit("player")
  * `<UNIT>.hasAttackableTarget` - returns true if the given unit has attackable target
 
 
