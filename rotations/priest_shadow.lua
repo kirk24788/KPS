@@ -29,14 +29,14 @@ kps.rotations.register("PRIEST","SHADOW",{
     --"Fade" 586
     {spells.fade, 'player.isTarget' },
     -- "Power Word: Shield" 17
-    {spells.powerWordShield, 'player.isMovingFor(1.2) and player.hasTalent(2,2) and not player.hasBuff(spells.bodyAndSoul)' , "player" , "SCHIELD" },
+    {spells.powerWordShield, 'player.isMovingFor(1.2) and player.hasTalent(2,2) and not player.hasBuff(spells.bodyAndSoul)' , "player" , "SCHIELD_MOVING" },
     -- "Pierre de soins" 5512
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.70', "/use item:5512" },
     -- "Don des naaru" 59544
     {spells.giftOfTheNaaru, 'player.hp < 0.70', "player" },
     -- "Etreinte vampirique" buff 15286 -- pendant 15 sec, vous permet de rendre à un allié proche, un montant de points de vie égal à 40% des dégâts d’Ombre que vous infligez avec des sorts à cible unique
-    {spells.vampiricEmbrace, 'player.hasBuff(spells.voidform) and player.hp < 0.50' },
-    {spells.vampiricEmbrace, 'player.hasBuff(spells.voidform) and heal.countLossInRange(0.80) > 2 and heal.averageHealthRaid < 0.80' },
+    {spells.vampiricEmbrace, 'player.hp < 0.50' },
+    {spells.vampiricEmbrace, 'player.hasBuff(spells.voidform) and heal.lowestTankInRaid.hp < 0.50' },
     
     --{{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") < kps.gcd' , "/stopcasting" },
     {spells.voidEruption, 'player.hasBuff(spells.voidform)' , "target" },
@@ -106,7 +106,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     -- "Guérison de l’ombre" 186263 -- debuff "Shadow Mend" 187464 10 sec
     {spells.shadowMend, 'not player.isMoving and not spells.shadowMend.lastCasted(4) and not player.hasBuff(spells.voidform) and player.hp < 0.60 and not player.hasBuff(spells.vampiricEmbrace)' , "player" },
     -- "Power Word: Shield" 17
-    {spells.powerWordShield, 'player.isTarget and player.hp < 0.70 and not player.hasBuff(spells.powerWordShield)' , "player" },
+    {spells.powerWordShield, 'player.isTarget and player.hp < 0.70 and not player.hasBuff(spells.powerWordShield)' , "player" , "SCHIELD_HEALTH" },
      -- "Levitate" 1706
     { spells.levitate, 'player.isFallingFor(1.6) and not player.hasBuff(spells.levitate)' , "player" },
     { spells.levitate, 'player.isSwimming and not player.hasBuff(spells.levitate)' , "player" },

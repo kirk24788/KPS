@@ -50,6 +50,7 @@ kps.rotations.register("WARRIOR","FURY",
     -- "Souhait ardent de Kil'jaeden"
     {{"macro"}, 'player.useTrinket(1) and player.plateCount >= 3' , "/use 14" },
     {{"macro"}, 'player.useTrinket(1) and target.isElite' , "/use 14" },
+    {{"macro"}, 'player.useTrinket(1)' , "/use 14" },
 
     -- Cooldowns
     {spells.avatar, 'spells.battleCry.cooldown < 10 and not player.isMoving and target.isAttackable and target.distance < 10 and player.hasBuff(spells.frothingBerserker)' , "target" , "avatar_BERSERKER" }, -- 90 sec cd
