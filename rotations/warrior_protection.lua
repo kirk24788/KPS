@@ -7,6 +7,10 @@ local spells = kps.spells.warrior
 local env = kps.env.warrior
 local Intercept = tostring(kps.spells.warrior.intercept)
 
+kps.runAtEnd(function()
+   kps.gui.addCustomToggle("WARRIOR","PROTECTION", "berserker", "Interface\\Icons\\spell_nature_ancestralguardian", "berserker")
+end)
+
 
 kps.rotations.register("WARRIOR","PROTECTION",
 {
@@ -15,8 +19,8 @@ kps.rotations.register("WARRIOR","PROTECTION",
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
     {{"macro"}, 'not target.isAttackable' , "/cleartarget" },
     env.ScreenMessage,
-    {spells.berserkerRage, 'not player.hasFullControl' },
-    {spells.berserkerRage, 'player.rage < 15 and player.myBuffDuration(spells.shieldBlock) < 2' }, -- set T20 gives 20 rage
+    {spells.berserkerRage, 'kps.berserker and not player.hasFullControl' },
+    {spells.berserkerRage, 'not kps.berserker and player.rage < 15 and player.myBuffDuration(spells.shieldBlock) < 2' , "target" , "spells.berserkerRage" }, -- set T20 gives 20 rage
     
     -- Interrupts
     {{"nested"}, 'kps.interrupt',{
