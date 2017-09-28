@@ -40,9 +40,9 @@ kps.rotations.register("PRIEST","HOLY",{
     -- "Prière du désespoir" 19236 "Desperate Prayer"
     {spells.desperatePrayer, 'player.hp < 0.70' , "player" },
     -- "Angelic Feather"
-    {{"macro"},'player.isMovingFor(1.2) and not player.hasBuff(spells.angelicFeather)' , "/cast [@player] "..AngelicFeather },
+    {{"macro"},'player.hasTalent(2,1) and player.isMovingFor(1.2) and not player.hasBuff(spells.angelicFeather)' , "/cast [@player] "..AngelicFeather },
     -- "Body and Mind"
-    {spells.bodyAndMind, 'player.isMoving and not player.hasBuff(spells.bodyAndMind)' , "player"},
+    {spells.bodyAndMind, 'player.hasTalent(2,2) and player.isMovingFor(1.2) and not player.hasBuff(spells.bodyAndMind)' , "player"},
     -- "Don des naaru" 59544
     {spells.giftOfTheNaaru, 'player.hp < 0.70' , "player" },
     
@@ -127,8 +127,8 @@ kps.rotations.register("PRIEST","HOLY",{
     {{"nested"}, 'kps.multiTarget and heal.lowestInRaid.hp > target.hp and heal.lowestInRaid.hp > 0.70' , {
         {spells.holyWordChastise, 'target.isAttackable' , "target" },
         {spells.holyFire, 'target.isAttackable' , "target" },
-        {spells.holyNova, 'player.plateCount > 2 and kps.lastCast["name"] == spells.smite and target.distance < 10 and target.isAttackable ' , "target" },
-        {spells.holyNova, 'player.isMoving and target.distance < 10 and target.isAttackable ' , "target" },
+        {spells.holyNova, 'player.plateCount > 1 and kps.lastCast["name"] == spells.smite and target.distance < 10 and target.isAttackable' , "target" },
+        {spells.holyNova, 'player.isMoving and target.distance < 10 and target.isAttackable' , "target" },
         {spells.holyNova, 'player.isMoving and targettarget.distance < 10 and targettarget.isAttackable' , "targettarget" },
         {spells.smite, 'not player.isMoving and target.isAttackable', "target" },
         {spells.smite, 'not player.isMoving and targettarget.isAttackable', "targettarget" },
