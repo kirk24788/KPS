@@ -38,7 +38,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     --{{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") < kps.gcd' , "/stopcasting" },
     {spells.voidEruption, 'player.hasBuff(spells.voidform)' , "target" },
     {spells.voidEruption, 'player.hasBuff(spells.voidform)' , env.VoidBoltTarget },
-    {spells.voidTorrent, 'not player.isMoving and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 7' },
+    {spells.voidTorrent, 'not player.isMoving and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 7 and player.insanity > 55' },
 
     -- "Dissipation de masse" 32375
     {{"macro"}, 'keys.ctrl', "/cast [@cursor] "..MassDispel },
@@ -58,6 +58,16 @@ kps.rotations.register("PRIEST","SHADOW",{
         {spells.mindBomb, 'focus.isCasting and focus.distance < 30' , "focus" },
         {spells.mindBomb, 'kps.multiTarget' , "target" },
     }},
+    
+    -- TRINKETS "Trinket0Slot" est slotId  13 "Trinket1Slot" est slotId  14
+    --{{"macro"}, 'player.useTrinket(0) and player.hasBuff(spells.voidform)' , "/use 13"},
+    -- "Charm of the Rising Tide" -- While you remain stationary, gain 576 Haste every 1 sec stacking up to 10 times. Lasts 20 sec. (1 Min, 30 Sec Cooldown)
+    {{"macro"}, 'player.useTrinket(1) and player.hasBuff(spells.voidform) and spells.mindbender.cooldown > 49' , "/use 14"},
+    -- "Infusion de puissance" -- Confère un regain de puissance pendant 20 sec, ce qui augmente la hâte de 25%
+    {spells.powerInfusion, 'kps.cooldowns and not player.isMoving and player.buffStacks(spells.voidform) > 29 and player.insanity > 55' },
+    -- "Ombrefiel" cd 3 min duration 12sec -- "Mindbender" cd 1 min duration 12 sec
+    {spells.shadowfiend, 'not player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.haste > 55' , "target" },
+    {spells.mindbender, 'player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 29 and player.insanity < 80 and spells.voidTorrent.cooldown > 9' , "target" },
     
     -- "Shadow Word: Death" 32379
     {spells.shadowWordDeath, 'mouseover.isAttackable and mouseover.inCombat and mouseover.hp < 0.20' , "mouseover" , "DEATH_MOUSEOVER" },
@@ -81,17 +91,6 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.shadowWordPain, 'player.plateCount > 3 and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },  
     {spells.vampiricTouch, 'mouseover.isAttackable and mouseover.inCombat and not player.isMoving and mouseover.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
     {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
-
-    -- TRINKETS "Trinket0Slot" est slotId  13 "Trinket1Slot" est slotId  14
-    --{{"macro"}, 'player.useTrinket(0) and player.hasBuff(spells.voidform)' , "/use 13"},
-    -- "Charm of the Rising Tide" -- While you remain stationary, gain 576 Haste every 1 sec stacking up to 10 times. Lasts 20 sec. (1 Min, 30 Sec Cooldown)
-    {{"macro"}, 'player.useTrinket(1) and player.hasBuff(spells.voidform) and spells.mindbender.cooldown > 50' , "/use 14"},
-    -- "Infusion de puissance" -- Confère un regain de puissance pendant 20 sec, ce qui augmente la hâte de 25%
-    {spells.powerInfusion, 'kps.cooldowns and not player.isMoving and player.buffStacks(spells.voidform) > 29 and player.insanity > 50' },
-    -- "Ombrefiel" cd 3 min duration 12sec -- "Mindbender" cd 1 min duration 12 sec
-    {spells.shadowfiend, 'not player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.haste > 50' , "target" },
-    {spells.mindbender, 'player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 29 and player.insanity < 80 and spells.voidTorrent.cooldown > 30' , "target" },
-    {spells.mindbender, 'player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 19 and player.insanity < 60 and spells.voidTorrent.cooldown > 30' , "target" },
 
     -- MultiTarget
     {spells.mindFlay, 'kps.multiTarget and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "MULTITARGET" },
