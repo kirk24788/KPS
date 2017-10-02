@@ -27,6 +27,7 @@ kps.rotations.register("WARRIOR","PROTECTION",
         {spells.pummel, 'target.isInterruptable' , "target" },
         {spells.pummel, 'focus.isInterruptable' , "focus" },
     }},
+    {spells.spellReflection, 'target.isCasting' , "target" },
     
     -- Charge enemy
     {{"macro"}, 'keys.shift and not player.hasBuff(spells.battleCry)', "/cast [@cursor] "..Intercept },
