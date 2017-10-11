@@ -55,25 +55,38 @@ function Player.isSwimming(self)
 end
 
 --[[[
-@function `player.hasFullControl` - Checks whether you have full control over your character (i.e. you are not feared, etc).
-]]--
-function Player.hasFullControl(self)
-    local fullcontrol = HasFullControl()
-    if fullcontrol then return true end
-    return false
-end
-
---[[[
 @function `player.isInRaid` - returns true if the player is currently in Raid.
 ]]--
 function Player.isInRaid(self)
     return IsInRaid()
 end
 
-local combatEnterTime = 0
+--[[[
+@function `player.hasFullControl` - Checks whether you have full control over your character (i.e. you are not feared, etc).
+]]--
+
+-- locType, spellID, text, iconTexture, startTime, timeRemaining, duration, lockoutSchool, priority, displayType = C_LossOfControl.GetEventInfo(eventIndex)
+-- eventIndex Number - index of the loss-of-control effect currently affecting your character to return information about, ascending from 1. 
+-- LossOfControlType : "STUN_MECHANIC", "STUN", "PACIFYSILENCE", "SILENCE", "FEAR", "CHARM", "PACIFY", "CONFUSE", "POSSESS", "SCHOOL_INTERRUPT", "DISARM", "ROOT"
+
+kps.events.register("LOSS_OF_CONTROL_ADDED", function ()
+	local i = C_LossOfControl.GetNumEvents()
+    local locType, spellID, _, _, _, _, duration,lockoutSchool,_,_ = C_LossOfControl.GetEventInfo(i)
+    if spellID and duration then
+    	kps.timers.create("LossOfControl",duration)
+    end
+end)
+
+function Player.hasFullControl(self)
+    if kps.timers.check("LossOfControl") == 0 then return true end
+    return false
+end
+
+
 --[[[
 @function `player.timeInCombat` - returns number of seconds in combat
 ]]--
+local combatEnterTime = 0
 function kps.Player.prototype.timeInCombat(self)
     if combatEnterTime == 0 then return 0 end
     return GetTime() - combatEnterTime
@@ -92,7 +105,6 @@ kps.events.register("PLAYER_LEAVE_COMBAT", function()
 end)
 kps.events.register("PLAYER_REGEN_ENABLED", function()
     combatEnterTime = 0
-    -- Garbage
     collectgarbage("collect")
 end)
 
