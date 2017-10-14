@@ -122,7 +122,6 @@ kps.rotations.register("PRIEST","HOLY",{
     {{"nested"}, 'kps.defensive and mouseover.isFriend' , {
         {spells.guardianSpirit, 'mouseover.hp < 0.30' , "mouseover" },
         {spells.holyWordSerenity, 'mouseover.hp < 0.50' , "mouseover" },
-        {spells.prayerOfMending, 'not player.isMoving and not mouseover.hasBuff(spells.prayerOfMending)' , "mouseover" },
         {spells.flashHeal, 'not player.isMoving and mouseover.hp < 0.70' , "mouseover" },
         {spells.renew, 'mouseover.myBuffDuration(spells.renew) < 3 and mouseover.hp < 0.90' , "mouseover" },
         {spells.heal, 'not player.isMoving and mouseover.hp < 0.90' , "mouseover" },
