@@ -190,3 +190,19 @@ end
 function Player.useTrinket(self)
     return useTrinket
 end
+
+--[[[
+@function `player.hasTrinket(<SLOT>)` - returns true if the player has the given trinket ID e.g. 'player.hasTrinket(1) == 147007 and player.useTrinket(1)'
+]]--
+
+local hasTrinket = function(trinketNum)
+    local slotName = "Trinket"..(trinketNum).."Slot"
+    local slotId = select(1,GetInventorySlotInfo(slotName))
+    local trinketId = GetInventoryItemID("player", slotId)
+    if not trinketId then return 0 end
+    return trinketId
+end
+
+function Player.hasTrinket(self)
+    return hasTrinket
+end

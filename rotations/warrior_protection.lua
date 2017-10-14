@@ -5,7 +5,8 @@
 ]]--
 local spells = kps.spells.warrior
 local env = kps.env.warrior
-local Intercept = tostring(kps.spells.warrior.intercept)
+
+local HeroicLeap = spells.heroicLeap.name
 
 kps.runAtEnd(function()
    kps.gui.addCustomToggle("WARRIOR","PROTECTION", "berserker", "Interface\\Icons\\spell_nature_ancestralguardian", "berserker")
@@ -30,10 +31,10 @@ kps.rotations.register("WARRIOR","PROTECTION",
     {spells.spellReflection, 'target.isCasting' , "target" },
     
     -- Charge enemy
-    {{"macro"}, 'keys.shift and not player.hasBuff(spells.battleCry)', "/cast [@cursor] "..Intercept },
+    {{"macro"}, 'keys.shift and not player.hasBuff(spells.battleCry)', "/cast [@cursor] "..HeroicLeap },
     {spells.heroicThrow, 'kps.defensive and target.isAttackable and target.distance > 10' },
     {spells.intercept, 'kps.defensive and target.isAttackable and target.distance > 10' },
-    {spells.taunt, 'kps.defensive and not player.isTarget' },
+    --{spells.taunt, 'kps.defensive and not player.isTarget' },
 
     -- Health
     {spells.demoralizingShout, 'player.incomingDamage > player.hpMax * 0.10' },

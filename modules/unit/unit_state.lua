@@ -89,7 +89,7 @@ function Unit.isHealable(self)
     if not UnitCanAssist("player",self.unit) then return false end -- UnitCanAssist(unitToAssist, unitToBeAssisted) return 1 if the unitToAssist can assist the unitToBeAssisted, nil otherwise
     if not UnitIsFriend("player", self.unit) then return false end -- UnitIsFriend("unit","otherunit") return 1 if otherunit is friendly to unit, nil otherwise.
     local inRange,_ = UnitInRange(self.unit)
-    if not inRange then return false end -- UnitInRange return FALSE when not in a party/raid reason why to be true for player "player" == unit
+    if not inRange then return false end -- UnitInRange return FALSE when not in a party/raid reason why to be true for player alone
     return true
 end
 

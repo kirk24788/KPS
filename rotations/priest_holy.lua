@@ -4,12 +4,15 @@
 @version 7.2
 ]]--
 
+kps.spells.priest.guidingHand = kps.Spell.fromId(242622) -- Guiding Hand used by trinket "The Deceiver's Grand Design"
 local spells = kps.spells.priest
 local env = kps.env.priest
-local HolyWordSanctify = tostring(spells.holyWordSanctify)
-local SpiritOfRedemption = tostring(spells.spiritOfRedemption)
-local MassDispel = tostring(spells.massDispel)
-local AngelicFeather = tostring(spells.angelicFeather)
+
+local HolyWordSanctify = spells.holyWordSanctify.name
+local SpiritOfRedemption = spells.spiritOfRedemption.name
+local MassDispel = spells.massDispel.name
+local AngelicFeather = spells.angelicFeather.name
+
 
 kps.rotations.register("PRIEST","HOLY",{
 
@@ -71,13 +74,13 @@ kps.rotations.register("PRIEST","HOLY",{
         {spells.purify, 'heal.isMagicDispellable ~= nil' , kps.heal.isMagicDispellable , "DISPEL" },
     }},
     
-    -- TRINKETS
-    -- "Archive of Faith"
-    {{"macro"}, 'not player.isMoving and player.useTrinket(1) and player.hp < threshold()' , "/target player".."\n".."/use 14" },
-    {{"macro"}, 'not player.isMoving and player.useTrinket(1) and heal.lowestTankInRaid.hp < threshold()' , "/target "..kps["env"].heal.lowestTankInRaid.unit.."\n".."/use 14" },
-    --{{"macro"}, 'not player.isMoving and player.useTrinket(1) and heal.lowestInRaid.hp < 0.70' , "/target "..kps["env"].heal.lowestInRaid.unit.."\n".."/use 14" },
-    -- "Velen's Future Sight"
-    {{"macro"}, 'player.useTrinket(1) and heal.countLossInRange(0.80) >= 3' , "/use 14" },
+    -- TRINKETS SLOT 2
+    -- "Archive of Faith" 147006 -- "The Deceiver's Grand Design" 147007 
+    {{"macro"}, 'player.hasTrinket(1) == 147007 and player.useTrinket(1) and player.hp < threshold() and not player.hasBuff(spells.guidingHand)' , "/use 14" },
+    {{"macro"}, 'player.hasTrinket(1) == 147007 and player.useTrinket(1) and heal.lowestTankInRaid.hp < threshold() and not heal.lowestTankInRaid.hasBuff(spells.guidingHand)' , "/target "..kps["env"].heal.lowestTankInRaid.unit.."\n".."/use 14" },
+    {{"macro"}, 'player.hasTrinket(1) == 147007 and player.useTrinket(1) and heal.lowestInRaid.hp < 0.50 and not heal.lowestInRaid.hasBuff(spells.guidingHand)' , "/target "..kps["env"].heal.lowestInRaid.unit.."\n".."/use 14" },
+    -- "Velen's Future Sight" 144258
+    {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.countLossInRange(0.80) >= 3' , "/use 14" },
     -- "Apotheosis" 200183 increasing the effects of Serendipity by 200% and reducing the cost of your Holy Words by 100% -- "Benediction" for raid and "Apotheosis" for party
     {spells.apotheosis, 'player.hasTalent(7,1) and heal.countLossInRange(0.80) * 2 >= heal.countInRange' },
 
@@ -97,9 +100,10 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.bindingHeal, 'not player.isMoving and kps.lastCast["name"] == spells.prayerOfHealing and heal.lowestInRaid.hp < 0.80 and not heal.lowestInRaid.isUnit("player")' , kps.heal.lowestInRaid},
     {spells.flashHeal, 'not player.isMoving and kps.lastCast["name"] == spells.holyWordSanctify and heal.lowestInRaid.hp < 0.50' , kps.heal.lowestInRaid},
     {spells.flashHeal, 'not player.isMoving and kps.lastCast["name"] == spells.prayerOfHealing and heal.lowestInRaid.hp < 0.50' , kps.heal.lowestInRaid},
-    {spells.flashHeal, 'not player.isMoving and player.hp < 0.55 and not spells.flashHeal.isRecastAt("player")' , "player" , "FLASH_PLAYER" },
     {spells.flashHeal, 'not player.isMoving and player.hp < 0.55 and heal.lowestInRaid.isUnit("player")' , "player" , "FLASH_PLAYER" },
+    {spells.flashHeal, 'not player.isMoving and player.hp < 0.55 and not spells.flashHeal.isRecastAt("player")' , "player" , "FLASH_PLAYER" },
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.55 and heal.lowestInRaid.isUnit(heal.lowestTankInRaid.unit)' , kps.heal.lowestTankInRaid , "FLASH_TANK" },
+    {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.40 and heal.countLossInRange(0.76) < 3' , kps.heal.lowestInRaid , "FLASH_LOWEST" },
     
     -- ABSOPTION HEAL
     {spells.holyWordSerenity, 'heal.hasAbsorptionHeal ~= nil' , kps.heal.hasAbsorptionHeal , "ABSORB_HEAL" },
@@ -115,13 +119,10 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.prayerOfMending, 'not player.isMoving and heal.hasRaidBuffStacks(spells.prayerOfMending) < 10 and not heal.lowestTargetInRaid.hasBuff(spells.prayerOfMending)' , kps.heal.lowestTargetInRaid},
     {spells.prayerOfMending, 'not player.isMoving and heal.hasRaidBuffStacks(spells.prayerOfMending) < 10 and not heal.lowestInRaid.hasBuff(spells.prayerOfMending)' , kps.heal.lowestInRaid},
 
-    {{"nested"}, 'kps.defensive and mouseover.isHealable' , {
+    {{"nested"}, 'kps.defensive and mouseover.isFriend' , {
         {spells.guardianSpirit, 'mouseover.hp < 0.30' , "mouseover" },
         {spells.holyWordSerenity, 'mouseover.hp < 0.50' , "mouseover" },
         {spells.prayerOfMending, 'not player.isMoving and not mouseover.hasBuff(spells.prayerOfMending)' , "mouseover" },
-        {spells.prayerOfHealing, 'not player.isMoving and heal.countLossInRange(0.80) >= 3 and not player.isInRaid' , "mouseover" },
-        {spells.prayerOfHealing, 'not player.isMoving and heal.countLossInRange(0.70) >= 5 and player.isInRaid' , "mouseover" }, 
-        {spells.lightOfTuure, 'mouseover.hp < 0.70' , "mouseover" },
         {spells.flashHeal, 'not player.isMoving and mouseover.hp < 0.70' , "mouseover" },
         {spells.renew, 'mouseover.myBuffDuration(spells.renew) < 3 and mouseover.hp < 0.90' , "mouseover" },
         {spells.heal, 'not player.isMoving and mouseover.hp < 0.90' , "mouseover" },

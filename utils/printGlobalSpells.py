@@ -89,4 +89,7 @@ spells.battlerez.add_all_spells([20484, 61999, 20707, 126393])
 spells.group("bloodlust","Bloodlust")
 spells.bloodlust.add_all_spells([2825, 32182, 80353, 90355, 146555])
 
+spells.group("absorptionHeal","Absorption Heal")
+spells.absorptionHeal.add_all_spells([235933, 233263])
+
 print(spells)

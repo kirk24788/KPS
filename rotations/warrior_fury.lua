@@ -5,8 +5,8 @@
 ]]--
 local spells = kps.spells.warrior
 local env = kps.env.warrior
-local HeroicLeap = tostring(kps.spells.warrior.heroicLeap)
 
+local HeroicLeap = spells.heroicLeap.name
 
 kps.runAtEnd(function()
    kps.gui.addCustomToggle("WARRIOR","FURY", "berserker", "Interface\\Icons\\spell_nature_ancestralguardian", "berserker")
