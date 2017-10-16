@@ -60,7 +60,7 @@ kps.rotations.register("WARRIOR","PROTECTION",
     {spells.ignorePain, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 14 and player.buffValue(spells.ignorePain) < player.hpMax*0.50' , "target", "ignorePain_buffvalue" },
     {spells.ignorePain, 'player.rage > 90' , "target", "ignorePain_rage" },
     -- "Vengeance: Revenge" -- Rage cost of Revenge reduced by 35%. 15 seconds remaining -- 19 rage
-    {spells.revenge, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceRevenge) and not player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 8' , "target", "revenge_buff" },
+    {spells.revenge, 'player.hasTalent(6,1) and player.hasBuff(spells.vengeanceRevenge) and not player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.ignorePain) < 10' , "target", "revenge_buff" },
     {spells.revenge, 'player.hasTalent(6,1) and not player.hasBuff(spells.vengeanceIgnorePain) and player.myBuffDuration(spells.shieldBlock) > 2' , "target", "revenge" },
     {spells.revenge, 'player.rage > 90' , "target", "revenge_rage" },
 

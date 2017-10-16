@@ -30,9 +30,9 @@ kps.rotations.register("WARRIOR","FURY",
     {{"macro"}, 'focus.exists and not focus.isAttackable' , "/clearfocus" },
 
     -- Charge enemy
+    {{"macro"}, 'keys.shift and not player.hasBuff(spells.battleCry)', "/cast [@cursor] "..HeroicLeap },
     {spells.heroicThrow, 'kps.defensive and target.isAttackable and target.distance > 10' },
     {spells.charge, 'kps.defensive and target.isAttackable and target.distance > 10' },
-    {{"macro"}, 'keys.shift and not player.hasBuff(spells.battleCry)', "/cast [@cursor] "..HeroicLeap },
     
     -- interrupts
     {{"nested"}, 'kps.interrupt and target.distance < 10',{

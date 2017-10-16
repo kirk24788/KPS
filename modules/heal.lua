@@ -208,7 +208,7 @@ kps.RaidStatus.prototype.averageHealthRaid = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.countLossInRange<PCT>)` - Returns the count for all raid members below threshold health pct default 0.80
+@function `heal.countLossInRange<PCT>)` - Returns the count for all raid members below threshold health pct (default 0.80)
 ]]--
 
 local countInRange = function(pct)
@@ -413,6 +413,27 @@ kps.RaidStatus.prototype.hasAbsorptionHealCount = kps.utils.cachedValue(function
     return count
 end)
 
+
+--[[[
+@function `heal.countLossInDistance` - Returns the count for all raid members below threshold health pct (default 0.80) in a distance (default 10 yards)
+]]--
+
+local countInDistance = function(pct,distance)
+    if pct == nil then pct = 0.80 end
+    if distance == nil then distance = 10 end
+    local count = 0
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and unit.hpIncoming < pct and unit.distance < distance then
+            count = count + 1
+        end
+    end
+    return count
+end
+
+kps.RaidStatus.prototype.countLossInDistance = kps.utils.cachedValue(function()
+    return countInDistance
+end)
+
 --------------------------------------------------------------------------------------------
 ------------------------------- TRICKY
 --------------------------------------------------------------------------------------------
@@ -455,6 +476,7 @@ print("|cffff8000absorbHEAL:|cffffffff", kps["env"].heal.hasAbsorptionHealCount)
 --print(i," - ",j)
 --end
 
+print("test:", kps["env"].heal.countLossInDistance(2,10))
 --print("test:", kps["env"].player.buffValue(kps.spells.warrior.ignorePain))
 
 --print("|cffff8000GCD:|cffffffff", kps.gcd)
