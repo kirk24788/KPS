@@ -20,7 +20,7 @@ kps.rotations.register("PRIEST","HOLY",{
     env.ShouldInterruptCasting,
     env.ScreenMessage,
 
-    {{"macro"}, 'player.hasBuff(spells.spiritOfRedemption) and heal.lowestInRaid.isUnit("player")' , "/cancelaura "..SpiritOfRedemption },
+    --{{"macro"}, 'player.hasBuff(spells.spiritOfRedemption) and heal.lowestInRaid.isUnit("player")' , "/cancelaura "..SpiritOfRedemption },
     {{"nested"}, 'player.hasBuff(spells.spiritOfRedemption)' ,{
         {spells.guardianSpirit, 'true' , kps.heal.lowestInRaid},
         {spells.holyWordSerenity, 'true' , kps.heal.lowestInRaid},
@@ -98,9 +98,8 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.bindingHeal, 'not player.isMoving and not heal.lowestTankInRaid.isUnit("player") and spells.flashHeal.isRecastAt(heal.lowestTankInRaid.unit) and heal.countLossInRange(0.90) > 1' , kps.heal.lowestTankInRaid ,"BINDING_FLASH_LOWEST" },
     {spells.bindingHeal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player") and spells.flashHeal.isRecastAt(heal.lowestInRaid.unit) and heal.countLossInRange(0.90) > 1' , kps.heal.lowestInRaid ,"BINDING_FLASH_LOWEST" },
     {spells.flashHeal, 'not player.isMoving and player.hp < 0.55 and heal.lowestInRaid.isUnit("player")' , "player" , "FLASH_PLAYER" },
-    {spells.flashHeal, 'not player.isMoving and player.hp < 0.55 and not spells.flashHeal.isRecastAt("player")' , "player" , "FLASH_PLAYER" },
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.55 and heal.lowestInRaid.isUnit(heal.lowestTankInRaid.unit)' , kps.heal.lowestTankInRaid , "FLASH_TANK" },
-    {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.40 and heal.countLossInRange(0.76) < 3' , kps.heal.lowestInRaid , "FLASH_LOWEST" },
+    {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.55 and heal.countLossInRange(0.76) < 3' , kps.heal.lowestInRaid , "FLASH_LOWEST" },
     
     -- ABSOPTION HEAL
     {spells.holyWordSerenity, 'heal.hasAbsorptionHeal ~= nil' , kps.heal.hasAbsorptionHeal , "ABSORB_HEAL" },
@@ -175,15 +174,15 @@ kps.rotations.register("PRIEST","HOLY",{
     -- "Soins de lien" 32546
     {spells.bindingHeal, 'not player.isMoving and not heal.lowestTankInRaid.isUnit("player") and heal.lowestTankInRaid.hp < 0.90 and spells.holyWordSanctify.cooldown > 4  ' , kps.heal.lowestTankInRaid ,"BINDING_SANCTIFY_TANK" },
     {spells.bindingHeal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player") and heal.lowestInRaid.hp < 0.90 and spells.holyWordSanctify.cooldown > 4  ' , kps.heal.lowestInRaid ,"BINDING_SANCTIFY_LOWEST" },
-    {spells.bindingHeal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player") and heal.countLossInRange(0.90) > 1' , kps.heal.lowestInRaid ,"BINDING_LOWEST" },
+    {spells.bindingHeal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player") and heal.countLossInRange(0.92) > 2' , kps.heal.lowestInRaid ,"BINDING_LOWEST" },
     -- "Soins" 2060 -- "Renouveau constant" 200153
     {spells.heal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.90' , kps.heal.lowestTankInRaid, "HEAL_TANK" },
     {spells.heal, 'not player.isMoving and heal.lowestInRaid.hp < 0.90' , kps.heal.lowestInRaid , "HEAL_LOWEST" },
     {spells.heal, 'not player.isMoving and holyWordSerenityOnCD()' , kps.heal.lowestInRaid , "HEAL_SERENITY" },
 
     -- "Nova sacrée" 132157
-    {spells.holyNova, 'player.isMoving and target.distance < 10 and target.isAttackable' , "target" },
-    {spells.holyNova, 'player.isMoving and targettarget.distance < 10 and targettarget.isAttackable' , "targettarget" },
+    --{spells.holyNova, 'player.isMoving and target.distance < 10 and target.isAttackable' , "target" },
+    --{spells.holyNova, 'player.isMoving and targettarget.distance < 10 and targettarget.isAttackable' , "targettarget" },
     -- "Surge Of Light" Your healing spells and Smite have a 8% chance to make your next Flash Heal instant and cost no mana
     {spells.smite, 'not player.isMoving and target.isAttackable', "target" },
     {spells.smite, 'not player.isMoving and targettarget.isAttackable', "targettarget" },

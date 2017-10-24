@@ -11,6 +11,9 @@ local HeroicLeap = spells.heroicLeap.name
 kps.runAtEnd(function()
    kps.gui.addCustomToggle("WARRIOR","PROTECTION", "berserker", "Interface\\Icons\\spell_nature_ancestralguardian", "berserker")
 end)
+kps.runAtEnd(function()
+   kps.gui.addCustomToggle("WARRIOR","PROTECTION", "taunt", "Interface\\Icons\\spell_nature_reincarnation", "taunt")
+end)
 
 
 kps.rotations.register("WARRIOR","PROTECTION",
@@ -34,12 +37,12 @@ kps.rotations.register("WARRIOR","PROTECTION",
     {{"macro"}, 'keys.shift and not player.hasBuff(spells.battleCry)', "/cast [@cursor] "..HeroicLeap },
     {spells.heroicThrow, 'kps.defensive and target.isAttackable and target.distance > 10' },
     {spells.intercept, 'kps.defensive and target.isAttackable and target.distance > 10' },
-    --{spells.taunt, 'kps.defensive and not player.isTarget' },
+    {spells.taunt, 'kps.taunt and not player.isTarget' },
 
     -- Health
     {spells.demoralizingShout, 'player.incomingDamage > player.hpMax * 0.10' },
-    {spells.victoryRush, 'not player.hasTalent(2,3)'}, -- victory_rush,if=!talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
-    {spells.impendingVictory, 'player.hasTalent(2,3)'}, -- impending_victory,if=talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
+    {spells.victoryRush, 'not player.hasTalent(2,3) and player.hp < 1'}, -- victory_rush,if=!talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
+    {spells.impendingVictory, 'player.hasTalent(2,3) and player.hp < 1'}, -- impending_victory,if=talent.impending_victory.enabled&cooldown.shield_slam.remains<=execute_time
     {spells.stoneform, 'player.incomingDamage > player.hpMax * 0.10' },
     {spells.shieldWall, 'player.incomingDamage > player.hpMax * 0.10 and player.hp < 0.60' },
     {spells.lastStand, 'player.hp < 0.40' },
@@ -48,6 +51,7 @@ kps.rotations.register("WARRIOR","PROTECTION",
     -- "Souhait ardent de Kil'jaeden"
     {{"macro"}, 'player.useTrinket(1) and player.plateCount >= 3' , "/use 14" },
     {{"macro"}, 'player.useTrinket(1) and target.isElite' , "/use 14" },
+    {{"macro"}, 'player.useTrinket(1)' , "/use 14" },
 
     {spells.battleCry, 'spells.shieldSlam.cooldown == 0 and target.isAttackable and target.distance < 10' },
     {spells.revenge, 'spells.revenge.cost == 0' , "target", "revenge_free" },
