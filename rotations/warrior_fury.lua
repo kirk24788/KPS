@@ -11,6 +11,9 @@ local HeroicLeap = spells.heroicLeap.name
 kps.runAtEnd(function()
    kps.gui.addCustomToggle("WARRIOR","FURY", "berserker", "Interface\\Icons\\spell_nature_ancestralguardian", "berserker")
 end)
+kps.runAtEnd(function()
+   kps.gui.addCustomToggle("WARRIOR","FURY", "isAttackable", "Interface\\Icons\\spell_shadow_unholyfrenzy", "isAttackable")
+end)
 
 
 kps.rotations.register("WARRIOR","FURY",
@@ -18,10 +21,10 @@ kps.rotations.register("WARRIOR","FURY",
 
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
-    {{"macro"}, 'not target.isAttackable' , "/cleartarget"},
+    {{"macro"}, 'not kps.isAttackable and not target.isAttackable' , "/cleartarget"},
     env.ScreenMessage,
-    {spells.berserkerRage, 'kps.berserker and not player.hasFullControl' },
-    {spells.berserkerRage, 'not kps.berserker and player.hasTalent(3,2) and not player.hasBuff(spells.enrage)' },
+    {spells.berserkerRage, 'not player.hasFullControl' },
+    {spells.berserkerRage, 'kps.berserker and player.hasTalent(3,2) and not player.hasBuff(spells.enrage)' },
 
     -- env.TargetMouseover,
     {{"macro"}, 'not focus.exists and not target.isUnit("mouseover") and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10'  ,"/focus mouseover" },

@@ -14,6 +14,9 @@ end)
 kps.runAtEnd(function()
    kps.gui.addCustomToggle("WARRIOR","PROTECTION", "taunt", "Interface\\Icons\\spell_nature_reincarnation", "taunt")
 end)
+kps.runAtEnd(function()
+   kps.gui.addCustomToggle("WARRIOR","PROTECTION", "isAttackable", "Interface\\Icons\\spell_shadow_unholyfrenzy", "isAttackable")
+end)
 
 
 kps.rotations.register("WARRIOR","PROTECTION",
@@ -21,10 +24,10 @@ kps.rotations.register("WARRIOR","PROTECTION",
     
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
-    {{"macro"}, 'not target.isAttackable' , "/cleartarget" },
+    {{"macro"}, 'not kps.isAttackable and not target.isAttackable' , "/cleartarget" },
     env.ScreenMessage,
-    {spells.berserkerRage, 'kps.berserker and not player.hasFullControl' },
-    {spells.berserkerRage, 'not kps.berserker and player.rage < 15 and player.myBuffDuration(spells.shieldBlock) < 2' , "target" , "spells.berserkerRage" }, -- set T20 gives 20 rage
+    {spells.berserkerRage, 'not player.hasFullControl' },
+    {spells.berserkerRage, 'kps.berserker and player.rage < 15 and player.myBuffDuration(spells.shieldBlock) < 2' , "target" , "spells.berserkerRage" }, -- set T20 gives 20 rage
     
     -- Interrupts
     {{"nested"}, 'kps.interrupt',{
