@@ -132,9 +132,7 @@ kps.rotations.register("PRIEST","HOLY",{
     }},
     
     -- "Holy Word: Sanctify"
-    --{spells.holyWordSanctify, 'mouseover.isHealable and heal.countLossInRange(0.82) >= 3 and not player.isInRaid' },
-    --{spells.holyWordSanctify, 'mouseover.isHealable and heal.countLossInRange(0.82) >= 5 and player.isInRaid' },
-    {spells.prayerOfHealing, 'heal.countLossInDistance(0.76,10) >= 4 and player.hasBuff(spells.powerOfTheNaaru)' , "player" , "POH_DISTANCE" },    
+    {spells.prayerOfHealing, 'heal.countLossInDistance(0.76,40) >= 4 and player.hasBuff(spells.powerOfTheNaaru)' , "player" , "POH_DISTANCE" },    
     {{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInDistance(0.76,10) >= 4' , "/cast [@player] "..HolyWordSanctify },
 
     -- "Prayer of Healing" 596 -- A powerful prayer that heals the target and the 4 nearest allies within 40 yards for (250% of Spell power)
