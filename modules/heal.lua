@@ -96,7 +96,6 @@ function kps.RaidStatus.prototype.type(self)
 end
 
 
-
 local _tanksInRaid = {}
 _tanksInRaid[1] = {}
 _tanksInRaid[2] = {}
@@ -339,7 +338,7 @@ end)
 --------------------------------------------------------------------------------------------
 
 --[[[
-@function `heal.hasRaidDebuff(<DEBUFF>)` - Returns the raid unit for a specific Debuff (to dispel or heal)
+@function `heal.hasRaidDebuff(<DEBUFF>)` - Returns unit for a specific Debuff on raid (to dispel or heal)
 ]]--
 
 local unitDebuff = function(spell)
@@ -354,7 +353,7 @@ kps.RaidStatus.prototype.hasRaidDebuff = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.hasRaidBuff(<BUFF>)` - Returns the raid unit for a specific Buff e.g. heal.hasRaidBuff(spells.prayerOfMending) ~= nil
+@function `heal.hasRaidBuff(<BUFF>)` - Returns unit for a specific Buff on raid e.g. heal.hasRaidBuff(spells.prayerOfMending) ~= nil
 ]]--
 
 local unitBuff = function(spell)
@@ -368,8 +367,16 @@ kps.RaidStatus.prototype.hasRaidBuff = kps.utils.cachedValue(function()
     return unitBuff
 end)
 
+
+kps.RaidStatus.prototype.hasNotAtonement = kps.utils.cachedValue(function()
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and not unit.hasAtonement then return unit end
+    end
+    return nil
+end)
+
 --[[[
-@function `heal.hasRaidBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on on raid e.g. heal.hasRaidBuffStacks(spells.prayerOfMending) < 10
+@function `heal.hasRaidBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on raid e.g. heal.hasRaidBuffStacks(spells.prayerOfMending) < 10
 ]]--
 
 local unitBuffStacks = function(spell)
@@ -387,9 +394,27 @@ kps.RaidStatus.prototype.hasRaidBuffStacks = kps.utils.cachedValue(function()
     return unitBuffStacks
 end)
 
+--[[[
+@function `heal.hasRaidBuffCount(<BUFF>)` - Returns the buff count for a specific Buff on raid e.g. heal.hasRaidBuffCount(spells.atonement)
+]]--
+
+local unitBuffCount = function(spell)
+    local count = 0
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and unit.hasBuff(spell) then
+            count = count + 1
+        end
+    end
+    return count
+end
+
+kps.RaidStatus.prototype.hasRaidBuffCount = kps.utils.cachedValue(function()
+    return unitBuffCount
+end)
+
 
 --[[[
-@function `heal.hasAbsorptionHeal` - Returns the raid unit witn an absorption Debuff
+@function `heal.hasAbsorptionHeal` - Returns the raid unit with an absorption Debuff
 ]]--
 
 local healAbsorption = function(spell)

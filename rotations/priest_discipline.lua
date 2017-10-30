@@ -7,15 +7,35 @@ local spells = kps.spells.priest
 local env = kps.env.priest
 
 
-kps.rotations.register("PRIEST","DISCIPLINE",
-{
-    {spells.mindbender, 'player.hasTalent(3, 2)'}, -- mindbender,if=talent.mindbender.enabled
-    {spells.shadowfiend, 'not player.hasTalent(3, 2)'}, -- shadowfiend,if=!talent.mindbender.enabled
-    {spells.powerInfusion, 'player.hasTalent(5, 2)'}, -- power_infusion,if=talent.power_infusion.enabled
-    {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < ( target.myDebuffDurationMax(spells.shadowWordPain) * 0.3 )'}, -- shadow_word_pain,if=remains<(duration*0.3)
-    {spells.penance},
-    {spells.powerWordSolace, 'player.hasTalent(3, 3)'}, -- power_word_solace,if=talent.power_word_solace.enabled
-    {spells.holyFire, 'not player.hasTalent(3, 3)'}, -- holy_fire,if=!talent.power_word_solace.enabled
-    {spells.smite}, -- smite
+kps.rotations.register("PRIEST","DISCIPLINE",{
+
+    {spells.painSuppression, 'heal.lowestTankInRaid.hp < 0.30' , kps.heal.lowestTankInRaid },
+    {spells.painSuppression, 'player.hp < 0.30' , "player" },
+    {spells.evangelism, 'kps.lastCast["name"] == spells.powerWordRadiance' },
+    {spells.plea, 'not player.hasAtonement' , "player" },
+    {spells.powerWordShield, 'heal.lowestTankInRaid.myBuffDuration(spells.atonement) < 3' , kps.heal.lowestTankInRaid },
+    {spells.powerWordShield, 'heal.lowestInRaid.myBuffDuration(spells.atonement) < 3' , kps.heal.lowestInRaid },
+    {spells.powerWordRadiance, 'not player.isMoving and heal.countLossInRange(0.82) >= 3 and heal.hasRaidBuffCount(spells.atonement) < 3' , kps.heal.lowestTankInRaid },
+    {spells.powerWordRadiance, 'not player.isMoving and heal.hasNotAtonement ~= nil and heal.hasRaidBuffCount(spells.atonement) < 3' , kps.heal.hasNotAtonement },
+    {spells.plea, 'spells.powerWordShield.cooldown > 0 and heal.lowestTankInRaid.myBuffDuration(spells.atonement) < 3' , kps.heal.lowestTankInRaid },
+    {spells.plea, 'spells.powerWordShield.cooldown > 0 and heal.lowestInRaid.myBuffDuration(spells.atonement) < 3' , kps.heal.lowestInRaid },
+
+    {spells.powerInfusion, 'player.hasTalent(7,1)'},
+    {spells.mindbender, 'player.hasTalent(4,3)'},
+    {spells.shadowfiend, 'not player.hasTalent(4,3)'},
+    {spells.shadowWordPain, 'not player.hasTalent(6,1) and target.myDebuffDuration(spells.shadowWordPain) < 3'},
+    {spells.shadowWordPain, 'not player.hasTalent(6,1) and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
+    {spells.purgeTheWicked, 'target.myDebuffDuration(spells.purgeTheWicked) < 3'},
+    {spells.purgeTheWicked, 'mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.purgeTheWicked) < 2 and not spells.purgeTheWicked.isRecastAt("mouseover")' , 'mouseover' },
+    {spells.penance, 'target.isAttackable' , "target" },
+    {spells.penance, 'targettarget.isAttackable', "targettarget" },
+    {spells.penance, 'focustarget.isAttackable', "focustarget" },
+    {spells.powerWordSolace, 'player.hasTalent(4,1)' },
+    {spells.lightsWrath},
+
+    {spells.shadowMend, 'heal.lowestTankInRaid.hp < threshold()' , kps.heal.lowestTankInRaid },
+    {spells.shadowMend, 'heal.lowestInRaid.hp < threshold()' , kps.heal.lowestInRaid },
+
+    {spells.smite}, 
 }
-,"priest_discipline_dmg.simc")
+,"priest_discipline")

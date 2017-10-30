@@ -346,5 +346,13 @@ function Unit.absorptionHeal(self)
     return false
 end
 
+--[[[
+@function `<UNIT>.hasAtonement` - returns true if the unit has Atonement Buff
+]]--
+function Unit.hasAtonement(self)
+    if self.hasBuff(kps.spells.priest.atonement) then return true end
+    return false
+end
+
 
 
