@@ -72,7 +72,7 @@ end
 
 function kps.env.priest.threshold()
     if IsInRaid() then return 0.62 end
-    return 0.75
+    return 0.76
 end
 
 local UnitDebuffDuration = function(spell,unit)
@@ -204,10 +204,12 @@ function kps.env.priest.holyWordSerenityOnCD()
     return false
 end
 
+local interruptable = {}
 local interruptTableUpdate = function()
-    local onCD = kps.env.priest.holyWordSerenityOnCD() or kps.defensive -- case I want heal with mouseover
+    local onCD = kps.env.priest.holyWordSerenityOnCD() or kps.defensive -- kps.defensive in case I want heal with mouseover when debuff absorb heal
     local buffPlayer = UnitHasBuff(SpiritOfRedemption,"player") or kps.defensive
-    return { {FlashHeal, 0.885 , onCD}, {Heal, 0.995 , onCD}, {PrayerOfHealing, 3 , buffPlayer} }
+    interruptable = { {FlashHeal, 0.885 , onCD}, {Heal, 0.995 , onCD}, {PrayerOfHealing, 3 , buffPlayer} }
+    return  interruptable
 end
 
 local ShouldInterruptCasting = function (interruptTable, countLossInRange, lowestHealth)
@@ -218,7 +220,7 @@ local ShouldInterruptCasting = function (interruptTable, countLossInRange, lowes
 
     for key, healSpellTable in pairs(interruptTable) do
         local breakpoint = healSpellTable[2]
-        local spellName = tostring(healSpellTable[1])
+        local spellName = healSpellTable[1]
         if spellName == spellCasting and healSpellTable[3] == false then
             if spellName == PrayerOfHealing and countLossInRange < breakpoint then
                 SpellStopCasting()
@@ -227,7 +229,6 @@ local ShouldInterruptCasting = function (interruptTable, countLossInRange, lowes
             elseif spellName == Heal and lowestHealth < 0.50 and UnitPower("player",0)/UnitPowerMax("player",0) > 0.10 then
                 -- SPELL_POWER_MANA value 0
                 SpellStopCasting()
-                kps.timers.create("criticalHP", 4 )
                 DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING "..spellName.." Lowest has critical hp: "..lowestHealth, 0, 0.5, 0.8)
 
             elseif spellName == Heal and targetHealth > breakpoint then
@@ -244,7 +245,7 @@ local ShouldInterruptCasting = function (interruptTable, countLossInRange, lowes
 end
 
 kps.env.priest.ShouldInterruptCasting = function()
-    local countLossInRange = kps["env"].heal.countLossInRange(0.80)
+    local countLossInRange = kps["env"].heal.countLossInRange(0.82)
     local lowestHealth = kps["env"].heal.lowestInRaid.hp
     local interruptTable = interruptTableUpdate()
     return ShouldInterruptCasting(interruptTable, countLossInRange, lowestHealth)

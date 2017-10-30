@@ -81,7 +81,7 @@ end
 @function `<UNIT>.isHealable` - returns true if the given unit is healable by the player.
 ]]--
 function Unit.isHealable(self)
-    if unit == "player" and UnitHasBuff(kps.Spell.fromId(20711),"player") then return false end
+    if unit == "player" and UnitHasBuff(kps.Spell.fromId(20711),"player") then return false end -- "Spirit of Redemption" 
     if UnitIsUnit("player",self.unit) and not UnitIsDeadOrGhost("player") then return true end -- UnitIsDeadOrGhost(unit) Returns false for priests who are currently in [Spirit of Redemption] form
     if not Unit.exists(self) then return false end
     if Unit.inVehicle(self) then return false end
