@@ -347,12 +347,11 @@ function Unit.absorptionHeal(self)
 end
 
 --[[[
-@function `<UNIT>.hasAtonement` - returns true if the unit has Atonement Buff
+@function `<UNIT>.bossDebuff` - returns true if the unit has a Boss Debuff with Heavy Damage
 ]]--
-function Unit.hasAtonement(self)
-    if self.hasBuff(kps.spells.priest.atonement) then return true end
+function Unit.bossDebuff(self)
+    for _,spell in pairs(kps.spells.bossDebuff) do
+        if self.hasDebuff(spell) then return true end
+    end
     return false
 end
-
-
-

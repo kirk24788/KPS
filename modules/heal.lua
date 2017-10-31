@@ -222,8 +222,7 @@ local countInRange = function(pct)
 end
 
 kps.RaidStatus.prototype.countLossInRange = kps.utils.cachedValue(function()
-    local count = countInRange
-    return count
+    return countInRange
 end)
 
 kps.RaidStatus.prototype.countInRange = kps.utils.cachedValue(function()
@@ -234,6 +233,26 @@ kps.RaidStatus.prototype.countInRange = kps.utils.cachedValue(function()
         end
     end
     return maxcount
+end)
+
+--[[[
+@function `heal.countLossInDistance` - Returns the count for all raid members below threshold health pct (default 0.80) in a distance (default 10 yards)
+]]--
+
+local countInDistance = function(pct,distance)
+    if pct == nil then pct = 0.80 end
+    if distance == nil then distance = 10 end
+    local count = 0
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and unit.hpIncoming < pct and unit.distance < distance then
+            count = count + 1
+        end
+    end
+    return count
+end
+
+kps.RaidStatus.prototype.countLossInDistance = kps.utils.cachedValue(function()
+    return countInDistance
 end)
 
 --[[[
@@ -311,6 +330,10 @@ kps.RaidStatus.prototype.lowestTargetInRaid = kps.utils.cachedValue(function()
     return lowestUnit
 end)
 
+--------------------------------------------------------------------------------------------
+------------------------------- RAID DEBUFF
+--------------------------------------------------------------------------------------------
+
 --[[[
 @function `heal.isMagicDispellable` - Returns the raid unit with magic debuff to dispel
 ]]--
@@ -332,10 +355,6 @@ kps.RaidStatus.prototype.isDiseaseDispellable = kps.utils.cachedValue(function()
     end
     return nil
 end)
-
---------------------------------------------------------------------------------------------
-------------------------------- RAID DEBUFF
---------------------------------------------------------------------------------------------
 
 --[[[
 @function `heal.hasRaidDebuff(<DEBUFF>)` - Returns unit for a specific Debuff on raid (to dispel or heal)
@@ -365,14 +384,6 @@ end
 
 kps.RaidStatus.prototype.hasRaidBuff = kps.utils.cachedValue(function()
     return unitBuff
-end)
-
-
-kps.RaidStatus.prototype.hasNotAtonement = kps.utils.cachedValue(function()
-    for name, unit in pairs(raidStatus) do
-        if unit.isHealable and not unit.hasAtonement then return unit end
-    end
-    return nil
 end)
 
 --[[[
@@ -412,20 +423,15 @@ kps.RaidStatus.prototype.hasRaidBuffCount = kps.utils.cachedValue(function()
     return unitBuffCount
 end)
 
-
 --[[[
 @function `heal.hasAbsorptionHeal` - Returns the raid unit with an absorption Debuff
 ]]--
 
-local healAbsorption = function(spell)
+kps.RaidStatus.prototype.hasAbsorptionHeal = kps.utils.cachedValue(function()
     for name, unit in pairs(raidStatus) do
         if unit.isHealable and unit.absorptionHeal then return unit end
     end
     return nil
-end
-
-kps.RaidStatus.prototype.hasAbsorptionHeal = kps.utils.cachedValue(function()
-    return healAbsorption
 end)
 
 kps.RaidStatus.prototype.hasAbsorptionHealCount = kps.utils.cachedValue(function()
@@ -438,25 +444,15 @@ kps.RaidStatus.prototype.hasAbsorptionHealCount = kps.utils.cachedValue(function
     return count
 end)
 
-
 --[[[
-@function `heal.countLossInDistance` - Returns the count for all raid members below threshold health pct (default 0.80) in a distance (default 10 yards)
+@function `heal.hasBossdebuff` - Returns the raid unit with an Damaging Boss Debuff
 ]]--
 
-local countInDistance = function(pct,distance)
-    if pct == nil then pct = 0.80 end
-    if distance == nil then distance = 10 end
-    local count = 0
+kps.RaidStatus.prototype.hasBossDebuff = kps.utils.cachedValue(function()
     for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.hpIncoming < pct and unit.distance < distance then
-            count = count + 1
-        end
+        if unit.isHealable and unit.bossDebuff then return unit end
     end
-    return count
-end
-
-kps.RaidStatus.prototype.countLossInDistance = kps.utils.cachedValue(function()
-    return countInDistance
+    return nil
 end)
 
 --------------------------------------------------------------------------------------------
@@ -489,10 +485,8 @@ print("|cffff8000TANK:|cffffffff", kps["env"].heal.lowestTankInRaid.name)
 print("|cffff8000AGGRO:|cffffffff", kps["env"].heal.aggroTank.name)
 print("|cff1eff00HEAL:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingHeal)
 print("|cFFFF0000DMG:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingDamage)
-print("|cffff8000COUNT_80%:|cffffffff", kps["env"].heal.countLossInRange(0.80),"|cffff8000COUNT_MAX:|cffffffff",kps["env"].heal.countInRange)
-print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHealthRaid)
 print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
-print("|cffff8000absorbHEAL:|cffffffff", kps["env"].heal.hasAbsorptionHealCount)
+
 
 --local spell = kps.Spell.fromId(6572)
 --local spellname = spell.name -- tostring(kps.spells.warrior.revenge)
@@ -501,15 +495,25 @@ print("|cffff8000absorbHEAL:|cffffffff", kps["env"].heal.hasAbsorptionHealCount)
 --print(i," - ",j)
 --end
 
-print("test:", kps["env"].heal.countLossInDistance(2,10))
+print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHealthRaid)
+print("|cffff8000COUNT_LOSS:|cffffffff", kps["env"].heal.countLossInRange(),"|cffff8000COUNT_MAX:|cffffffff",kps["env"].heal.countInRange)
+print("|cffff8000countLossDistance:|cffffffff", kps["env"].heal.countLossInDistance(2,10))
+
 --print("test:", kps["env"].player.buffValue(kps.spells.warrior.ignorePain))
 
 --print("|cffff8000GCD:|cffffffff", kps.gcd)
 --print("|cffff8000GCD:|cffffffff", kps["env"].player.isInRaid)
 
+
+print("|cffff8000hasBossDebuff:|cffffffff", kps["env"].heal.hasBossDebuff)
+print("|cffff8000hasAbsorption:|cffffffff", kps["env"].heal.hasAbsorptionHeal)
+print("|cffff8000absorbHealCount:|cffffffff", kps["env"].heal.hasAbsorptionHealCount)
+
+
 --local mending = kps.Spell.fromId(33076)
 --print("|cffff8000hasBuff:|cffffffff", kps["env"].heal.hasRaidBuff(mending))
 --print("|cffff8000hasBuffStacks:|cffffffff", kps["env"].heal.hasRaidBuffStacks(mending))
+--print("|cffff8000hasBuffCount:|cffffffff", kps["env"].heal.hasRaidBuffCount(mending))
 
 
 --print("|cffff8000Healable:|cffffffff", kps["env"].player.isHealable)

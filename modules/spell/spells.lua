@@ -125,3 +125,9 @@ kps.spells.battlerez.eternalGuardian = kps.Spell.fromId(126393) -- Eternal Guard
 kps.spells.absorptionHeal = {}
 kps.spells.absorptionHeal.spearOfAnguish = kps.Spell.fromId(235933) -- Spear of Anguish -- Lance d'angoisse -- TOS Hote desolé Moteur des ames
 kps.spells.absorptionHeal.EmbraceOfTheEclipse = kps.Spell.fromId(233263) -- Embrace of the Eclipse -- Etreinte de l'éclipse -- TOS Soeurs de la lune
+
+-- TOS Boss Debuff Heavy Damage
+kps.spells.bossDebuff = {}
+kps.spells.bossDebuff.shatteringStar = kps.Spell.fromId(233279) -- Goroth
+kps.spells.bossDebuff.burningArmor = kps.Spell.fromId(231363) -- Goroth
+
