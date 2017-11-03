@@ -13,7 +13,10 @@ local SpiritOfRedemption = spells.spiritOfRedemption.name
 local MassDispel = spells.massDispel.name
 local AngelicFeather = spells.angelicFeather.name
 
-
+-- kps.cooldowns for dispel
+-- kps.interrupt for guardianSpirit
+-- kps.defensive for mouseover
+-- kps.multiTarget for damage
 kps.rotations.register("PRIEST","HOLY",{
 
     {{"macro"}, 'not target.exists and mouseover.inCombat and mouseover.isAttackable' , "/target mouseover" },
@@ -154,11 +157,11 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.guardianSpirit, 'heal.hasBossDebuff ~= nil and heal.hasBossDebuff.hp < 0.50' , kps.heal.hasBossDebuff , "ABSORB_HEAL" },
     {spells.lightOfTuure, 'heal.hasBossDebuff ~= nil and heal.hasBossDebuff.hp < 0.80' , kps.heal.hasBossDebuff , "ABSORB_HEAL" },
     {spells.holyWordSerenity, 'heal.hasBossDebuff ~= nil and heal.hasBossDebuff.hp < 0.50' , kps.heal.hasBossDebuff , "ABSORB_HEAL" },
-    {spells.flashHeal, 'heal.hasBossDebuff ~= nil and heal.hasBossDebuff.hp < 0.80' , kps.heal.hasBossDebuff , "ABSORB_HEAL" },
+    {spells.flashHeal, 'heal.hasBossDebuff ~= nil and heal.hasBossDebuff.hp < threshold()' , kps.heal.hasBossDebuff , "ABSORB_HEAL" },
     -- ABSOPTION HEAL
     {spells.holyWordSerenity, 'heal.hasAbsorptionHeal ~= nil and heal.hasAbsorptionHeal.hp < 1' , kps.heal.hasAbsorptionHeal , "ABSORB_HEAL" },
     {spells.prayerOfHealing, 'heal.hasAbsorptionHealCount > 1' , kps.heal.hasAbsorptionHeal , "ABSORB_HEAL" },
-    {spells.heal, 'heal.hasAbsorptionHeal ~= nil' , kps.heal.hasAbsorptionHeal , "ABSORB_HEAL" },
+    {spells.heal, 'heal.hasAbsorptionHeal ~= nil and heal.hasAbsorptionHeal.hp < 1' , kps.heal.hasAbsorptionHeal , "ABSORB_HEAL" },
 
     -- "Divine Hymn" 64843
     {spells.divineHymn , 'not player.isMoving and heal.countLossInRange(0.62) * 2 >= heal.countInRange and heal.hasRaidBuffCount(spells.prayerOfMending) > 1' },
@@ -177,7 +180,7 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < threshold()' , kps.heal.lowestTankInRaid , "FLASH_TANK" },
     -- "Soins de lien" 32546
     {spells.bindingHeal, 'not player.isMoving and not heal.lowestTankInRaid.isUnit("player") and heal.lowestTankInRaid.hp < 0.90 and spells.holyWordSanctify.cooldown > 4  ' , kps.heal.lowestTankInRaid ,"BINDING_SANCTIFY_TANK" },
-    {spells.bindingHeal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player") and heal.lowestInRaid.hp < 0.90 and spells.holyWordSanctify.cooldown > 4  ' , kps.heal.lowestInRaid ,"BINDING_SANCTIFY_LOWEST" },
+    {spells.bindingHeal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player") and spells.holyWordSanctify.cooldown > 4  ' , kps.heal.lowestInRaid ,"BINDING_SANCTIFY_LOWEST" },
     {spells.bindingHeal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player") and heal.countLossInRange(0.92) > 2' , kps.heal.lowestInRaid ,"BINDING_LOWEST" },
     -- "Soins" 2060 -- "Renouveau constant" 200153
     {spells.heal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.90' , kps.heal.lowestTankInRaid, "HEAL_TANK" },

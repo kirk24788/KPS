@@ -15,7 +15,10 @@ kps.runAtEnd(function()
    kps.gui.addCustomToggle("WARRIOR","FURY", "isAttackable", "Interface\\Icons\\spell_shadow_unholyfrenzy", "isAttackable")
 end)
 
-
+-- kps.defensive for charge
+-- kps.interrupt for interrupts
+-- kps.cooldowns for battleCry
+-- kps.multiTarget for multiTarget
 kps.rotations.register("WARRIOR","FURY",
 {
 
@@ -65,7 +68,7 @@ kps.rotations.register("WARRIOR","FURY",
     {spells.avatar, 'spells.battleCry.cooldown == 0 and not player.isMoving and target.isAttackable and target.distance < 10' }, -- 90 sec cd
     -- Rampage can be used prior to Battle Cry even with less than 100 rage. You should not delay Battle Cry to ensure either Rampage is used first
     -- "Berserker écumant" "Frothing Berserker" -- Lorsque vous atteignez 100 point de rage, vos dégâts sont augmentés de 15% et votre vitesse de déplacement de 30% pendant 6 sec.
-    {spells.rampage, 'player.hasBuff(spells.frothingBerserker) and spells.battleCry.cooldown < 43' , "target" , "rampage_BERSERKER" },
+    {spells.rampage, 'player.hasBuff(spells.frothingBerserker) and not player.hasBuff(spells.battleCry)' , "target" , "rampage_BERSERKER" },
     {spells.rampage, 'spells.battleCry.cooldown < kps.gcd and target.isAttackable and target.distance < 10' , "rampage_CD" },
     {spells.battleCry, 'kps.cooldowns and not player.isMoving and target.isAttackable and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
     {{"nested"}, 'player.hasBuff(spells.battleCry)', {

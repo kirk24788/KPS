@@ -496,8 +496,8 @@ print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 --end
 
 print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHealthRaid)
-print("|cffff8000COUNT_LOSS:|cffffffff", kps["env"].heal.countLossInRange(),"|cffff8000COUNT_MAX:|cffffffff",kps["env"].heal.countInRange)
-print("|cffff8000countLossDistance:|cffffffff", kps["env"].heal.countLossInDistance(2,10))
+print("|cffff8000COUNT_LOSS:|cffffffff", kps["env"].heal.countLossInRange(0.90),"|cffff8000COUNT_MAX:|cffffffff",kps["env"].heal.countInRange)
+print("|cffff8000countLossDistance:|cffffffff", kps["env"].heal.countLossInDistance(0.90,10))
 
 --print("test:", kps["env"].player.buffValue(kps.spells.warrior.ignorePain))
 
@@ -511,9 +511,10 @@ print("|cffff8000absorbHealCount:|cffffffff", kps["env"].heal.hasAbsorptionHealC
 
 
 --local mending = kps.Spell.fromId(33076)
---print("|cffff8000hasBuff:|cffffffff", kps["env"].heal.hasRaidBuff(mending))
---print("|cffff8000hasBuffStacks:|cffffffff", kps["env"].heal.hasRaidBuffStacks(mending))
---print("|cffff8000hasBuffCount:|cffffffff", kps["env"].heal.hasRaidBuffCount(mending))
+local mending = kps.Spell.fromId(81749)
+print("|cffff8000hasBuff:|cffffffff", kps["env"].heal.hasRaidBuff(mending))
+print("|cffff8000hasBuffStacks:|cffffffff", kps["env"].heal.hasRaidBuffStacks(mending))
+print("|cffff8000hasBuffCount:|cffffffff", kps["env"].heal.hasRaidBuffCount(mending))
 
 
 --print("|cffff8000Healable:|cffffffff", kps["env"].player.isHealable)
