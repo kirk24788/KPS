@@ -63,9 +63,8 @@ kps.rotations.register("PRIEST","HOLY",{
     
     -- TRINKETS SLOT 2
     -- "Archive of Faith" 147006 -- "The Deceiver's Grand Design" 147007 
-    {{"macro"}, 'player.hasTrinket(1) == 147007 and player.useTrinket(1) and player.hp < 0.55 and not player.hasBuff(spells.guidingHand)' , "/use 14" },
-    {{"macro"}, 'player.hasTrinket(1) == 147007 and player.useTrinket(1) and heal.lowestTankInRaid.hp < 0.85 and not heal.lowestTankInRaid.hasBuff(spells.guidingHand)' , "/target "..kps["env"].heal.lowestTankInRaid.unit.."\n".."/use 14" },
-    {{"macro"}, 'player.hasTrinket(1) == 147007 and player.useTrinket(1) and heal.lowestInRaid.hp < 0.55 and not heal.lowestInRaid.hasBuff(spells.guidingHand)' , "/target "..kps["env"].heal.lowestInRaid.unit.."\n".."/use 14" },
+    {{"macro"}, 'player.hasTrinket(1) == 147007 and player.useTrinket(1) and not heal.lowestTankInRaid.hasBuff(spells.guidingHand)' , "/target "..kps["env"].heal.lowestTankInRaid.unit.."\n".."/use 14".."\n".."/targetlasttarget" },
+    {{"macro"}, 'player.hasTrinket(1) == 147007 and player.useTrinket(1) and not player.hasBuff(spells.guidingHand) and not heal.lowestTankInRaid.isUnit("player") ' , "/target player".."\n".."/use 14".."\n".."/targetlasttarget" },
     -- "Velen's Future Sight" 144258
     {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.countLossInRange(0.82) >= 3' , "/use 14" },
     -- "Apotheosis" 200183 increasing the effects of Serendipity by 200% and reducing the cost of your Holy Words by 100% -- "Benediction" for raid and "Apotheosis" for party

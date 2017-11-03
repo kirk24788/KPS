@@ -43,10 +43,9 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     }},
     
     -- TRINKETS SLOT 2
-    -- "Archive of Faith" 147006 -- "The Deceiver's Grand Design" 147007 
-    {{"macro"}, 'player.hasTrinket(1) == 147007 and player.useTrinket(1) and player.hp < 0.55 and not player.hasBuff(spells.guidingHand)' , "/use 14" },
-    {{"macro"}, 'player.hasTrinket(1) == 147007 and player.useTrinket(1) and heal.lowestTankInRaid.hp < 0.85 and not heal.lowestTankInRaid.hasBuff(spells.guidingHand)' , "/target "..kps["env"].heal.lowestTankInRaid.unit.."\n".."/use 14" },
-    {{"macro"}, 'player.hasTrinket(1) == 147007 and player.useTrinket(1) and heal.lowestInRaid.hp < 0.55 and not heal.lowestInRaid.hasBuff(spells.guidingHand)' , "/target "..kps["env"].heal.lowestInRaid.unit.."\n".."/use 14" },
+    -- "Archive of Faith" 147006 -- "The Deceiver's Grand Design" 147007
+    {{"macro"}, 'player.hasTrinket(1) == 147007 and player.useTrinket(1) and not heal.lowestTankInRaid.hasBuff(spells.guidingHand)' , "/target "..kps["env"].heal.lowestTankInRaid.unit.."\n".."/use 14".."\n".."/targetlasttarget" },
+    {{"macro"}, 'player.hasTrinket(1) == 147007 and player.useTrinket(1) and not player.hasBuff(spells.guidingHand) and not heal.lowestTankInRaid.isUnit("player") ' , "/target player".."\n".."/use 14".."\n".."/targetlasttarget" },
     -- "Velen's Future Sight" 144258
     {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.countLossInRange(0.82) >= 3' , "/use 14" },
 
@@ -55,24 +54,31 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.painSuppression, 'player.hp < 0.30' , "player" },
     {spells.painSuppression, 'heal.lowestInRaid.hp < 0.30' , kps.heal.lowestInRaid },
 
-    {spells.powerWordShield, 'not heal.lowestTankInRaid.hasBuff(spells.powerWordShield)' , kps.heal.lowestTankInRaid },    
+    {spells.powerWordShield, 'not heal.lowestTankInRaid.hasBuff(spells.powerWordShield) and heal.lowestTankInRaid.incomingDamage > 0' , kps.heal.lowestTankInRaid },    
     {spells.powerWordShield, 'player.hp < threshold() and not player.hasBuff(spells.powerWordShield)' , kps.heal.lowestTankInRaid },
     {spells.powerWordShield, 'heal.lowestInRaid.hp < threshold() and not heal.lowestInRaid.hasBuff(spells.powerWordShield)' , kps.heal.lowestInRaid },
     
+    {spells.plea, 'not player.hasBuff(spells.atonement)' , "target" },
+    {spells.plea, 'not heal.lowestTankInRaid.hasBuff(spells.atonement)' , kps.heal.lowestTankInRaid },
+    
     {spells.penance, 'target.isAttackable and heal.lowestTankInRaid.hasBuff(spells.atonement)' , "target" },
     {spells.penance, 'focustarget.isAttackable and heal.lowestTankInRaid.hasBuff(spells.atonement)' , "focustarget" },
-    {spells.purgeTheWicked, 'target.myDebuffDuration(spells.purgeTheWicked) < 3 and heal.lowestTankInRaid.hasBuff(spells.atonement)'},
+    {spells.penance, 'targettarget.isAttackable and heal.lowestTankInRaid.hasBuff(spells.atonement)' , "targettarget" },
+    {spells.lightsWrath, 'not player.isMoving and heal.hasRaidBuffCount(spells.atonement) > heal.countLossInRange(0.76) and heal.countLossInRange(0.76) >= 4 and player.isInRaid' },
+    {spells.lightsWrath, 'not player.isMoving and heal.hasRaidBuffCount(spells.atonement) > heal.countLossInRange(0.82) and heal.countLossInRange(0.82) >= 3 and not player.isInRaid' },
+    {spells.purgeTheWicked, 'target.myDebuffDuration(spells.purgeTheWicked) < 3 and heal.lowestTankInRaid.hasBuff(spells.atonement)' },
     {spells.purgeTheWicked, 'mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.purgeTheWicked) < 2 and not spells.purgeTheWicked.isRecastAt("mouseover")' , 'mouseover' },
-    {spells.lightsWrath, 'not player.isMoving and heal.hasRaidBuffCount(spells.atonement) > heal.countLossInRange(0.82) and heal.countLossInRange(0.82) >= 4' },
 
     {spells.powerWordRadiance, 'not player.isMoving and heal.hasRaidBuffCount(spells.atonement) < heal.countLossInRange(0.82) and heal.lowestTankInRaid.myBuffDuration(spells.atonement) < 3' , kps.heal.lowestTankInRaid },
     {spells.powerWordRadiance, 'not player.isMoving and heal.hasRaidBuffCount(spells.atonement) < heal.countLossInRange(0.82) and heal.lowestInRaid.myBuffDuration(spells.atonement) < 3', kps.heal.lowestInRaid },
     {spells.powerWordRadiance, 'not player.isMoving and heal.hasRaidBuffCount(spells.atonement) < heal.countLossInRange(0.82)', "player" },
-    
-    {spells.smite, 'not player.isMoving and heal.lowestInRaid.hasBuff(spells.atonement)' , "target" },
-    {spells.plea, 'not player.hasBuff(spells.atonement)' , "player" },
-    {spells.plea, 'not heal.lowestTankInRaid.hasBuff(spells.atonement)' , kps.heal.lowestTankInRaid },
-    {spells.plea, 'not heal.lowestInRaid.hasBuff(spells.atonement)' , kps.heal.lowestInRaid },
+
+    {spells.smite, 'not player.isMoving and target.isAttackable and heal.lowestTankInRaid.hasBuff(spells.atonement)' , "target" },
+    {spells.smite, 'not player.isMoving and focustarget.isAttackable and heal.lowestTankInRaid.hasBuff(spells.atonement)' , "focustarget" },
+    {spells.smite, 'not player.isMoving and target.isAttackable and heal.lowestInRaid.hasBuff(spells.atonement)' , "target" },
+    {spells.smite, 'not player.isMoving and focustarget.isAttackable and heal.lowestInRaid.hasBuff(spells.atonement)' , "focustarget" },
+
+    {spells.plea, 'not heal.lowestInRaid.hasBuff(spells.atonement) and heal.lowestInRaid.hp < 0.90' , kps.heal.lowestInRaid },
 
     {spells.powerInfusion, 'player.hasTalent(7,1)'},
     {spells.mindbender, 'player.hasTalent(4,3)'},
@@ -80,9 +86,8 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.shadowWordPain, 'not player.hasTalent(6,1) and target.myDebuffDuration(spells.shadowWordPain) < 3'},
     {spells.shadowWordPain, 'not player.hasTalent(6,1) and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 
-    {spells.penance, 'target.isAttackable' , "target" },
-    {spells.penance, 'targettarget.isAttackable', "targettarget" },
-    {spells.penance, 'focustarget.isAttackable', "focustarget" },
+
+    {spells.penance },
     {spells.powerWordSolace, 'player.hasTalent(4,1)' },
 
     {spells.shadowMend, 'heal.lowestTankInRaid.hp < threshold()' , kps.heal.lowestTankInRaid },
