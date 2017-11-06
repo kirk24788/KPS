@@ -207,14 +207,14 @@ kps.RaidStatus.prototype.averageHealthRaid = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.countLossInRange<PCT>)` - Returns the count for all raid members below threshold health pct (default 0.80)
+@function `heal.countLossInRange<PCT>)` - Returns the count for all raid members below threshold health (default 0.80)
 ]]--
 
-local countInRange = function(pct)
-    if pct == nil then pct = 0.80 end
+local countInRange = function(health)
+    if health == nil then health = 0.80 end
     local count = 0
     for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.hpIncoming < pct then
+        if unit.isHealable and unit.hpIncoming < health then
             count = count + 1
         end
     end
@@ -236,15 +236,15 @@ kps.RaidStatus.prototype.countInRange = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.countLossInDistance` - Returns the count for all raid members below threshold health pct (default 0.80) in a distance (default 10 yards)
+@function `heal.countLossInDistance` - Returns the count for all raid members below threshold health (default 0.80) in a distance (default 10 yards)
 ]]--
 
-local countInDistance = function(pct,distance)
-    if pct == nil then pct = 0.80 end
+local countInDistance = function(health,distance)
+    if health == nil then health = 0.80 end
     if distance == nil then distance = 10 end
     local count = 0
     for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.hpIncoming < pct and unit.distance < distance then
+        if unit.isHealable and unit.hpIncoming < health and unit.distance < distance then
             count = count + 1
         end
     end
@@ -387,6 +387,17 @@ kps.RaidStatus.prototype.hasRaidBuff = kps.utils.cachedValue(function()
 end)
 
 --[[[
+@function `heal.hasNotRaidBuffAtonement(<BUFF>)` - Returns unit for a specific Buff Atonement only for discipline priest
+]]--
+
+kps.RaidStatus.prototype.hasNotBuffAtonement = kps.utils.cachedValue(function()
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and not unit.hasAtonement then return unit end
+    end
+    return nil
+end)
+
+--[[[
 @function `heal.hasRaidBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on raid e.g. heal.hasRaidBuffStacks(spells.prayerOfMending) < 10
 ]]--
 
@@ -427,13 +438,6 @@ end)
 @function `heal.hasAbsorptionHeal` - Returns the raid unit with an absorption Debuff
 ]]--
 
-kps.RaidStatus.prototype.hasAbsorptionHeal = kps.utils.cachedValue(function()
-    for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.absorptionHeal then return unit end
-    end
-    return nil
-end)
-
 kps.RaidStatus.prototype.hasAbsorptionHealCount = kps.utils.cachedValue(function()
     local count = 0
     for name, unit in pairs(raidStatus) do
@@ -442,6 +446,13 @@ kps.RaidStatus.prototype.hasAbsorptionHealCount = kps.utils.cachedValue(function
         end
     end
     return count
+end)
+
+kps.RaidStatus.prototype.hasAbsorptionHeal = kps.utils.cachedValue(function()
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and unit.absorptionHeal then return unit end
+    end
+    return nil
 end)
 
 --[[[
@@ -510,11 +521,11 @@ print("|cffff8000hasAbsorption:|cffffffff", kps["env"].heal.hasAbsorptionHeal)
 print("|cffff8000absorbHealCount:|cffffffff", kps["env"].heal.hasAbsorptionHealCount)
 
 
---local mending = kps.Spell.fromId(33076)
-local mending = kps.Spell.fromId(81749)
-print("|cffff8000hasBuff:|cffffffff", kps["env"].heal.hasRaidBuff(mending))
-print("|cffff8000hasBuffStacks:|cffffffff", kps["env"].heal.hasRaidBuffStacks(mending))
-print("|cffff8000hasBuffCount:|cffffffff", kps["env"].heal.hasRaidBuffCount(mending))
+--local buff = kps.Spell.fromId(33076)
+--local buff = kps.Spell.fromId(81749)
+--print("|cffff8000hasBuff:|cffffffff", kps["env"].heal.hasRaidBuff(buff))
+--print("|cffff8000hasBuffStacks:|cffffffff", kps["env"].heal.hasRaidBuffStacks(buff))
+--print("|cffff8000hasBuffCount:|cffffffff", kps["env"].heal.hasRaidBuffCount(buff))
 
 
 --print("|cffff8000Healable:|cffffffff", kps["env"].player.isHealable)
