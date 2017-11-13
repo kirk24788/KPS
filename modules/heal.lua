@@ -510,8 +510,7 @@ print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHealthRaid)
 print("|cffff8000COUNT_LOSS:|cffffffff", kps["env"].heal.countLossInRange(0.90),"|cffff8000COUNT_MAX:|cffffffff",kps["env"].heal.countInRange)
 print("|cffff8000countLossDistance:|cffffffff", kps["env"].heal.countLossInDistance(0.90,10))
 
---print("test:", kps["env"].player.buffValue(kps.spells.warrior.ignorePain))
-
+--print("|cffff8000buffValue:|cffffffff", kps["env"].player.buffValue(kps.spells.warrior.ignorePain))
 --print("|cffff8000GCD:|cffffffff", kps.gcd)
 --print("|cffff8000GCD:|cffffffff", kps["env"].player.isInRaid)
 
@@ -521,9 +520,9 @@ print("|cffff8000hasAbsorption:|cffffffff", kps["env"].heal.hasAbsorptionHeal)
 print("|cffff8000absorbHealCount:|cffffffff", kps["env"].heal.hasAbsorptionHealCount)
 
 
-print("|cffff8000hasRoleInRaidTANK:|cffffffff", kps["env"].heal.lowestInRaid.hasRoleInRaid("TANK"))
-print("|cffff8000hasRoleInRaidHEALER:|cffffffff", kps["env"].heal.lowestInRaid.hasRoleInRaid("HEALER"))
-print("|cffff8000isTankInRaid:|cffffffff", kps["env"].heal.lowestInRaid.isTankInRaid)
+--print("|cffff8000hasRoleInRaidTANK:|cffffffff", kps["env"].heal.lowestInRaid.hasRoleInRaid("TANK"))
+--print("|cffff8000hasRoleInRaidHEALER:|cffffffff", kps["env"].heal.lowestInRaid.hasRoleInRaid("HEALER"))
+--print("|cffff8000isTankInRaid:|cffffffff", kps["env"].heal.lowestInRaid.isTankInRaid)
 
 
 --local buff = kps.Spell.fromId(33076)
