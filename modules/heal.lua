@@ -521,6 +521,11 @@ print("|cffff8000hasAbsorption:|cffffffff", kps["env"].heal.hasAbsorptionHeal)
 print("|cffff8000absorbHealCount:|cffffffff", kps["env"].heal.hasAbsorptionHealCount)
 
 
+print("|cffff8000hasRoleInRaidTANK:|cffffffff", kps["env"].heal.lowestInRaid.hasRoleInRaid("TANK"))
+print("|cffff8000hasRoleInRaidHEALER:|cffffffff", kps["env"].heal.lowestInRaid.hasRoleInRaid("HEALER"))
+print("|cffff8000isTankInRaid:|cffffffff", kps["env"].heal.lowestInRaid.isTankInRaid)
+
+
 --local buff = kps.Spell.fromId(33076)
 --local buff = kps.Spell.fromId(81749)
 --print("|cffff8000hasBuff:|cffffffff", kps["env"].heal.hasRaidBuff(buff))

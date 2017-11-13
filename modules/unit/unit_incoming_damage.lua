@@ -141,12 +141,12 @@ end
 
 local function loadOnDemand()
    if not moduleLoaded then
---       kps.events.registerOnUpdate(function()
---           kps.utils.cachedFunction(updateincomingHeal,1)
---           kps.utils.cachedFunction(updateincomingDamage,1)
---       end)
-       kps.events.register("COMBAT_LOG_EVENT_UNFILTERED", combatLogUpdate)
-       moduleLoaded = true
+        kps.events.registerOnUpdate(function()
+        kps.utils.cachedFunction(updateincomingHeal)
+        kps.utils.cachedFunction(updateincomingDamage)
+     end)
+        kps.events.register("COMBAT_LOG_EVENT_UNFILTERED", combatLogUpdate)
+        moduleLoaded = true
    end
 end
 
@@ -157,8 +157,10 @@ end
 function Unit.incomingDamage(self)
     loadOnDemand()
     local totalDamage = 0
+    local incomingTimeRange = 4
     if incomingDamage[self.guid] ~= nil then
         local dataset = incomingDamage[self.guid]
+        if GetTime() - dataset[1][1] > incomingTimeRange + 1 then return 0 end
         if #dataset > 1 then
             local timeDelta = dataset[1][1] - dataset[#dataset][1] -- (lasttime - firsttime)
             local totalTime = math.max(timeDelta, 1)
@@ -168,6 +170,7 @@ function Unit.incomingDamage(self)
                     totalDamage = totalDamage + dataset[i][2]
                 end
             end
+        else totalDamage = dataset[1][2]
         end
     end
     return totalDamage
@@ -179,8 +182,10 @@ end
 function Unit.incomingHeal(self)
     loadOnDemand()
     local totalHeal = 0
+    local incomingTimeRange = 4
     if incomingHeal[self.guid] ~= nil then
         local dataset = incomingHeal[self.guid]
+        if GetTime() - dataset[1][1] > incomingTimeRange + 1 then return 0 end
         if #dataset > 1 then
             local timeDelta = dataset[1][1] - dataset[#dataset][1] -- (lasttime - firsttime)
             local totalTime = math.max(timeDelta, 1)
@@ -190,6 +195,7 @@ function Unit.incomingHeal(self)
                     totalHeal = totalHeal + dataset[i][2]
                 end
             end
+        else totalHeal = dataset[1][2]
         end
     end
     return totalHeal

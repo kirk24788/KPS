@@ -128,4 +128,33 @@ function Unit.hasAttackableTarget(self)
     local unitTarget = unit.."target"
     if UnitExists(unitTarget) and UnitCanAttack("player",unitTarget) then return true end
     return false
-end  
+end 
+
+--[[[
+@function `<UNIT>.isTankInRaid` - returns true if the given unit is a tank
+]]--
+
+function Unit.isTankInRaid(self)
+    if UnitGroupRolesAssigned(self.unit) == "TANK" then return true end
+    if UnitIsUnit("focus",self.unit) then return true end
+    return false
+end 
+
+--[[[
+@function `<UNIT>.hasRoleInRaid(<STRING>)` - returns true if the given unit has role TANK, HEALER, DAMAGER, NONE
+]]--
+local hasRoleInRaid = setmetatable({}, {
+    __index = function(t, unit)
+        local val = function (role)
+            if UnitGroupRolesAssigned(unit) == role then return true end
+            if UnitIsUnit(unit,"focus") then return true end
+            return false
+        end
+        t[unit] = val
+        return val
+    end})
+function Unit.hasRoleInRaid(self)
+    return hasRoleInRaid[self.unit]
+end
+
+
