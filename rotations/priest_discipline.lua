@@ -10,6 +10,7 @@ local env = kps.env.priest
 
 local MassDispel = spells.massDispel.name
 local AngelicFeather = spells.angelicFeather.name
+local Barriere = spells.powerWordBarrier.name
 
 -- kps.interrupt for painSuppression
 -- kps.cooldowns for dispel
@@ -19,6 +20,8 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     
     -- "Dissipation de masse" 32375
     {{"macro"}, 'keys.ctrl', "/cast [@cursor] "..MassDispel },
+    -- "Power Word: Barrier" 62618
+    {{"macro"}, 'keys.shift', "/cast [@cursor] "..Barriere },
 
     -- "Fade" 586 "Disparition"
     {spells.fade, 'player.isTarget' },
