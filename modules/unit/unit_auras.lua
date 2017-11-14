@@ -355,12 +355,3 @@ function Unit.bossDebuff(self)
     end
     return false
 end
-
---[[[
-@function `<UNIT>.bossDebuff` - returns true if the unit has a Boss Debuff with Heavy Damage
-]]--
-function Unit.hasAtonement(self)
-	local spell = kps.Spell.fromId(81749) -- kps.spells.priest.atonement
-    if self.hasBuff(spell) then return true end
-    return false
-end
