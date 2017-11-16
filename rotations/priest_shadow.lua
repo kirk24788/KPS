@@ -45,6 +45,8 @@ kps.rotations.register("PRIEST","SHADOW",{
     -- "Etreinte vampirique" buff 15286 -- pendant 15 sec, vous permet de rendre à un allié proche, un montant de points de vie égal à 40% des dégâts d’Ombre que vous infligez avec des sorts à cible unique
     {spells.vampiricEmbrace, 'player.hasBuff(spells.voidform) and player.hp < 0.55' },
     {spells.vampiricEmbrace, 'player.hasBuff(spells.voidform) and heal.lowestTankInRaid.hp < 0.55' },
+    -- "Guérison de l’ombre" 186263 -- debuff "Shadow Mend" 187464 10 sec
+    {spells.shadowMend, 'not player.isMoving and not spells.shadowMend.lastCasted(4) and not player.hasBuff(spells.voidform) and player.hp < 0.40 and not player.hasBuff(spells.vampiricEmbrace)' , "player" },
 
     --{{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") < kps.gcd' , "/stopcasting" },
     {spells.voidEruption, 'player.hasBuff(spells.voidform)' , "target" },
@@ -113,8 +115,6 @@ kps.rotations.register("PRIEST","SHADOW",{
 	{spells.vampiricTouch, 'not player.isMoving  and mouseover.isAttackable and kps.isAttackable and mouseover.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
     {spells.shadowWordPain, 'mouseover.isAttackable and kps.isAttackable and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 
-    -- "Guérison de l’ombre" 186263 -- debuff "Shadow Mend" 187464 10 sec
-    {spells.shadowMend, 'not player.isMoving and not spells.shadowMend.lastCasted(4) and not player.hasBuff(spells.voidform) and player.hp < 0.60 and not player.hasBuff(spells.vampiricEmbrace)' , "player" },
      -- "Levitate" 1706
     {spells.levitate, 'player.isFallingFor(1.6) and not player.hasBuff(spells.levitate)' , "player" },
     {spells.levitate, 'player.isSwimming and not player.hasBuff(spells.levitate)' , "player" },

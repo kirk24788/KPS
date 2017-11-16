@@ -85,7 +85,6 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.powerWordRadiance, 'not player.isMoving and heal.hasRaidBuffCount(spells.atonement) <= heal.countLossInRange(0.82) and heal.countLossInRange(0.82) >= 3 and not player.isInRaid', "player" },
 
     {spells.penance, 'heal.lowestInRaid.hp < 0.40' , kps.heal.lowestInRaid },
-    {spells.penance, 'target.isAttackable and player.hasBuff(spells.borrowedTime)' , "target" , "borrowedTime" },
     {spells.penance, 'target.isAttackable' , "target" },
     {spells.penance, 'focustarget.isAttackable' , "focustarget" },
     -- "Borrowed Time" "Sursis"  -- Applying Atonement to a target reduces the cast time of your next Smite or Light's Wrath by 5%, or causes your next Penance to channel 5% faster
@@ -93,6 +92,7 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.smite, 'not player.isMoving and focustarget.isAttackable and player.hasBuff(spells.borrowedTime)' , "focustarget" , "smite_borrowedTime" },
     {spells.smite, 'not player.isMoving and target.isAttackable and kps.lastCast["name"] == spells.plea' , "target" , "smite_lastcast" },
     {spells.smite, 'not player.isMoving and focustarget.isAttackable and kps.lastCast["name"] == spells.plea' , "focustarget" , "smite_lastcast" },
+    {spells.smite, 'not player.isMoving and target.isAttackable and heal.hasRaidBuffCount(spells.atonement) >= heal.countLossInRange(0.92) and heal.countLossInRange(0.92) > 0' , "target" , "smite_count" },
 
     {spells.powerWordSolace, 'player.hasTalent(4,1)' },
     {spells.powerInfusion, 'player.hasTalent(7,1)'},
@@ -104,7 +104,6 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.shadowWordPain, 'not player.hasTalent(6,1) and target.myDebuffDuration(spells.shadowWordPain) < 3'},
     {spells.shadowWordPain, 'not player.hasTalent(6,1) and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 
-    {spells.smite, 'not player.isMoving and target.isAttackable and heal.hasRaidBuffCount(spells.atonement) >= heal.countLossInRange(0.92) and heal.countLossInRange(0.92) > 0' , "target" , "smite_count" },
     {{"nested"},'kps.multiTarget', {
         {spells.smite, 'not player.isMoving and target.isAttackable and heal.hasRaidBuffCount(spells.atonement) >= heal.countLossInRange(0.92)' , "target" },
         {spells.smite, 'not player.isMoving and focustarget.isAttackable and heal.hasRaidBuffCount(spells.atonement) >= heal.countLossInRange(0.92)' , "focustarget" },
