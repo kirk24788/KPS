@@ -14,7 +14,7 @@ local MassDispel = spells.massDispel.name
 local AngelicFeather = spells.angelicFeather.name
 
 kps.runAtEnd(function()
-   kps.gui.addCustomToggle("PRIEST","HOLY", "isAttackable", "Interface\\Icons\\priest_spell_leapoffaith_a", "leapOfFaith")
+   kps.gui.addCustomToggle("PRIEST","HOLY", "leapOfFaith", "Interface\\Icons\\priest_spell_leapoffaith_a", "leapOfFaith")
 end)
 
 -- kps.cooldowns for dispel
@@ -100,7 +100,7 @@ kps.rotations.register("PRIEST","HOLY",{
         {spells.flashHeal, 'player.myBuffDuration(spells.surgeOfLight) < 3' , kps.heal.lowestInRaid},
     }},
 
-    -- {spells.leapOfFaith, 'kps.leapOfFaith and not heal.lowestInRaid.isUnit("player") and heal.lowestInRaid.hp < 0.20 and not heal.lowestInRaid.hasRoleInRaid("TANK")' , kps.heal.lowestInRaid },  
+    -- "Leap Of Faith"
     {spells.leapOfFaith, 'kps.leapOfFaith and not heal.lowestInRaid.isUnit("player") and heal.lowestInRaid.hp < 0.20 and not heal.lowestInRaid.isTankInRaid' , kps.heal.lowestInRaid },
 
     -- "Soins rapides" 2060 -- kps.lastCast["name"] ne fonctionne pas si lastcast etait une macro
