@@ -21,10 +21,10 @@ kps.rotations.register("PRIEST","SHADOW",{
 
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
-    {{"macro"}, 'not kps.isAttackable and not target.isAttackable' , "/cleartarget"},
+    {{"macro"}, 'kps.isAttackable and not target.isAttackable' , "/cleartarget"},
     env.TargetMouseover,
     {{"macro"}, 'focus.exists and target.isUnit("focus")' , "/clearfocus" },
-    {{"macro"}, 'not kps.isAttackable and focus.exists and not focus.isAttackable' , "/clearfocus" },
+    {{"macro"}, 'kps.isAttackable and focus.exists and not focus.isAttackable' , "/clearfocus" },
     env.FocusMouseover,
 
     -- "Dissipation de masse" 32375

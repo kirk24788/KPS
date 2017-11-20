@@ -26,7 +26,7 @@ kps.rotations.register("WARRIOR","PROTECTION",
     
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
-    {{"macro"}, 'not kps.isAttackable and not target.isAttackable' , "/cleartarget" },
+    {{"macro"}, 'kps.isAttackable and not target.isAttackable' , "/cleartarget" },
     env.ScreenMessage,
     {spells.berserkerRage, 'not player.hasFullControl' },
     {spells.berserkerRage, 'kps.berserker and player.rage < 15 and player.myBuffDuration(spells.shieldBlock) < 2' , "target" , "spells.berserkerRage" }, -- set T20 gives 20 rage

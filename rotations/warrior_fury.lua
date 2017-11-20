@@ -17,14 +17,13 @@ end)
 
 -- kps.defensive for charge
 -- kps.interrupt for interrupts
--- kps.cooldowns for battleCry
 -- kps.multiTarget for multiTarget
 kps.rotations.register("WARRIOR","FURY",
 {
 
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
-    {{"macro"}, 'not kps.isAttackable and not target.isAttackable' , "/cleartarget"},
+    {{"macro"}, 'kps.isAttackable and not target.isAttackable' , "/cleartarget"},
     env.ScreenMessage,
     {spells.berserkerRage, 'not player.hasFullControl' },
     {spells.berserkerRage, 'kps.berserker and player.hasTalent(3,2) and not player.hasBuff(spells.enrage)' },
@@ -69,9 +68,8 @@ kps.rotations.register("WARRIOR","FURY",
     {spells.avatar, 'spells.battleCry.cooldown == 0 and not player.isMoving and target.isAttackable and target.distance < 10' }, -- 90 sec cd
     -- Rampage can be used prior to Battle Cry even with less than 100 rage. You should not delay Battle Cry to ensure either Rampage is used first
     -- "Berserker écumant" "Frothing Berserker" -- Lorsque vous atteignez 100 point de rage, vos dégâts sont augmentés de 15% et votre vitesse de déplacement de 30% pendant 6 sec.
-    {spells.rampage, 'player.hasBuff(spells.frothingBerserker) and not player.hasBuff(spells.battleCry)' , "target" , "rampage_BERSERKER" },
-    {spells.rampage, 'spells.battleCry.cooldown < kps.gcd and target.isAttackable and target.distance < 10' , "rampage_CD" },
-    {spells.battleCry, 'kps.cooldowns and not player.isMoving and target.isAttackable and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
+    {spells.rampage, 'player.rage == 100 and not player.hasBuff(spells.battleCry) and target.isAttackable and target.distance < 10' , "target" , "rampage_RAGE" },
+    {spells.battleCry, 'not player.isMoving and player.rage < 85 and target.isAttackable and target.distance < 10' }, -- 50 sec cd -- generates 100 rage
     {{"nested"}, 'player.hasBuff(spells.battleCry)', {
         {spells.ragingBlow , 'player.hasBuff(spells.enrage)', "target" , "ragingBlow_battleCry" },
         {spells.rampage , 'true', "target" , "rampage_battleCry" }, -- get enraged
