@@ -516,9 +516,12 @@ print("|cffff8000countLossDistance:|cffffffff", kps["env"].heal.countLossInDista
 --print("|cffff8000GCD:|cffffffff", kps["env"].player.isInRaid)
 
 
-print("|cffff8000hasBossDebuff:|cffffffff", kps["env"].heal.hasBossDebuff)
-print("|cffff8000hasAbsorption:|cffffffff", kps["env"].heal.hasAbsorptionHeal)
-print("|cffff8000absorbHealCount:|cffffffff", kps["env"].heal.hasAbsorptionHealCount)
+--print("|cffff8000hasBossDebuff:|cffffffff", kps["env"].heal.hasBossDebuff)
+--print("|cffff8000hasAbsorption:|cffffffff", kps["env"].heal.hasAbsorptionHeal)
+--print("|cffff8000absorbHealCount:|cffffffff", kps["env"].heal.hasAbsorptionHealCount)
+
+
+print("|cffff8000Charge:|cffffffff", kps.spells.priest.powerWordRadiance.charges)
 
 
 --print("|cffff8000hasRoleInRaidTANK:|cffffffff", kps["env"].heal.lowestInRaid.hasRoleInRaid("TANK"))
