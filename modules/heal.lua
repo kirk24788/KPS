@@ -391,11 +391,16 @@ end)
 ]]--
 
 kps.RaidStatus.prototype.hasNotBuffAtonement = kps.utils.cachedValue(function()
+    local lowestunit = nil
+    local lowestHp = 2
     local spell = kps.Spell.fromId(81749) -- kps.spells.priest.atonement
     for name, unit in pairs(raidStatus) do
-        if unit.isHealable and not unit.hasBuff(spell) then return unit end
+        if unit.isHealable and not unit.hasBuff(spell) and unit.hpIncoming < lowestHp then
+            lowestUnit = unit
+            lowestHp = lowestUnit.hpIncoming
+        end
     end
-    return nil
+    return lowestunit
 end)
 
 --[[[
