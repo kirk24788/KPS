@@ -90,7 +90,7 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.powerWordSolace, 'player.hasTalent(4,1) and focustarget.isAttackable' , "focustarget" },
 
     {{"nested"}, 'heal.hasRaidBuffCount(spells.atonement) > 0' , {
-        {spells.mindbender, 'player.hasTalent(4,3) and target.isAttackable and player.mana < 0.95 and target.timeToDie > 12((((' , "target" },
+        {spells.mindbender, 'player.hasTalent(4,3) and target.isAttackable and player.mana < 0.95 and target.timeToDie > 12' , "target" },
         {spells.shadowfiend, 'not player.hasTalent(4,3) and target.isAttackable' , "target" },
         {spells.purgeTheWicked, 'player.hasTalent(6,1) and target.myDebuffDuration(spells.purgeTheWicked) < 2 and target.isAttackable' , "target" },
         {spells.purgeTheWicked, 'player.hasTalent(6,1) and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.purgeTheWicked) < 2 and not spells.purgeTheWicked.isRecastAt("mouseover")' , 'mouseover' },
