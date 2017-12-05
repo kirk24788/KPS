@@ -110,9 +110,9 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.vampiricTouch, 'not player.isMoving and focus.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("focus")' , 'focus' },
     {spells.shadowWordPain, 'focus.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("focus")' , 'focus' },
     {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
-	{spells.vampiricTouch, 'not player.isMoving and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
-	-- mouseover.isAttackable and kps.isAttackable
-	{spells.vampiricTouch, 'not player.isMoving  and mouseover.isAttackable and kps.isAttackable and mouseover.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
+    {spells.vampiricTouch, 'not player.isMoving and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
+    -- mouseover.isAttackable and kps.isAttackable
+    {spells.vampiricTouch, 'not player.isMoving  and mouseover.isAttackable and kps.isAttackable and mouseover.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
     {spells.shadowWordPain, 'mouseover.isAttackable and kps.isAttackable and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 
      -- "Levitate" 1706

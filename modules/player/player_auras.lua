@@ -70,10 +70,10 @@ end
 -- LossOfControlType : "STUN_MECHANIC", "STUN", "PACIFYSILENCE", "SILENCE", "FEAR", "CHARM", "PACIFY", "CONFUSE", "POSSESS", "SCHOOL_INTERRUPT", "DISARM", "ROOT"
 
 kps.events.register("LOSS_OF_CONTROL_ADDED", function ()
-	local i = C_LossOfControl.GetNumEvents()
+    local i = C_LossOfControl.GetNumEvents()
     local locType, spellID, _, _, _, _, duration,lockoutSchool,_,_ = C_LossOfControl.GetEventInfo(i)
     if spellID and duration then
-    	kps.timers.create("LossOfControl",duration)
+        kps.timers.create("LossOfControl",duration)
     end
 end)
 
