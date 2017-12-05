@@ -80,6 +80,7 @@ kps.spells.priest.greaterHeal = kps.Spell.fromId(215960)
 kps.spells.priest.guardianAngel = kps.Spell.fromId(200209)
 kps.spells.priest.guardianSpirit = kps.Spell.fromId(47788)
 kps.spells.priest.guardiansOfTheLight = kps.Spell.fromId(196437)
+kps.spells.priest.guidingHand = kps.Spell.fromId(242622) -- Guiding Hand used by trinket "The Deceiver's Grand Design"
 kps.spells.priest.hallowedGround = kps.Spell.fromId(196429)
 kps.spells.priest.halo = kps.Spell.fromId(120517)
 kps.spells.priest.heal = kps.Spell.fromId(2060)

@@ -4,7 +4,7 @@
 @version 7.2
 ]]--
 
-kps.spells.priest.guidingHand = kps.Spell.fromId(242622) -- Guiding Hand used by trinket "The Deceiver's Grand Design"
+
 local spells = kps.spells.priest
 local env = kps.env.priest
 
