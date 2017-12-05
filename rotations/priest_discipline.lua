@@ -132,8 +132,8 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
 
     {spells.shadowMend, 'not player.isMoving and heal.hasNotBuffAtonement ~= nil and heal.hasNotBuffAtonement.hp < 0.40' , kps.heal.hasNotBuffAtonement },
     {spells.shadowMend, 'not player.isMoving and heal.lowestInRaid.hp < 0.40 and not spells.shadowMend.isRecastAt(heal.lowestInRaid.unit)' , kps.heal.lowestInRaid },
-    {spells.plea, 'heal.hasNotBuffAtonement ~= nil and heal.hasNotBuffAtonement.hp < 0.92' , kps.heal.hasNotBuffAtonement , "plea_hasNotBuffAtonement" },
-    {spells.plea, 'not heal.lowestInRaid.hasBuff(spells.atonement) and heal.lowestInRaid.hp < 0.92' , kps.heal.lowestInRaid , "plea_lowest" },
+    {spells.plea, 'heal.hasNotBuffAtonement ~= nil' , kps.heal.hasNotBuffAtonement , "plea_hasNotBuffAtonement" },
+    {spells.plea, 'not heal.lowestInRaid.hasBuff(spells.atonement)' , kps.heal.lowestInRaid , "plea_lowest" },
 
 }
 ,"priest_discipline")
