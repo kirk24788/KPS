@@ -110,15 +110,14 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.bindingHeal, 'not player.isMoving and not heal.lowestTankInRaid.isUnit("player") and spells.flashHeal.isRecastAt(heal.lowestTankInRaid.unit) and heal.countLossInRange(0.92) > 1' , kps.heal.lowestTankInRaid ,"BINDING_FLASH_TANK" },
     {spells.bindingHeal, 'not player.isMoving and not heal.lowestTargetInRaid.isUnit("player") and spells.flashHeal.isRecastAt(heal.lowestTargetInRaid.unit) and heal.countLossInRange(0.92) > 1' , kps.heal.lowestTargetInRaid ,"BINDING_FLASH_TARGET" },
 
-    {spells.flashHeal, 'not player.isMoving and player.hp < 0.55 and heal.lowestInRaid.isUnit("player")' , "player" , "FLASH_PLAYER" },
-    {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.55 and heal.lowestInRaid.isUnit(heal.lowestTankInRaid.unit)' , kps.heal.lowestTankInRaid , "FLASH_TANK_URG" },
-    {spells.flashHeal, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.55 and heal.lowestInRaid.isUnit(heal.lowestTargetInRaid.unit)' , kps.heal.lowestTargetInRaid , "FLASH_TARGET_URG" },
-
     -- "Light of T'uure" 208065 -- track buff in case an other priest have casted lightOfTuure
     {{spells.lightOfTuure,spells.flashHeal}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0 and heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal and heal.lowestTankInRaid.hp < 0.80 and not heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
     {{spells.lightOfTuure,spells.flashHeal}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0 and heal.lowestTargetInRaid.incomingDamage > heal.lowestTargetInRaid.incomingHeal and heal.lowestTargetInRaid.hp < 0.80 and not heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' ,kps.heal.lowestTargetInRaid},
-    {spells.flashHeal, 'not player.isMoving and player.hp < 0.55 and heal.countLossInRange(0.76) <= 3' , "player" , "FLASH_PLAYER" },
-    {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.55 and heal.countLossInRange(0.76) <= 3' , kps.heal.lowestInRaid , "FLASH_LOWEST_URG" },
+    {spells.flashHeal, 'not player.isMoving and player.hp < 0.55 and heal.lowestInRaid.isUnit("player")' , "player" , "FLASH_PLAYER" },
+    {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.55 and heal.lowestInRaid.isUnit(heal.lowestTankInRaid.unit)' , kps.heal.lowestTankInRaid , "FLASH_TANK_URG" },
+    {spells.flashHeal, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.55 and heal.lowestInRaid.isUnit(heal.lowestTargetInRaid.unit)' , kps.heal.lowestTargetInRaid , "FLASH_TARGET_URG" },
+    {spells.flashHeal, 'not player.isMoving and player.hp < 0.30 and not spells.flashHeal.isRecastAt("player")' , "player" , "FLASH_PLAYER" },
+    {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.30 and not spells.flashHeal.isRecastAt(heal.lowestInRaid.unit)' , kps.heal.lowestInRaid , "FLASH_LOWEST_URG" },
 
     -- "Prayer of Mending" (Tank only)
     {spells.prayerOfMending, 'not player.isMoving and heal.hasRaidBuffStacks(spells.prayerOfMending) < 10 and not heal.lowestTankInRaid.hasBuff(spells.prayerOfMending)' , kps.heal.lowestTankInRaid },
@@ -147,8 +146,8 @@ kps.rotations.register("PRIEST","HOLY",{
     }},
     
     -- "Holy Word: Sanctify"
-    {spells.prayerOfHealing, 'heal.countLossInDistance(0.76,40) >= 4 and player.hasBuff(spells.powerOfTheNaaru)' , kps.heal.lowestInRaid , "POH_DISTANCE" },    
-    {{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInDistance(0.76,10) >= 4' , "/cast [@player] "..HolyWordSanctify },
+    {spells.prayerOfHealing, 'heal.countLossInDistance(0.82,40) >= 4 and player.hasBuff(spells.powerOfTheNaaru)' , kps.heal.lowestInRaid , "POH_DISTANCE" },    
+    {{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInDistance(0.82,10) >= 4' , "/cast [@player] "..HolyWordSanctify },
 
     -- "Prayer of Healing" 596 -- A powerful prayer that heals the target and the 4 nearest allies within 40 yards for (250% of Spell power)
     -- "Holy Word: Sanctify" your healing is increased by 15% for 6 sec. Buff  "Divinity" 197030

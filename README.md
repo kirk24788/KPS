@@ -169,7 +169,8 @@ Members:
     * lowest tank in raid
     When used as a _target_ in your rotation, you *must* write `kps.heal.defaultTank`!
  * `heal.averageHealthRaid` - Returns the average hp incoming for all raid members
- * `heal.countLossInRange<PCT>)` - Returns the count for all raid members below threshold health pct default 0.80
+ * `heal.countLossInRange<PCT>)` - Returns the count for all raid members below threshold health (default 0.80)
+ * `heal.countLossInDistance` - Returns the count for all raid members below threshold health (default 0.80) in a distance (default 10 yards)
  * `heal.aggroTankTarget` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
     When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTankTarget`!
  * `heal.aggroTankFocus` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
@@ -178,10 +179,13 @@ Members:
  * `heal.lowestTargetInRaid` - Returns the raid unit with lowest health targeted by enemy nameplate.
  * `heal.isMagicDispellable` - Returns the raid unit with magic debuff to dispel
  * `heal.isDiseaseDispellable` - Returns the raid unit with disease debuff to dispel
- * `heal.hasRaidDebuff(<DEBUFF>)` - Returns the raid unit for a specific Debuff (to dispel or heal)
- * `heal.hasRaidBuff(<BUFF>)` - Returns the raid unit for a specific Buff e.g. heal.hasRaidBuff(spells.prayerOfMending) ~= nil
- * `heal.hasRaidBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on on raid e.g. heal.hasRaidBuffStacks(spells.prayerOfMending) < 10
- * `heal.hasAbsorptionHeal` - Returns the raid unit witn an absorption Debuff
+ * `heal.hasRaidDebuff(<DEBUFF>)` - Returns unit for a specific Debuff on raid (to dispel or heal)
+ * `heal.hasRaidBuff(<BUFF>)` - Returns unit for a specific Buff on raid e.g. heal.hasRaidBuff(spells.prayerOfMending) ~= nil
+ * `heal.hasNotRaidBuffAtonement(<BUFF>)` - Returns unit for a specific Buff Atonement only for discipline priest
+ * `heal.hasRaidBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on raid e.g. heal.hasRaidBuffStacks(spells.prayerOfMending) < 10
+ * `heal.hasRaidBuffCount(<BUFF>)` - Returns the buff count for a specific Buff on raid e.g. heal.hasRaidBuffCount(spells.atonement)
+ * `heal.hasAbsorptionHeal` - Returns the raid unit with an absorption Debuff
+ * `heal.hasBossdebuff` - Returns the raid unit with an Damaging Boss Debuff
 
 
 #### Keys
@@ -203,13 +207,14 @@ Members:
  * `player.isMounted` - returns true if the player is mounted (exception: Nagrand Mounts do not count as mounted since you can cast while riding)
  * `player.isFalling` - returns true if the player is currently falling.
  * `player.isSwimming` - returns true if the player is currently swimming.
- * `player.hasFullControl` - Checks whether you have full control over your character (i.e. you are not feared, etc).
  * `player.isInRaid` - returns true if the player is currently in Raid.
+ * `player.hasFullControl` - Checks whether you have full control over your character (i.e. you are not feared, etc).
  * `player.timeInCombat` - returns number of seconds in combat
  * `player.hasTalent(<ROW>,<TALENT>)` - returns true if the player has the selected talent (row: 1-7, talent: 1-3).
  * `player.hasGlyph(<GLYPH>)` - returns true if the player has the given gylph - glyphs can be accessed via the spells (e.g.: `player.hasGlyph(spells.glyphOfDeathGrip)`).
  * `player.useItem(<ITEMID>)` - returns true if the player has the given item and cooldown == 0
  * `player.useTrinket(<SLOT>)` - returns true if the player has the given trinket and cooldown == 0
+ * `player.hasTrinket(<SLOT>)` - returns true if the player has the given trinket ID e.g. 'player.hasTrinket(1) == 147007 and player.useTrinket(1)'
  * `player.lastEmpowermentCast` - returns the time of the last cast of Demonic Empowerment
  * `player.demons` - returns the number of active demons
  * `player.empoweredDemons` - returns the number of empowered demons
@@ -353,6 +358,7 @@ Members:
  * `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. : player.buffAmount(spells.masteryEchoOfLight)
  * `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit is dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". player.isDispellable("Magic")
  * `<UNIT>.absorptionHeal` - returns true if the unit has a Healing Absorption Debuff
+ * `<UNIT>.bossDebuff` - returns true if the unit has a Boss Debuff with Heavy Damage
  * `<UNIT>.castTimeLeft` - returns the casting time left for this unit or 0 if it is not casting
  * `<UNIT>.channelTimeLeft` - returns the channeling time left for this unit or 0 if it is not channeling
  * `<UNIT>.isCasting` - returns true if the unit is casting (or channeling) a spell
@@ -391,6 +397,8 @@ Members:
  * `<UNIT>.hasPet` - returns true if the given unit has a pet.
  * `<UNIT>.isUnit(<UNIT-STRING>)` - returns true if the given unit is otherunit. heal.lowestInRaid.isUnit("player")
  * `<UNIT>.hasAttackableTarget` - returns true if the given unit has attackable target
+ * `<UNIT>.isTankInRaid` - returns true if the given unit is a tank
+ * `<UNIT>.hasRoleInRaid(<STRING>)` - returns true if the given unit has role TANK, HEALER, DAMAGER, NONE
 
 
 ### Rotations

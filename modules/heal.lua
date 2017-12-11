@@ -513,7 +513,7 @@ print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 --end
 
 print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHealthRaid)
-print("|cffff8000COUNT_LOSS:|cffffffff", kps["env"].heal.countLossInRange(0.90),"|cffff8000COUNT_MAX:|cffffffff",kps["env"].heal.countInRange)
+print("|cffff8000COUNT_LOSS_90:|cffffffff", kps["env"].heal.countLossInRange(0.90),"|cffff8000COUNT_MAX:|cffffffff",kps["env"].heal.countInRange)
 print("|cffff8000countLossDistance:|cffffffff", kps["env"].heal.countLossInDistance(0.90,10))
 
 --print("|cffff8000buffValue:|cffffffff", kps["env"].player.buffValue(kps.spells.warrior.ignorePain))
