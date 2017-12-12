@@ -48,14 +48,20 @@ kps.rotations.register("PRIEST","SHADOW",{
     -- "Guérison de l’ombre" 186263 -- debuff "Shadow Mend" 187464 10 sec
     {spells.shadowMend, 'not player.isMoving and not spells.shadowMend.lastCasted(4) and not player.hasBuff(spells.voidform) and player.hp < 0.40 and not player.hasBuff(spells.vampiricEmbrace)' , "player" },
 
-    --{{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") < kps.gcd' , "/stopcasting" },
-    {spells.voidEruption, 'player.hasBuff(spells.voidform)' , "target" },
-    {spells.voidEruption, 'player.hasBuff(spells.voidform)' , env.VoidBoltTarget },
-    {spells.voidTorrent, 'not player.isMoving and player.hasBuff(spells.voidform) and spells.mindbender.cooldown < kps.gcd' },
-    {spells.voidTorrent, 'not player.isMoving and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 7 and player.insanity > 55' },
+    {{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") < kps.gcd' , "/stopcasting" },
+    {{"nested"}, 'player.hasBuff(spells.voidform)',{
+        {spells.voidEruption, 'true' , "target" },
+        {spells.voidEruption, 'true' , env.VoidBoltTarget },
+        {spells.voidTorrent, 'not player.isMoving and spells.mindbender.cooldown < kps.gcd' },
+        {spells.voidTorrent, 'not player.isMoving and player.buffStacks(spells.voidform) > 7 and player.insanity > 55' },
+    }},
+
     -- "Shadow Word: Death" 32379
     {spells.shadowWordDeath, 'mouseover.isAttackable and mouseover.inCombat and mouseover.hp < 0.20' , "mouseover" },
     {spells.shadowWordDeath, 'target.hp < 0.20' , "target" },
+     -- "Levitate" 1706
+    {spells.levitate, 'player.isFallingFor(1.6) and not player.hasBuff(spells.levitate)' , "player" },
+    {spells.levitate, 'player.isSwimming and not player.hasBuff(spells.levitate)' , "player" },
 
     -- interrupts
     {{"nested"}, 'kps.interrupt',{
@@ -76,13 +82,13 @@ kps.rotations.register("PRIEST","SHADOW",{
     }},
 
     -- "Void Eruption" 228260
-    {{"nested"}, 'focus.exists and focus.isAttackable and focus.myDebuffDuration(spells.vampiricTouch) > 4 and focus.myDebuffDuration(spells.shadowWordPain) > 4',{
-        {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidform) and player.insanity == 100 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
-        {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity >= 65 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
+    {{"nested"}, 'not player.isMoving and not player.hasBuff(spells.voidform) and focus.exists and focus.isAttackable and focus.myDebuffDuration(spells.vampiricTouch) > 4 and focus.myDebuffDuration(spells.shadowWordPain) > 4',{
+        {spells.voidEruption , 'player.insanity == 100 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
+        {spells.voidEruption , 'player.hasTalent(7,1) and player.insanity >= 65 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
     }},
-    {{"nested"}, 'not focus.isAttackable',{
-        {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidform) and player.insanity == 100 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
-        {spells.voidEruption , 'not player.isMoving and not player.hasBuff(spells.voidform) and player.hasTalent(7,1) and player.insanity >= 65 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
+    {{"nested"}, 'not player.isMoving and not player.hasBuff(spells.voidform) and not focus.isAttackable',{
+        {spells.voidEruption , 'player.insanity == 100 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
+        {spells.voidEruption , 'player.hasTalent(7,1) and player.insanity >= 65 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
     }},
 
     -- TRINKETS "Trinket0Slot" est slotId  13 "Trinket1Slot" est slotId  14
@@ -93,7 +99,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.powerInfusion, 'kps.cooldowns and not player.isMoving and player.buffStacks(spells.voidform) > 29 and player.insanity > 55' },
     -- "Ombrefiel" cd 3 min duration 12sec -- "Mindbender" cd 1 min duration 12 sec
     {spells.shadowfiend, 'not player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.haste > 55' , "target" },
-    {spells.mindbender, 'player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 29 and player.insanity < 80 and spells.voidTorrent.cooldown > 9' , "target" },
+    {spells.mindbender, 'player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 29 and player.insanity < 80' , "target" },
     
     -- MultiTarget
     {spells.mindFlay, 'kps.multiTarget and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "MULTITARGET" },
@@ -115,10 +121,6 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.vampiricTouch, 'not player.isMoving  and mouseover.isAttackable and kps.isAttackable and mouseover.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
     {spells.shadowWordPain, 'mouseover.isAttackable and kps.isAttackable and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 
-     -- "Levitate" 1706
-    {spells.levitate, 'player.isFallingFor(1.6) and not player.hasBuff(spells.levitate)' , "player" },
-    {spells.levitate, 'player.isSwimming and not player.hasBuff(spells.levitate)' , "player" },
-    
     {spells.mindFlay, 'not player.isMoving' , "target" },
     {spells.mindFlay, 'not player.isMoving and focus.isAttackable' , "focus" },
 

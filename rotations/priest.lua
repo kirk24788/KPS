@@ -245,7 +245,7 @@ local ShouldInterruptCasting = function (interruptTable, countLossInRange, lowes
 end
 
 kps.env.priest.ShouldInterruptCasting = function()
-    local countLossInRange = kps["env"].heal.countLossInRange(0.86)
+    local countLossInRange = kps["env"].heal.countLossInRange(0.82)
     local lowestHealth = kps["env"].heal.lowestInRaid.hp
     local interruptTable = interruptTableUpdate()
     return ShouldInterruptCasting(interruptTable, countLossInRange, lowestHealth)
