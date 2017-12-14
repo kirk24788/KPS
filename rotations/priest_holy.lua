@@ -125,9 +125,10 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.prayerOfMending, 'not player.isMoving and heal.hasRaidBuffStacks(spells.prayerOfMending) < 10 and not heal.lowestInRaid.hasBuff(spells.prayerOfMending)' , kps.heal.lowestInRaid},
     
     -- "Holy Word: Sanctify"
-    {spells.prayerOfHealing, 'heal.countLossInRange(0.82) >= 4 and player.hasBuff(spells.powerOfTheNaaru)' , kps.heal.lowestInRaid , "POH_DISTANCE" },    
-    {{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInDistance(0.82,10) >= 4' , "/cast [@player] "..HolyWordSanctify },
-    --{{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInRange(0.90) >= 4' , "/cast [@"..kps["env"].heal.lowestTankInRaid.unit.."] "..HolyWordSanctify },
+    {spells.prayerOfHealing, 'heal.countLossInRange(0.78) >= 4 and player.hasBuff(spells.powerOfTheNaaru)' , kps.heal.lowestInRaid , "POH_DISTANCE" },    
+    {{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInDistance(0.78,10) >= 4' , "/cast [@player] "..HolyWordSanctify },
+    {{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInRange(0.78) >= 4 and heal.lowestInRaid.hp < 0.82', "/cast [@"..kps["env"].heal.lowestInRaid.unit.."] "..HolyWordSanctify },
+    {{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInRange(0.78) >= 4 and heal.lowestTankInRaid.hp < 0.82' , "/cast [@"..kps["env"].heal.lowestTankInRaid.unit.."] "..HolyWordSanctify },
 
     {{"nested"}, 'kps.defensive and mouseover.isFriend' , {
         {spells.guardianSpirit, 'mouseover.hp < 0.30' , "mouseover" },

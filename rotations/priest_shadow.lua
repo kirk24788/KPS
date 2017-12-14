@@ -48,7 +48,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     -- "Guérison de l’ombre" 186263 -- debuff "Shadow Mend" 187464 10 sec
     {spells.shadowMend, 'not player.isMoving and not spells.shadowMend.lastCasted(4) and not player.hasBuff(spells.voidform) and player.hp < 0.40 and not player.hasBuff(spells.vampiricEmbrace)' , "player" },
 
-    {{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") < kps.gcd' , "/stopcasting" },
+    --{{"macro"}, 'player.hasBuff(spells.voidform) and spells.voidEruption.cooldown == 0 and spells.mindFlay.castTimeLeft("player") < kps.gcd' , "/stopcasting" },
     {{"nested"}, 'player.hasBuff(spells.voidform)',{
         {spells.voidEruption, 'true' , "target" },
         {spells.voidEruption, 'true' , env.VoidBoltTarget },
@@ -93,8 +93,8 @@ kps.rotations.register("PRIEST","SHADOW",{
 
     -- TRINKETS "Trinket0Slot" est slotId  13 "Trinket1Slot" est slotId  14
     --{{"macro"}, 'player.useTrinket(0) and player.hasBuff(spells.voidform)' , "/use 13"},
-    -- "Charm of the Rising Tide" -- While you remain stationary, gain 576 Haste every 1 sec stacking up to 10 times. Lasts 20 sec. (1 Min, 30 Sec Cooldown)
-    {{"macro"}, 'not player.isMoving and player.useTrinket(1) and player.hasBuff(spells.voidform) and spells.mindbender.cooldown > 49' , "/use 14"},
+    -- "Charm of the Rising Tide" -- 147002 -- While you remain stationary, gain 576 Haste every 1 sec stacking up to 10 times. Lasts 20 sec. (1 Min, 30 Sec Cooldown)
+    {{"macro"}, 'player.hasTrinket(1) == 147002 and player.useTrinket(1) and player.hasBuff(spells.voidform) and spells.mindbender.cooldown > 49' , "/use 14"},
     -- "Infusion de puissance" -- Confère un regain de puissance pendant 20 sec, ce qui augmente la hâte de 25%
     {spells.powerInfusion, 'kps.cooldowns and not player.isMoving and player.buffStacks(spells.voidform) > 29 and player.insanity > 55' },
     -- "Ombrefiel" cd 3 min duration 12sec -- "Mindbender" cd 1 min duration 12 sec
