@@ -54,14 +54,13 @@ kps.rotations.register("WARRIOR","FURY",
     {spells.stoneform, 'player.incomingDamage > player.hpMax * 0.10' },
     {spells.bloodthirst, 'player.hasBuff(spells.enragedRegeneration)' },
     {spells.enragedRegeneration, 'player.hp < 0.70' },
-    --{spells.victoryRush}, -- No longer available to Fury
     {spells.commandingShout, 'player.hp < 0.60' },
 
     -- TRINKETS
-    -- "Souhait ardent de Kil'jaeden"
-    {{"macro"}, 'player.useTrinket(1) and player.plateCount >= 3' , "/use 14" },
-    {{"macro"}, 'player.useTrinket(1) and target.isElite' , "/use 14" },
-    {{"macro"}, 'player.useTrinket(1)' , "/use 14" },
+    -- "Souhait ardent de Kil'jaeden" 144259
+    {{"macro"}, 'player.hasTrinket(0) == 147007 player.useTrinket(1) and player.plateCount >= 3' , "/use 14" },
+    {{"macro"}, 'player.hasTrinket(0) == 147007 player.useTrinket(1) and target.isElite' , "/use 14" },
+    {{"macro"}, 'player.hasTrinket(0) == 147007 player.useTrinket(1) and target.hp > player.hp' , "/use 14" },
 
     -- Cooldowns
     {spells.avatar, 'spells.battleCry.cooldown < 10 and not player.isMoving and target.isAttackable and target.distance < 10 and player.hasBuff(spells.frothingBerserker)' , "target" , "avatar_BERSERKER" }, -- 90 sec cd
