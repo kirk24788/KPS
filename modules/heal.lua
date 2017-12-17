@@ -357,53 +357,6 @@ kps.RaidStatus.prototype.isDiseaseDispellable = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.hasRaidDebuff(<DEBUFF>)` - Returns unit for a specific Debuff on raid (to dispel or heal)
-]]--
-
-local unitDebuff = function(spell)
-    for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.hasDebuff(spell) then return unit end
-    end
-    return nil
-end
-
-kps.RaidStatus.prototype.hasRaidDebuff = kps.utils.cachedValue(function()
-    return unitDebuff
-end)
-
---[[[
-@function `heal.hasRaidBuff(<BUFF>)` - Returns unit for a specific Buff on raid e.g. heal.hasRaidBuff(spells.prayerOfMending) ~= nil
-]]--
-
-local unitBuff = function(spell)
-    for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.hasBuff(spell) then return unit end
-    end
-    return nil
-end
-
-kps.RaidStatus.prototype.hasRaidBuff = kps.utils.cachedValue(function()
-    return unitBuff
-end)
-
---[[[
-@function `heal.hasNotRaidBuffAtonement(<BUFF>)` - Returns unit for a specific Buff Atonement only for discipline priest
-]]--
-
-kps.RaidStatus.prototype.hasNotBuffAtonement = kps.utils.cachedValue(function()
-    local lowestunit = nil
-    local lowestHp = 2
-    local spell = kps.Spell.fromId(81749) -- kps.spells.priest.atonement
-    for name, unit in pairs(raidStatus) do
-        if unit.isHealable and not unit.hasBuff(spell) and unit.hpIncoming < lowestHp then
-            lowestUnit = unit
-            lowestHp = lowestUnit.hpIncoming
-        end
-    end
-    return lowestunit
-end)
-
---[[[
 @function `heal.hasRaidBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on raid e.g. heal.hasRaidBuffStacks(spells.prayerOfMending) < 10
 ]]--
 

@@ -11,9 +11,6 @@ local HeroicLeap = spells.heroicLeap.name
 kps.runAtEnd(function()
    kps.gui.addCustomToggle("WARRIOR","FURY", "berserker", "Interface\\Icons\\spell_nature_ancestralguardian", "berserker")
 end)
-kps.runAtEnd(function()
-   kps.gui.addCustomToggle("WARRIOR","FURY", "isAttackable", "Interface\\Icons\\spell_shadow_unholyfrenzy", "isAttackable")
-end)
 
 -- kps.defensive for charge
 -- kps.interrupt for interrupts
@@ -23,27 +20,25 @@ kps.rotations.register("WARRIOR","FURY",
 
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
-    {{"macro"}, 'kps.isAttackable and not target.isAttackable' , "/cleartarget"},
+        env.TargetMouseover,
+    {{"macro"}, 'focus.exists and target.isUnit("focus")' , "/clearfocus" },
+    {{"macro"}, 'focus.exists and not focus.isAttackable' , "/clearfocus" },
+    env.FocusMouseover,
     env.ScreenMessage,
+
     {spells.berserkerRage, 'not player.hasFullControl' },
     {spells.berserkerRage, 'kps.berserker and player.hasTalent(3,2) and not player.hasBuff(spells.enrage)' },
 
-    -- env.TargetMouseover,
-    {{"macro"}, 'not focus.exists and not target.isUnit("mouseover") and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10'  ,"/focus mouseover" },
-    -- env.FocusMouseover,
-    {{"macro"}, 'focus.exists and target.isUnit("focus")' , "/clearfocus" },
-    {{"macro"}, 'focus.exists and not focus.isAttackable' , "/clearfocus" },
-
-    -- Charge enemy
-    {{"macro"}, 'keys.shift and not player.hasBuff(spells.battleCry)', "/cast [@cursor] "..HeroicLeap },
-    {spells.heroicThrow, 'kps.defensive and target.isAttackable and target.distance > 10' },
-    {spells.charge, 'kps.defensive and target.isAttackable and target.distance > 10' },
-    
     -- interrupts
     {{"nested"}, 'kps.interrupt and target.distance < 10',{
         {spells.pummel, 'target.isInterruptable' , "target" },
         {spells.pummel, 'focus.isInterruptable' , "focus" },
     }},
+
+    -- Charge enemy
+    {{"macro"}, 'keys.shift and not player.hasBuff(spells.battleCry)', "/cast [@cursor] "..HeroicLeap },
+    {spells.heroicThrow, 'kps.defensive and target.isAttackable and target.distance > 10' },
+    {spells.charge, 'kps.defensive and target.isAttackable and target.distance > 10' },
 
     -- "Pierre de soins" 5512
     {{"macro"}, 'player.useItem(5512) and player.hp < 0.70', "/use item:5512" },
@@ -92,7 +87,7 @@ kps.rotations.register("WARRIOR","FURY",
     {spells.odynsFury, 'player.hasBuff(spells.enrage) and target.hp < 0.20' , "target", "odynsFury_enrage" },
     {spells.execute, 'player.hasBuff(spells.enrage) and target.hp < 0.20' , "target", "execute_enrage" },
     {spells.ragingBlow, 'player.hasBuff(spells.enrage)' , "target", "ragingBlow_enrage" },
-    {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and focus.exists and target.distance < 10' , "target" , "whirlwind_focus" },
+    {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and focus.exists and focus.isAttackable and target.distance < 10' , "target" , "whirlwind_focus" },
     {spells.whirlwind, 'not player.hasBuff(spells.meatCleaver) and player.plateCount >= 3 and target.distance < 10' , "target" , "whirlwind_plateCount" },
     {spells.bloodthirst },
     {spells.ragingBlow },

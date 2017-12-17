@@ -10,10 +10,6 @@ local env = kps.env.priest
 local Dispersion = spells.dispersion.name
 local MassDispel = spells.massDispel.name
 
-kps.runAtEnd(function()
-   kps.gui.addCustomToggle("PRIEST","SHADOW", "isAttackable", "Interface\\Icons\\spell_shadow_unholyfrenzy", "isAttackable")
-end)
-
 -- kps.cooldowns for dispel and powerInfusion
 -- kps.interrupt for interrupts
 -- kps.multiTarget for mindFlay multiTarget
@@ -21,10 +17,9 @@ kps.rotations.register("PRIEST","SHADOW",{
 
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat' , "/target mouseover" },
-    {{"macro"}, 'kps.isAttackable and not target.isAttackable' , "/cleartarget"},
     env.TargetMouseover,
     {{"macro"}, 'focus.exists and target.isUnit("focus")' , "/clearfocus" },
-    {{"macro"}, 'kps.isAttackable and focus.exists and not focus.isAttackable' , "/clearfocus" },
+    {{"macro"}, 'focus.exists and not focus.isAttackable' , "/clearfocus" },
     env.FocusMouseover,
 
     -- "Dissipation de masse" 32375
@@ -117,9 +112,6 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.shadowWordPain, 'focus.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("focus")' , 'focus' },
     {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
     {spells.vampiricTouch, 'not player.isMoving and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
-    -- mouseover.isAttackable and kps.isAttackable
-    {spells.vampiricTouch, 'not player.isMoving  and mouseover.isAttackable and kps.isAttackable and mouseover.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
-    {spells.shadowWordPain, 'mouseover.isAttackable and kps.isAttackable and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 
     {spells.mindFlay, 'not player.isMoving' , "target" },
     {spells.mindFlay, 'not player.isMoving and focus.isAttackable' , "focus" },

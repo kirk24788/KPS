@@ -14,9 +14,6 @@ end)
 kps.runAtEnd(function()
    kps.gui.addCustomToggle("WARRIOR","PROTECTION", "taunt", "Interface\\Icons\\spell_nature_reincarnation", "taunt")
 end)
-kps.runAtEnd(function()
-   kps.gui.addCustomToggle("WARRIOR","PROTECTION", "isAttackable", "Interface\\Icons\\spell_shadow_unholyfrenzy", "isAttackable")
-end)
 
 -- kps.defensive for charge
 -- kps.interrupt for interrupts
@@ -26,10 +23,9 @@ kps.rotations.register("WARRIOR","PROTECTION",
     
     {{"macro"}, 'not target.isAttackable and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
     {{"macro"}, 'not target.exists and mouseover.isAttackable and mouseover.inCombat and mouseover.distance < 10' , "/target mouseover" },
-    {{"macro"}, 'kps.isAttackable and not target.isAttackable' , "/cleartarget" },
     env.ScreenMessage,
     {spells.berserkerRage, 'not player.hasFullControl' },
-    {spells.berserkerRage, 'kps.berserker and player.rage < 15 and player.myBuffDuration(spells.shieldBlock) < 2' , "target" , "spells.berserkerRage" }, -- set T20 gives 20 rage
+    {spells.berserkerRage, 'kps.berserker and player.rage < 15' , "target" , "spells.berserkerRage" }, -- set T20 gives 20 rage
     
     -- Interrupts
     {{"nested"}, 'kps.interrupt',{
@@ -44,10 +40,12 @@ kps.rotations.register("WARRIOR","PROTECTION",
     {spells.intercept, 'kps.defensive and target.isAttackable and target.distance > 10' },
     {spells.taunt, 'kps.taunt and not player.isTarget' },
 
-    -- Health
+    -- "Pierre de soins" 5512
+    {{"macro"}, 'player.useItem(5512) and player.hp < 0.70', "/use item:5512" },
     {spells.demoralizingShout, 'player.incomingDamage > player.hpMax * 0.10' },
     {spells.victoryRush, 'not player.hasTalent(2,3) and player.hp < 1'},
     {spells.impendingVictory, 'player.hasTalent(2,3) and player.hp < 1'},
+    {spells.stoneform, 'player.isDispellable("Disease")' , "player" },
     {spells.stoneform, 'player.incomingDamage > player.hpMax * 0.10' },
     {spells.shieldWall, 'player.incomingDamage > player.hpMax * 0.10 and player.hp < 0.60' },
     {spells.lastStand, 'player.hp < 0.40' },

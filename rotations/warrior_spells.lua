@@ -212,6 +212,7 @@ kps.spells.warrior.warbringer = kps.Spell.fromId(103828)
 kps.spells.warrior.warlordsChallenge = kps.Spell.fromId(223662)
 kps.spells.warrior.warpaint = kps.Spell.fromId(208154)
 kps.spells.warrior.warpath = kps.Spell.fromId(199086)
+kps.spells.warrior.weightedBlade = kps.Spell.fromId(253383) -- T21 Arms 4P Bonus Added in patch 7.3.0.24614
 kps.spells.warrior.whirlwind = kps.Spell.fromId(1680)
 kps.spells.warrior.wildSlashes = kps.Spell.fromId(216273)
 kps.spells.warrior.willOfTheFirstKing = kps.Spell.fromId(209548)
