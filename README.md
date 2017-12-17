@@ -179,9 +179,6 @@ Members:
  * `heal.lowestTargetInRaid` - Returns the raid unit with lowest health targeted by enemy nameplate.
  * `heal.isMagicDispellable` - Returns the raid unit with magic debuff to dispel
  * `heal.isDiseaseDispellable` - Returns the raid unit with disease debuff to dispel
- * `heal.hasRaidDebuff(<DEBUFF>)` - Returns unit for a specific Debuff on raid (to dispel or heal)
- * `heal.hasRaidBuff(<BUFF>)` - Returns unit for a specific Buff on raid e.g. heal.hasRaidBuff(spells.prayerOfMending) ~= nil
- * `heal.hasNotRaidBuffAtonement(<BUFF>)` - Returns unit for a specific Buff Atonement only for discipline priest
  * `heal.hasRaidBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on raid e.g. heal.hasRaidBuffStacks(spells.prayerOfMending) < 10
  * `heal.hasRaidBuffCount(<BUFF>)` - Returns the buff count for a specific Buff on raid e.g. heal.hasRaidBuffCount(spells.atonement)
  * `heal.hasAbsorptionHeal` - Returns the raid unit with an absorption Debuff
