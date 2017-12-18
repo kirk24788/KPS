@@ -75,6 +75,8 @@ kps.rotations.register("PRIEST","SHADOW",{
         {spells.purifyDisease, 'heal.isDiseaseDispellable ~= nil' , kps.heal.isDiseaseDispellable},
         {spells.purifyDisease, 'player.isDispellable("Disease")' , "player" },
     }},
+    
+    {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
 
     -- "Void Eruption" 228260
     {{"nested"}, 'not player.isMoving and not player.hasBuff(spells.voidform) and focus.exists and focus.isAttackable and focus.myDebuffDuration(spells.vampiricTouch) > 4 and focus.myDebuffDuration(spells.shadowWordPain) > 4',{

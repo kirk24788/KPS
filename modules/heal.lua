@@ -393,6 +393,20 @@ kps.RaidStatus.prototype.hasRaidBuffCount = kps.utils.cachedValue(function()
     return unitBuffCount
 end)
 
+local unitBuffCountLowest = function(spell)
+    local count = 0
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and unit.hasBuff(spell) and unit.hp < 0.80 then
+            count = count + 1
+        end
+    end
+    return count
+end
+
+kps.RaidStatus.prototype.hasRaidBuffCountLowest = kps.utils.cachedValue(function()
+    return unitBuffCountLowest
+end)
+
 --[[[
 @function `heal.hasAbsorptionHeal` - Returns the raid unit with an absorption Debuff
 ]]--
