@@ -208,7 +208,7 @@ local interruptable = {}
 local interruptTableUpdate = function()
     local onCD = kps.env.priest.holyWordSerenityOnCD() or kps.defensive -- kps.defensive in case I want heal with mouseover when debuff absorb heal
     local buffPlayer = UnitHasBuff(SpiritOfRedemption,"player") or kps.defensive
-    interruptable = { {FlashHeal, 0.885 , onCD}, {Heal, 0.995 , onCD}, {PrayerOfHealing, 3 , buffPlayer} }
+    interruptable = { {FlashHeal, 0.825 , onCD}, {Heal, 0.995 , onCD}, {PrayerOfHealing, 3 , buffPlayer} }
     return  interruptable
 end
 

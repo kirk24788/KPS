@@ -46,11 +46,11 @@ kps.rotations.register("PRIEST","HOLY",{
     -- "Fade" 586 "Disparition"
     {spells.fade, 'player.isTarget' },
     -- "Pierre de soins" 5512
-    {{"macro"}, 'player.useItem(5512) and player.hp < 0.80' ,"/use item:5512" },
+    {{"macro"}, 'player.useItem(5512) and player.hp < 0.82' ,"/use item:5512" },
     -- "Prière du désespoir" 19236 "Desperate Prayer"
-    {spells.desperatePrayer, 'player.hp < 0.70' , "player" },
+    {spells.desperatePrayer, 'player.hp < 0.72' , "player" },
     -- "Don des naaru" 59544
-    {spells.giftOfTheNaaru, 'player.hp < 0.70' , "player" },
+    {spells.giftOfTheNaaru, 'player.hp < 0.72' , "player" },
     -- "Angelic Feather"
     {{"macro"},'player.hasTalent(2,1) and player.isMovingFor(1.2) and spells.angelicFeather.cooldown == 0 and not player.hasBuff(spells.angelicFeather)' , "/cast [@player] "..AngelicFeather },
     -- "Body and Mind"
@@ -66,14 +66,17 @@ kps.rotations.register("PRIEST","HOLY",{
     }},
     
     -- TRINKETS
+    -- "Ishkar's Felshield Emitter" 151957 -- "Emetteur de gangrebouclier d'Ishkar" 151957
+    {{"macro"}, 'player.hasTrinket(0) == 151957 and player.useTrinket(0) and not heal.lowestTankInRaid.hasBuff(spells.guidingHand)' , "/target "..kps["env"].heal.lowestTankInRaid.unit.."\n".."/use 13".."\n".."/targetlasttarget" },
+    {{"macro"}, 'player.hasTrinket(0) == 151957 and player.useTrinket(0) and focus.exists and not focus.hasBuff(spells.guidingHand)' , "/target ".."focus".."\n".."/use 13".."\n".."/targetlasttarget" },
+    {{"macro"}, 'player.hasTrinket(0) == 151957 and player.useTrinket(0) and not player.hasBuff(spells.guidingHand)' , "/target ".."player".."\n".."/use 13".."\n".."/targetlasttarget" },
     -- "Archive of Faith" 147006 -- "The Deceiver's Grand Design" 147007 
-    --{{"macro"}, 'player.hasTrinket(0) == 147007 and player.useTrinket(0) and not heal.lowestTankInRaid.hasBuff(spells.guidingHand)' , "/target "..kps["env"].heal.lowestTankInRaid.unit.."\n".."/use 13".."\n".."/targetlasttarget" },
     {{"macro"}, 'player.hasTrinket(0) == 147007 and player.useTrinket(0) and focus.exists and not focus.hasBuff(spells.guidingHand)' , "/target ".."focus".."\n".."/use 13".."\n".."/targetlasttarget" },
     {{"macro"}, 'player.hasTrinket(0) == 147007 and player.useTrinket(0) and not player.hasBuff(spells.guidingHand)' , "/target ".."player".."\n".."/use 13".."\n".."/targetlasttarget" },
     -- "Velen's Future Sight" 144258
-    {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.countLossInRange(0.80) >= 3' , "/use 14" },
+    {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.countLossInRange(0.82) >= 3' , "/use 14" },
     -- "Apotheosis" 200183 increasing the effects of Serendipity by 200% and reducing the cost of your Holy Words by 100% -- "Benediction" for raid and "Apotheosis" for party
-    {spells.apotheosis, 'player.hasTalent(7,1) and heal.countLossInRange(0.80) * 2 >= heal.countInRange' },
+    {spells.apotheosis, 'player.hasTalent(7,1) and heal.countLossInRange(0.78) * 2 >= heal.countInRange' },
 
     -- "Guardian Spirit" 47788  -- track buff in case an other priest have casted guardianSpirit
     {{"nested"}, 'kps.interrupt' ,{
@@ -92,10 +95,10 @@ kps.rotations.register("PRIEST","HOLY",{
 
     -- "Surge Of Light"
     {{"nested"}, 'player.hasBuff(spells.surgeOfLight)' , {
-        {spells.flashHeal, 'player.hp < 0.80' , "player"},
-        {spells.flashHeal, 'heal.lowestTankInRaid.hp < 0.80' , kps.heal.lowestTankInRaid},
-        {spells.flashHeal, 'heal.lowestTargetInRaid.hp < 0.80' , kps.heal.lowestTargetInRaid},
-        {spells.flashHeal, 'heal.lowestInRaid.hp < 0.80' , kps.heal.lowestInRaid},
+        {spells.flashHeal, 'player.hp < 0.78' , "player"},
+        {spells.flashHeal, 'heal.lowestTankInRaid.hp < 0.78' , kps.heal.lowestTankInRaid},
+        {spells.flashHeal, 'heal.lowestTargetInRaid.hp < 0.78' , kps.heal.lowestTargetInRaid},
+        {spells.flashHeal, 'heal.lowestInRaid.hp < 0.78' , kps.heal.lowestInRaid},
         {spells.flashHeal, 'player.myBuffDuration(spells.surgeOfLight) < 3' , kps.heal.lowestInRaid},
     }},
 
@@ -114,8 +117,8 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.prayerOfMending, 'not player.isMoving and heal.hasRaidBuffStacks(spells.prayerOfMending) < 10 and not heal.lowestInRaid.hasBuff(spells.prayerOfMending)' , kps.heal.lowestInRaid},
 
     -- "Light of T'uure" 208065 -- track buff in case an other priest have casted lightOfTuure
-    {{spells.lightOfTuure,spells.flashHeal}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0 and heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal and heal.lowestTankInRaid.hp < 0.80 and not heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
-    {{spells.lightOfTuure,spells.flashHeal}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0 and heal.lowestTargetInRaid.incomingDamage > heal.lowestTargetInRaid.incomingHeal and heal.lowestTargetInRaid.hp < 0.80 and not heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' ,kps.heal.lowestTargetInRaid},
+    {{spells.lightOfTuure,spells.flashHeal}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0 and heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal and heal.lowestTankInRaid.hp < 0.78 and not heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
+    {{spells.lightOfTuure,spells.flashHeal}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0 and heal.lowestTargetInRaid.incomingDamage > heal.lowestTargetInRaid.incomingHeal and heal.lowestTargetInRaid.hp < 0.78 and not heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' ,kps.heal.lowestTargetInRaid},
     -- "Soins rapides" 2060
     {spells.flashHeal, 'not player.isMoving and player.hp < 0.55 and heal.lowestInRaid.isUnit("player")' , "player" , "FLASH_PLAYER" },
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.55 and heal.lowestInRaid.isUnit(heal.lowestTankInRaid.unit)' , kps.heal.lowestTankInRaid , "FLASH_TANK_URG" },
@@ -166,13 +169,13 @@ kps.rotations.register("PRIEST","HOLY",{
     -- "Divine Hymn" 64843
     {spells.divineHymn , 'not player.isMoving and heal.countLossInRange(0.62) * 2 >= heal.countInRange and heal.hasRaidBuffCount(spells.prayerOfMending) > 1' },
     -- "Circle of Healing" 204883
-    --{spells.circleOfHealing, 'player.isMoving and heal.countLossInRange(0.80) >= 3 and not player.isInRaid' , kps.heal.lowestInRaid},
-    --{spells.circleOfHealing, 'player.isMoving and heal.countLossInRange(0.80) >= 5 and player.isInRaid' },
+    --{spells.circleOfHealing, 'player.isMoving and heal.countLossInRange(0.78) >= 3 and not player.isInRaid' , kps.heal.lowestInRaid},
+    --{spells.circleOfHealing, 'player.isMoving and heal.countLossInRange(0.78) >= 5 and player.isInRaid' },
     
     --[[
     -- BOSSDEBUFF
     {spells.guardianSpirit, 'heal.hasBossDebuff ~= nil and heal.hasBossDebuff.hp < 0.50' , kps.heal.hasBossDebuff , "BOSS_DEBUF" },
-    {spells.lightOfTuure, 'heal.hasBossDebuff ~= nil and heal.hasBossDebuff.hp < 0.80' , kps.heal.hasBossDebuff , "BOSS_DEBUF" },
+    {spells.lightOfTuure, 'heal.hasBossDebuff ~= nil and heal.hasBossDebuff.hp < 0.78' , kps.heal.hasBossDebuff , "BOSS_DEBUF" },
     {spells.holyWordSerenity, 'heal.hasBossDebuff ~= nil and heal.hasBossDebuff.hp < 0.50' , kps.heal.hasBossDebuff , "BOSS_DEBUF" },
     {spells.flashHeal, 'heal.hasBossDebuff ~= nil and heal.hasBossDebuff.hp < threshold()' , kps.heal.hasBossDebuff , "BOSS_DEBUF" },
     -- ABSOPTION HEAL

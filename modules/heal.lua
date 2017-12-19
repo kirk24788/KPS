@@ -135,7 +135,7 @@ end)
 kps.RaidStatus.prototype.lowestTankInRaid = kps.utils.cachedValue(function()
     local lowestUnit = kps["env"].player
     local lowestHp = 2
-    for _,unit in pairs(tanksInRaid()) do
+    for name,unit in pairs(tanksInRaid()) do
         if unit.isHealable and unit.hpIncoming < lowestHp then
             lowestUnit = unit
             lowestHp = lowestUnit.hpIncoming
@@ -265,7 +265,7 @@ local function findAggroTankOfUnit(targetUnit)
     local highestThreat = 0
     local aggroTank = nil
 
-    for _, possibleTank in pairs(allTanks) do
+    for name, possibleTank in pairs(allTanks) do
         local unitThreat = UnitThreatSituation(possibleTank.unit, targetUnit)
         if unitThreat and unitThreat > highestThreat then
             highestThreat = unitThreat
@@ -393,18 +393,33 @@ kps.RaidStatus.prototype.hasRaidBuffCount = kps.utils.cachedValue(function()
     return unitBuffCount
 end)
 
-local unitBuffCountLowest = function(spell)
+local unitBuffCountHealth = function(spell,health)
+    if health == nil then health = 0.80 end
     local count = 0
     for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.hasBuff(spell) and unit.hp < 0.80 then
+        if unit.isHealable and unit.hasBuff(spell) and unit.hp < health then
             count = count + 1
         end
     end
     return count
 end
 
-kps.RaidStatus.prototype.hasRaidBuffCountLowest = kps.utils.cachedValue(function()
-    return unitBuffCountLowest
+kps.RaidStatus.prototype.hasRaidBuffCountHealth = kps.utils.cachedValue(function()
+    return unitBuffCountHealth
+end)
+
+local unitBuffLowestHealth = function(spell)
+    local lowestHp = 2
+    for name, unit in pairs(raidStatus) do
+        if unit.isHealable and unit.hasBuff(spell) and unit.hpIncoming < lowestHp then
+            lowestHp = unit.hpIncoming
+        end
+    end
+    return lowestHp
+end
+
+kps.RaidStatus.prototype.hasRaidBuffLowestHealth = kps.utils.cachedValue(function()
+    return unitBuffLowestHealth
 end)
 
 --[[[

@@ -61,6 +61,10 @@ function Player.isInRaid(self)
     return IsInRaid()
 end
 
+function Player.isInGroup(self)
+    return IsInGroup()
+end
+
 --[[[
 @function `player.hasFullControl` - Checks whether you have full control over your character (i.e. you are not feared, etc).
 ]]--
