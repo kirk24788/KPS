@@ -226,7 +226,7 @@ local ShouldInterruptCasting = function (interruptTable, countLossInRange, lowes
                 SpellStopCasting()
                 DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..", has enough hp: "..countLossInRange, 0, 0.5, 0.8)
 
-            elseif spellName == Heal and lowestHealth < 0.50 and UnitPower("player",0)/UnitPowerMax("player",0) > 0.10 then
+            elseif spellName == Heal and lowestHealth < 0.40 and UnitPower("player",0)/UnitPowerMax("player",0) > 0.10 then
                 -- SPELL_POWER_MANA value 0
                 SpellStopCasting()
                 DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING "..spellName.." Lowest has critical hp: "..lowestHealth, 0, 0.5, 0.8)

@@ -67,7 +67,6 @@ kps.rotations.register("PRIEST","HOLY",{
     
     -- TRINKETS
     -- "Ishkar's Felshield Emitter" 151957 -- "Emetteur de gangrebouclier d'Ishkar" 151957
-    {{"macro"}, 'player.hasTrinket(0) == 151957 and player.useTrinket(0) and not heal.lowestTankInRaid.hasBuff(spells.guidingHand)' , "/target "..kps["env"].heal.lowestTankInRaid.unit.."\n".."/use 13".."\n".."/targetlasttarget" },
     {{"macro"}, 'player.hasTrinket(0) == 151957 and player.useTrinket(0) and focus.exists and not focus.hasBuff(spells.guidingHand)' , "/target ".."focus".."\n".."/use 13".."\n".."/targetlasttarget" },
     {{"macro"}, 'player.hasTrinket(0) == 151957 and player.useTrinket(0) and not player.hasBuff(spells.guidingHand)' , "/target ".."player".."\n".."/use 13".."\n".."/targetlasttarget" },
     -- "Archive of Faith" 147006 -- "The Deceiver's Grand Design" 147007 
@@ -118,20 +117,17 @@ kps.rotations.register("PRIEST","HOLY",{
 
     -- "Light of T'uure" 208065 -- track buff in case an other priest have casted lightOfTuure
     {{spells.lightOfTuure,spells.flashHeal}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0 and heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal and heal.lowestTankInRaid.hp < 0.78 and not heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
-    {{spells.lightOfTuure,spells.flashHeal}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0 and heal.lowestTargetInRaid.incomingDamage > heal.lowestTargetInRaid.incomingHeal and heal.lowestTargetInRaid.hp < 0.78 and not heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' ,kps.heal.lowestTargetInRaid},
+    {{spells.lightOfTuure,spells.flashHeal}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0 and heal.lowestTargetInRaid.incomingDamage > heal.lowestTargetInRaid.incomingHeal and heal.lowestTargetInRaid.hp < 0.78 and not heal.lowestTargetInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTargetInRaid},
+    {{spells.lightOfTuure,spells.flashHeal}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0 and heal.lowestInRaid.hp < 0.40 and not heal.lowestInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestInRaid},
+
     -- "Soins rapides" 2060
-    {spells.flashHeal, 'not player.isMoving and player.hp < 0.55 and heal.lowestInRaid.isUnit("player")' , "player" , "FLASH_PLAYER" },
-    {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.55 and heal.lowestInRaid.isUnit(heal.lowestTankInRaid.unit)' , kps.heal.lowestTankInRaid , "FLASH_TANK_URG" },
-    {spells.flashHeal, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.55 and heal.lowestInRaid.isUnit(heal.lowestTargetInRaid.unit)' , kps.heal.lowestTargetInRaid , "FLASH_TARGET_URG" },
+    {spells.flashHeal, 'not player.isMoving and player.hp < 0.55 and heal.lowestInRaid.isUnit("player")' , "player" , "FLASH_PLAYER_LOWEST" },
+    {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.55 and heal.lowestInRaid.isUnit(heal.lowestTankInRaid.unit)' , kps.heal.lowestTankInRaid , "FLASH_TANK_LOWEST" },
+    {spells.flashHeal, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.55 and heal.lowestInRaid.isUnit(heal.lowestTargetInRaid.unit)' , kps.heal.lowestTargetInRaid , "FLASH_TARGET_LOWEST" },
 
     -- "Holy Word: Sanctify"
     {spells.prayerOfHealing, 'heal.countLossInRange(0.78) >= 4 and player.hasBuff(spells.powerOfTheNaaru)' , kps.heal.lowestInRaid , "POH_DISTANCE" },    
     {{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInDistance(0.78,10) >= 4' , "/cast [@player] "..HolyWordSanctify },
-    {{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInRange(0.78) >= 4 and heal.lowestTankInRaid.hp < 0.82' , "/cast [@"..kps["env"].heal.lowestTankInRaid.unit.."] "..HolyWordSanctify },
-
-    -- "Soins rapides" 2060    
-    {spells.flashHeal, 'not player.isMoving and player.hp < 0.30 and not spells.flashHeal.isRecastAt("player")' , "player" , "FLASH_PLAYER" },
-    {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.30 and not spells.flashHeal.isRecastAt(heal.lowestInRaid.unit)' , kps.heal.lowestInRaid , "FLASH_LOWEST_URG" },
 
     {{"nested"}, 'kps.defensive and mouseover.isFriend' , {
         {spells.guardianSpirit, 'mouseover.hp < 0.30' , "mouseover" },
@@ -189,12 +185,14 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.renew, 'player.isMoving and heal.lowestTankInRaid.hp < 0.92 and heal.lowestTankInRaid.myBuffDuration(spells.renew) < 3 and not heal.lowestTankInRaid.hasBuff(spells.masteryEchoOfLight)' , kps.heal.lowestTankInRaid, "RENEW_TANK" },
     {spells.renew, 'player.isMoving and heal.lowestInRaid.hp < 0.92 and heal.lowestInRaid.myBuffDuration(spells.renew) < 3 and not heal.lowestInRaid.hasBuff(spells.masteryEchoOfLight)' , kps.heal.lowestInRaid, "RENEW" },
 
+    -- "Soins rapides" 2060    
+    {spells.flashHeal, 'not player.isMoving and player.hp < 0.40 and not spells.flashHeal.isRecastAt("player")' , "player" , "FLASH_PLAYER_URG" },
+    {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.40 and not spells.flashHeal.isRecastAt(heal.lowestInRaid.unit)' , kps.heal.lowestInRaid , "FLASH_LOWEST_URG" },
     -- "Soins rapides" 2060
-    {{"nested"}, 'not player.isMoving and heal.lowestInRaid.hp < threshold() and player.isInRaid' ,{
-        {spells.flashHeal, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.55 and heal.lowestTargetInRaid.incomingDamage > heal.lowestTargetInRaid.incomingHeal' , kps.heal.lowestTargetInRaid , "FLASH_TARGET_DMG" },
-        {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.55 and heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal' , kps.heal.lowestTankInRaid , "FLASH_TANK_DMG" },
-        {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.40 and heal.lowestInRaid.incomingDamage > heal.lowestInRaid.incomingHeal' , kps.heal.lowestInRaid , "FLASH_LOWEST_DMG" },
-    }},    
+    {spells.flashHeal, 'not player.isMoving and heal.lowestTargetInRaid.hp < 0.55 and heal.lowestTargetInRaid.incomingDamage > heal.lowestTargetInRaid.incomingHeal' , kps.heal.lowestTargetInRaid , "FLASH_TARGET_DMG" },
+    {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.55 and heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal' , kps.heal.lowestTankInRaid , "FLASH_TANK_DMG" },
+    {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.55 and heal.lowestInRaid.incomingDamage > heal.lowestInRaid.incomingHeal' , kps.heal.lowestInRaid , "FLASH_LOWEST_DMG" },
+
     {{"nested"}, 'not player.isMoving and heal.lowestInRaid.hp < threshold() and not player.isInRaid' ,{
         {spells.flashHeal, 'not player.isMoving and heal.lowestTargetInRaid.hp < threshold() ' , kps.heal.lowestTargetInRaid , "FLASH_TARGET" },
         {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < threshold()' , kps.heal.lowestTankInRaid , "FLASH_TANK" },
