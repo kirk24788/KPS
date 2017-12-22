@@ -57,6 +57,8 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     -- "Ishkar's Felshield Emitter" 151957 -- "Emetteur de gangrebouclier d'Ishkar" 151957
     {{"macro"}, 'player.hasTrinket(0) == 151957 and player.useTrinket(0) and focus.exists and focus.isTankInRaid' , "/target ".."focus".."\n".."/use 13".."\n".."/targetlasttarget" },
     {{"macro"}, 'player.hasTrinket(0) == 151957 and player.useTrinket(0)' , "/target ".."player".."\n".."/use 13".."\n".."/targetlasttarget" },
+    {{"macro"}, 'player.hasTrinket(1) == 151957 and player.useTrinket(1) and focus.exists and focus.isTankInRaid' , "/target ".."focus".."\n".."/use 13".."\n".."/targetlasttarget" },
+    {{"macro"}, 'player.hasTrinket(1) == 151957 and player.useTrinket(1)' , "/target ".."player".."\n".."/use 13".."\n".."/targetlasttarget" },
     -- "Archive of Faith" 147006 -- "The Deceiver's Grand Design" 147007 
     {{"macro"}, 'player.hasTrinket(0) == 147007 and player.useTrinket(0) and focus.exists and focus.isTankInRaid and not focus.hasBuff(spells.guidingHand)' , "/target ".."focus".."\n".."/use 13".."\n".."/targetlasttarget" },
     {{"macro"}, 'player.hasTrinket(0) == 147007 and player.useTrinket(0) and not player.hasBuff(spells.guidingHand)' , "/target ".."player".."\n".."/use 13".."\n".."/targetlasttarget" },
@@ -137,16 +139,15 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
 
     {spells.smite, 'not player.isMoving and player.hasBuff(spells.borrowedTime) and target.isAttackable' , "target" , "smite_borrowedTime" },
     {spells.smite, 'not player.isMoving and player.hasBuff(spells.borrowedTime) and focustarget.isAttackable' , "focustarget" , "smite_borrowedTime" },
+    
+    {spells.smite, 'not player.isMoving and heal.hasRaidBuffCountHealth(spells.atonement,0.82) >= heal.countLossInRange(0.82) and focustarget.isAttackable' , "focustarget" , "smite_count" },
+    {spells.smite, 'not player.isMoving and heal.hasRaidBuffCountHealth(spells.atonement,0.82) >= heal.countLossInRange(0.82) and target.isAttackable' , "target" , "smite_count" },
+    {spells.plea, 'heal.lowestInRaid.myBuffDuration(spells.atonement) < 2 and heal.lowestInRaid.hp < 0.82' , kps.heal.lowestInRaid },
 
     {{"nested"}, 'not player.isInRaid', {
         {spells.smite, 'not player.isMoving and heal.lowestInRaid.hasBuff(spells.atonement) and heal.lowestInRaid.hp < 0.92 and target.isAttackable ' , "target" , "smite_count" },
         {spells.smite, 'not player.isMoving and heal.lowestInRaid.hasBuff(spells.atonement) and heal.lowestInRaid.hp < 0.92 and focustarget.isAttackable ' , "focustarget" , "smite_count" },
-        {spells.plea, 'heal.lowestInRaid.myBuffDuration(spells.atonement) < 2 and heal.lowestInRaid.incomingDamage > 0' , kps.heal.lowestInRaid },
-    }},
-    {{"nested"}, 'player.isInRaid', {
-        {spells.smite, 'not player.isMoving and heal.lowestInRaid.hasBuff(spells.atonement) and target.isAttackable ' , "target" , "smite_count" },
-        {spells.smite, 'not player.isMoving and heal.lowestInRaid.hasBuff(spells.atonement) and focustarget.isAttackable ' , "focustarget" , "smite_count" },
-        {spells.plea, 'heal.lowestInRaid.myBuffDuration(spells.atonement) < 2 and heal.lowestInRaid.hp < 0.72' , kps.heal.lowestInRaid },
+        {spells.plea, 'heal.lowestInRaid.myBuffDuration(spells.atonement) < 2 and heal.lowestInRaid.hp < 0.92' , kps.heal.lowestInRaid },
     }},
 
     {spells.shadowMend, 'not player.isMoving and player.hp < 0.30 and not spells.shadowMend.isRecastAt("player")' , "player" },    
