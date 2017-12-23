@@ -86,7 +86,7 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     }},
 
     {{"nested"}, 'kps.defensive and mouseover.isFriend' , {
-        {spells.powerWordShield, 'mouseover.hp < threshold() and not mouseover.hasBuff(spells.powerWordShield)' , "mouseover" },
+        {spells.powerWordShield, 'mouseover.hp < discthreshold() and not mouseover.hasBuff(spells.powerWordShield)' , "mouseover" },
         {spells.shadowMend, 'mouseover.hp <  0.40 and not spells.shadowMend.isRecastAt("mouseover")' , "mouseover" },
         {spells.plea, 'not mouseover.hasBuff(spells.atonement) and mouseover.hp < 0.82' , "mouseover" },
     }},
@@ -98,12 +98,12 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.powerWordShield, 'not heal.lowestTankInRaid.hasBuff(spells.powerWordShield) and heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal' , kps.heal.lowestTankInRaid },
     {spells.powerWordShield, 'not player.hasBuff(spells.powerWordShield) and player.incomingDamage > player.incomingHeal' , "player" },
 
-    {spells.powerWordShield, 'not heal.lowestTargetInRaid.hasBuff(spells.powerWordShield) and heal.lowestTargetInRaid.hp < threshold()' , kps.heal.lowestTargetInRaid },  
-    {spells.powerWordShield, 'not heal.lowestTankInRaid.hasBuff(spells.powerWordShield) and heal.lowestTankInRaid.hp < threshold()' , kps.heal.lowestTankInRaid },
-    {spells.powerWordShield, 'not player.hasBuff(spells.powerWordShield) and player.hp < threshold()' , "player" },
+    {spells.powerWordShield, 'not heal.lowestTargetInRaid.hasBuff(spells.powerWordShield) and heal.lowestTargetInRaid.hp < discthreshold()' , kps.heal.lowestTargetInRaid },  
+    {spells.powerWordShield, 'not heal.lowestTankInRaid.hasBuff(spells.powerWordShield) and heal.lowestTankInRaid.hp < discthreshold()' , kps.heal.lowestTankInRaid },
+    {spells.powerWordShield, 'not player.hasBuff(spells.powerWordShield) and player.hp < discthreshold()' , "player" },
     
     {spells.powerWordShield, 'not heal.lowestInRaid.hasBuff(spells.powerWordShield) and heal.lowestInRaid.hp < 0.40' , kps.heal.lowestInRaid },
-    {spells.powerWordShield, 'not heal.lowestInRaid.hasBuff(spells.powerWordShield) and heal.lowestInRaid.hp < threshold() and not player.isInRaid' , kps.heal.lowestInRaid },
+    {spells.powerWordShield, 'not heal.lowestInRaid.hasBuff(spells.powerWordShield) and heal.lowestInRaid.hp < discthreshold() and not player.isInRaid' , kps.heal.lowestInRaid },
 
     {spells.powerWordSolace, 'player.hasTalent(4,1) and target.isAttackable' , "target" },
     {spells.powerWordSolace, 'player.hasTalent(4,1) and focustarget.isAttackable' , "focustarget" },
@@ -111,16 +111,16 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {{"nested"}, 'heal.hasRaidBuffCount(spells.atonement) > 0' , {
         {spells.mindbender, 'player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12 and kps.multiTarget' , "target" },
         {spells.shadowfiend, 'not player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12 and kps.multiTarget' , "target" },
-        {spells.mindbender, 'player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12 and heal.countLossInRange(0.78) >= 4' , "target" },
-        {spells.shadowfiend, 'not player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12 and heal.countLossInRange(0.78) >= 4' , "target" },
+        {spells.mindbender, 'player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12 and heal.countLossInRange(0.76) >= 4' , "target" },
+        {spells.shadowfiend, 'not player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12 and heal.countLossInRange(0.76) >= 4' , "target" },
         {spells.purgeTheWicked, 'player.hasTalent(6,1) and target.isAttackable and target.myDebuffDuration(spells.purgeTheWicked) < 2 and not spells.purgeTheWicked.isRecastAt("target")' , "target" },
         {spells.purgeTheWicked, 'player.hasTalent(6,1) and focustarget.isAttackable and focustarget.myDebuffDuration(spells.purgeTheWicked) < 2 and not spells.purgeTheWicked.isRecastAt("focustarget")' , "focustarget" },
         {spells.purgeTheWicked, 'player.hasTalent(6,1) and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.purgeTheWicked) < 2 and not spells.purgeTheWicked.isRecastAt("mouseover")' , 'mouseover' },
     }},
 
-    {spells.penance, 'target.isAttackable and spells.powerWordRadiance.charges < 2 and heal.countLossInRange(0.78) >= 4' , "target" },
-    {spells.penance, 'focustarget.isAttackable and spells.powerWordRadiance.charges < 2 and heal.countLossInRange(0.78) >= 4' , "focustarget" },
-    {{"nested"}, 'not player.isMoving and heal.hasRaidBuffCountHealth(spells.atonement,0.78) <= heal.countLossInRange(0.78) and heal.countLossInRange(0.78) >= 4' , {
+    {spells.penance, 'target.isAttackable and spells.powerWordRadiance.charges < 2 and heal.countLossInRange(0.76) >= 4' , "target" },
+    {spells.penance, 'focustarget.isAttackable and spells.powerWordRadiance.charges < 2 and heal.countLossInRange(0.76) >= 4' , "focustarget" },
+    {{"nested"}, 'not player.isMoving and heal.hasRaidBuffCountHealth(spells.atonement,0.76) <= heal.countLossInRange(0.76) and heal.countLossInRange(0.76) >= 4' , {
         {spells.powerWordRadiance, 'player.myBuffDuration(spells.atonement) < 2' , "player" }, 
         {spells.powerWordRadiance, 'heal.lowestTargetInRaid.myBuffDuration(spells.atonement) < 2' , kps.heal.lowestTargetInRaid },
         {spells.powerWordRadiance, 'heal.lowestTankInRaid.myBuffDuration(spells.atonement) < 2' , kps.heal.lowestTankInRaid },
@@ -147,8 +147,8 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.plea, 'heal.lowestInRaid.myBuffDuration(spells.atonement) < 2 and heal.lowestInRaid.hp < 0.82' , kps.heal.lowestInRaid },
 
     {{"nested"}, 'not player.isInRaid', {
-        {spells.smite, 'not player.isMoving and heal.lowestInRaid.hasBuff(spells.atonement) and heal.lowestInRaid.hp < 0.92 and target.isAttackable ' , "target" , "smite_count" },
-        {spells.smite, 'not player.isMoving and heal.lowestInRaid.hasBuff(spells.atonement) and heal.lowestInRaid.hp < 0.92 and focustarget.isAttackable ' , "focustarget" , "smite_count" },
+        {spells.smite, 'not player.isMoving and heal.hasRaidBuffCountHealth(spells.atonement,0.92) >= heal.countLossInRange(0.92) and focustarget.isAttackable' , "focustarget" , "smite_count" },
+        {spells.smite, 'not player.isMoving and heal.hasRaidBuffCountHealth(spells.atonement,0.92) >= heal.countLossInRange(0.92) and target.isAttackable' , "target" , "smite_count" },
         {spells.plea, 'heal.lowestInRaid.myBuffDuration(spells.atonement) < 2 and heal.lowestInRaid.hp < 0.92' , kps.heal.lowestInRaid },
     }},
 

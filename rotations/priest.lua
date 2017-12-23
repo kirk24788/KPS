@@ -70,9 +70,14 @@ end
 ------------------------------- LOCAL FUNCTIONS
 --------------------------------------------------------------------------------------------
 
-function kps.env.priest.threshold()
+function kps.env.priest.holythreshold()
     if IsInRaid() then return 0.62 end
     return 0.76
+end
+
+function kps.env.priest.discthreshold()
+    if IsInRaid() then return 0.76 end
+    return 0.84
 end
 
 local UnitDebuffDuration = function(spell,unit)
