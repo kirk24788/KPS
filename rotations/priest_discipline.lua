@@ -53,15 +53,18 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
         {spells.purify, 'heal.isMagicDispellable ~= nil' , kps.heal.isMagicDispellable , "DISPEL" },
     }},
     
-    -- TRINKETS
+    -- TRINKETS -- SLOT 0 /use 13
     -- "Ishkar's Felshield Emitter" 151957 -- "Emetteur de gangrebouclier d'Ishkar" 151957
     {{"macro"}, 'player.hasTrinket(0) == 151957 and player.useTrinket(0) and focus.exists and focus.isTankInRaid' , "/target ".."focus".."\n".."/use 13".."\n".."/targetlasttarget" },
     {{"macro"}, 'player.hasTrinket(0) == 151957 and player.useTrinket(0)' , "/target ".."player".."\n".."/use 13".."\n".."/targetlasttarget" },
-    {{"macro"}, 'player.hasTrinket(1) == 151957 and player.useTrinket(1) and focus.exists and focus.isTankInRaid' , "/target ".."focus".."\n".."/use 13".."\n".."/targetlasttarget" },
-    {{"macro"}, 'player.hasTrinket(1) == 151957 and player.useTrinket(1)' , "/target ".."player".."\n".."/use 13".."\n".."/targetlasttarget" },
-    -- "Archive of Faith" 147006 -- "The Deceiver's Grand Design" 147007 
+     -- "The Deceiver's Grand Design" 147007 "Grand dessein du Trompeur"
     {{"macro"}, 'player.hasTrinket(0) == 147007 and player.useTrinket(0) and focus.exists and focus.isTankInRaid and not focus.hasBuff(spells.guidingHand)' , "/target ".."focus".."\n".."/use 13".."\n".."/targetlasttarget" },
     {{"macro"}, 'player.hasTrinket(0) == 147007 and player.useTrinket(0) and not player.hasBuff(spells.guidingHand)' , "/target ".."player".."\n".."/use 13".."\n".."/targetlasttarget" },
+    
+    -- TRINKETS -- SLOT 1 /use 14
+    -- "Ishkar's Felshield Emitter" 151957 -- "Emetteur de gangrebouclier d'Ishkar" 151957
+    {{"macro"}, 'player.hasTrinket(1) == 151957 and player.useTrinket(1) and focus.exists and focus.isTankInRaid' , "/target ".."focus".."\n".."/use 14".."\n".."/targetlasttarget" },
+    {{"macro"}, 'player.hasTrinket(1) == 151957 and player.useTrinket(1)' , "/target ".."player".."\n".."/use 14".."\n".."/targetlasttarget" },
     -- "Velen's Future Sight" 144258
     {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.countLossInRange(0.82) >= 3' , "/use 14" },
 
@@ -90,7 +93,6 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
 
     {spells.rapture, 'spells.powerWordShield.cooldown > 2 and heal.lowestTankInRaid.hp < 0.30 and not heal.lowestTargetInRaid.hasBuff(spells.powerWordShield)' },
     {spells.rapture, 'spells.powerWordRadiance.cooldown > 6 and heal.lowestTankInRaid.hp < 0.40 and heal.countLossInRange(0.62) >= 4' },
-    {spells.rapture, 'spells.powerWordShield.cooldown > 2 and heal.countLossInRange(0.62) == heal.countInRange' },
     
     {spells.powerWordShield, 'not heal.lowestTargetInRaid.hasBuff(spells.powerWordShield) and heal.lowestTargetInRaid.incomingDamage > heal.lowestTargetInRaid.incomingHeal' , kps.heal.lowestTargetInRaid },  
     {spells.powerWordShield, 'not heal.lowestTankInRaid.hasBuff(spells.powerWordShield) and heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal' , kps.heal.lowestTankInRaid },

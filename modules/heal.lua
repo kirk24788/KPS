@@ -535,7 +535,10 @@ print("|cffff8000Charge:|cffffffff", kps.spells.priest.powerWordRadiance.charges
 --print("test",kps["env"].player.isCastingSpell(kps.spells.priest.mindBlast))
 --print("test",kps["env"].target.isAttackable)
 --print("test",kps["env"].player.isInRaid)
---print("|cffff8000AVG:|cffffffff", kps["env"].player.useItem(5512))
+
+--print("|cffff8000TRINKET_0:|cffffffff", kps["env"].player.useTrinket(0))
+--print("|cffff8000TRINKET_1:|cffffffff", kps["env"].player.useTrinket(1))
+
 
 end
 

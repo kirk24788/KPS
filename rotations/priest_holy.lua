@@ -65,15 +65,21 @@ kps.rotations.register("PRIEST","HOLY",{
         {spells.purify, 'heal.isMagicDispellable ~= nil' , kps.heal.isMagicDispellable , "DISPEL" },
     }},
     
-    -- TRINKETS
+    -- TRINKETS -- SLOT 0 /use 13
     -- "Ishkar's Felshield Emitter" 151957 -- "Emetteur de gangrebouclier d'Ishkar" 151957
     {{"macro"}, 'player.hasTrinket(0) == 151957 and player.useTrinket(0) and focus.exists and focus.isTankInRaid' , "/target ".."focus".."\n".."/use 13".."\n".."/targetlasttarget" },
     {{"macro"}, 'player.hasTrinket(0) == 151957 and player.useTrinket(0)' , "/target ".."player".."\n".."/use 13".."\n".."/targetlasttarget" },
-    -- "Archive of Faith" 147006 -- "The Deceiver's Grand Design" 147007 
+     -- "The Deceiver's Grand Design" 147007 "Grand dessein du Trompeur"
     {{"macro"}, 'player.hasTrinket(0) == 147007 and player.useTrinket(0) and focus.exists and focus.isTankInRaid and not focus.hasBuff(spells.guidingHand)' , "/target ".."focus".."\n".."/use 13".."\n".."/targetlasttarget" },
     {{"macro"}, 'player.hasTrinket(0) == 147007 and player.useTrinket(0) and not player.hasBuff(spells.guidingHand)' , "/target ".."player".."\n".."/use 13".."\n".."/targetlasttarget" },
+    
+    -- TRINKETS -- SLOT 1 /use 14
+    -- "Ishkar's Felshield Emitter" 151957 -- "Emetteur de gangrebouclier d'Ishkar" 151957
+    {{"macro"}, 'player.hasTrinket(1) == 151957 and player.useTrinket(1) and focus.exists and focus.isTankInRaid' , "/target ".."focus".."\n".."/use 14".."\n".."/targetlasttarget" },
+    {{"macro"}, 'player.hasTrinket(1) == 151957 and player.useTrinket(1)' , "/target ".."player".."\n".."/use 14".."\n".."/targetlasttarget" },
     -- "Velen's Future Sight" 144258
     {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.countLossInRange(0.82) >= 3' , "/use 14" },
+
     -- "Apotheosis" 200183 increasing the effects of Serendipity by 200% and reducing the cost of your Holy Words by 100% -- "Benediction" for raid and "Apotheosis" for party
     {spells.apotheosis, 'player.hasTalent(7,1) and heal.countLossInRange(0.78) * 2 >= heal.countInRange' },
 
