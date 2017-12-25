@@ -426,16 +426,6 @@ end)
 @function `heal.hasAbsorptionHeal` - Returns the raid unit with an absorption Debuff
 ]]--
 
-kps.RaidStatus.prototype.hasAbsorptionHealCount = kps.utils.cachedValue(function()
-    local count = 0
-    for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.absorptionHeal then
-            count = count + 1
-        end
-    end
-    return count
-end)
-
 kps.RaidStatus.prototype.hasAbsorptionHeal = kps.utils.cachedValue(function()
     for name, unit in pairs(raidStatus) do
         if unit.isHealable and unit.absorptionHeal then return unit end
@@ -453,6 +443,30 @@ kps.RaidStatus.prototype.hasBossDebuff = kps.utils.cachedValue(function()
     end
     return nil
 end)
+
+--[[[
+@function `heal.hasDamage` - Returns the raid unit with incomingDamage > incomingHeal
+]]--
+
+local _damageInRaid = {}
+local damageInRaid = kps.utils.cachedValue(function()
+    table.wipe(_damageInRaid)
+    for name,unit in pairs(raidStatus) do
+        if unit.isHealable and unit.incomingDamage > unit.incomingHeal then
+            table.insert(_damageInRaid, unit)
+        end
+    end
+    return _damageInRaid
+end)
+
+kps.RaidStatus.prototype.hasDamage = kps.utils.cachedValue(function()
+    local damageUnit = damageInRaid()
+    tsort(damageUnit, function(a,b) return a.hpIncoming < b.hpIncoming end)
+    local myUnit = damageUnit[1]
+    if myUnit == nil then myUnit = kps["env"].player end
+    return myUnit
+end)
+
 
 --------------------------------------------------------------------------------------------
 ------------------------------- TRICKY
@@ -506,9 +520,7 @@ print("|cffff8000countLossDistance:|cffffffff", kps["env"].heal.countLossInDista
 --print("|cffff8000hasBossDebuff:|cffffffff", kps["env"].heal.hasBossDebuff)
 --print("|cffff8000hasAbsorption:|cffffffff", kps["env"].heal.hasAbsorptionHeal)
 --print("|cffff8000absorbHealCount:|cffffffff", kps["env"].heal.hasAbsorptionHealCount)
-
-
-print("|cffff8000Charge:|cffffffff", kps.spells.priest.powerWordRadiance.charges)
+--print("|cffff8000Charge:|cffffffff", kps.spells.priest.powerWordRadiance.charges)
 
 
 --print("|cffff8000hasRoleInRaidTANK:|cffffffff", kps["env"].heal.lowestInRaid.hasRoleInRaid("TANK"))

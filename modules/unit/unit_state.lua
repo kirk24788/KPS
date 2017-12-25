@@ -136,7 +136,6 @@ end
 
 function Unit.isTankInRaid(self)
     if UnitGroupRolesAssigned(self.unit) == "TANK" then return true end
-    if UnitIsUnit("focus",self.unit) then return true end
     return false
 end 
 
@@ -147,7 +146,6 @@ local hasRoleInRaid = setmetatable({}, {
     __index = function(t, unit)
         local val = function (role)
             if UnitGroupRolesAssigned(unit) == role then return true end
-            if UnitIsUnit(unit,"focus") then return true end
             return false
         end
         t[unit] = val
