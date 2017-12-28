@@ -298,7 +298,7 @@ end)
 @function `heal.aggroTank` - Returns the tank or unit if overnuked with highest aggro and lowest health Without otherunit specified.
 ]]--
 local tsort = table.sort
-kps.RaidStatus.prototype.aggroTank = kps.utils.cachedValue(function()
+kps.RaidStatus.prototype.lowestAggroTank = kps.utils.cachedValue(function()
     local TankUnit = tanksInRaid()
     for name, player in pairs(raidStatus) do
         local unitThreat = UnitThreatSituation(player.unit)
@@ -495,7 +495,7 @@ function kpsTest()
 print("|cff1eff00LOWEST|cffffffff", kps["env"].heal.lowestInRaid.name,"/",kps["env"].heal.lowestInRaid.hp)
 print("|cffff8000TARGET:|cffffffff", kps["env"].heal.lowestTargetInRaid.name)
 print("|cffff8000TANK:|cffffffff", kps["env"].heal.lowestTankInRaid.name)
-print("|cffff8000AGGRO:|cffffffff", kps["env"].heal.aggroTank.name)
+print("|cffff8000AGGRO:|cffffffff", kps["env"].heal.lowestAggroTank.name)
 print("|cff1eff00HEAL:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingHeal)
 print("|cFFFF0000DMG:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingDamage)
 print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
@@ -511,6 +511,16 @@ print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHealthRaid)
 print("|cffff8000COUNT_LOSS_90:|cffffffff", kps["env"].heal.countLossInRange(0.90),"|cffff8000COUNT_MAX:|cffffffff",kps["env"].heal.countInRange)
 print("|cffff8000countLossDistance:|cffffffff", kps["env"].heal.countLossInDistance(0.90,10))
+
+
+--for _,unit in ipairs(tanksInRaid()) do
+--print("TANKS",unit.name)
+--end
+--
+--for _,unit in ipairs(damageInRaid()) do
+--print("DAMAGE",unit.name)
+--end
+
 
 --print("|cffff8000buffValue:|cffffffff", kps["env"].player.buffValue(kps.spells.warrior.ignorePain))
 --print("|cffff8000GCD:|cffffffff", kps.gcd)
