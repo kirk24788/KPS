@@ -261,3 +261,34 @@ end)
 kps.events.register("PLAYER_REGEN_ENABLED", function()
     combatBorderIcon(false)
 end)
+
+
+function addSlider(sliderName, parentObj, xPos, yPos, defaultVal, stepSize, minVal, maxVal, lowText, HighText, title)
+	local sliderObj = CreateFrame("Slider",sliderName,parentObj,"OptionsSliderTemplate") --frameType, frameName, frameParent, frameTemplate 
+
+	sliderObj:SetScale(1)
+	sliderObj:SetMinMaxValues(minVal,maxVal)
+	sliderObj.minValue, sliderObj.maxValue = sliderObj:GetMinMaxValues()
+	sliderObj:SetValue(defaultVal)
+	sliderObj:SetValueStep(stepSize)
+	sliderObj:EnableMouse(true)
+	sliderObj:SetPoint("TOPLEFT", parentObj, xPos, yPos)
+	getglobal(sliderObj:GetName() .. 'Low'):SetText(lowText)
+	getglobal(sliderObj:GetName() .. 'High'):SetText(HighText)
+	getglobal(sliderObj:GetName() .. 'Text'):SetText(title)
+	sliderObj:SetScript("OnValueChanged", onChangeFunc)
+	sliderObj:Show()
+	return sliderObj
+end
+
+local updateIntervalSlider = addSlider("Slider", toggleAnchor, 0, 25, 0.1 , 0.1, 0.1 ,1.5,"0.1","1.5","IntervalUpdate")
+
+local function roundValue(num, idp)
+    local mult = 10^(idp or 0)
+    if num >= 0 then return math.floor(num * mult + 0.5) / mult
+    else return math.ceil(num * mult - 0.5) / mult end
+end
+
+updateIntervalSlider:SetScript("OnValueChanged", function(self)
+    kps.config.updateInterval = roundValue(updateIntervalSlider:GetValue(),2)
+end)

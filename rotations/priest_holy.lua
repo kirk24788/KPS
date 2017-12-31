@@ -57,11 +57,12 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.bodyAndMind, 'player.hasTalent(2,2) and player.isMovingFor(1.2) and not player.hasBuff(spells.bodyAndMind)' , "player"},
 
     -- "Dispel" "Purifier" 527
+    {spells.purify, 'player.isDispellable("Magic")' , "player" },
     {spells.purify, 'mouseover.isDispellable("Magic")' , "mouseover" },
+    {spells.purify, 'focus.isFriend and focus.isDispellable("Magic")' , "focus"},
     {{"nested"},'kps.cooldowns', {
         {spells.purify, 'heal.lowestTankInRaid.isDispellable("Magic")' , kps.heal.lowestTankInRaid},
         {spells.purify, 'heal.lowestAggroTank.isDispellable("Magic")' , kps.heal.lowestAggroTank},
-        {spells.purify, 'player.isDispellable("Magic")' , "player" },
         {spells.purify, 'heal.lowestInRaid.isDispellable("Magic")' , kps.heal.lowestInRaid},
         {spells.purify, 'heal.isMagicDispellable ~= nil' , kps.heal.isMagicDispellable , "DISPEL" },
     }},

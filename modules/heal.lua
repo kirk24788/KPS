@@ -277,7 +277,6 @@ local function findAggroTankOfUnit(targetUnit)
     if aggroTank == nil then
         return kps.RaidStatus.prototype.defaultTank()
     end
-
     return aggroTank
 end
 
@@ -286,7 +285,7 @@ kps.RaidStatus.prototype.aggroTankTarget = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.aggroTankFocus` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
+@function `heal.aggroTankFocus` - Returns the tank with highest aggro on the current focus (*not* the unit with the highest aggro!). If there is no tank in the focus thread list, the `heal.defaultTank` is returned instead.
     When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTankFocus`!
 ]]--
 
@@ -495,7 +494,7 @@ function kpsTest()
 print("|cff1eff00LOWEST|cffffffff", kps["env"].heal.lowestInRaid.name,"/",kps["env"].heal.lowestInRaid.hp)
 print("|cffff8000TARGET:|cffffffff", kps["env"].heal.lowestTargetInRaid.name)
 print("|cffff8000TANK:|cffffffff", kps["env"].heal.lowestTankInRaid.name)
-print("|cffff8000AGGRO:|cffffffff", kps["env"].heal.lowestAggroTank.name)
+print("|cffff8000AGGRO:|cffffffff", kps["env"].heal.lowestAggroTank.name,"/",kps["env"].heal.aggroTankTarget.name)
 print("|cff1eff00HEAL:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingHeal)
 print("|cFFFF0000DMG:|cffffffff", kps["env"].heal.lowestTankInRaid.incomingDamage)
 print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
@@ -511,6 +510,11 @@ print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHealthRaid)
 print("|cffff8000COUNT_LOSS_90:|cffffffff", kps["env"].heal.countLossInRange(0.90),"|cffff8000COUNT_MAX:|cffffffff",kps["env"].heal.countInRange)
 print("|cffff8000countLossDistance:|cffffffff", kps["env"].heal.countLossInDistance(0.90,10))
+
+local spell = kps.Spell.fromId(81749)
+print("|cffff8000Atonement:|cffffffff",kps["env"].heal.hasRaidBuffCountHealth(spell,0.90))
+
+print("updateInterval:",kps.config.updateInterval)
 
 
 --for _,unit in ipairs(tanksInRaid()) do
