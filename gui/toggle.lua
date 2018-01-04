@@ -276,7 +276,6 @@ function addSlider(sliderName, parentObj, xPos, yPos, defaultVal, stepSize, minV
 	getglobal(sliderObj:GetName() .. 'Low'):SetText(lowText)
 	getglobal(sliderObj:GetName() .. 'High'):SetText(HighText)
 	getglobal(sliderObj:GetName() .. 'Text'):SetText(title)
-	sliderObj:SetScript("OnValueChanged", onChangeFunc)
 	sliderObj:Show()
 	return sliderObj
 end
