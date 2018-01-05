@@ -26,7 +26,7 @@ kps.rotations.register("PRIEST","SHADOW",{
     {{"macro"}, 'keys.ctrl', "/cast [@cursor] "..MassDispel },
     -- "Dispersion" 47585
     {spells.dispersion, 'player.hp < 0.40' },
-    {spells.dispersion, 'player.isMovingFor(1.2) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 29' , "target", "DISPERSION_BUFF" },
+    {spells.dispersion, 'player.isMovingFor(1.2) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 27' , "target", "DISPERSION_BUFF" },
     {{"macro"}, 'player.hasBuff(spells.dispersion) and player.hp == 1 and player.insanity == 100' , "/cancelaura "..Dispersion },
     --"Fade" 586
     {spells.fade, 'player.isTarget' },
@@ -89,14 +89,13 @@ kps.rotations.register("PRIEST","SHADOW",{
     }},
 
     -- TRINKETS "Trinket0Slot" est slotId  13 "Trinket1Slot" est slotId  14
-    --{{"macro"}, 'player.useTrinket(0) and player.hasBuff(spells.voidform)' , "/use 13"},
-    -- "Charm of the Rising Tide" -- 147002 -- While you remain stationary, gain 576 Haste every 1 sec stacking up to 10 times. Lasts 20 sec. (1 Min, 30 Sec Cooldown)
-    {{"macro"}, 'player.hasTrinket(1) == 147002 and player.useTrinket(1) and player.hasBuff(spells.voidform) and spells.mindbender.cooldown > 49' , "/use 14"},
+    {{"macro"}, 'player.useTrinket(0) and player.hasBuff(spells.voidform)' , "/use 13"},
+    {{"macro"}, 'player.useTrinket(1) and player.hasBuff(spells.voidform)' , "/use 14"},
     -- "Infusion de puissance" -- Confère un regain de puissance pendant 20 sec, ce qui augmente la hâte de 25%
-    {spells.powerInfusion, 'kps.cooldowns and not player.isMoving and player.buffStacks(spells.voidform) > 29 and player.insanity > 55' },
+    {spells.powerInfusion, 'kps.cooldowns and not player.isMoving and player.buffStacks(spells.voidform) > 27 and player.insanity > 55' },
     -- "Ombrefiel" cd 3 min duration 12sec -- "Mindbender" cd 1 min duration 12 sec
     {spells.shadowfiend, 'not player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.haste > 55' , "target" },
-    {spells.mindbender, 'player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 29 and player.insanity < 80' , "target" },
+    {spells.mindbender, 'player.hasTalent(6,3) and player.hasBuff(spells.voidform) and player.buffStacks(spells.voidform) > 27 and player.insanity < 80' , "target" },
     
     -- MultiTarget
     {spells.mindFlay, 'kps.multiTarget and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "MULTITARGET" },

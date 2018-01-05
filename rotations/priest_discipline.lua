@@ -53,26 +53,6 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
         {spells.painSuppression, 'heal.lowestInRaid.hp < 0.30' , kps.heal.lowestInRaid },  
     }},
     
-    -- TRINKETS -- SLOT 0 /use 13
-    {{"macro"}, 'player.useTrinket(0) and target.isAttackable' , "/use 13" },
-    -- "Résonateur de vitalité" "Vitality Resonator" 151970
-    {{"macro"}, 'player.hasTrinket(0) == 151970 and player.useTrinket(0) and target.isAttackable' , "/use 13" },
-    -- "Ishkar's Felshield Emitter" "Emetteur de gangrebouclier d'Ishkar" 151957
-    {{"macro"}, 'player.hasTrinket(0) == 151957 and player.useTrinket(0) and focus.exists and focus.isTankInRaid' , "/target ".."focus".."\n".."/use 13".."\n".."/targetlasttarget" },
-    {{"macro"}, 'player.hasTrinket(0) == 151957 and player.useTrinket(0)' , "/target ".."player".."\n".."/use 13".."\n".."/targetlasttarget" },
-     -- "The Deceiver's Grand Design" "Grand dessein du Trompeur" 147007 
-    {{"macro"}, 'player.hasTrinket(0) == 147007 and player.useTrinket(0) and focus.exists and focus.isTankInRaid and not focus.hasBuff(spells.guidingHand)' , "/target ".."focus".."\n".."/use 13".."\n".."/targetlasttarget" },
-    {{"macro"}, 'player.hasTrinket(0) == 147007 and player.useTrinket(0) and not player.hasBuff(spells.guidingHand)' , "/target ".."player".."\n".."/use 13".."\n".."/targetlasttarget" },
-    
-    -- TRINKETS -- SLOT 1 /use 14
-    -- "Résonateur de vitalité" "Vitality Resonator" 151970
-    {{"macro"}, 'player.hasTrinket(1) == 151970 and player.useTrinket(1) and target.isAttackable' , "/use 14" },
-    -- "Ishkar's Felshield Emitter" 151957 -- "Emetteur de gangrebouclier d'Ishkar" 151957
-    {{"macro"}, 'player.hasTrinket(1) == 151957 and player.useTrinket(1) and focus.exists and focus.isTankInRaid' , "/target ".."focus".."\n".."/use 14".."\n".."/targetlasttarget" },
-    {{"macro"}, 'player.hasTrinket(1) == 151957 and player.useTrinket(1)' , "/target ".."player".."\n".."/use 14".."\n".."/targetlasttarget" },
-    -- "Velen's Future Sight" 144258
-    {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.hasRaidBuffCountHealth(spells.atonement,0.82) >= 4' , "/use 14" },
-    
     -- "Dispel" "Purifier" 527
     {spells.purify, 'player.isDispellable("Magic")' , "player" },
     {spells.purify, 'mouseover.isDispellable("Magic")' , "mouseover" },
@@ -83,6 +63,26 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
         {spells.purify, 'heal.lowestInRaid.isDispellable("Magic")' , kps.heal.lowestInRaid},
         {spells.purify, 'heal.isMagicDispellable ~= nil' , kps.heal.isMagicDispellable , "DISPEL" },
     }},
+    
+    -- TRINKETS -- SLOT 0 /use 13
+    {{"macro"}, 'player.useTrinket(0) and target.isAttackable' , "/use 13" },
+    -- "Résonateur de vitalité" "Vitality Resonator" 151970
+    {{"macro"}, 'player.hasTrinket(0) == 151970 and player.useTrinket(0) and target.isAttackable' , "/use 13" },
+    -- "Ishkar's Felshield Emitter" "Emetteur de gangrebouclier d'Ishkar" 151957
+    {{"macro"}, 'player.hasTrinket(0) == 151957 and player.useTrinket(0) and focus.isFriend' , "/target ".."focus".."\n".."/use 13".."\n".."/targetlasttarget" },
+    {{"macro"}, 'player.hasTrinket(0) == 151957 and player.useTrinket(0)' , "/target ".."player".."\n".."/use 13".."\n".."/targetlasttarget" },
+     -- "The Deceiver's Grand Design" "Grand dessein du Trompeur" 147007 
+    {{"macro"}, 'player.hasTrinket(0) == 147007 and player.useTrinket(0) and focus.isFriend and not focus.hasBuff(spells.guidingHand)' , "/target ".."focus".."\n".."/use 13".."\n".."/targetlasttarget" },
+    {{"macro"}, 'player.hasTrinket(0) == 147007 and player.useTrinket(0) and not player.hasBuff(spells.guidingHand)' , "/target ".."player".."\n".."/use 13".."\n".."/targetlasttarget" },
+    
+    -- TRINKETS -- SLOT 1 /use 14
+    -- "Résonateur de vitalité" "Vitality Resonator" 151970
+    {{"macro"}, 'player.hasTrinket(1) == 151970 and player.useTrinket(1) and target.isAttackable' , "/use 14" },
+    -- "Ishkar's Felshield Emitter" 151957 -- "Emetteur de gangrebouclier d'Ishkar" 151957
+    {{"macro"}, 'player.hasTrinket(1) == 151957 and player.useTrinket(1) and focus.isFriend' , "/target ".."focus".."\n".."/use 14".."\n".."/targetlasttarget" },
+    {{"macro"}, 'player.hasTrinket(1) == 151957 and player.useTrinket(1)' , "/target ".."player".."\n".."/use 14".."\n".."/targetlasttarget" },
+    -- "Velen's Future Sight" 144258
+    {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.hasRaidBuffCountHealth(spells.atonement,0.82) >= 3' , "/use 14" },
 
     {spells.evangelism, 'player.hasTalent(7,3) and kps.lastCast["name"] == spells.powerWordRadiance' },
     {{"nested"}, 'not player.isMoving and kps.lastCast["name"] == spells.powerWordRadiance and heal.hasRaidBuffCountHealth(spells.atonement,0.82) >= 4' ,{
@@ -96,7 +96,7 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     
     {spells.penance, 'target.isAttackable and spells.powerWordRadiance.charges < 2 and heal.countLossInRange(0.82) >= 4' , "target" },
     {spells.penance, 'focustarget.isAttackable and spells.powerWordRadiance.charges < 2 and heal.countLossInRange(0.82) >= 4' , "focustarget" },
-    {{"nested"}, 'not player.isMoving and heal.hasRaidBuffCountHealth(spells.atonement,0.76) <= heal.countLossInRange(0.76) and heal.countLossInRange(0.76) >= 4' , {
+    {{"nested"}, 'not player.isMoving and heal.hasRaidBuffCountHealth(spells.atonement,0.78) <= heal.countLossInRange(0.78) and heal.countLossInRange(0.78) >= 4' , {
         {spells.powerWordRadiance, 'player.myBuffDuration(spells.atonement) < 2' , "player" }, 
         {spells.powerWordRadiance, 'heal.aggroTankTarget.myBuffDuration(spells.atonement) < 2' , kps.heal.aggroTankTarget },
         {spells.powerWordRadiance, 'heal.lowestTankInRaid.myBuffDuration(spells.atonement) < 2' , kps.heal.lowestTankInRaid },
@@ -126,13 +126,13 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.powerWordShield, 'not heal.lowestInRaid.hasBuff(spells.powerWordShield) and heal.lowestInRaid.hp < discthreshold() and not player.isInRaid' , kps.heal.lowestInRaid },
     {spells.powerWordShield, 'not heal.lowestInRaid.hasBuff(spells.powerWordShield) and heal.lowestInRaid.hp < discthreshold() and player.hasBuff(spells.rapture)' , kps.heal.lowestInRaid },
 
-    {spells.rapture, 'heal.lowestTankInRaid.hp < 0.40 and heal.countLossInRange(0.62) >= 4' },
+    {spells.rapture, 'spells.powerWordRadiance.charges == 0 and heal.countLossInRange(0.62) >= 4' },
 
     {{"nested"}, 'heal.hasRaidBuffCount(spells.atonement) > 0' , {
         {spells.mindbender, 'kps.multiTarget and player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12' , "target" },
         {spells.shadowfiend, 'kps.multiTarget and not player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12' , "target" },
-        {spells.mindbender, 'player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12 and heal.countLossInRange(0.76) >= 4' , "target" },
-        {spells.shadowfiend, 'not player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12 and heal.countLossInRange(0.76) >= 4' , "target" },
+        {spells.mindbender, 'player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12 and heal.countLossInRange(0.78) >= 4' , "target" },
+        {spells.shadowfiend, 'not player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12 and heal.countLossInRange(0.78) >= 4' , "target" },
         {spells.purgeTheWicked, 'player.hasTalent(6,1) and target.isAttackable and target.myDebuffDuration(spells.purgeTheWicked) < 2 and not spells.purgeTheWicked.isRecastAt("target")' , "target" },
         {spells.purgeTheWicked, 'player.hasTalent(6,1) and focustarget.isAttackable and focustarget.myDebuffDuration(spells.purgeTheWicked) < 2 and not spells.purgeTheWicked.isRecastAt("focustarget")' , "focustarget" },
         {spells.purgeTheWicked, 'player.hasTalent(6,1) and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.purgeTheWicked) < 2 and not spells.purgeTheWicked.isRecastAt("mouseover")' , 'mouseover' },
