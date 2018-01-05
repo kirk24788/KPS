@@ -155,7 +155,7 @@ end)
 ]]--
 kps.RaidStatus.prototype.defaultTarget = kps.utils.cachedValue(function()
     -- If we're below 30% - always heal us first!
-    if kps.env.player.hpIncoming < 0.3 then return kps["env"].player end
+    if kps.env.player.hpIncoming < 0.5 then return kps["env"].player end
     -- If the focus target is below 50% - take it (must be some reason there is a focus after all...)
     if kps["env"].focus.isHealable and kps["env"].focus.hpIncoming < 0.5 then return kps["env"].focus end
     -- MAYBE we also focused an enemy so we can heal it's target...
@@ -179,7 +179,7 @@ end)
 ]]--
 kps.RaidStatus.prototype.defaultTank = kps.utils.cachedValue(function()
     -- If we're below 30% - always heal us first!
-    if kps.env.player.hpIncoming < 0.3 then return kps["env"].player end
+    if kps.env.player.hpIncoming < 0.5 then return kps["env"].player end
     -- If the focus target is below 50% - take it (must be some reason there is a focus after all...)
     if kps["env"].focus.isHealable and kps["env"].focus.hpIncoming < 0.5 then return kps["env"].focus end
     -- MAYBE we also focused an enemy so we can heal it's target...
