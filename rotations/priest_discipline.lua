@@ -127,6 +127,8 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.powerWordShield, 'not heal.lowestInRaid.hasBuff(spells.powerWordShield) and heal.lowestInRaid.hp < discthreshold() and player.hasBuff(spells.rapture)' , kps.heal.lowestInRaid },
 
     {spells.rapture, 'spells.powerWordRadiance.charges == 0 and heal.countLossInRange(0.62) >= 4' },
+    {spells.rapture, 'spells.penance.cooldown > 2 and heal.lowestTankInRaid.hp < 0.30 and not heal.lowestTankInRaid.hasBuff(spells.powerWordShield)' },
+    {spells.rapture, 'spells.penance.cooldown > 2 and heal.aggroTankTarget.hp < 0.30 and not heal.aggroTankTarget.hasBuff(spells.powerWordShield)' },
 
     {{"nested"}, 'heal.hasRaidBuffCount(spells.atonement) > 0' , {
         {spells.mindbender, 'kps.multiTarget and player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12' , "target" },
@@ -164,16 +166,16 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
         {spells.plea, 'heal.lowestInRaid.myBuffDuration(spells.atonement) < 2 and heal.lowestInRaid.hp < 0.92' , kps.heal.lowestInRaid },
     }},
 
+    {spells.shadowMend, 'not player.isMoving and player.hp < 0.30 and not spells.shadowMend.isRecastAt("player")' , "player" },    
+    {spells.shadowMend, 'not player.isMoving and heal.aggroTankTarget.hp < 0.30 and not spells.shadowMend.isRecastAt(heal.aggroTankTarget.unit)' , kps.heal.aggroTankTarget },
+    {spells.shadowMend, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.30 and not spells.shadowMend.isRecastAt(heal.lowestTankInRaid.unit)' , kps.heal.lowestTankInRaid },
+    {spells.shadowMend, 'not player.isMoving and heal.lowestInRaid.hp < 0.30 and not spells.shadowMend.isRecastAt(heal.lowestInRaid.unit)' , kps.heal.lowestInRaid },
+    
     {spells.smite, 'not player.isMoving and heal.hasRaidBuffLowestHealth(spells.atonement) < 0.82 and focustarget.isAttackable' , "focustarget" , "smite_count_lowest" },
     {spells.smite, 'not player.isMoving and heal.hasRaidBuffLowestHealth(spells.atonement) < 0.82 and target.isAttackable' , "target" , "smite_count_lowest" },
     
     {spells.plea, 'heal.lowestInRaid.myBuffDuration(spells.atonement) < 2 and heal.lowestInRaid.hp < 0.82' , kps.heal.lowestInRaid , "plea_lowest" },
     {spells.plea, 'heal.hasDamage.myBuffDuration(spells.atonement) < 2' , kps.heal.hasDamage , "plea_hasDamage" },
-
-    {spells.shadowMend, 'not player.isMoving and player.hp < 0.30 and not spells.shadowMend.isRecastAt("player")' , "player" },    
-    {spells.shadowMend, 'not player.isMoving and heal.aggroTankTarget.hp < 0.30 and not spells.shadowMend.isRecastAt(heal.aggroTankTarget.unit)' , kps.heal.aggroTankTarget },
-    {spells.shadowMend, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.30 and not spells.shadowMend.isRecastAt(heal.lowestTankInRaid.unit)' , kps.heal.lowestTankInRaid },
-    {spells.shadowMend, 'not player.isMoving and heal.lowestInRaid.hp < 0.30 and not spells.shadowMend.isRecastAt(heal.lowestInRaid.unit)' , kps.heal.lowestInRaid },
 
     {spells.smite,'kps.multiTarget and not player.isMoving and target.isAttackable' , "target" },
     {spells.smite,'kps.multiTarget and not player.isMoving and focustarget.isAttackable' , "focustarget" },

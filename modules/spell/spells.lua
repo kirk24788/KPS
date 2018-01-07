@@ -16,6 +16,12 @@ kps.spells.potion.draenicStrengthPotion = kps.Spell.fromId(156428) -- Draenic St
 
 
 -- Spells which require a select (cast ond ground) - usually AE Spells
+
+kps.spells.aeg = {}
+kps.spells.aeg.holyWordSanctify = kps.Spell.fromId(34861) -- Holy Word: Sanctify
+kps.spells.aeg.powerWordBarrier = kps.Spell.fromId(62618) -- Power Word: Barrier
+
+
 kps.spells.ae = {}
 kps.spells.ae.bindingShot = kps.Spell.fromId(109248) -- Binding Shot
 kps.spells.ae.shadowfury = kps.Spell.fromId(30283) -- Shadowfury

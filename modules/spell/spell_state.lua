@@ -98,6 +98,14 @@ function Spell.needsSelect(self)
     return self._needsSelect
 end
 
+
+function Spell.needsSelectPlayer(self)
+    if rawget(self,"_needsSelectPlayer") == nil then
+        self._needsSelectPlayer = self.isOneOf(kps.spells.aeg)
+    end
+    return self._needsSelectPlayer
+end
+
 --[[[
 @function `<SPELL>.isBattleRez` - returns true if this spell is one of the batlle rez spells.
 ]]--

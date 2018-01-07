@@ -516,7 +516,6 @@ print("|cffff8000Atonement:|cffffffff",kps["env"].heal.hasRaidBuffCountHealth(sp
 
 print("updateInterval:",kps.config.updateInterval)
 
-
 --for _,unit in ipairs(tanksInRaid()) do
 --print("TANKS",unit.name)
 --end
