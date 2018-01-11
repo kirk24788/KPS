@@ -55,19 +55,21 @@ kps.rotations.register("PRIEST","HOLY",{
     -- "Body and Mind"
     {spells.bodyAndMind, 'player.hasTalent(2,2) and player.isMovingFor(1.2) and not player.hasBuff(spells.bodyAndMind)' , "player"},
 
-    -- "Guardian Spirit" 47788  -- track buff in case an other priest have casted guardianSpirit
+    -- "Guardian Spirit" 47788
     {{"nested"}, 'kps.interrupt' ,{
         {spells.guardianSpirit, 'player.hp < 0.30 and not heal.lowestTankInRaid.isUnit("player")' , kps.heal.lowestTankInRaid},
         {spells.guardianSpirit, 'player.hp < 0.30 and not heal.lowestInRaid.isUnit("player")' , kps.heal.lowestInRaid},
-        {spells.guardianSpirit, 'heal.lowestTankInRaid.hp < 0.30 and not heal.lowestTankInRaid.hasBuff(spells.guardianSpirit)' , kps.heal.lowestTankInRaid},
-        {spells.guardianSpirit, 'heal.lowestInRaid.hp < 0.30 and not heal.lowestInRaid.hasBuff(spells.guardianSpirit)' , kps.heal.lowestInRaid},
+        {spells.guardianSpirit, 'focus.isFriend and focus.hp < 0.30' , "focus"},
+        {spells.guardianSpirit, 'heal.aggroTankTarget.hp < 0.30' , kps.heal.aggroTankTarget},
+        {spells.guardianSpirit, 'heal.lowestTankInRaid.hp < 0.30' , kps.heal.lowestTankInRaid},
+        {spells.guardianSpirit, 'heal.lowestInRaid.hp < 0.30' , kps.heal.lowestInRaid},
     }},
 
     -- "Dispel" "Purifier" 527
-    {spells.purify, 'player.isDispellable("Magic")' , "player" },
-    {spells.purify, 'mouseover.isDispellable("Magic")' , "mouseover" },
-    {spells.purify, 'focus.isFriend and focus.isDispellable("Magic")' , "focus"},
     {{"nested"},'kps.cooldowns', {
+        {spells.purify, 'player.isDispellable("Magic")' , "player" },
+        {spells.purify, 'mouseover.isDispellable("Magic")' , "mouseover" },
+        {spells.purify, 'focus.isFriend and focus.isDispellable("Magic")' , "focus"},
         {spells.purify, 'heal.lowestTankInRaid.isDispellable("Magic")' , kps.heal.lowestTankInRaid},
         {spells.purify, 'heal.lowestInRaid.isDispellable("Magic")' , kps.heal.lowestInRaid},
         {spells.purify, 'heal.aggroTankTarget.isDispellable("Magic")' , kps.heal.aggroTankTarget},
@@ -114,6 +116,9 @@ kps.rotations.register("PRIEST","HOLY",{
 
     -- "Leap Of Faith"
     {spells.leapOfFaith, 'kps.leapOfFaith and not heal.lowestInRaid.isUnit("player") and heal.lowestInRaid.hp < 0.20 and not heal.lowestInRaid.isTankInRaid' , kps.heal.lowestInRaid },
+    -- "Prayer of Mending" (Tank only)
+    {spells.prayerOfMending, 'heal.lowestInRaid.hp > 0.82' ,  kps.heal.lowestTankInRaid },
+    {spells.prayerOfMending, 'heal.lowestInRaid.hp > 0.82' ,  kps.heal.aggroTankTarget }, 
     
     -- "Light of T'uure" 208065 -- track buff in case an other priest have casted lightOfTuure
     {{spells.lightOfTuure,spells.flashHeal}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0 and heal.lowestTankInRaid.incomingDamage > heal.lowestTankInRaid.incomingHeal and heal.lowestTankInRaid.hp < 0.78 and not heal.lowestTankInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestTankInRaid},
@@ -121,11 +126,15 @@ kps.rotations.register("PRIEST","HOLY",{
     {{spells.lightOfTuure,spells.flashHeal}, 'not player.isMoving and spells.lightOfTuure.cooldown == 0 and heal.lowestInRaid.hp < 0.40 and not heal.lowestInRaid.hasBuff(spells.lightOfTuure)' , kps.heal.lowestInRaid},
 
     -- "Soins de lien" 32546 -- kps.lastCast["name"] ne fonctionne pas si lastcast etait une macro
-    {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.40 and kps.lastCast["name"] == spells.prayerOfHealing' , kps.heal.lowestInRaid ,"FLASH_LOWEST_POH" },
-    {spells.bindingHeal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player") and kps.lastCast["name"] == spells.prayerOfHealing' , kps.heal.lowestInRaid ,"BINDING_LOWEST_POH" },
-        
+    {{"nested"}, 'kps.lastCast["name"] == spells.prayerOfHealing' , {
+        {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.isUnit("player")' , "player" , "FLASH_PLAYER_POH" },
+        {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.40' , kps.heal.lowestInRaid ,"FLASH_LOWEST_POH" },
+        {spells.bindingHeal, 'not player.isMoving and not heal.lowestTankInRaid.isUnit("player")' , kps.heal.lowestTankInRaid ,"BINDING_LOWEST_POH" },
+        {spells.bindingHeal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player")' , kps.heal.lowestInRaid ,"BINDING_LOWEST_POH" },
+    }},  
     -- "Holy Word: Sanctify" -- macro does not work for @target, @mouseover... ONLY @cursor and @player
-    {{spells.holyWordSanctify,spells.prayerOfHealing}, 'heal.countLossInRange(0.78) * 2 >= heal.countInRange' , kps.heal.lowestInRaid  },  
+    {{spells.holyWordSanctify,spells.prayerOfHealing}, 'spells.holyWordSanctify.cooldown == 0 and heal.countLossInRange(0.78) * 2 >= heal.countInRange' , kps.heal.lowestInRaid  }, 
+    {{spells.holyWordSanctify,spells.prayerOfHealing}, 'spells.holyWordSanctify.cooldown == 0 and heal.countLossInRange(0.55) >= 3' , kps.heal.lowestInRaid  }, 
     {spells.prayerOfHealing, 'heal.countLossInRange(0.78) >= 4 and player.hasBuff(spells.powerOfTheNaaru)' , kps.heal.lowestInRaid , "POH_DISTANCE" },    
     {{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInDistance(0.78,10) >= 4' , "/cast [@player] "..HolyWordSanctify },
 

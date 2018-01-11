@@ -393,7 +393,7 @@ kps.RaidStatus.prototype.hasRaidBuffCount = kps.utils.cachedValue(function()
 end)
 
 local unitBuffCountHealth = function(spell,health)
-    if health == nil then health = 0.80 end
+    if health == nil then health = 1 end
     local count = 0
     for name, unit in pairs(raidStatus) do
         if unit.isHealable and unit.hasBuff(spell) and unit.hp < health then
@@ -512,9 +512,10 @@ print("|cffff8000COUNT_LOSS_90:|cffffffff", kps["env"].heal.countLossInRange(0.9
 print("|cffff8000countLossDistance:|cffffffff", kps["env"].heal.countLossInDistance(0.90,10))
 
 local spell = kps.Spell.fromId(81749)
-print("|cffff8000Atonement:|cffffffff",kps["env"].heal.hasRaidBuffCountHealth(spell,0.90))
+print("|cffff8000Atonement90:|cffffffff",kps["env"].heal.hasRaidBuffCountHealth(spell,0.90))
+print("|cffff8000Atonement100:|cffffffff",kps["env"].heal.hasRaidBuffCountHealth(spell,1))
 
-print("updateInterval:",kps.config.updateInterval)
+--print("updateInterval:",kps.config.updateInterval)
 
 --for _,unit in ipairs(tanksInRaid()) do
 --print("TANKS",unit.name)
