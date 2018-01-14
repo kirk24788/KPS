@@ -92,26 +92,22 @@ kps.rotations.register("PRIEST","SHADOW",{
     {spells.mindBlast, 'not player.isMoving and player.hasBuff(spells.voidform) and player.haste > 55' , "target" , "MINDBLAST" },
     {spells.mindBlast, 'not player.isMoving and player.hasBuff(spells.voidform) and not spells.mindBlast.isRecastAt("target")' , "target" },
 
+    -- MultiTarget
+    {spells.mindFlay, 'kps.multiTarget and player.hasBuff(spells.voidform) and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "MULTITARGET" },
+    
+    {spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
+    {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
     {spells.shadowWordPain, 'mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("mouseover")' , 'mouseover' },
     {spells.vampiricTouch, 'not player.isMoving and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("mouseover")' , 'mouseover' },
-
-    -- "Void Eruption" 228260
-    {{"nested"}, 'not player.isMoving and not player.hasBuff(spells.voidform) and focus.exists and focus.isAttackable and focus.myDebuffDuration(spells.vampiricTouch) > 4 and focus.myDebuffDuration(spells.shadowWordPain) > 4',{
-        {spells.voidEruption , 'player.insanity == 100 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
-        {spells.voidEruption , 'player.hasTalent(7,1) and player.insanity >= 65 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
-    }},
-    {{"nested"}, 'not player.isMoving and not player.hasBuff(spells.voidform) and not focus.isAttackable',{
-        {spells.voidEruption , 'player.insanity == 100 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
-        {spells.voidEruption , 'player.hasTalent(7,1) and player.insanity >= 65 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
-    }},
-
-    {spells.vampiricTouch, 'not player.isMoving and target.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("target")' , 'target' },
     {spells.vampiricTouch, 'not player.isMoving and focus.myDebuffDuration(spells.vampiricTouch) < 2 and not spells.vampiricTouch.isRecastAt("focus")' , 'focus' },
-    {spells.shadowWordPain, 'target.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("target")' , 'target' },
     {spells.shadowWordPain, 'focus.myDebuffDuration(spells.shadowWordPain) < 2 and not spells.shadowWordPain.isRecastAt("focus")' , 'focus' },
+    
+    -- "Void Eruption" 228260
+    {{"nested"}, 'not player.isMoving and not player.hasBuff(spells.voidform)',{
+        {spells.voidEruption , 'player.insanity == 100 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
+        {spells.voidEruption , 'player.hasTalent(7,1) and player.insanity >= 65 and target.myDebuffDuration(spells.vampiricTouch) > 4 and target.myDebuffDuration(spells.shadowWordPain) > 4' },
+    }},
 
-    -- MultiTarget
-    {spells.mindFlay, 'kps.multiTarget and not player.isMoving and target.myDebuffDuration(spells.shadowWordPain) > 4' , "target" , "MULTITARGET" },
     {spells.mindFlay, 'not player.isMoving' , "target" },
     {spells.mindFlay, 'not player.isMoving and focus.isAttackable' , "focus" },
 
