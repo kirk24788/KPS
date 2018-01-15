@@ -158,8 +158,8 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.smite, 'not player.isMoving and player.hasBuff(spells.borrowedTime) and target.isAttackable' , "target" , "smite_borrowedTime" },
     {spells.smite, 'not player.isMoving and player.hasBuff(spells.borrowedTime) and focustarget.isAttackable' , "focustarget" , "smite_borrowedTime" },
     
-    {spells.smite, 'not player.isMoving and heal.hasRaidBuffCountHealth(spells.atonement,0.92) >= heal.countLossInRange(0.92) and heal.countLossInRange(0.92) > 0 and focustarget.isAttackable' , "focustarget" , "smite_count" },
-    {spells.smite, 'not player.isMoving and heal.hasRaidBuffCountHealth(spells.atonement,0.92) >= heal.countLossInRange(0.92) and heal.countLossInRange(0.92) > 0 and target.isAttackable' , "target" , "smite_count" },
+    {spells.plea, 'heal.hasRaidBuffCountHealth(spells.atonement,0.92) < heal.countLossInRange(0.92) and not heal.lowestInRaid.hasBuff(spells.atonement)' , kps.heal.lowestInRaid , "plea_lowest" },
+    --{spells.plea, 'heal.lowestInRaid.hp < 0.92 and not heal.lowestInRaid.hasBuff(spells.atonement)' , kps.heal.lowestInRaid , "plea_lowest" },
 
     {spells.smite, 'not player.isMoving and target.isAttackable and heal.hasRaidBuffLowestHealth(spells.atonement) < 0.92' , "target" , "smite_lowest" },
     {spells.smite, 'not player.isMoving and focustarget.isAttackable and heal.hasRaidBuffLowestHealth(spells.atonement) < 0.92' , "focustarget" , "smite_lowest" },
@@ -168,8 +168,6 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.shadowMend, 'not player.isMoving and heal.aggroTankTarget.hp < 0.30 and not spells.shadowMend.isRecastAt(heal.aggroTankTarget.unit)' , kps.heal.aggroTankTarget },
     {spells.shadowMend, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.30 and not spells.shadowMend.isRecastAt(heal.lowestTankInRaid.unit)' , kps.heal.lowestTankInRaid },
     {spells.shadowMend, 'not player.isMoving and heal.lowestInRaid.hp < 0.30 and not spells.shadowMend.isRecastAt(heal.lowestInRaid.unit)' , kps.heal.lowestInRaid },
-
-    {spells.plea, 'heal.lowestInRaid.myBuffDuration(spells.atonement) < 2 and heal.lowestInRaid.hp < 0.92' , kps.heal.lowestInRaid , "plea_lowest" },
 
     {spells.smite,'kps.multiTarget and not player.isMoving and target.isAttackable' , "target" },
     {spells.smite,'kps.multiTarget and not player.isMoving and focustarget.isAttackable' , "focustarget" },
