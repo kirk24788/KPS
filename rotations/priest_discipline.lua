@@ -83,20 +83,20 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {{"macro"}, 'player.hasTrinket(1) == 151957 and player.useTrinket(1) and focus.isFriend' , "/target ".."focus".."\n".."/use 14".."\n".."/targetlasttarget" },
     {{"macro"}, 'player.hasTrinket(1) == 151957 and player.useTrinket(1)' , "/target ".."player".."\n".."/use 14".."\n".."/targetlasttarget" },
     -- "Velen's Future Sight" 144258
-    {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.hasRaidBuffCountHealth(spells.atonement,0.82) >= 3' , "/use 14" },
+    {{"macro"}, 'player.hasTrinket(1) == 144258 and player.useTrinket(1) and heal.countLossInRange(0.82) >= 3' , "/use 14" },
 
     -- GROUPHEAL
     {spells.evangelism, 'player.hasTalent(7,3) and kps.lastCast["name"] == spells.powerWordRadiance' },
-    {{"nested"}, 'not player.isMoving and kps.lastCast["name"] == spells.powerWordRadiance' ,{
+    {{"nested"}, 'not player.isMoving and kps.lastCast["name"] == spells.powerWordRadiance and heal.hasRaidBuffCountHealth(spells.atonement,0.82) >= 3' ,{
         {spells.lightsWrath, 'target.isAttackable' , "target" },
         {spells.lightsWrath, 'focustarget.isAttackable' , "focustarget" },
     }},
-    {{"nested"}, 'not player.isMoving and kps.lastCast["name"] == spells.evangelism' ,{
+    {{"nested"}, 'not player.isMoving and kps.lastCast["name"] == spells.evangelism and heal.hasRaidBuffCountHealth(spells.atonement,0.82) >= 3' ,{
         {spells.lightsWrath, 'target.isAttackable' , "target" },
         {spells.lightsWrath, 'focustarget.isAttackable' , "focustarget" },
     }},
-    {spells.penance, 'target.isAttackable and spells.powerWordRadiance.charges < 2' , "target" },
-    {spells.penance, 'focustarget.isAttackable and spells.powerWordRadiance.charges < 2' , "focustarget" },
+    {spells.penance, 'target.isAttackable and heal.hasRaidBuffCountHealth(spells.atonement,0.82) >= 3' , "target" , "penance_count" },
+    {spells.penance, 'focustarget.isAttackable and heal.hasRaidBuffCountHealth(spells.atonement,0.82) >= 3' , "focustarget" , "penance_count" },
     {{"nested"}, 'not player.isMoving and heal.hasRaidBuffCountHealth(spells.atonement,0.78) <= heal.countLossInRange(0.78) and heal.countLossInRange(0.78) >= 4' , {
         {spells.powerWordRadiance, 'player.myBuffDuration(spells.atonement) < 2' , "player" }, 
         {spells.powerWordRadiance, 'heal.aggroTankTarget.myBuffDuration(spells.atonement) < 2' , kps.heal.aggroTankTarget },
@@ -118,7 +118,6 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.powerWordShield, 'not player.hasBuff(spells.powerWordShield) and not player.isInGroup' , "player" },    
     {spells.powerWordShield, 'not heal.aggroTankTarget.hasBuff(spells.powerWordShield)' , kps.heal.aggroTankTarget },  
     {spells.powerWordShield, 'not heal.lowestTankInRaid.hasBuff(spells.powerWordShield)' , kps.heal.lowestTankInRaid },
-    {spells.powerWordShield, 'not heal.hasDamage.hasBuff(spells.powerWordShield) and heal.hasDamage.hp < discthreshold()' , kps.heal.hasDamage },
     {spells.powerWordShield, 'focus.isFriend and not focus.hasBuff(spells.powerWordShield) and focus.hp < discthreshold()' , "focus" },
     {spells.powerWordShield, 'not player.hasBuff(spells.powerWordShield) and player.hp < discthreshold()' , "player" },
     {spells.powerWordShield, 'not heal.lowestInRaid.hasBuff(spells.powerWordShield) and heal.lowestInRaid.hp < discthreshold()' , kps.heal.lowestInRaid },

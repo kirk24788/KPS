@@ -129,14 +129,17 @@ kps.rotations.register("PRIEST","HOLY",{
     -- "Soins de lien" 32546 -- kps.lastCast["name"] ne fonctionne pas si lastcast etait une macro
     {{"nested"}, 'kps.lastCast["name"] == spells.prayerOfHealing' , {
         {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.40' , kps.heal.lowestInRaid ,"FLASH_LOWEST_POH" },
+        {spells.bindingHeal, 'not player.isMoving and not heal.aggroTankTarget.isUnit("player")' , kps.heal.aggroTankTarget ,"BINDING_LOWEST_POH" },
         {spells.bindingHeal, 'not player.isMoving and not heal.lowestTankInRaid.isUnit("player")' , kps.heal.lowestTankInRaid ,"BINDING_LOWEST_POH" },
         {spells.bindingHeal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player")' , kps.heal.lowestInRaid ,"BINDING_LOWEST_POH" },
     }},  
     -- "Holy Word: Sanctify" -- macro does not work for @target, @mouseover... ONLY @cursor and @player
-    {{spells.holyWordSanctify,spells.bindingHeal,spells.prayerOfHealing}, 'not player.isMoving and spells.holyWordSanctify.cooldown == 0 and heal.countLossInRange(0.62) >= 3' , kps.heal.lowestInRaid  }, 
+    {{spells.holyWordSanctify,spells.bindingHeal,spells.prayerOfHealing}, 'not player.isMoving and spells.holyWordSanctify.cooldown == 0 and heal.countLossInRange(0.78) >= 3' , kps.heal.lowestInRaid  }, 
     {{spells.holyWordSanctify,spells.flashHeal,spells.prayerOfHealing}, 'not player.isMoving and spells.holyWordSanctify.cooldown == 0 and heal.countLossInRange(0.55) >= 3' , kps.heal.lowestInRaid  },
-    {{spells.holyWordSanctify,spells.prayerOfHealing}, 'not player.isMoving and spells.holyWordSanctify.cooldown == 0 and heal.countLossInRange(0.78) * 2 >= heal.countInRange' , kps.heal.lowestInRaid  }, 
-    {spells.prayerOfHealing, 'not player.isMoving and heal.countLossInRange(0.78) >= 4 and player.hasBuff(spells.powerOfTheNaaru)' , kps.heal.lowestInRaid , "POH_DISTANCE" },    
+    {{spells.bindingHeal,spells.prayerOfHealing}, 'not player.isMoving and heal.countLossInRange(0.78) >= 4 and player.hasBuff(spells.powerOfTheNaaru)' , kps.heal.lowestInRaid , "POH_DISTANCE" },  
+    {{spells.bindingHeal,spells.prayerOfHealing}, 'not player.isMoving and heal.countLossInRange(0.82) >= 3 and player.hasBuff(spells.powerOfTheNaaru) and not player.isInRaid ' , kps.heal.lowestInRaid , "POH_DISTANCE" },
+    {spells.prayerOfHealing, 'not player.isMoving and heal.countLossInRange(0.78) >= 4 and player.hasBuff(spells.powerOfTheNaaru)' , kps.heal.lowestInRaid , "POH_DISTANCE" },
+    {spells.prayerOfHealing, 'not player.isMoving and heal.countLossInRange(0.82) >= 3 and player.hasBuff(spells.powerOfTheNaaru) and not player.isInRaid' , kps.heal.lowestInRaid , "POH_DISTANCE" }, 
     {{"macro"},'spells.holyWordSanctify.cooldown == 0 and heal.countLossInDistance(0.78,10) >= 4' , "/cast [@player] "..HolyWordSanctify },
 
     -- "Soins rapides" 2060
@@ -209,8 +212,8 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.flashHeal, 'not player.isMoving and heal.aggroTankTarget.hp < 0.55 and heal.aggroTankTarget.incomingDamage > heal.aggroTankTarget.incomingHeal' , kps.heal.aggroTankTarget , "FLASH_AGGRO_DMG" },
     {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.40 and heal.lowestInRaid.incomingDamage > heal.lowestInRaid.incomingHeal' , kps.heal.lowestInRaid , "FLASH_LOWEST_DMG" },
 
-    {{"nested"}, 'not player.isMoving and heal.lowestInRaid.hp < holythreshold() and not player.isInRaid' ,{
-        {spells.bindingHeal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player") and player.hp < 0.92' , kps.heal.lowestInRaid ,"BINDING_LOWEST" },
+    {{"nested"}, 'not player.isMoving and heal.lowestInRaid.hp < holythreshold() and not player.isInRaid ' ,{
+        {spells.bindingHeal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player") and player.hp < 0.72' , kps.heal.lowestInRaid ,"BINDING_LOWEST" },
         {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < holythreshold()' , kps.heal.lowestTankInRaid , "FLASH_TANK" },
         {spells.flashHeal, 'not player.isMoving and heal.aggroTankTarget.hp < holythreshold()' , kps.heal.aggroTankTarget , "FLASH_AGGRO" },
         {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < holythreshold()' , kps.heal.lowestInRaid , "FLASH_LOWEST" },
@@ -218,7 +221,8 @@ kps.rotations.register("PRIEST","HOLY",{
     -- "Soins de lien" 32546
     {spells.bindingHeal, 'not player.isMoving and not heal.lowestTankInRaid.isUnit("player") and spells.holyWordSanctify.cooldown > 4' , kps.heal.lowestTankInRaid ,"BINDING_SANCTIFY_TANK" },
     {spells.bindingHeal, 'not player.isMoving and not heal.aggroTankTarget.isUnit("player") and spells.holyWordSanctify.cooldown > 4' , kps.heal.aggroTankTarget ,"BINDING_SANCTIFY_AGGRO" },
-    {spells.bindingHeal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player") and heal.countLossInRange(0.92) >= 2' , kps.heal.lowestInRaid ,"BINDING_LOWEST" },
+    {spells.bindingHeal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player") and heal.countLossInRange(0.92) >= 3' , kps.heal.lowestInRaid ,"BINDING_LOWEST" },
+    {spells.bindingHeal, 'not player.isMoving and not heal.lowestInRaid.isUnit("player") and heal.countLossInRange(0.92) >= 2 and not player.isInRaid' , kps.heal.lowestInRaid ,"BINDING_LOWEST" },
     -- "Soins" 2060 -- "Renouveau constant" 200153
     {spells.heal, 'not player.isMoving and heal.aggroTankTarget.hp < 0.92' , kps.heal.aggroTankTarget , "HEAL_AGGRO" },
     {spells.heal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.92' , kps.heal.lowestTankInRaid , "HEAL_TANK" },
