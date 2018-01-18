@@ -396,7 +396,7 @@ local unitBuffCountHealth = function(spell,health)
     if health == nil then health = 1 end
     local count = 0
     for name, unit in pairs(raidStatus) do
-        if unit.isHealable and unit.hasBuff(spell) and unit.hp < health then
+        if unit.isHealable and unit.hasBuff(spell) and unit.hpIncoming < health then
             count = count + 1
         end
     end
@@ -508,11 +508,11 @@ print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 --end
 
 print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHealthRaid)
-print("|cffff8000COUNT_LOSS_82:|cffffffff", kps["env"].heal.countLossInRange(0.82),"|cffff8000COUNT_MAX:|cffffffff",kps["env"].heal.countInRange)
-print("|cffff8000countLossDistance:|cffffffff", kps["env"].heal.countLossInDistance(0.90,10))
+print("|cffff8000COUNT_LOSS_90:|cffffffff", kps["env"].heal.countLossInRange(0.90),"|cffff8000COUNT_MAX:|cffffffff",kps["env"].heal.countInRange)
+print("|cffff8000countLossDistance10:|cffffffff", kps["env"].heal.countLossInDistance(0.90,10))
 
 local spell = kps.Spell.fromId(81749)
-print("|cffff8000Atonement82:|cffffffff",kps["env"].heal.hasRaidBuffCountHealth(spell,0.82))
+print("|cffff8000Atonement90:|cffffffff",kps["env"].heal.hasRaidBuffCountHealth(spell,0.90))
 print("|cffff8000Atonement100:|cffffffff",kps["env"].heal.hasRaidBuffCountHealth(spell,1))
 
 --print("updateInterval:",kps.config.updateInterval)

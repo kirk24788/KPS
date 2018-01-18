@@ -66,7 +66,8 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     }},
     
     -- TRINKETS -- SLOT 0 /use 13
-    {{"macro"}, 'player.useTrinket(0) and target.isAttackable' , "/use 13" },
+    -- "Carafe de lumière incendiaire" "Carafe of Searing Light"
+    {{"macro"}, 'player.hasTrinket(0) == 151960 and player.useTrinket(0) and target.isAttackable' , "/use 13" },
     -- "Résonateur de vitalité" "Vitality Resonator" 151970
     {{"macro"}, 'player.hasTrinket(0) == 151970 and player.useTrinket(0) and target.isAttackable' , "/use 13" },
     -- "Ishkar's Felshield Emitter" "Emetteur de gangrebouclier d'Ishkar" 151957
@@ -77,6 +78,8 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {{"macro"}, 'player.hasTrinket(0) == 147007 and player.useTrinket(0) and not player.hasBuff(spells.guidingHand)' , "/target ".."player".."\n".."/use 13".."\n".."/targetlasttarget" },
     
     -- TRINKETS -- SLOT 1 /use 14
+    -- "Carafe de lumière incendiaire" "Carafe of Searing Light"
+    {{"macro"}, 'player.hasTrinket(1) == 151960 and player.useTrinket(1) and target.isAttackable' , "/use 14" },
     -- "Résonateur de vitalité" "Vitality Resonator" 151970
     {{"macro"}, 'player.hasTrinket(1) == 151970 and player.useTrinket(1) and target.isAttackable' , "/use 14" },
     -- "Ishkar's Felshield Emitter" 151957 -- "Emetteur de gangrebouclier d'Ishkar" 151957
@@ -130,8 +133,8 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {{"nested"}, 'heal.hasRaidBuffCount(spells.atonement) > 0' , {
         {spells.mindbender, 'kps.multiTarget and player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12' , "target" },
         {spells.shadowfiend, 'kps.multiTarget and not player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12' , "target" },
-        {spells.mindbender, 'player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12 and heal.countLossInRange(0.78) >= 4' , "target" },
-        {spells.shadowfiend, 'not player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12 and heal.countLossInRange(0.78) >= 4' , "target" },
+        {spells.mindbender, 'player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12 and heal.countLossInRange(0.82) >= 3' , "target" },
+        {spells.shadowfiend, 'not player.hasTalent(4,3) and target.isAttackable and target.timeToDie > 12 and heal.countLossInRange(0.82) >= 3' , "target" },
         {spells.purgeTheWicked, 'player.hasTalent(6,1) and target.isAttackable and target.myDebuffDuration(spells.purgeTheWicked) < 2 and not spells.purgeTheWicked.isRecastAt("target")' , "target" },
         {spells.purgeTheWicked, 'player.hasTalent(6,1) and focustarget.isAttackable and focustarget.myDebuffDuration(spells.purgeTheWicked) < 2 and not spells.purgeTheWicked.isRecastAt("focustarget")' , "focustarget" },
         {spells.purgeTheWicked, 'player.hasTalent(6,1) and mouseover.isAttackable and mouseover.inCombat and mouseover.myDebuffDuration(spells.purgeTheWicked) < 2 and not spells.purgeTheWicked.isRecastAt("mouseover")' , 'mouseover' },
@@ -148,25 +151,27 @@ kps.rotations.register("PRIEST","DISCIPLINE",{
     {spells.penance, 'kps.multiTarget and not player.isMoving and target.isAttackable' , "target" },
     {spells.penance, 'kps.multiTarget and not player.isMoving and focustarget.isAttackable' , "focustarget" },
     
-    {spells.lightsWrath, 'player.hasBuff(spells.atonement) and not player.isInGroup and target.isAttackable' , "target" },
-    {spells.lightsWrath, 'heal.aggroTankTarget.hp < 0.40 and target.isAttackable' , "target" },
-    {spells.lightsWrath, 'heal.lowestTankInRaid.hp < 0.40 and target.isAttackable' , "target" },
-    {spells.lightsWrath, 'heal.aggroTankTarget.hp < 0.40 and focustarget.isAttackable' , "focustarget" },
-    {spells.lightsWrath, 'heal.lowestTankInRaid.hp < 0.40 and focustarget.isAttackable' , "focustarget" },
+    {spells.lightsWrath, 'not player.isMoving and player.hasBuff(spells.atonement) and not player.isInGroup and target.isAttackable' , "target" },
+    {spells.lightsWrath, 'not player.isMoving and heal.aggroTankTarget.hasBuff(spells.atonement) and heal.aggroTankTarget.hp < 0.55 and target.isAttackable' , "target" },
+    {spells.lightsWrath, 'not player.isMoving and heal.lowestTankInRaid.hasBuff(spells.atonement) and heal.lowestTankInRaid.hp < 0.55 and target.isAttackable' , "target" },
+    {spells.lightsWrath, 'not player.isMoving and heal.aggroTankTarget.hasBuff(spells.atonement) and heal.aggroTankTarget.hp < 0.55 and focustarget.isAttackable' , "focustarget" },
+    {spells.lightsWrath, 'not player.isMoving and heal.lowestTankInRaid.hasBuff(spells.atonement) and heal.lowestTankInRaid.hp < 0.55 and focustarget.isAttackable' , "focustarget" },
 
-    {spells.smite, 'not player.isMoving and player.hasBuff(spells.borrowedTime) and target.isAttackable' , "target" , "smite_borrowedTime" },
-    {spells.smite, 'not player.isMoving and player.hasBuff(spells.borrowedTime) and focustarget.isAttackable' , "focustarget" , "smite_borrowedTime" },
+    {spells.smite, 'not player.isMoving and player.hasBuff(spells.borrowedTime) and player.myBuffDuration(spells.borrowedTime) < 9 and target.isAttackable' , "target" , "smite_borrowedTime_duration" },
+    {spells.smite, 'not player.isMoving and player.hasBuff(spells.borrowedTime) and player.myBuffDuration(spells.borrowedTime) < 9 and focustarget.isAttackable' , "focustarget" , "smite_borrowedTime_duration" },
+    {spells.smite, 'not player.isMoving and player.hasBuff(spells.borrowedTime) and heal.hasRaidBuffLowestHealth(spells.atonement) < 0.90 and target.isAttackable' , "target" , "smite_borrowedTime_lowest" },
+    {spells.smite, 'not player.isMoving and player.hasBuff(spells.borrowedTime) and heal.hasRaidBuffLowestHealth(spells.atonement) < 0.90 and focustarget.isAttackable' , "focustarget" , "smite_borrowedTime_lowest" },
     
-    {spells.plea, 'heal.hasRaidBuffCountHealth(spells.atonement,0.92) < heal.countLossInRange(0.92) and not heal.lowestInRaid.hasBuff(spells.atonement)' , kps.heal.lowestInRaid , "plea_lowest" },
-    --{spells.plea, 'heal.lowestInRaid.hp < 0.92 and not heal.lowestInRaid.hasBuff(spells.atonement)' , kps.heal.lowestInRaid , "plea_lowest" },
+    {spells.smite, 'not player.isMoving and heal.lowestInRaid.hp < 0.90 and heal.lowestInRaid.myBuffDuration(spells.atonement) > 2 and target.isAttackable' , "target" , "smite_lowest" },
+    {spells.smite, 'not player.isMoving and heal.lowestInRaid.hp < 0.90 and heal.lowestInRaid.myBuffDuration(spells.atonement) > 2 and focustarget.isAttackable' , "focustarget" , "smite_lowest" },
+    {spells.plea, 'heal.lowestInRaid.hp < 0.90 and not heal.lowestInRaid.hasBuff(spells.atonement)' , kps.heal.lowestInRaid , "plea_lowest" },
+    {spells.smite, 'not player.isMoving and heal.hasRaidBuffLowestHealth(spells.atonement) < 0.90 and target.isAttackable' , "target" , "smite_lowest" },
+    {spells.smite, 'not player.isMoving and heal.hasRaidBuffLowestHealth(spells.atonement) < 0.90 and focustarget.isAttackable' , "focustarget" , "smite_lowest" },
 
-    {spells.smite, 'not player.isMoving and target.isAttackable and heal.hasRaidBuffLowestHealth(spells.atonement) < 0.92' , "target" , "smite_lowest" },
-    {spells.smite, 'not player.isMoving and focustarget.isAttackable and heal.hasRaidBuffLowestHealth(spells.atonement) < 0.92' , "focustarget" , "smite_lowest" },
-
-    {spells.shadowMend, 'not player.isMoving and player.hp < 0.30 and not spells.shadowMend.isRecastAt("player")' , "player" },    
-    {spells.shadowMend, 'not player.isMoving and heal.aggroTankTarget.hp < 0.30 and not spells.shadowMend.isRecastAt(heal.aggroTankTarget.unit)' , kps.heal.aggroTankTarget },
-    {spells.shadowMend, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.30 and not spells.shadowMend.isRecastAt(heal.lowestTankInRaid.unit)' , kps.heal.lowestTankInRaid },
-    {spells.shadowMend, 'not player.isMoving and heal.lowestInRaid.hp < 0.30 and not spells.shadowMend.isRecastAt(heal.lowestInRaid.unit)' , kps.heal.lowestInRaid },
+    {spells.shadowMend, 'not player.isMoving and player.hp < 0.40 and not spells.shadowMend.isRecastAt("player")' , "player" },    
+    {spells.shadowMend, 'not player.isMoving and heal.aggroTankTarget.hp < 0.40 and not spells.shadowMend.isRecastAt(heal.aggroTankTarget.unit)' , kps.heal.aggroTankTarget },
+    {spells.shadowMend, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.40 and not spells.shadowMend.isRecastAt(heal.lowestTankInRaid.unit)' , kps.heal.lowestTankInRaid },
+    {spells.shadowMend, 'not player.isMoving and heal.lowestInRaid.hp < 0.40 and not spells.shadowMend.isRecastAt(heal.lowestInRaid.unit)' , kps.heal.lowestInRaid },
 
     {spells.smite,'kps.multiTarget and not player.isMoving and target.isAttackable' , "target" },
     {spells.smite,'kps.multiTarget and not player.isMoving and focustarget.isAttackable' , "focustarget" },

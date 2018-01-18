@@ -72,12 +72,12 @@ end
 
 function kps.env.priest.holythreshold()
     if IsInRaid() then return 0.62 end
-    return 0.76
+    return 0.78
 end
 
 function kps.env.priest.discthreshold()
-    if IsInRaid() then return 0.76 end
-    return 0.84
+    if IsInRaid() then return 0.72 end
+    return 0.82
 end
 
 local UnitDebuffDuration = function(spell,unit)
@@ -213,7 +213,7 @@ local interruptable = {}
 local interruptTableUpdate = function()
     local onCD = kps.env.priest.holyWordSerenityOnCD() or kps.defensive -- kps.defensive in case I want heal with mouseover when debuff absorb heal
     local buffPlayer = UnitHasBuff(SpiritOfRedemption,"player") or kps.defensive
-    interruptable = { {FlashHeal, 0.825 , onCD}, {Heal, 0.995 , onCD}, {PrayerOfHealing, 3 , buffPlayer} }
+    interruptable = { {FlashHeal, 0.855 , onCD}, {Heal, 0.995 , onCD}, {PrayerOfHealing, 3 , buffPlayer} }
     return  interruptable
 end
 
@@ -231,7 +231,7 @@ local ShouldInterruptCasting = function (interruptTable, countLossInRange, lowes
                 SpellStopCasting()
                 DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING OverHeal "..spellName..", has enough hp: "..countLossInRange, 0, 0.5, 0.8)
 
-            elseif spellName == Heal and lowestHealth < 0.40 and UnitPower("player",0)/UnitPowerMax("player",0) > 0.10 then
+            elseif spellName == Heal and lowestHealth < 0.55 and UnitPower("player",0)/UnitPowerMax("player",0) > 0.10 then
                 -- SPELL_POWER_MANA value 0
                 SpellStopCasting()
                 DEFAULT_CHAT_FRAME:AddMessage("STOPCASTING "..spellName.." Lowest has critical hp: "..lowestHealth, 0, 0.5, 0.8)
