@@ -8,6 +8,15 @@ function Spell.charges(spell)
     return GetSpellCharges(spell.name) or 0
 end
 
+
+function Spell.cooldownCharges(spell)
+    local _, _, start, duration = GetSpellCharges(spell.name)
+    if start == nil or duration == nil then return 0 end
+    local cd = start+duration-GetTime()
+    if cd < 0 then return 0 end
+    return cd
+end
+
 --[[[
 @function `<SPELL>.castTime` - returns the total cast time of this spell
 ]]--

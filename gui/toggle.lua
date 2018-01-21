@@ -280,14 +280,23 @@ function addSlider(sliderName, parentObj, xPos, yPos, defaultVal, stepSize, minV
 	return sliderObj
 end
 
-local updateIntervalSlider = addSlider("Slider", toggleAnchor, 0, 25, 0.1 , 0.1, 0.1 ,1.5,"0.1","1.5","IntervalUpdate")
-
 local function roundValue(num, idp)
     local mult = 10^(idp or 0)
     if num >= 0 then return math.floor(num * mult + 0.5) / mult
     else return math.ceil(num * mult - 0.5) / mult end
 end
 
+local updateIntervalSlider = addSlider("Slider1", toggleAnchor, 0, 25, 0.1 , 0.1, 0.1 ,1.5,"0.1","1.5","IntervalUpdate")
+
 updateIntervalSlider:SetScript("OnValueChanged", function(self)
     kps.config.updateInterval = roundValue(updateIntervalSlider:GetValue(),2)
+    print("updateInterval: ",kps.config.updateInterval)
 end)
+
+
+--local updateThresholdSlider = addSlider("Slider2", toggleAnchor, 0,-55, 0.70 , 0.05, 0.30 ,1.00,"0.30","1.00","ThresholdUpdate")
+--
+--updateThresholdSlider:SetScript("OnValueChanged", function(self)
+--  kps.config.threshold = roundValue(updateThresholdSlider:GetValue(),2)
+--  print("updatethreshold: ",kps.config.threshold)
+--end)

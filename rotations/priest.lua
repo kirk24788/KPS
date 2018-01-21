@@ -70,12 +70,7 @@ end
 ------------------------------- LOCAL FUNCTIONS
 --------------------------------------------------------------------------------------------
 
-function kps.env.priest.holythreshold()
-    if IsInRaid() then return 0.62 end
-    return 0.78
-end
-
-function kps.env.priest.discthreshold()
+function kps.env.priest.threshold()
     if IsInRaid() then return 0.72 end
     return 0.82
 end

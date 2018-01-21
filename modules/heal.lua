@@ -207,11 +207,11 @@ kps.RaidStatus.prototype.averageHealthRaid = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.countLossInRange<PCT>)` - Returns the count for all raid members below threshold health (default 0.80)
+@function `heal.countLossInRange<PCT>)` - Returns the count for all raid members below threshold health (default countInRange)
 ]]--
 
 local countInRange = function(health)
-    if health == nil then health = 0.80 end
+    if health == nil then health = 2 end
     local count = 0
     for name, unit in pairs(raidStatus) do
         if unit.isHealable and unit.hpIncoming < health then
@@ -236,12 +236,12 @@ kps.RaidStatus.prototype.countInRange = kps.utils.cachedValue(function()
 end)
 
 --[[[
-@function `heal.countLossInDistance` - Returns the count for all raid members below threshold health (default 0.80) in a distance (default 10 yards)
+@function `heal.countLossInDistance` - Returns the count for all raid members below threshold health (default countInRange) in a distance (default 10 yards)
 ]]--
 
 local countInDistance = function(health,distance)
-    if health == nil then health = 0.80 end
     if distance == nil then distance = 10 end
+    if health == nil then health = 2 end
     local count = 0
     for name, unit in pairs(raidStatus) do
         if unit.isHealable and unit.hpIncoming < health and unit.distance < distance then
@@ -393,7 +393,7 @@ kps.RaidStatus.prototype.hasRaidBuffCount = kps.utils.cachedValue(function()
 end)
 
 local unitBuffCountHealth = function(spell,health)
-    if health == nil then health = 1 end
+    if health == nil then health = 2 end
     local count = 0
     for name, unit in pairs(raidStatus) do
         if unit.isHealable and unit.hasBuff(spell) and unit.hpIncoming < health then
@@ -507,13 +507,13 @@ print("|cffff8000plateCount:|cffffffff", kps["env"].player.plateCount)
 --print(i," - ",j)
 --end
 
-print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHealthRaid)
-print("|cffff8000COUNT_LOSS_90:|cffffffff", kps["env"].heal.countLossInRange(0.90),"|cffff8000COUNT_MAX:|cffffffff",kps["env"].heal.countInRange)
-print("|cffff8000countLossDistance10:|cffffffff", kps["env"].heal.countLossInDistance(0.90,10))
+--print("|cffff8000AVG:|cffffffff", kps["env"].heal.averageHealthRaid)
+--print("|cffff8000CountLossDistance_90:|cffffffff", kps["env"].heal.countLossInDistance(0.90,10))
+print("|cffff8000CountLoss_90:|cffffffff", kps["env"].heal.countLossInRange(0.90),"|cffff8000countInRange:|cffffffff",kps["env"].heal.countInRange)
 
 local spell = kps.Spell.fromId(81749)
-print("|cffff8000Atonement90:|cffffffff",kps["env"].heal.hasRaidBuffCountHealth(spell,0.90))
-print("|cffff8000Atonement100:|cffffffff",kps["env"].heal.hasRaidBuffCountHealth(spell,1))
+print("|cffff8000AtonementCount_90:|cffffffff",kps["env"].heal.hasRaidBuffCountHealth(spell,0.90),"|cffff8000AtonementCount:|cffffffff",kps["env"].heal.hasRaidBuffCountHealth(spell))
+--print("|cffff8000Atonement_LowestHealth:|cffffffff", kps["env"].heal.hasRaidBuffLowestHealth(spell))
 
 --print("updateInterval:",kps.config.updateInterval)
 
@@ -534,7 +534,10 @@ print("|cffff8000Atonement100:|cffffffff",kps["env"].heal.hasRaidBuffCountHealth
 --print("|cffff8000hasBossDebuff:|cffffffff", kps["env"].heal.hasBossDebuff)
 --print("|cffff8000hasAbsorption:|cffffffff", kps["env"].heal.hasAbsorptionHeal)
 --print("|cffff8000absorbHealCount:|cffffffff", kps["env"].heal.hasAbsorptionHealCount)
---print("|cffff8000Charge:|cffffffff", kps.spells.priest.powerWordRadiance.charges)
+--print("|cffff8000countCharge:|cffffffff", kps.spells.priest.powerWordRadiance.charges)
+--print("|cffff8000cooldownCharge:|cffffffff", kps.spells.priest.powerWordRadiance.cooldownCharges)
+--print("|cffff8000cooldownSpellCharge:|cffffffff", kps.spells.priest.powerWordRadiance.cooldown)
+--print("|cffff8000cooldownTotal:|cffffffff", kps.spells.priest.powerWordRadiance.cooldownTotal)
 
 
 --print("|cffff8000hasRoleInRaidTANK:|cffffffff", kps["env"].heal.lowestInRaid.hasRoleInRaid("TANK"))

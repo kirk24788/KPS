@@ -188,7 +188,7 @@ kps.rotations.register("PRIEST","HOLY",{
         {spells.guardianSpirit, 'mouseover.hp < 0.30' , "mouseover" },
         {spells.holyWordSerenity, 'mouseover.hp < 0.40' , "mouseover" },
         {spells.flashHeal, 'not player.isMoving and mouseover.hp < 0.55' , "mouseover" },
-        {spells.bindingHeal, 'not player.isMoving and not mouseover.isUnit("player") and mouseover.hp < holythreshold()' , "mouseover" },
+        {spells.bindingHeal, 'not player.isMoving and not mouseover.isUnit("player") and mouseover.hp < threshold()' , "mouseover" },
     }},
 
     -- DAMAGE
@@ -209,22 +209,22 @@ kps.rotations.register("PRIEST","HOLY",{
     -- BOSSDEBUFF
     {spells.lightOfTuure, 'heal.hasBossDebuff ~= nil and heal.hasBossDebuff.hp < 0.78' , kps.heal.hasBossDebuff , "BOSS_DEBUF" },
     {spells.holyWordSerenity, 'heal.hasBossDebuff ~= nil and heal.hasBossDebuff.hp < 0.50' , kps.heal.hasBossDebuff , "BOSS_DEBUF" },
-    {spells.flashHeal, 'heal.hasBossDebuff ~= nil and heal.hasBossDebuff.hp < holythreshold()' , kps.heal.hasBossDebuff , "BOSS_DEBUF" },
+    {spells.flashHeal, 'heal.hasBossDebuff ~= nil and heal.hasBossDebuff.hp < threshold()' , kps.heal.hasBossDebuff , "BOSS_DEBUF" },
     -- ABSOPTION HEAL
     {spells.holyWordSerenity, 'heal.hasAbsorptionHeal ~= nil and heal.hasAbsorptionHeal.hp < 1' , kps.heal.hasAbsorptionHeal , "ABSORB_HEAL" },
     {spells.heal, 'heal.hasAbsorptionHeal ~= nil and heal.hasAbsorptionHeal.hp < 1' , kps.heal.hasAbsorptionHeal , "ABSORB_HEAL" },
     ]]
 
     -- "Soins rapides" 2060
-    {spells.flashHeal, 'not player.isMoving and player.hp < holythreshold() and heal.lowestInRaid.isUnit("player")' , "player" , "FLASH_PLAYER" },
-    {spells.bindingHeal, 'not player.isMoving and player.hp < holythreshold() and not heal.lowestInRaid.isUnit("player") and heal.lowestInRaid.hp > 0.55' , kps.heal.lowestInRaid ,"BINDING_PLAYER" },
+    {spells.flashHeal, 'not player.isMoving and player.hp < threshold() and heal.lowestInRaid.isUnit("player")' , "player" , "FLASH_PLAYER" },
+    {spells.bindingHeal, 'not player.isMoving and player.hp < threshold() and not heal.lowestInRaid.isUnit("player") and heal.lowestInRaid.hp > 0.55' , kps.heal.lowestInRaid ,"BINDING_PLAYER" },
     {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < 0.55 and (heal.lowestTankInRaid.incomingDamage - heal.lowestTankInRaid.incomingHeal) > heal.lowestTankInRaid.hpMax*0.10' , kps.heal.lowestTankInRaid , "FLASH_TANK_DMG" },
     {spells.flashHeal, 'not player.isMoving and heal.aggroTankTarget.hp < 0.55 and (heal.aggroTankTarget.incomingDamage - heal.aggroTankTarget.incomingHeal) > heal.aggroTankTarget.hpMax*0.10' , kps.heal.aggroTankTarget , "FLASH_AGGRO_DMG" },
     {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < 0.55 and (heal.lowestInRaid.incomingDamage - heal.lowestInRaid.incomingHeal) > heal.lowestInRaid.hpMax*0.10' , kps.heal.lowestInRaid , "FLASH_LOWEST_DMG" },
-    {{"nested"}, 'not player.isMoving and heal.lowestInRaid.hp < holythreshold() and not player.isInRaid' ,{
-        {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < holythreshold()' , kps.heal.lowestTankInRaid , "FLASH_TANK" },
-        {spells.flashHeal, 'not player.isMoving and heal.aggroTankTarget.hp < holythreshold()' , kps.heal.aggroTankTarget , "FLASH_AGGRO" },
-        {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < holythreshold()' , kps.heal.lowestInRaid , "FLASH_LOWEST" },
+    {{"nested"}, 'not player.isMoving and heal.lowestInRaid.hp < threshold() and not player.isInRaid' ,{
+        {spells.flashHeal, 'not player.isMoving and heal.lowestTankInRaid.hp < threshold()' , kps.heal.lowestTankInRaid , "FLASH_TANK" },
+        {spells.flashHeal, 'not player.isMoving and heal.aggroTankTarget.hp < threshold()' , kps.heal.aggroTankTarget , "FLASH_AGGRO" },
+        {spells.flashHeal, 'not player.isMoving and heal.lowestInRaid.hp < threshold()' , kps.heal.lowestInRaid , "FLASH_LOWEST" },
     }},
     -- "Soins de lien" 32546
     {spells.bindingHeal, 'not player.isMoving and not heal.lowestTankInRaid.isUnit("player") and spells.holyWordSanctify.cooldown > 4' , kps.heal.lowestTankInRaid ,"BINDING_SANCTIFY_TANK" },
@@ -241,7 +241,7 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.renew, 'not player.isInRaid and heal.lowestInRaid.hp < 0.90 and heal.lowestInRaid.myBuffDuration(spells.renew) < 3 and not heal.lowestInRaid.hasBuff(spells.masteryEchoOfLight)' , kps.heal.lowestInRaid, "RENEW_PARTY" },
     {spells.renew, 'player.isMoving and heal.lowestTankInRaid.hp < 0.90 and heal.lowestTankInRaid.myBuffDuration(spells.renew) < 3 and not heal.lowestTankInRaid.hasBuff(spells.masteryEchoOfLight)' , kps.heal.lowestTankInRaid, "RENEW_TANK" },
     {spells.renew, 'player.isMoving and heal.aggroTankTarget.hp < 0.90 and heal.aggroTankTarget.myBuffDuration(spells.renew) < 3 and not heal.aggroTankTarget.hasBuff(spells.masteryEchoOfLight)' , kps.heal.aggroTankTarget, "RENEW_AGGRO" },
-    {spells.renew, 'player.isMoving and heal.lowestInRaid.hp < holythreshold() and heal.lowestInRaid.myBuffDuration(spells.renew) < 3 and not heal.lowestInRaid.hasBuff(spells.masteryEchoOfLight)' , kps.heal.lowestInRaid, "RENEW" },
+    {spells.renew, 'player.isMoving and heal.lowestInRaid.hp < threshold() and heal.lowestInRaid.myBuffDuration(spells.renew) < 3 and not heal.lowestInRaid.hasBuff(spells.masteryEchoOfLight)' , kps.heal.lowestInRaid, "RENEW" },
 
     -- "Nova sacrée" 132157
     {spells.holyNova, 'player.isMoving and target.distance < 10 and target.isAttackable and heal.countLossInDistance(0.90,10) >= 3' , "target" },
@@ -253,6 +253,6 @@ kps.rotations.register("PRIEST","HOLY",{
     {spells.smite, 'not player.isMoving and focustarget.isAttackable', "focustarget" },
 
 }
-,"Holy heal")
+,"priest_holy")
 
 
