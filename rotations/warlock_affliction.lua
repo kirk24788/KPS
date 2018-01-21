@@ -59,13 +59,7 @@ kps.rotations.register("WARLOCK","AFFLICTION",
             {spells.corruption, 'boss4.myDebuffDuration(spells.corruption) <= 5.4', 'boss4'},
         }},
     }},
-    -- Place your Soul Effigy if absent.
-    {{"nested"}, 'kps.cooldowns', {
-        {spells.soulEffigy, 'not focus.name == "Soul Effigy" and not target.name == "Soul Effigy" and not spells.soulEffigy.isRecastAt("target")'},
-        { {"macro"}, 'not focus.name == "Soul Effigy" and not target.name == "Soul Effigy"', '/target Soul Effigy' },
-        { {"macro"}, 'not focus.name == "Soul Effigy"', "/focus" },
-        { {"macro"}, 'focus.name == "Soul Effigy" and target.name == "Soul Effigy"', '/targetlasttarget' },
-    }},
+    -- Place your Soul Effigy if absent. legion Soul Effigy is finally being removed
 
     -- Maintain Siphon Life (on up to 3 targets, including Soul Effigy) at all times.
     {{"nested"}, 'player.hasTalent(4, 1)', {

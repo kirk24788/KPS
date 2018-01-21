@@ -78,7 +78,7 @@ _(Might not be fully functional)_
 * Priest: Discipline (7.0.3)
 * Rogue: Assassination (7.0.3), Subtlety (7.0.3)
 * Shaman: Elemental (7.0.3)
-* Warrior: Protection (7.2)
+* Warrior: Protection (7.3)
 
 **Special Thanks for contributing to the KPS rotations:**
 
@@ -168,8 +168,9 @@ Members:
     * `target` if the target is below 50% hp incoming (if the target is not healable, `targettarget` is checked instead)
     * lowest tank in raid
     When used as a _target_ in your rotation, you *must* write `kps.heal.defaultTank`!
- * `heal.averageHpIncoming` - Returns the average hp incoming for all raid members
- * `heal.countInRange()` - Returns the count for all raid members below threshold 0.80 health pct
+ * `heal.averageHealthRaid` - Returns the average hp incoming for all raid members
+ * `heal.countLossInRange<PCT>)` - Returns the count for all raid members below threshold health (default 0.80)
+ * `heal.countLossInDistance` - Returns the count for all raid members below threshold health (default 0.80) in a distance (default 10 yards)
  * `heal.aggroTankTarget` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
     When used as a _target_ in your rotation, you *must* write `kps.heal.aggroTankTarget`!
  * `heal.aggroTankFocus` - Returns the tank with highest aggro on the current target (*not* the unit with the highest aggro!). If there is no tank in the target thread list, the `heal.defaultTank` is returned instead.
@@ -177,6 +178,11 @@ Members:
  * `heal.aggroTank` - Returns the tank or unit if overnuked with highest aggro and lowest health Without otherunit specified.
  * `heal.lowestTargetInRaid` - Returns the raid unit with lowest health targeted by enemy nameplate.
  * `heal.isMagicDispellable` - Returns the raid unit with magic debuff to dispel
+ * `heal.isDiseaseDispellable` - Returns the raid unit with disease debuff to dispel
+ * `heal.hasRaidBuffStacks(<BUFF>)` - Returns the buff stacks for a specific Buff on raid e.g. heal.hasRaidBuffStacks(spells.prayerOfMending) < 10
+ * `heal.hasRaidBuffCount(<BUFF>)` - Returns the buff count for a specific Buff on raid e.g. heal.hasRaidBuffCount(spells.atonement)
+ * `heal.hasAbsorptionHeal` - Returns the raid unit with an absorption Debuff
+ * `heal.hasBossdebuff` - Returns the raid unit with an Damaging Boss Debuff
 
 
 #### Keys
@@ -197,13 +203,15 @@ Members:
 
  * `player.isMounted` - returns true if the player is mounted (exception: Nagrand Mounts do not count as mounted since you can cast while riding)
  * `player.isFalling` - returns true if the player is currently falling.
- * `player.IsSwimming` - returns true if the player is currently swimming.
+ * `player.isSwimming` - returns true if the player is currently swimming.
  * `player.isInRaid` - returns true if the player is currently in Raid.
+ * `player.hasFullControl` - Checks whether you have full control over your character (i.e. you are not feared, etc).
  * `player.timeInCombat` - returns number of seconds in combat
  * `player.hasTalent(<ROW>,<TALENT>)` - returns true if the player has the selected talent (row: 1-7, talent: 1-3).
  * `player.hasGlyph(<GLYPH>)` - returns true if the player has the given gylph - glyphs can be accessed via the spells (e.g.: `player.hasGlyph(spells.glyphOfDeathGrip)`).
  * `player.useItem(<ITEMID>)` - returns true if the player has the given item and cooldown == 0
  * `player.useTrinket(<SLOT>)` - returns true if the player has the given trinket and cooldown == 0
+ * `player.hasTrinket(<SLOT>)` - returns true if the player has the given trinket ID e.g. 'player.hasTrinket(1) == 147007 and player.useTrinket(1)'
  * `player.lastEmpowermentCast` - returns the time of the last cast of Demonic Empowerment
  * `player.demons` - returns the number of active demons
  * `player.empoweredDemons` - returns the number of empowered demons
@@ -291,6 +299,7 @@ Members:
  * `<SPELL>.castTime` - returns the total cast time of this spell
  * `<SPELL>.cooldown` - returns the current cooldown of this spell 
  * `<SPELL>.cooldownTotal` - returns the cooldown in seconds the spell has if casted - this is NOT the current cooldown of the spell! 
+ * `<SPELL>.cost` - returns the cost (mana, rage...) for a given spell
  * `<SPELL>.isRecastAt(<UNIT-STRING>)` - returns true if this was last casted spell and the last targetted unit was the given unit (e.g.: `spell.immolate.isRecastAt("target")`). 
  * `<SPELL>.castTimeLeft(<UNIT-STRING>)` - returns the castTimeLeft or channelTimeLeft in seconds the spell has if casted (e.g.: 'spells.mindFlay.castTimeLeft("player") > 0.5' )
  * `<SPELL>.needsSelect` - returns true this is an AoE spell which needs to be targetted on the ground.
@@ -343,7 +352,10 @@ Members:
  * `<UNIT>.buffCount(<SPELL>)` - returns the number of different buffs (not counting the stacks!) on for the given <SPELL> on this unit
  * `<UNIT>.myDebuffCount(<SPELL>)` - returns the number of different debuffs (not counting the stacks!) on for the given <SPELL> on this unit if the spells were cast by the player
  * `<UNIT>.myBuffCount(<SPELL>)` - returns the number of different buffs (not counting the stacks!) on for the given <SPELL> on this unit if the spells were cast by the player
+ * `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. : player.buffAmount(spells.masteryEchoOfLight)
  * `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit is dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". player.isDispellable("Magic")
+ * `<UNIT>.absorptionHeal` - returns true if the unit has a Healing Absorption Debuff
+ * `<UNIT>.bossDebuff` - returns true if the unit has a Boss Debuff with Heavy Damage
  * `<UNIT>.castTimeLeft` - returns the casting time left for this unit or 0 if it is not casting
  * `<UNIT>.channelTimeLeft` - returns the channeling time left for this unit or 0 if it is not channeling
  * `<UNIT>.isCasting` - returns true if the unit is casting (or channeling) a spell
@@ -356,6 +368,7 @@ Members:
  * `<UNIT>.npcId` - returns the unit id (as seen on wowhead)
  * `<UNIT>.level` - returns the unit level
  * `<UNIT>.isRaidBoss` - returns true if the unit is a raid boss
+ * `<UNIT>.isElite` - returns true if the unit is a elite mob
  * `<UNIT>.plateCount` - e.g. 'player.plateCount' returns namePlates count in combat (actives enemies)
  * `<UNIT>.isTarget` - returns true if the unit is targeted by an enemy nameplate
  * `<UNIT>.hp` - returns the unit hp (in a range between 0.0 and 1.0).
@@ -369,6 +382,7 @@ Members:
  * `<UNIT>.distance` - returns the approximated distance to the given unit (same as `<UNIT.distanceMax`).
  * `<UNIT>.distanceMin` - returns the min. approximated distance to the given unit.
  * `<UNIT>.distanceMax` - returns the max. approximated distance to the given unit.
+ * `<UNIT>.lineOfSight` - returns false during 2 seconds if unit is out of line sight either returns true
  * `<UNIT>.isAttackable` - returns true if the given unit can be attacked by the player.
  * `<UNIT>.isPVP` - returns true if the given unit is in PVP.
  * `<UNIT>.inCombat` - returns true if the given unit is in Combat.
@@ -376,8 +390,12 @@ Members:
  * `<UNIT>.isDead` - returns true if the unit is dead.
  * `<UNIT>.isDrinking` - returns true if the given unit is currently eating/drinking.
  * `<UNIT>.inVehicle` - returns true if the given unit is inside a vehicle.
- * `<UNIT>.isHealable` - returns true if the give unit is healable by the player.
+ * `<UNIT>.isHealable` - returns true if the given unit is healable by the player.
  * `<UNIT>.hasPet` - returns true if the given unit has a pet.
+ * `<UNIT>.isUnit(<UNIT-STRING>)` - returns true if the given unit is otherunit. heal.lowestInRaid.isUnit("player")
+ * `<UNIT>.hasAttackableTarget` - returns true if the given unit has attackable target
+ * `<UNIT>.isTankInRaid` - returns true if the given unit is a tank
+ * `<UNIT>.hasRoleInRaid(<STRING>)` - returns true if the given unit has role TANK, HEALER, DAMAGER, NONE
 
 
 ### Rotations
@@ -598,15 +616,12 @@ kps.rotations.register(
 ### Open Issues
  * `core/kps.lua:25` - Return a FUNCTION which uses Item!
  * `core/logger.lua:33` - Check if DEFAULT_CHAT_FRAME:AddMessage() has any significant advantages
- * `core/parser.lua:132` - syntax error in
- * `core/parser.lua:139` - Error Handling!
- * `env.lua:28` - Clean UP!!! This code is a mess...
+ * `core/parser.lua:113` - syntax error in
+ * `core/parser.lua:120` - Error Handling!
  * `gui/toggle.lua:75` - Right-Click Action
- * `libs/LibRangeCheck-2.0/LibRangeCheck-2.0.lua:31` - check if unit is valid, etc
  * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
- * `modules/unit/unit_casting.lua:63` - Blacklisted spells?
- * `modules/unit/unit_state.lua:13` - PvP
- * `modules/unit/unit_state.lua:26` - if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs
+ * `modules/unit/unit_casting.lua:67` - Blacklisted spells?
+ * `modules/unit/unit_state.lua:20` - PvP
  * `rotations/mage.lua:52` - Implement pyroChain sequence
 
 

@@ -47,11 +47,32 @@ function Unit.isRaidBoss(self)
     return false
 end
 
+--[[[
+@function `<UNIT>.isElite` - returns true if the unit is a elite mob
+]]--
+-- "worldboss", "rareelite", "elite", "rare", "normal"
+function Unit.isElite(self)
+    if not Unit.exists(self) then return false end
+    if UnitClassification(self.unit) == "elite" then
+        return true
+    end
+    return false
+end
+
+function Unit.isFriend(self)
+    if not Unit.exists(self) then return false end
+    if Unit.inVehicle(self) then return false end
+    if not UnitCanAssist("player",self.unit) then return false end -- UnitCanAssist(unitToAssist, unitToBeAssisted) return 1 if the unitToAssist can assist the unitToBeAssisted, nil otherwise
+    if not UnitIsFriend("player", self.unit) then return false end -- UnitIsFriend("unit","otherunit") return 1 if otherunit is friendly to unit, nil otherwise.
+    return true
+end
+
 --[[
 Player Nameplates
 ]]--
 
 local activeUnitPlates = {}
+local UnitExists = UnitExists
 
 local function AddNameplate(unitID)
     local nameplate = C_NamePlate.GetNamePlateForUnit(unitID)
@@ -72,24 +93,13 @@ kps.events.register("NAME_PLATE_UNIT_REMOVED", function(unitID)
     RemoveNameplate(unitID)
 end)
 
-function nameplateTarget(unitguid)
-    for unit,_ in pairs(activeUnitPlates) do
-        if UnitExists(unit.."target") then
-            local target = unit.."target"
-            local targetguid = UnitGUID(target)
-            if targetguid == unitguid then return true end
-        end
-    end
-    return false
-end
-
 --[[[
 @function `<UNIT>.plateCount` - e.g. 'player.plateCount' returns namePlates count in combat (actives enemies)
 ]]--
 function Unit.plateCount(self)
     local plateCount = 0
     for unit,_ in pairs(activeUnitPlates) do
-        if UnitAffectingCombat(unit) then plateCount = plateCount + 1 end
+        if UnitAffectingCombat(self.unit) then plateCount = plateCount + 1 end
     end
     return plateCount
 end
@@ -98,9 +108,9 @@ end
 @function `<UNIT>.isTarget` - returns true if the unit is targeted by an enemy nameplate
 ]]--
 function Unit.isTarget(self)
-    for unit,_ in pairs(activeUnitPlates) do
-        if UnitExists(unit.."target") then
-            local target = unit.."target"
+    for nameplate,_ in pairs(activeUnitPlates) do
+        if UnitExists(nameplate.."target") then
+            local target = nameplate.."target"
             if UnitIsUnit(target,self.unit) then return true end
         end
     end

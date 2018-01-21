@@ -16,10 +16,17 @@ kps.spells.potion.draenicStrengthPotion = kps.Spell.fromId(156428) -- Draenic St
 
 
 -- Spells which require a select (cast ond ground) - usually AE Spells
+
+kps.spells.aeg = {}
+kps.spells.aeg.holyWordSanctify = kps.Spell.fromId(34861) -- Holy Word: Sanctify
+kps.spells.aeg.powerWordBarrier = kps.Spell.fromId(62618) -- Power Word: Barrier
+
+
 kps.spells.ae = {}
 kps.spells.ae.bindingShot = kps.Spell.fromId(109248) -- Binding Shot
 kps.spells.ae.shadowfury = kps.Spell.fromId(30283) -- Shadowfury
 kps.spells.ae.massDispel = kps.Spell.fromId(32375) -- Mass Dispel
+kps.spells.ae.holyWordSanctify = kps.Spell.fromId(34861) -- Holy Word: Sanctify
 kps.spells.ae.deathAndDecay = kps.Spell.fromId(43265) -- Death and Decay
 kps.spells.ae.powerWordBarrier = kps.Spell.fromId(62618) -- Power Word: Barrier
 kps.spells.ae.flamestrike = kps.Spell.fromId(2120) -- Flamestrike
@@ -98,7 +105,6 @@ kps.spells.ignore.breathOfFire = kps.Spell.fromId(115181) -- Breath of Fire (if 
 kps.spells.ignore.provoke = kps.Spell.fromId(115546) -- Provoke (prevents you from wasting your taunt)
 kps.spells.ignore.tigereyeBrew = kps.Spell.fromId(116740) -- Tigereye Brew (prevents you from wasting your stacks and resetting your buff)
 kps.spells.ignore.burningRush = kps.Spell.fromId(111400) -- warlock burning rush
-kps.spells.ignore.alterTime = kps.Spell.fromId(108978) -- Alter Time
 kps.spells.ignore.evocation = kps.Spell.fromId(12051) -- Evocation
 kps.spells.ignore.blink = kps.Spell.fromId(1953) -- Blink
 kps.spells.ignore.deterrence = kps.Spell.fromId(19263) -- Deterrence
@@ -120,3 +126,37 @@ kps.spells.battlerez.rebirth = kps.Spell.fromId(20484) -- Rebirth
 kps.spells.battlerez.raiseAlly = kps.Spell.fromId(61999) -- Raise Ally
 kps.spells.battlerez.soulstone = kps.Spell.fromId(20707) -- Soulstone
 kps.spells.battlerez.eternalGuardian = kps.Spell.fromId(126393) -- Eternal Guardian
+
+-- Healing Absorption Debuff
+kps.spells.absorptionHeal = {}
+kps.spells.absorptionHeal.spearOfAnguish = kps.Spell.fromId(235933) -- Spear of Anguish -- Lance d'angoisse -- TOS Hote desolé Moteur des ames
+kps.spells.absorptionHeal.EmbraceOfTheEclipse = kps.Spell.fromId(233263) -- Embrace of the Eclipse -- Etreinte de l'éclipse -- TOS Soeurs de la lune
+
+-- TOS Boss Debuff Heavy Damage
+kps.spells.bossDebuff = {}
+-- Goroth
+kps.spells.bossDebuff.shatteringStar = kps.Spell.fromId(233279) 
+kps.spells.bossDebuff.burningArmor = kps.Spell.fromId(231363)
+-- Harjatan
+kps.spells.bossDebuff.jaggedAbrasion = kps.Spell.fromId(231770) 
+-- Sisters of the Moon
+kps.spells.bossDebuff.lunarFire = kps.Spell.fromId(239264) 
+kps.spells.bossDebuff.rapidShot = kps.Spell.fromId(236603)
+-- Mistress Sassz'ine
+kps.spells.bossDebuff.burdenOfPain = kps.Spell.fromId(230201) 
+-- The Desolate Host
+kps.spells.bossDebuff.wither = kps.Spell.fromId(236131)
+kps.spells.bossDebuff.tormentedCries = kps.Spell.fromId(235989)
+kps.spells.bossDebuff.shatteringScream = kps.Spell.fromId(236515) 
+-- Maiden of Vigilance
+kps.spells.bossDebuff.hammerOfCreation = kps.Spell.fromId(235569) 
+kps.spells.bossDebuff.hammerOfObliteration = kps.Spell.fromId(235573)
+-- Fallen Avatar
+kps.spells.bossDebuff.darkMark = kps.Spell.fromId(239739)
+kps.spells.bossDebuff.shadowyBlades = kps.Spell.fromId(236604)
+kps.spells.bossDebuff.desolate = kps.Spell.fromId(236494)
+-- Kil'jaeden
+
+
+
+

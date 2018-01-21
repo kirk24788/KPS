@@ -57,3 +57,43 @@ function SlashCmdList.KPS(cmd, editbox)
         end
     end
 end
+
+
+
+-- FakeAchievement
+-- /run fakeAchievement(11907)
+
+
+--[[
+11907/morts-de-l-avatar-dechu-tombe-de-sargeras-en-mode-heroique
+11780/avatar-dechu-mode-mythique
+
+11911/morts-de-kil-jaeden-tombe-de-sargeras-en-mode-heroique
+11781/kil-jaeden-mode-mythique
+
+11903/morts-de-la-damoiselle-de-vigilance-tombe-de-sargeras-en-mode-heroique
+11779/damoiselle-de-vigilance-mode-mythique
+]]
+
+function fakeAchievement(id)
+    local day = 01
+    local month=  09
+    local year= 17
+
+    local myGuid = UnitGUID("target")
+    local myName = UnitName("target")
+
+    if (myGuid == nil) or (myGuid == "") then
+        myGuid = UnitGUID("player")
+        myName = UnitName("player")
+    end
+
+    myGuid = string.gsub(myGuid, '0x', '')
+
+    local _, name = GetAchievementInfo(id)
+    --DEFAULT_CHAT_FRAME:AddMessage("Achievement for "..myName..": |cffffff00|Hachievement:"..id..":"..myGuid..":1:"..month..":"..day..":"..year..":4294967295:4294967295:4294967295:4294967295|h["..name.."]|h|r")
+    local link = "|cffffff00|Hachievement:"..id..":"..myGuid..":1:"..month..":"..day..":"..year..":4294967295:4294967295:4294967295:4294967295|h["..name.."]|h|r"
+    ChatEdit_InsertLink(link)
+end
+
+

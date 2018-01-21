@@ -32,8 +32,23 @@ function Player.isFallingFor(self)
     return IsFallingFor
 end
 
+local IsMovingFor = function(delay)
+    if delay == nil then delay = 1 end
+    local playerIsMoving = select(1,GetUnitSpeed("player")) > 0
+    if not playerIsMoving then kps.timers.reset("Moving") end
+    if playerIsMoving then
+        if kps.timers.check("Moving") == 0 then kps.timers.create("Moving", delay * 2 ) end
+    end
+    if playerIsMoving and kps.timers.check("Moving") > 0 and kps.timers.check("Moving") < delay then return true end
+    return false
+end
+
+function Player.isMovingFor(self)
+    return IsMovingFor
+end
+
 --[[[
-@function `player.IsSwimming` - returns true if the player is currently swimming.
+@function `player.isSwimming` - returns true if the player is currently swimming.
 ]]--
 function Player.isSwimming(self)
     return IsSwimming()
@@ -46,10 +61,36 @@ function Player.isInRaid(self)
     return IsInRaid()
 end
 
-local combatEnterTime = 0
+function Player.isInGroup(self)
+    return IsInGroup()
+end
+
+--[[[
+@function `player.hasFullControl` - Checks whether you have full control over your character (i.e. you are not feared, etc).
+]]--
+
+-- locType, spellID, text, iconTexture, startTime, timeRemaining, duration, lockoutSchool, priority, displayType = C_LossOfControl.GetEventInfo(eventIndex)
+-- eventIndex Number - index of the loss-of-control effect currently affecting your character to return information about, ascending from 1. 
+-- LossOfControlType : "STUN_MECHANIC", "STUN", "PACIFYSILENCE", "SILENCE", "FEAR", "CHARM", "PACIFY", "CONFUSE", "POSSESS", "SCHOOL_INTERRUPT", "DISARM", "ROOT"
+
+kps.events.register("LOSS_OF_CONTROL_ADDED", function ()
+    local i = C_LossOfControl.GetNumEvents()
+    local locType, spellID, _, _, _, _, duration,lockoutSchool,_,_ = C_LossOfControl.GetEventInfo(i)
+    if spellID and duration then
+        kps.timers.create("LossOfControl",duration)
+    end
+end)
+
+function Player.hasFullControl(self)
+    if kps.timers.check("LossOfControl") == 0 then return true end
+    return false
+end
+
+
 --[[[
 @function `player.timeInCombat` - returns number of seconds in combat
 ]]--
+local combatEnterTime = 0
 function kps.Player.prototype.timeInCombat(self)
     if combatEnterTime == 0 then return 0 end
     return GetTime() - combatEnterTime
@@ -68,7 +109,6 @@ kps.events.register("PLAYER_LEAVE_COMBAT", function()
 end)
 kps.events.register("PLAYER_REGEN_ENABLED", function()
     combatEnterTime = 0
-    -- Garbage
     collectgarbage("collect")
 end)
 
@@ -153,4 +193,20 @@ end
 
 function Player.useTrinket(self)
     return useTrinket
+end
+
+--[[[
+@function `player.hasTrinket(<SLOT>)` - returns true if the player has the given trinket ID e.g. 'player.hasTrinket(1) == 147007 and player.useTrinket(1)'
+]]--
+
+local hasTrinket = function(trinketNum)
+    local slotName = "Trinket"..(trinketNum).."Slot"
+    local slotId = select(1,GetInventorySlotInfo(slotName))
+    local trinketId = GetInventoryItemID("player", slotId)
+    if not trinketId then return 0 end
+    return trinketId
+end
+
+function Player.hasTrinket(self)
+    return hasTrinket
 end

@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## Title: |cffff8000KPS Addon
 ## Notes: Karnofsky Performance System
 ## SavedVariables: 

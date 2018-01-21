@@ -14,7 +14,7 @@ kps.spells.healer = {
     [132157] = "PRIEST", -- Holy Nova
 
     -- Priests Holy
-    [034861] = "PRIEST", -- Circle of Healing
+    [034861] = "PRIEST", -- Holy Word: Sanctify
     [064843] = "PRIEST", -- Divine Hymn
     [047788] = "PRIEST", -- Guardian Spirit
     [032546] = "PRIEST", -- Binding Heal

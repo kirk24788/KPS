@@ -20,26 +20,32 @@ local GetUnitName = GetUnitName
 
 local castAt = setmetatable({}, {
     __index = function(t, self)
-        local val = function (target)
+        local val = function (target,message)
             if target == nil then target = "target" end
 
             if self.needsSelect then
-                SetCVar("deselectOnClick", "0")
-                CastSpellByName(self.name)
-                CameraOrSelectOrMoveStart(1)
-                CameraOrSelectOrMoveStop(1)
-                SetCVar("deselectOnClick", "1")
+                if self.needsSelectPlayer then
+                    kps.runMacro("/cast [@player] "..self.name)
+                else
+                    kps.runMacro("/cast [@cursor] "..self.name)
+                end
+--              SetCVar("deselectOnClick", "0")
+--              CastSpellByName(self.name)
+--              CameraOrSelectOrMoveStart(1)
+--              CameraOrSelectOrMoveStop(1)
+--              SetCVar("deselectOnClick", "1")
             else
                 CastSpellByName(self.name,target)
             end
 
-            if kps.debug then print(self.name,"|cff1eff00","|",GetUnitName(target)) end
+            if kps.debug then print(self.name,"|cff1eff00","|",GetUnitName(target),"|cffffffff|",target,"|cffa335ee",message) end
             kps.gui.updateSpellTexture(self)
 
             local _, gcd = GetSpellCooldown(61304) -- Global Cooldown Spell
             kps.gcd = gcd
             kps.lastCast = self
             kps.lastTargetGUID = UnitGUID(target)
+            kps.lastTarget = target
             self.lastCast = GetTime()
         end
         t[self] = val

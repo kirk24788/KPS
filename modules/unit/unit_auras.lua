@@ -288,6 +288,27 @@ function Unit.myBuffCount(self)
 end
 
 --[[[
+@function `<UNIT>.buffValue(<BUFF>)` - returns the amount of a given <BUFF> on this unit e.g. : player.buffAmount(spells.masteryEchoOfLight)
+]]--
+
+local buffValue = setmetatable({}, {
+    __index = function(t, unit)
+        local val = function (spell)
+            local value = 0
+            local name = select(1,UnitBuff(unit,spell.name))
+            if  name ~= nil then
+                value = select(17,UnitBuff(unit,spell.name))
+            end
+            return value
+        end
+        t[unit] = val
+        return val
+    end})
+function Unit.buffValue(self)
+    return buffValue[self.unit]
+end
+
+--[[[
 @function `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit is dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". player.isDispellable("Magic")
 ]]--
 local UnitCanAssist = UnitCanAssist
@@ -315,5 +336,22 @@ function Unit.isDispellable(self)
     return isDispellable[self.unit]
 end
 
+--[[[
+@function `<UNIT>.absorptionHeal` - returns true if the unit has a Healing Absorption Debuff
+]]--
+function Unit.absorptionHeal(self)
+    for _,spell in pairs(kps.spells.absorptionHeal) do
+        if self.hasDebuff(spell) then return true end
+    end
+    return false
+end
 
-
+--[[[
+@function `<UNIT>.bossDebuff` - returns true if the unit has a Boss Debuff with Heavy Damage
+]]--
+function Unit.bossDebuff(self)
+    for _,spell in pairs(kps.spells.bossDebuff) do
+        if self.hasDebuff(spell) then return true end
+    end
+    return false
+end

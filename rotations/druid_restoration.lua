@@ -12,7 +12,7 @@ kps.rotations.register("DRUID","RESTORATION",
     {{"nested"}, 'kps.cooldowns and not player.isMoving', {
         {spells.innervate, 'player.mana < 0.5'},
         {spells.essenceOfGhanir, 'player.mana < 0.6'},
-        {spells.tranquility, 'not player.isMoving and heal.averageHpIncoming < 0.7'},
+        {spells.tranquility, 'not player.isMoving and heal.averageHealthRaid < 0.7'},
     }},
 
     -- Def CD's
