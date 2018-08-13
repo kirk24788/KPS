@@ -1,7 +1,7 @@
 --[[[
 @module Warlock Destruction Rotation
 @author Kirk24788
-@version 7.0.3
+@version 8.0.1
 ]]--
 
 local spells = kps.spells.warlock
@@ -9,13 +9,13 @@ local env = kps.env.warlock
 
 --[[
 Suggested Talents:
-Level 15: Roaring Blaze
-Level 30: Reverse Entropy
-Level 45: Demon Skin
-Level 60: Eradication
-Level 75: Burning Rush
-Level 90: Grimoire of Service
-Level 100: Soul Conduit
+Level 15: Eradication
+Level 30: Internal combustion
+Level 45: Burning Rush
+Level 60: Cataclysm
+Level 75: Demonic Circle
+Level 90: Roaring Blaze
+Level 100: Channel Demonfire
 ]]--
 
 kps.rotations.register("WARLOCK","DESTRUCTION",
@@ -36,20 +36,22 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
     {spells.immolate, 'focus.myDebuffDuration(spells.immolate) <= 1.0 and not spells.immolate.isRecastAt("focus")', "focus"},
     {spells.immolate, 'target.myDebuffDuration(spells.immolate) <= 1.0 and not spells.immolate.isRecastAt("target")'},
 
-    -- Cast Conflagrate  immediately following a fresh application of Immolate.
-    {spells.conflagrate, 'spells.immolate.isRecastAt("target")'},
-
-    -- Cast Chaos Bolt if you have 5 Soul Shards.
+    -- Cast Conflagrate Icon Conflagrate if you have 2 charges.
     {spells.chaosBolt, 'player.soulShards >= 5'},
 
-    -- Cast Shadowburn (if talented) if the target will die within 5 seconds.
-    -- Has to be done manually - and probably isn't selected anyways
+    -- Cast Conflagrate  immediately following a fresh application of Immolate.
+    {spells.conflagrate, 'spells.conflagrate.charges >= 2'},
 
-    -- Cast Summon Doomguard on cooldown.
-    {spells.summonDoomguard, 'kps.cooldowns'},
+    -- Cast Channel Demonfire Icon Channel Demonfire whenever available.
+    {spells.channelDemonfire, 'spells.immolate.isRecastAt("target")'},
 
-    -- Cast Grimoire: Imp on cooldown.
-    {spells.grimoireImp, 'kps.cooldowns'},
+    -- Cast Chaos Bolt to maintain Eradication Icon Eradication.
+    {{"nested"}, 'player.hasTalent(1, 2)', {
+        {spells.chaosBolt, 'player.soulShards >= 2 and not target.debuffDuration(spells.eradication) <= 0.0'},
+    }},
+
+    -- Cast Cataclysm Icon Cataclysm when available.
+    {spells.cataclysm, 'target.guid == mouseover.guid'},
 
     -- Cast Rain of Fire on large groups of stacked targets.
     {spells.rainOfFire, 'keys.shift and player.soulShards >=3 and player.buffDuration(spells.rainOfFire) < 1.5 and player.isMoving' },
@@ -59,10 +61,7 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
     -- Cast Conflagrate to generate Soul Shards.
     {spells.conflagrate},
 
-    -- Cast Chaos Bolt to maintain Eradication Icon Eradication.
-    {spells.chaosBolt, 'player.soulShards >= 2 and not target.debuffDuration(spells.eradication) <= 0.0'},
-
     -- Cast Conflagrate to generate Soul Shards.
     {spells.incinerate},
 }
-,"Destruction 7.0.3", {0,0,0,0,0,2,0})
+,"Destruction 8.0.1", {0,0,0,0,0,2,0})
