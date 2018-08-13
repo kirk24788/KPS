@@ -29,11 +29,13 @@ local function updateRaidStatus()
         raidType = "raid"
     else
         healTargets = groupHealTargets
-        newRaidStatusSize = GetNumSubgroupMembers() + 1
+        newRaidStatusSize = (GetNumSubgroupMembers() + 1)*2
         raidType = "group"
     end
     for i=1,newRaidStatusSize do
-        _raidStatus[_raidStatusIdx][healTargets[i].name] = healTargets[i]
+        if healTargets[i].name ~= nil then
+            _raidStatus[_raidStatusIdx][healTargets[i].name] = healTargets[i]
+        end
     end
     raidStatus = _raidStatus[_raidStatusIdx]
     raidStatusSize = newRaidStatusSize
@@ -42,9 +44,12 @@ end
 local function loadOnDemand()
     if not moduleLoaded then
         groupHealTargets[1] = kps.Unit.new("player")
+        groupHealTargets[2] = kps.Unit.new("playerpet")
         for i=2,5 do
-            groupHealTargets[i] = kps.Unit.new("party"..(i-1))
-            kps.env["party"..(i-1)] = groupHealTargets[i]
+            groupHealTargets[i*2] = kps.Unit.new("party"..(i-1))
+            kps.env["party"..(i-1)] = groupHealTargets[i*2]
+            groupHealTargets[(i*2)-1] = kps.Unit.new("party"..(i-1).."pet")
+            kps.env["party"..(i-1).."pet"] = groupHealTargets[(i*2)-1]
         end
         for i=1,40 do
             raidHealTargets[i] = kps.Unit.new("raid"..(i))

@@ -49,10 +49,9 @@ Copyright (C) 2015 Mario Mancino
 
 All DPS Specs have at least one rotation automatically generated from SimCraft - those might not be fully functional and aren't tested.
 
-**Fully Supported in 7.2:**
+**Fully Supported in 8.0.1:**
 
-* Priest: Holy, Shadow
-* Warlock: Affliction
+* Warlock: Destruction
 
 **Outdated Rotations:**
 
@@ -63,9 +62,10 @@ All DPS Specs have at least one rotation automatically generated from SimCraft -
 * Mage: Fire (7.0.3)
 * Monk: Mistweaver (7.0.3)
 * Paladin: Holy (7.0.3), Retribution (7.0.3)
+* Priest: Holy (7.2), Shadow (7.2)
 * Rogue: Outlaw (7.0.3)
 * Shaman: Enhancement (7.0.3), Restoration (7.0.3)
-* Warlock: Demonology (7.0.3), Destruction (7.0.3)
+* Warlock: Affliction (7.2), Demonology (7.0.3)
 * Warrior: Arms (7.0.3), Fury (7.0.3)
 
 **Automatically Generated Rotations:**
@@ -79,10 +79,6 @@ _(Might not be fully functional)_
 * Rogue: Assassination (7.0.3), Subtlety (7.0.3)
 * Shaman: Elemental (7.0.3)
 * Warrior: Protection (7.2)
-
-**Special Thanks for contributing to the KPS rotations:**
-
-* htordeux
 
 
 
@@ -603,7 +599,6 @@ kps.rotations.register(
  * `env.lua:28` - Clean UP!!! This code is a mess...
  * `gui/toggle.lua:75` - Right-Click Action
  * `libs/LibRangeCheck-2.0/LibRangeCheck-2.0.lua:31` - check if unit is valid, etc
- * `modules/unit/unit_auras.lua:46` - Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
  * `modules/unit/unit_casting.lua:63` - Blacklisted spells?
  * `modules/unit/unit_state.lua:13` - PvP
  * `modules/unit/unit_state.lua:26` - if jps.PlayerIsBlacklisted(self.unit) then return false end -- WARNING Blacklist is updated only when UNITH HEALTH occurs

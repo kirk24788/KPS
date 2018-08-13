@@ -5,6 +5,36 @@ Functions which handle unit auras
 
 local Unit = kps.Unit.prototype
 
+local buffOrDebuff = function(unit, spellName, buffFn, onlyMine)
+    for i=1,40 do
+        local name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable,  nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, nameplateShowAll, timeMod, value1, value2, value3 = buffFn(unit,i)
+        if name == spellName and (not onlyMine or unitCaster=="player") then
+            return name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable,  nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, nameplateShowAll, timeMod, value1, value2, value3
+        end
+    end
+    return nil
+end
+
+
+local buffOrDebuffTimeLeft = function(unit, spellName, buffFn, onlyMine)
+    local name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable,  nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, nameplateShowAll, timeMod, value1, value2, value3 = buffOrDebuff(unit, spellName, buffFn, onlyMine)
+    if expirationTime==nil then return 0 end
+    local timeLeft = expirationTime-GetTime() -- lag?
+    if timeLeft < 0 then return 0 end
+    return timeLeft
+end
+
+local buffOrDebuffCount = function(unit, spellName, buffFn, onlyMine)
+    local count = 0
+    for i=1,40 do
+        local name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable,  nameplateShowPersonal, spellId, canApplyAura, isBossDebuff, nameplateShowAll, timeMod, value1, value2, value3 = buffFn(unit,i)
+        if name == spellName and (not onlyMine or caster=="player") then
+            count = count + 1
+        end
+    end
+    return count
+end
+
 
 --[[[
 @function `<UNIT>.hasBuff(<SPELL>)` - return true if the unit has the given buff (i.e. `target.hasBuff(spells.renew)`)
@@ -12,7 +42,7 @@ local Unit = kps.Unit.prototype
 local hasBuff = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            return spell~=nil and select(1,UnitBuff(unit,spell.name)) ~= nil
+            return spell~=nil and buffOrDebuff(unit, spell.name, UnitBuff, false)~=nil
         end
         t[unit] = val
         return val
@@ -27,8 +57,7 @@ end
 local hasDebuff = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            if select(1,UnitDebuff(unit,spell.name)) then return true end
-            return false
+            return spell~=nil and buffOrDebuffIdx(unit, spell.name, UnitDebuff, false)~=nil
         end
         t[unit] = val
         return val
@@ -43,9 +72,7 @@ end
 local hasMyDebuff = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            -- TODO: Taken from JPS, verify that we can be sure that 'select(8,UnitDebuff(unit,spell.name))=="player"' works - what if there are 2 debuffs?
-            if select(1,UnitDebuff(unit,spell.name)) and select(8,UnitDebuff(unit,spell.name))=="player" then return true end
-            return false
+            return spell~=nil and buffOrDebuff(unit, spell.name, UnitDebuff, true)~=nil
         end
         t[unit] = val
         return val
@@ -60,16 +87,7 @@ end
 local myBuffDuration = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            for i=1,40 do
-                local name,_,_,_,_,duration,endTime,caster,_,_ = UnitBuff(unit,i)
-                if caster=="player" and name == spell.name then
-                    if endTime==nil then return 0 end
-                    local timeLeft = endTime-GetTime() -- lag?
-                    if timeLeft < 0 then return 0 end
-                    return timeLeft
-                end
-            end
-            return 0
+            return buffOrDebuffTimeLeft(unit, spell.name, UnitBuff, true)
         end
         t[unit] = val
         return val
@@ -84,16 +102,7 @@ end
 local myDebuffDuration = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            for i=1,40 do
-                local name,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,i)
-                if caster=="player" and name == spell.name then
-                    if endTime==nil then return 0 end
-                    local timeLeft = endTime-GetTime() -- lag?
-                    if timeLeft < 0 then return 0 end
-                    return timeLeft
-                end
-            end
-            return 0
+            return buffOrDebuffTimeLeft(unit, spell.name, UnitDebuff, true)
         end
         t[unit] = val
         return val
@@ -108,14 +117,7 @@ end
 local myDebuffDurationMax = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            for i=1,40 do
-                local name,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,i)
-                if caster=="player" and name == spell.name then
-                    if endTime==nil then return 0 end
-                    return duration
-                end
-            end
-            return 0
+            return select(5,buffOrDebuff(unit, spell.name, UnitDebuff, true))
         end
         t[unit] = val
         return val
@@ -130,11 +132,7 @@ end
 local buffDuration = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            local _,_,_,_,_,_,endTime,caster,_,_,_ = UnitBuff(unit,spell.name)
-            if endTime == nil then return 0 end
-            local duration = endTime-GetTime() -- lag?
-            if duration < 0 then return 0 end
-            return duration
+            return buffOrDebuffTimeLeft(unit, spell.name, UnitBuff, false)
         end
         t[unit] = val
         return val
@@ -150,11 +148,7 @@ end
 local debuffDuration = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            local _,_,_,_,_,_,duration,caster,_,_ = UnitDebuff(unit,spell.name)
-            if duration==nil then return 0 end
-            duration = duration-GetTime() -- jps.Lag
-            if duration < 0 then return 0 end
-            return duration
+            return buffOrDebuffTimeLeft(unit, spell.name, UnitDebuff, false)
         end
         t[unit] = val
         return val
@@ -170,9 +164,7 @@ end
 local debuffStacks = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            local _,_,_,count, _,_,_,_,_,_ = UnitDebuff(unit,spell.name)
-            if count == nil then count = 0 end
-            return count
+            return select(3,buffOrDebuff(unit, spell.name, UnitDebuff, false))
         end
         t[unit] = val
         return val
@@ -187,9 +179,7 @@ end
 local buffStacks = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            local _, _, _, count, _, _, _, _, _ = UnitBuff(unit,spell.name)
-            if count == nil then count = 0 end
-            return count
+            return select(3,buffOrDebuff(unit, spell.name, UnitBuff, false))
         end
         t[unit] = val
         return val
@@ -205,14 +195,7 @@ end
 local debuffCount = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            local count = 0
-            for i=1,40 do
-                local name,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,i)
-                if caster=="player" and name == spell.name then
-                    count = count + 1
-                end
-            end
-            return count
+            return buffOrDebuffCount(unit, spell.name, UnitDebuff, false)
         end
         t[unit] = val
         return val
@@ -227,14 +210,7 @@ end
 local buffCount = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            local count = 0
-            for i=1,40 do
-                local name,_,_,_,_,duration,endTime,caster,_,_ = UnitBuff(unit,i)
-                if name == spell.name then
-                    count = count + 1
-                end
-            end
-            return count
+            return buffOrDebuffCount(unit, spell.name, UnitBuff, false)
         end
         t[unit] = val
         return val
@@ -249,14 +225,7 @@ end
 local myDebuffCount = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            local count = 0
-            for i=1,40 do
-                local name,_,_,_,_,duration,endTime,caster,_,_ = UnitDebuff(unit,i)
-                if name == spell.name then
-                    count = count + 1
-                end
-            end
-            return count
+            return buffOrDebuffCount(unit, spell.name, UnitDebuff, true)
         end
         t[unit] = val
         return val
@@ -271,14 +240,7 @@ end
 local myBuffCount = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            local count = 0
-            for i=1,40 do
-                local name,_,_,_,_,duration,endTime,caster,_,_ = UnitBuff(unit,i)
-                if caster == "player" and name == spell.name then
-                    count = count + 1
-                end
-            end
-            return count
+            return buffOrDebuffCount(unit, spell.name, UnitBuff, true)
         end
         t[unit] = val
         return val
@@ -290,14 +252,13 @@ end
 --[[[
 @function `<UNIT>.isDispellable(<DISPEL>)` - returns true if the unit is dispellable. DISPEL TYPE "Magic", "Poison", "Disease", "Curse". player.isDispellable("Magic")
 ]]--
-local UnitCanAssist = UnitCanAssist
 local isDispellable = setmetatable({}, {
     __index = function(t, unit)
         local val = function (dispel)
             if not UnitCanAssist("player", unit) then return false end
             local auraName, debuffType, expirationTime, spellId
             local i = 1
-            auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitDebuff(unit,i) 
+            auraName, _, _, _, debuffType, _, expTime, _, _, _, spellId = UnitDebuff(unit,i)
             while auraName do
                 if debuffType ~= nil and debuffType == dispel then
                     if expTime ~= nil and expTime - GetTime() > 1 then

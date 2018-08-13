@@ -1,5 +1,5 @@
-INTERFACE_VERSION = 70200
-WOW_VERSION = "7.2"
+INTERFACE_VERSION = 80000
+WOW_VERSION = "8.0.1"
 
 SUPPORTED_SPECS={
     "deathknight": ["blood", "frost", "unholy"],
