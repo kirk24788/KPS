@@ -75,9 +75,7 @@ spells.ignore.add_spell(101545, comment="Flying Serpent Kick (prevents you from 
 spells.ignore.add_spell(115072, comment="Expel Harm (below 35%, brewmasters ignores cooldown on this spell)")
 spells.ignore.add_spell(115181, comment="Breath of Fire (if you are chi capped, this can make you burn all your chi)")
 spells.ignore.add_spell(115546, comment="Provoke (prevents you from wasting your taunt)")
-spells.ignore.add_spell(116740, comment="Tigereye Brew (prevents you from wasting your stacks and resetting your buff)")
 spells.ignore.add_spell(111400, comment="warlock burning rush")
-spells.ignore.add_spell(108978, comment="Alter Time")
 spells.ignore.add_spell(12051, comment="Evocation")
 spells.ignore.add_spell(1953, comment="Blink")
 spells.ignore.add_spell(19263, comment="Deterrence")
@@ -85,7 +83,7 @@ spells.ignore.add_spell(781, comment="Disengage")
 spells.ignore.add_spell(108839, comment="Ice Floes")
 
 spells.group("battlerez","Battle Rez")
-spells.battlerez.add_all_spells([20484, 61999, 20707, 126393])
+spells.battlerez.add_all_spells([20484, 61999, 20707])
 
 spells.group("bloodlust","Bloodlust")
 spells.bloodlust.add_all_spells([2825, 32182, 80353, 90355, 146555])
