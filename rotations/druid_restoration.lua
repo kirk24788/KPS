@@ -23,20 +23,16 @@ kps.rotations.register("DRUID","RESTORATION",
         { {"macro"}, 'kps.useBagItem and player.hp < 0.8', "/use Healthstone" },
     }},
 
-    -- Have Innervate Buff
-    --{{"nested"}, 'player.hasBuff(spells.innervate)', {
-       -- {spells.regrowth, 'heal.defaultTank.hp < 0.6', kps.heal.defaultTank},
-       -- {spells.regrowth, 'heal.lowestInRaid.hp < 0.8', kps.heal.lowestInRaid},
-       -- {spells.regrowth, 'heal.defaultTank.hp < 0.8', kps.heal.defaultTank},
-       -- {spells.regrowth, 'heal.defaultTarget.hp < 0.8', kps.heal.defaultTarget},
-   -- }},
+    {spells.lifebloom, 'heal.defaultTank.myBuffDuration(spells.lifebloom) < 3', kps.heal.defaultTank},
 
-    -- Have Omen Of Clarity Buff
+    -- Clearcast on Tanks or lowest raid target
     {{"nested"}, 'player.hasBuff(spells.clearcasting)', {
         {spells.regrowth, 'heal.defaultTank.hp < 0.8', kps.heal.defaultTank},
         {spells.regrowth, 'heal.lowestInRaid.hp < 0.8', kps.heal.lowestInRaid},
         {spells.regrowth, 'heal.defaultTarget.hp < 0.8', kps.heal.defaultTarget},
     }},
+
+    {spells.cenarionWard, 'true', kps.heal.defaultTank},
 
     -- Have Soul Of The Forest Buff
     --{{"nested"}, 'player.hasBuff(spells.soulOfTheForest)', {
@@ -46,8 +42,6 @@ kps.rotations.register("DRUID","RESTORATION",
     --}},
 
     {spells.wildGrowth, 'keys.shift or kps.multiTarget and heal.defaultTarget.hpIncoming < 0.9 and heal.defaultTarget.hp < 1', kps.heal.defaultTarget},
-    {spells.efflorescence, 'keys.shift or kps.multiTarget and heal.defaultTarget.hpIncoming < 0.9 and heal.defaultTarget.hp < 1', kps.heal.defaultTarget},
-
     {spells.healingTouch, 'heal.defaultTarget.hp < 0.9 and not player.isMoving', kps.heal.defaultTarget},
 
     {spells.swiftmend, 'heal.defaultTank.hp < 0.6', kps.heal.defaultTank},
@@ -58,11 +52,16 @@ kps.rotations.register("DRUID","RESTORATION",
     {spells.regrowth, 'heal.lowestInRaid.hp < 0.7', kps.heal.lowestInRaid},
     {spells.regrowth, 'heal.defaultTarget.hp < 0.7', kps.heal.defaultTarget},
 
-    {spells.lifebloom, 'heal.defaultTank.myBuffDuration(spells.lifebloom) < 3', kps.heal.defaultTank},
 
     {spells.rejuvenation, 'heal.defaultTank.myBuffDuration(spells.rejuvenation) < 3 and heal.defaultTank.hp < 1', kps.heal.defaultTank},
     {spells.rejuvenation, 'heal.defaultTarget.buffDuration(spells.rejuvenation) < 3 and heal.defaultTarget.hp < 1', kps.heal.defaultTarget},
     {spells.rejuvenation, 'heal.lowestInRaid.myBuffDuration(spells.rejuvenation) < 3 and heal.lowestInRaid.hp < 1', kps.heal.lowestInRaid},
 
+    -- Attack Target if possible
+    {{"nested"}, 'target.isAttackable', {
+        {spells.moonfire, 'not target.hasMyDebuff(spells.moonfire) or target.myDebuffDuration(spells.moonfire) <= 3'},
+        {spells.sunfire, 'not target.hasMyDebuff(spells.sunfire) or target.myDebuffDuration(spells.sunfire) <= 3'},
+        {spells.solarWrath},
+    }},
 }
 ,"Icy Veins")
