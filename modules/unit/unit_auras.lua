@@ -57,7 +57,7 @@ end
 local hasDebuff = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            return spell~=nil and buffOrDebuffIdx(unit, spell.name, UnitDebuff, false)~=nil
+            return spell~=nil and buffOrDebuff(unit, spell.name, UnitDebuff, false)~=nil
         end
         t[unit] = val
         return val
