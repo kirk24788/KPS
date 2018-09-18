@@ -45,9 +45,21 @@ kps.useItem = function(bagItem)
     ]]
 end
 
+local combatStarted = -1
+kps.timeInCombat = 0
+
 kps.combatStep = function ()
+
     -- Check for combat
-    if not InCombatLockdown() and not kps.autoAttackEnabled then return end
+    if not InCombatLockdown() and not kps.autoAttackEnabled then 
+        combatStarted = -1
+        kps.timeInCombat = 0
+        return 
+    end
+
+    if combatStarted < 0 then combatStarted = time() end
+    kps.timeInCombat = time() - combatStarted
+
 
     -- Check for rotation
     if not kps.rotations.getActive() then
@@ -80,7 +92,7 @@ kps.combatStep = function ()
         if not activeRotation then return end
         activeRotation.checkTalents()
         local spell, target = activeRotation.getSpell()
-        if spell ~= nil and not player.isCasting then
+        if spell ~= nil and spell.cast ~= nil and not player.isCasting then
             if priorityMacro ~= nil then
                 kps.runMacro(priorityMacro)
                 priorityMacro = nil
