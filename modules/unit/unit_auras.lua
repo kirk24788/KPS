@@ -179,7 +179,9 @@ end
 local buffStacks = setmetatable({}, {
     __index = function(t, unit)
         local val = function (spell)
-            return select(3,buffOrDebuff(unit, spell.name, UnitBuff, false))
+            local count = select(3,buffOrDebuff(unit, spell.name, UnitBuff, false))
+            if count == nil then return 0 else return count end
+
         end
         t[unit] = val
         return val
