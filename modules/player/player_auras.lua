@@ -28,6 +28,34 @@ local IsFallingFor = function(delay)
     return false
 end
 
+local agonyCount = function() 
+    local count = 0
+    -- A dot tracker would be better, but this should do for now...
+    if kps.env.target.hasMyDebuff(kps.spells.warlock.agony) then count = count + 1 end
+    if kps.env.focus.hasMyDebuff(kps.spells.warlock.agony) then count = count + 1 end
+    if kps.env.mouseover.hasMyDebuff(kps.spells.warlock.agony) then count = count + 1 end
+    if kps.env.boss1.hasMyDebuff(kps.spells.warlock.agony) then count = count + 1 end
+    if kps.env.boss2.hasMyDebuff(kps.spells.warlock.agony) then count = count + 1 end
+    if kps.env.boss3.hasMyDebuff(kps.spells.warlock.agony) then count = count + 1 end
+    if kps.env.boss4.hasMyDebuff(kps.spells.warlock.agony) then count = count + 1 end
+    return count
+end
+
+--[[[
+@function `player.timeToShard` - returns average time to the next soul shard.
+]]--
+function Player.timeToShard(self)
+    local activeAgonies = agonyCount()
+    if activeAgonies == 0 then return 999999 end
+    local tickTime = kps.spells.warlock.agony.tickTime
+    local average = 1.0 / (0.184 * math.pow(activeAgonies, -2.0/3.0)) * tickTime / activeAgonies
+    if kps.env.player.hasTalent(7,2) then average = average / 1.15 end
+    return average
+end
+
+--[[[
+@function `player.isFallingFor(<seconds>)` - returns true if the player is falling longer than n seconds.
+]]--
 function Player.isFallingFor(self)
     return IsFallingFor
 end
