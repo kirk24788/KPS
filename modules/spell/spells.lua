@@ -39,6 +39,7 @@ kps.spells.ae.defile = kps.Spell.fromId(152280) -- Defile
 kps.spells.ae.metamorphosis = kps.Spell.fromId(187827) -- Metamorphosis
 kps.spells.ae.starfall = kps.Spell.fromId(191034) -- Starfall
 kps.spells.ae.efflorescence = kps.Spell.fromId(145205) -- Efflorescence
+kps.spells.ae.infernalStrike = kps.Spell.fromId(189110) -- Efflorescence
 
 
 -- Crowd Control Spells
@@ -62,6 +63,7 @@ kps.spells.cc.hex = kps.Spell.fromId(51514) -- Hex
 kps.spells.mount = {}
 kps.spells.mount.frostwolfWarWolf = kps.Spell.fromId(164222) -- Frostwolf War Wolf
 kps.spells.mount.telaariTalbuk = kps.Spell.fromId(165803) -- Telaari Talbuk
+kps.spells.mount.druidForm = kps.Spell.fromId(783) -- Druid Form
 
 
 -- Bloodlust
@@ -102,6 +104,7 @@ kps.spells.ignore.blink = kps.Spell.fromId(1953) -- Blink
 kps.spells.ignore.deterrence = kps.Spell.fromId(19263) -- Deterrence
 kps.spells.ignore.disengage = kps.Spell.fromId(781) -- Disengage
 kps.spells.ignore.iceFloes = kps.Spell.fromId(108839) -- Ice Floes
+kps.spells.ignore.felRush = kps.Spell.fromId(195072) -- Fel Rush
 
 
 -- Greater Draenic Flasks
