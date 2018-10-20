@@ -115,6 +115,8 @@ kps.rotations.register("WARLOCK","AFFLICTION",
     {spells.haunt},
 
     {{"nested"}, 'kps.cooldowns and not player.isMoving', {
+        { {"macro"}, "player.useTrinket(0)" , "/use 13"},
+        { {"macro"}, "player.useTrinket(1)" , "/use 14"},
         {spells.summonDarkglare, 'target.hasMyDebuff(spells.corruption) and target.hasMyDebuff(spells.corruption) and (target.myDebuffCount==5 or player.soulShards==0) and spells.phantomSingularity.cooldown > 0'},
     }},
     -- actions+=/shadow_bolt,target_if=min:debuff.shadow_embrace.remains,if=talent.shadow_embrace.enabled&talent.absolute_corruption.enabled&active_enemies=2&debuff.shadow_embrace.remains&debuff.shadow_embrace.remains<=execute_time*2+travel_time&!action.shadow_bolt.in_flight
@@ -128,13 +130,20 @@ kps.rotations.register("WARLOCK","AFFLICTION",
     {spells.siphonLife, 'focus.myDebuffDuration(spells.siphonLife) <= 5.4', 'focus'},
     {spells.siphonLife, 'mouseover.myDebuffDuration(spells.siphonLife) <= 5.4', 'mouseover'},
 
-    {spells.corruption, 'target.myDebuffDuration(spells.corruption) <= 5.4'},
-    {spells.corruption, 'focus.myDebuffDuration(spells.corruption) <= 5.4', 'focus'},
-    {spells.corruption, 'mouseover.myDebuffDuration(spells.corruption) <= 5.4', 'mouseover'},
+    {{"nested"}, 'player.hasTalent(2, 2)', {
+        {spells.corruption, 'not target.hasMyDebuff(spells.corruption)'},
+        {spells.corruption, 'not focus.hasMyDebuff(spells.corruption)', 'focus'},
+        {spells.corruption, 'not mouseover.hasMyDebuff(spells.corruption)', 'mouseover'},
+    }},
+    {{"nested"}, 'not player.hasTalent(2, 2)', {
+        {spells.corruption, 'target.myDebuffDuration(spells.corruption) <= 5.4'},
+        {spells.corruption, 'focus.myDebuffDuration(spells.corruption) <= 5.4', 'focus'},
+        {spells.corruption, 'mouseover.myDebuffDuration(spells.corruption) <= 5.4', 'mouseover'},
+    }},
 
     {spells.phantomSingularity, 'kps.timeInCombat < 40'},
 
-    {spells.darkSoulMisery, 'kps.timeInCombat < 40'},
+    {spells.darkSoulMisery, 'kps.cooldowns'},
     {spells.unstableAffliction, 'player.soulShards >= 5'},
     {spells.unstableAffliction, 'spells.summonDarkglare.cooldown <= player.soulShards*spells.unstableAffliction.castTime'},
     {{"nested"}, '(spells.summonDarkglare.cooldown <player.timeToShard*(5-player.soulShards) or spells.summonDarkglare.cooldown>0) and target.timeToDie > spells.summonDarkglare.cooldown', simcraftFillers },

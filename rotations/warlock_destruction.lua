@@ -51,7 +51,7 @@ kps.rotations.register("WARLOCK","DESTRUCTION",
     }},
 
     -- Cast Cataclysm Icon Cataclysm when available.
-    {spells.cataclysm, 'target.guid == mouseover.guid'},
+    {spells.cataclysm, 'keys.shift'},
 
     -- Cast Rain of Fire on large groups of stacked targets.
     {spells.rainOfFire, 'keys.shift and player.soulShards >=3 and player.buffDuration(spells.rainOfFire) < 1.5 and player.isMoving' },
