@@ -8,7 +8,7 @@ local Player = kps.Player.prototype
 @function `player.isMounted` - returns true if the player is mounted (exception: Nagrand Mounts do not count as mounted since you can cast while riding)
 ]]--
 function Player.isMounted(self)
-    return IsMounted() and not Player.hasBuff(self)(kps.spells.mount.frostwolfWarMount) and not Player.hasBuff(self)(kps.spells.mount.telaariTalbuk)
+    return (IsMounted() and not Player.hasBuff(self)(kps.spells.mount.frostwolfWarMount) and not Player.hasBuff(self)(kps.spells.mount.telaariTalbuk)) or Player.hasBuff(self)(kps.spells.mount.druidForm)
 end
 
 --[[[
@@ -28,7 +28,7 @@ local IsFallingFor = function(delay)
     return false
 end
 
-local agonyCount = function() 
+local agonyCount = function()
     local count = 0
     -- A dot tracker would be better, but this should do for now...
     if kps.env.target.hasMyDebuff(kps.spells.warlock.agony) then count = count + 1 end
@@ -139,7 +139,7 @@ local itemCooldown = function(item)
     local itemName,_ = GetItemSpell(item) -- Useful for determining whether an item is usable.
     if not usable then return 999 end
     if not itemName then return 999 end
-    if enable == 0 then return 999 end 
+    if enable == 0 then return 999 end
     local cd = start+duration-GetTime()
     if cd < 0 then return 0 end
     return cd
