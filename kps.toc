@@ -1,8 +1,8 @@
 ## Interface: 80000
 ## Title: |cffff8000KPS Addon
 ## Notes: Karnofsky Performance System
-## SavedVariables: 
-## Dependencies: 
+## SavedVariables:
+## Dependencies:
 ## SavedVariablesPerCharacter: KPS_SETTINGS
 
 libs\LibStub-1.0\LibStub.lua
@@ -49,6 +49,7 @@ modules\player\player_runes.lua
 modules\player\player_seals.lua
 modules\player\player_stagger.lua
 modules\player\player_target_orientation.lua
+modules\player\player_wild_imps.lua
 modules\auto_turn.lua
 modules\totem.lua
 modules\spell_id.lua
