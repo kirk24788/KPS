@@ -66,27 +66,12 @@ local healEvents = {
         ["SPELL_PERIODIC_HEAL"] = true,
 }
 
-local COMBATLOG_OBJECT_TYPE_PLAYER = COMBATLOG_OBJECT_TYPE_PLAYER
-local COMBATLOG_OBJECT_AFFILIATION_MINE = COMBATLOG_OBJECT_AFFILIATION_MINE
-local COMBATLOG_OBJECT_AFFILIATION_PARTY = COMBATLOG_OBJECT_AFFILIATION_PARTY
-local COMBATLOG_OBJECT_AFFILIATION_RAID = COMBATLOG_OBJECT_AFFILIATION_RAID
-local COMBATLOG_OBJECT_REACTION_HOSTILE = COMBATLOG_OBJECT_REACTION_HOSTILE
-local COMBATLOG_OBJECT_REACTION_FRIENDLY = COMBATLOG_OBJECT_REACTION_FRIENDLY
-local COMBATLOG_OBJECT_AFFILIATION_OUTSIDER = COMBATLOG_OBJECT_AFFILIATION_OUTSIDER
 local RAID_AFFILIATION = bit.bor(COMBATLOG_OBJECT_AFFILIATION_PARTY, COMBATLOG_OBJECT_AFFILIATION_RAID, COMBATLOG_OBJECT_AFFILIATION_MINE)
-local COMBATLOG_OBJECT_CONTROL_PLAYER = COMBATLOG_OBJECT_CONTROL_PLAYER
 local bitband = bit.band
 
 
 local combatLogUpdate = function ( ... )
-    local currentTime = GetTime()
-    local event = select(2,...)
-    local sourceGUID = select(4,...)
-    local sourceFlags = select(6,...)
-    local destGUID = select(8,...)
-    local destFlags = select(10,...)
-    local sourceName = select(5,...)
-    local destName = select(9,...)
+    local _, event, _, sourceGUID, sourceName, sourceFlags, _, destGUID, destName, destFlags, _, arg12, arg13, arg14, arg15 = CombatLogGetCurrentEventInfo()
 
     local isSourceEnemy = bitband(sourceFlags, COMBATLOG_OBJECT_REACTION_HOSTILE) == COMBATLOG_OBJECT_REACTION_HOSTILE
     local isDestEnemy = bitband(destFlags, COMBATLOG_OBJECT_REACTION_HOSTILE) == COMBATLOG_OBJECT_REACTION_HOSTILE
@@ -96,7 +81,7 @@ local combatLogUpdate = function ( ... )
     -- HEAL TABLE -- Incoming Heal on Enemy from Enemy Healers UnitGUID
     if healEvents[event] then
         if isDestEnemy and isSourceEnemy then
-            local spellID = select(12, ...)
+            local spellID = arg12
             local addEnemyHealer = false
             local classHealer = kps.spells.healer[spellID]
             if classHealer and UnitCanAttack("player",destName) then
@@ -107,7 +92,7 @@ local combatLogUpdate = function ( ... )
 
     -- HEAL TABLE -- Incoming Heal on Friend
         if isDestFriend and UnitCanAssist("player",destName) then
-            local heal = select(15,...)
+            local heal = arg15
             if incomingHeal[destGUID] == nil then incomingHeal[destGUID] = {} end
             tinsert(incomingHeal[destGUID],1,{GetTime(),heal,destName})
         end
@@ -121,16 +106,16 @@ local combatLogUpdate = function ( ... )
             local spelldmg = 0
             local envdmg = 0
             if event == "SWING_DAMAGE" then
-                local dmg = select(12, ...)
+                local dmg = arg12
                 if dmg == nil then dmg = 0 end
                 swingdmg = dmg
             else
-                local dmg = select(15, ...)
+                local dmg = arg15
                 if dmg == nil then dmg = 0 end
                 spelldmg = dmg
             end
             if event == "ENVIRONMENTAL_DAMAGE" then
-                local env = select(13, ...)
+                local env = arg13
                 if env == nil then env = 0 end
                 envdmg = env
             end
