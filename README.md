@@ -51,21 +51,27 @@ All DPS Specs have at least one rotation automatically generated from SimCraft -
 
 **Fully Supported in 8.0.1:**
 
-* Warlock: Destruction
+* Deathknight: Blood
+* Demonhunter: Havoc, Vengeance
+* Druid: Feral
+* Hunter: Marksmanship
+* Monk: Brewmaster
+* Paladin: Protection, Retribution
+* Rogue: Outlaw
+* Shaman: Elemental
+* Warlock: Affliction, Destruction
 
 **Outdated Rotations:**
 
-* Deathknight: Blood (7.0.3), Frost (7.0.3), Unholy (7.0.3)
-* Demonhunter: Havoc (7.0.3), Vengeance (7.0.3)
-* Druid: Balance (7.0.3), Feral (7.0.3), Guardian (7.0.3), Restoration (7.0.3)
-* Hunter: Beastmaster (7.2.0), Marksmanship (7.0.3)
+* Deathknight: Frost (7.0.3), Unholy (7.0.3)
+* Druid: Balance (7.0.3), Guardian (7.0.3), Restoration (7.0.3)
+* Hunter: Beastmaster (7.2.0)
 * Mage: Fire (7.0.3)
 * Monk: Mistweaver (7.0.3)
-* Paladin: Holy (7.0.3), Retribution (7.0.3)
+* Paladin: Holy (7.0.3)
 * Priest: Holy (7.2), Shadow (7.2)
-* Rogue: Outlaw (7.0.3)
 * Shaman: Enhancement (7.0.3), Restoration (7.0.3)
-* Warlock: Affliction (7.2), Demonology (7.0.3)
+* Warlock: Demonology (7.0.3)
 * Warrior: Arms (7.0.3), Fury (7.0.3)
 
 **Automatically Generated Rotations:**
@@ -73,11 +79,9 @@ _(Might not be fully functional)_
 
 * Hunter: Survival (7.0.3)
 * Mage: Arcane (7.0.3), Frost (7.0.3)
-* Monk: Brewmaster (7.2), Windwalker (6.2.2)
-* Paladin: Protection (7.2)
+* Monk: Windwalker (6.2.2)
 * Priest: Discipline (7.0.3)
 * Rogue: Assassination (7.0.3), Subtlety (7.0.3)
-* Shaman: Elemental (7.0.3)
 * Warrior: Protection (7.2)
 
 
@@ -193,6 +197,8 @@ Members:
 
  * `player.isMounted` - returns true if the player is mounted (exception: Nagrand Mounts do not count as mounted since you can cast while riding)
  * `player.isFalling` - returns true if the player is currently falling.
+ * `player.timeToShard` - returns average time to the next soul shard.
+ * `player.isFallingFor(<seconds>)` - returns true if the player is falling longer than n seconds.
  * `player.IsSwimming` - returns true if the player is currently swimming.
  * `player.isInRaid` - returns true if the player is currently in Raid.
  * `player.timeInCombat` - returns number of seconds in combat
